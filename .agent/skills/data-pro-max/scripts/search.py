@@ -1,57 +1,227 @@
 #!/usr/bin/env python3
+"""
+Data Pro Max - Search Engine
+Search the knowledge base for analysis recommendations.
+
+Usage:
+    python3 search.py "correlation analysis"
+    python3 search.py --domain survey --category inferential
+    python3 search.py --type visualization "bar chart"
+    python3 search.py --type palette --domain healthcare
+    python3 search.py --type rule "missing data"
+"""
+
+import argparse
+import csv
+import os
 import sys
-import re
 from pathlib import Path
+from typing import Optional
 
-FRAMEWORK_PATH = Path(__file__).parent.parent / "data" / "framework.md"
+# Paths
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
 
-def load_framework():
-    if not FRAMEWORK_PATH.exists():
-        print(f"Error: Framework file not found at {FRAMEWORK_PATH}")
-        sys.exit(1)
-    return FRAMEWORK_PATH.read_text(encoding='utf-8')
+# Data files
+FILES = {
+    "analysis": DATA_DIR / "analysis_types.csv",
+    "visualization": DATA_DIR / "visualization_rules.csv",
+    "palette": DATA_DIR / "palettes.csv",
+    "rule": DATA_DIR / "reasoning_rules.csv",
+}
 
-def search_framework(query):
-    content = load_framework()
-    lines = content.split('\n')
+
+def load_csv(filepath: Path) -> list[dict]:
+    """Load CSV file into list of dicts."""
+    if not filepath.exists():
+        print(f"Warning: {filepath} not found", file=sys.stderr)
+        return []
+    with open(filepath, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def search_data(
+    data: list[dict],
+    query: Optional[str] = None,
+    filters: Optional[dict] = None,
+    limit: int = 10,
+) -> list[dict]:
+    """
+    Search data with optional text query and filters.
     
-    matches = []
-    current_section = None
-    buffer = []
-    recording = False
+    Args:
+        data: List of row dicts
+        query: Text to search in all fields
+        filters: Dict of {field: value} exact matches
+        limit: Max results
     
-    # Simple semantic-ish search: find headers or lines containing query
-    # and return context around them.
+    Returns:
+        Matching rows
+    """
+    results = []
+    query_lower = query.lower() if query else None
     
-    print(f"\n🔍 Searching Framework for: '{query}'\n" + "="*50)
+    for row in data:
+        # Apply text search
+        if query_lower:
+            row_text = " ".join(str(v).lower() for v in row.values())
+            if query_lower not in row_text:
+                continue
+        
+        # Apply filters
+        if filters:
+            match = True
+            for field, value in filters.items():
+                if field in row and value.lower() not in row[field].lower():
+                    match = False
+                    break
+            if not match:
+                continue
+        
+        results.append(row)
+        if len(results) >= limit:
+            break
     
-    count = 0
-    for i, line in enumerate(lines):
-        if line.startswith('#'):
-            current_section = line.strip()
-            
-        if query.lower() in line.lower():
-            count += 1
-            print(f"\n[Match {count}] Section: {current_section or 'General'}")
-            print(f"Line {i+1}: {line.strip()}")
-            
-            # Print context (5 lines before and 10 after)
-            start = max(0, i - 2)
-            end = min(len(lines), i + 15)
-            
-            print("-" * 20)
-            for j in range(start, end):
-                prefix = "> " if j == i else "  "
-                print(f"{prefix}{lines[j]}")
-            print("-" * 20)
-            
-            if count >= 3: # Limit to 3 matches to avoid spam
-                print("\n... (More matches found, restrict query for precision) ...")
-                break
+    return results
+
+
+def format_analysis(row: dict) -> str:
+    """Format analysis type result."""
+    return f"""
+┌─────────────────────────────────────────────────────────────┐
+│ {row['name']:<59} │
+├─────────────────────────────────────────────────────────────┤
+│ Category:    {row['category']:<46} │
+│ Use Case:    {row['use_case'][:46]:<46} │
+│ When to Use: {row['when_to_use'][:46]:<46} │
+│ Avoid When:  {row['avoid_when'][:46]:<46} │
+│ Function:    {row['python_function'][:46]:<46} │
+│ Domain:      {row['domain']:<46} │
+└─────────────────────────────────────────────────────────────┘"""
+
+
+def format_visualization(row: dict) -> str:
+    """Format visualization rule result."""
+    return f"""
+┌─────────────────────────────────────────────────────────────┐
+│ {row['chart_type']:<59} │
+├─────────────────────────────────────────────────────────────┤
+│ Data Type:   {row['data_type']:<46} │
+│ Variables:   {row['n_variables']:<46} │
+│ Best For:    {row['best_for'][:46]:<46} │
+│ Avoid When:  {row['avoid_when'][:46]:<46} │
+│ Matplotlib:  {row['matplotlib_func'][:46]:<46} │
+│ Plotly:      {row['plotly_type'][:46]:<46} │
+└─────────────────────────────────────────────────────────────┘"""
+
+
+def format_palette(row: dict) -> str:
+    """Format palette result."""
+    colors = f"{row['color_primary']} | {row['color_secondary']} | {row['color_accent']}"
+    return f"""
+┌─────────────────────────────────────────────────────────────┐
+│ {row['name']:<59} │
+├─────────────────────────────────────────────────────────────┤
+│ Domain:      {row['domain']:<46} │
+│ Mood:        {row['mood']:<46} │
+│ Colors:      {colors[:46]:<46} │
+│ Best For:    {row['best_for'][:46]:<46} │
+│ Seaborn:     {row['seaborn_palette']:<46} │
+└─────────────────────────────────────────────────────────────┘"""
+
+
+def format_rule(row: dict) -> str:
+    """Format reasoning rule result."""
+    return f"""
+┌─────────────────────────────────────────────────────────────┐
+│ [{row['priority'].upper()}] {row['trigger']:<52} │
+├─────────────────────────────────────────────────────────────┤
+│ Condition:      {row['condition'][:42]:<42} │
+│ Recommendation: {row['recommendation'][:42]:<42} │
+│ Action:         {row['action'][:42]:<42} │
+│ Rationale:      {row['rationale'][:42]:<42} │
+│ Domain:         {row['domain']:<42} │
+└─────────────────────────────────────────────────────────────┘"""
+
+
+FORMATTERS = {
+    "analysis": format_analysis,
+    "visualization": format_visualization,
+    "palette": format_palette,
+    "rule": format_rule,
+}
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Search Data Pro Max knowledge base",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python3 search.py "correlation"
+  python3 search.py --type analysis "t-test"
+  python3 search.py --type visualization "distribution"
+  python3 search.py --type palette --domain healthcare
+  python3 search.py --type rule "missing"
+  python3 search.py --domain survey --category inferential
+        """,
+    )
+    parser.add_argument("query", nargs="?", help="Text to search")
+    parser.add_argument(
+        "--type",
+        "-t",
+        choices=["analysis", "visualization", "palette", "rule", "all"],
+        default="all",
+        help="Type of data to search",
+    )
+    parser.add_argument("--domain", "-d", help="Filter by domain")
+    parser.add_argument("--category", "-c", help="Filter by category")
+    parser.add_argument("--limit", "-l", type=int, default=10, help="Max results")
+    parser.add_argument("--json", "-j", action="store_true", help="Output as JSON")
+
+    args = parser.parse_args()
+
+    if not args.query and not args.domain and not args.category:
+        parser.print_help()
+        return
+
+    # Build filters
+    filters = {}
+    if args.domain:
+        filters["domain"] = args.domain
+    if args.category:
+        filters["category"] = args.category
+
+    # Determine which files to search
+    search_types = list(FILES.keys()) if args.type == "all" else [args.type]
+
+    all_results = []
+    for search_type in search_types:
+        data = load_csv(FILES[search_type])
+        results = search_data(data, args.query, filters, args.limit)
+        for r in results:
+            r["_type"] = search_type
+        all_results.extend(results)
+
+    if not all_results:
+        print("No results found.")
+        return
+
+    if args.json:
+        import json
+        print(json.dumps(all_results, indent=2))
+    else:
+        print(f"\n{'='*65}")
+        print(f" DATA PRO MAX - {len(all_results)} Results")
+        print(f"{'='*65}")
+        
+        for row in all_results[: args.limit]:
+            formatter = FORMATTERS.get(row["_type"], str)
+            print(formatter(row))
+        
+        if len(all_results) > args.limit:
+            print(f"\n... and {len(all_results) - args.limit} more results")
+
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python3 search.py <query>")
-        sys.exit(1)
-    
-    search_framework(sys.argv[1])
+    main()

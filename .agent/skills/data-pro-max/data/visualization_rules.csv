@@ -1,0 +1,36 @@
+id,chart_type,data_type,n_variables,comparison_type,best_for,avoid_when,matplotlib_func,plotly_type,example_use,domain
+bar_simple,Bar Chart,categorical,1,none,Comparing category frequencies,>12 categories,plt.bar(),px.bar(),Brand preference distribution,survey
+bar_grouped,Grouped Bar Chart,categorical,2,between_groups,Comparing categories across groups,>4 groups or >6 categories,Multi plt.bar(),px.bar(barmode='group'),Satisfaction by age group,survey
+bar_stacked,Stacked Bar Chart,categorical,2,composition,Showing composition within categories,Emphasizing individual values,plt.bar(stacked),px.bar(barmode='stack'),Revenue breakdown by region,financial
+bar_horizontal,Horizontal Bar Chart,categorical,1,ranking,Ranking or long labels,Time-based data,plt.barh(),px.bar(orientation='h'),Top 10 products,marketing
+line_simple,Line Chart,timeseries,1-3,trend,Showing trends over time,Non-sequential data,plt.plot(),px.line(),Monthly sales trend,financial
+line_multi,Multi-Line Chart,timeseries,2-5,comparison,Comparing trends across series,>5 series (cluttered),plt.plot() multiple,px.line(color=),Revenue by product line,financial
+area_simple,Area Chart,timeseries,1,volume,Emphasizing magnitude over time,Comparing multiple series,plt.fill_between(),px.area(),Cumulative downloads,marketing
+area_stacked,Stacked Area Chart,timeseries,2-5,composition,Showing composition over time,Negative values present,plt.stackplot(),px.area(groupnorm='percent'),Market share evolution,marketing
+scatter_simple,Scatter Plot,numeric,2,relationship,Exploring correlation,>1000 points (overplotting),plt.scatter(),px.scatter(),Height vs weight,research
+scatter_bubble,Bubble Chart,numeric,3,relationship,Adding third dimension via size,All values similar size,plt.scatter(s=),px.scatter(size=),Sales × profit × units,financial
+scatter_matrix,Scatter Matrix,numeric,3-6,multivariate,Pairwise relationships,>6 variables (too complex),pd.plotting.scatter_matrix(),px.scatter_matrix(),Feature correlations,research
+histogram,Histogram,numeric,1,distribution,Distribution shape/spread,Categorical data,plt.hist(),px.histogram(),Age distribution,survey
+histogram_overlay,Overlaid Histogram,numeric,2-3,comparison,Comparing distributions,Very different scales,plt.hist() multiple,px.histogram(barmode='overlay'),Score by treatment group,healthcare
+boxplot,Box Plot,numeric,1-2,distribution,Showing quartiles/outliers,Detailed distribution needed,plt.boxplot(),px.box(),Salary by department,research
+boxplot_grouped,Grouped Box Plot,mixed,2-3,comparison,Comparing distributions across groups,>6 groups,sns.boxplot(),px.box(color=),NPS by segment and region,survey
+violin,Violin Plot,numeric,1-2,distribution,Detailed distribution shape,Simple summary sufficient,sns.violinplot(),px.violin(),Response time distribution,research
+heatmap,Heatmap,numeric,matrix,pattern,Showing patterns in matrices,Sparse or >50x50 matrix,sns.heatmap(),px.imshow(),Correlation matrix,research
+heatmap_calendar,Calendar Heatmap,timeseries,1,pattern,Activity patterns over calendar,Non-daily data,custom matplotlib,custom plotly,Daily commit activity,general
+pie_simple,Pie Chart,categorical,1,composition,Part-to-whole (2-5 slices),>6 categories or precise comparison,plt.pie(),px.pie(),Market share (3-5 players),marketing
+donut,Donut Chart,categorical,1,composition,Part-to-whole with center stat,Many categories or comparison,plt.pie(wedgeprops),px.pie(hole=),Budget allocation,financial
+treemap,Treemap,hierarchical,2-3,composition,Hierarchical part-to-whole,Non-hierarchical or negative values,squarify,px.treemap(),File system usage,general
+sunburst,Sunburst Chart,hierarchical,2-4,composition,Multi-level hierarchy,>4 levels or many categories,custom,px.sunburst(),Organizational structure,general
+radar,Radar/Spider Chart,categorical,3-8,profile,Multi-attribute comparison,>8 attributes or different scales,custom matplotlib,px.line_polar(),Brand attribute ratings,marketing
+gauge,Gauge Chart,numeric,1,progress,Single KPI vs target,Multiple metrics,custom,go.Indicator(),NPS score,survey
+funnel,Funnel Chart,categorical,3-7,sequential,Conversion/attrition stages,Non-sequential process,custom,px.funnel(),Sales pipeline,marketing
+waterfall,Waterfall Chart,numeric,4-10,cumulative,Showing cumulative effect,Non-additive relationships,custom,px.waterfall(),P&L breakdown,financial
+sankey,Sankey Diagram,flow,paths,flow,Flow/transition between states,Simple linear flows,custom,px.sankey(),Customer journey,marketing
+network,Network Graph,relational,nodes+edges,relationship,Connections between entities,>100 nodes (hairball),networkx,custom plotly,Social network,research
+map_choropleth,Choropleth Map,geographic,1+geo,spatial,Regional comparisons,Local-level detail needed,geopandas,px.choropleth(),Sales by state,marketing
+map_scatter,Scatter Map,geographic,2+geo,spatial,Point locations with values,Density varies greatly,geopandas,px.scatter_mapbox(),Store locations,marketing
+wordcloud,Word Cloud,text,1,frequency,Quick text visualization,Precise comparison needed,wordcloud library,custom,Open-ended responses,survey
+table_summary,Summary Table,any,any,summary,Precise values presentation,Visual pattern detection needed,pandas to_markdown(),plotly Table,Detailed KPIs,general
+table_heatmap,Heatmap Table,numeric,matrix,pattern,Table with color encoding,Many decimal places needed,styled DataFrame,plotly Table,Performance matrix,research
+sparkline,Sparkline,timeseries,1,trend,Inline trend indication,Detailed analysis needed,custom,px.line(minimal),KPI dashboard row,general
+bullet,Bullet Chart,numeric,1-3,progress,Performance vs targets,No clear target/benchmark,custom,px.bar(),KPI vs goal,financial

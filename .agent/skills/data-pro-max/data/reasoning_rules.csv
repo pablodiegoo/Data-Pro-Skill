@@ -1,0 +1,41 @@
+id,trigger,condition,recommendation,action,priority,domain,rationale
+r001,data_type,has_likert_scales,Apply Factor Analysis to identify latent constructs,run factor_analysis on likert columns,high,survey,Likert batteries often measure underlying dimensions that FA can reveal
+r002,distribution,skewness > 2 or skewness < -2,Use median instead of mean for central tendency,report median and IQR instead of mean/std,critical,general,Highly skewed distributions make mean misleading
+r003,comparison,n_groups >= 3,Use ANOVA instead of multiple t-tests,apply f_oneway before post-hoc tests,high,general,Multiple t-tests inflate Type I error; ANOVA controls family-wise error
+r004,comparison,n_groups == 2 and is_paired,Use Paired T-Test instead of Independent T-Test,apply ttest_rel,high,research,Paired samples violate independence assumption of independent t-test
+r005,normality,shapiro_p < 0.05 and n < 30,Use non-parametric alternative,switch to Mann-Whitney U or Kruskal-Wallis,high,general,Small non-normal samples violate parametric test assumptions
+r006,normality,n >= 30,Central Limit Theorem applies - parametric tests acceptable,proceed with parametric tests,medium,general,CLT ensures sampling distribution normality for large samples
+r007,correlation,has_ordinal_data,Use Spearman instead of Pearson correlation,apply spearmanr,high,survey,Ordinal data violates interval assumption of Pearson
+r008,correlation,r > 0.9 between predictors,Check for multicollinearity before regression,calculate VIF and consider removing variables,critical,research,Multicollinearity inflates standard errors and makes coefficients unreliable
+r009,missing_data,missing_pct > 5,Document missing data pattern and consider imputation,analyze MCAR/MAR/MNAR and apply appropriate strategy,high,general,Listwise deletion with >5% missing can bias results
+r010,missing_data,missing_pct > 30,Variable may be unreliable - consider exclusion,evaluate if variable should be dropped,critical,general,High missingness suggests data quality issues
+r011,sample_size,n < 30,Interpret results with caution - limited statistical power,report effect sizes alongside p-values,high,general,Small samples have low power to detect true effects
+r012,sample_size,n < 100 and using_fa,Factor Analysis results may be unstable,use fewer factors or consider combining with theory,high,survey,FA requires ~10 observations per variable minimum
+r013,outliers,outlier_pct > 5,Investigate outliers before analysis,identify outliers visually and statistically then decide,high,general,Outliers can heavily influence means and correlations
+r014,category_size,any_category_n < 5,Merge small categories or use Fisher's Exact Test,combine categories or switch test,high,survey,Chi-square requires expected counts >= 5
+r015,survey_type,is_nps_question,Calculate NPS and segment into Promoters/Passives/Detractors,apply standard NPS calculation,high,survey,NPS is industry standard metric with specific calculation method
+r016,survey_type,is_satisfaction_scale,Report Top-2-Box and Bottom-2-Box percentages,calculate T2B and B2B proportions,medium,survey,T2B/B2B are common satisfaction reporting metrics
+r017,visualization,has_negative_values,Avoid pie charts and stacked areas,use bar chart or waterfall instead,high,general,Pie/stacked area cannot represent negative values correctly
+r018,visualization,n_categories > 10,Consider grouping or using horizontal bar chart,group into Other or use alternative viz,medium,general,Too many categories create visual clutter
+r019,visualization,comparing_distributions,Use box plots or violin plots instead of bar charts,switch to distribution-focused visualization,medium,general,Bar charts hide distribution shape and outliers
+r020,visualization,showing_change,Consider using slope chart or bump chart,apply appropriate change visualization,medium,general,Standard charts may not emphasize change effectively
+r021,report_type,is_executive,Lead with key findings and recommendations,structure report with executive summary first,high,general,Executives have limited time - lead with conclusions
+r022,report_type,is_technical,Include methodology and statistical details,add appendix with full statistical output,high,research,Technical audiences need reproducibility details
+r023,segmentation,goal_is_personas,Use K-Means or Hierarchical clustering on behavioral variables,apply clustering after dimensionality reduction,high,marketing,Personas require grouping similar respondents
+r024,segmentation,n_clusters_unknown,Use elbow method or silhouette score to determine K,calculate metrics for K=2 to K=10,high,marketing,Optimal K should be determined empirically
+r025,text_analysis,has_open_ended,Apply word frequency and sentiment analysis first,run basic NLP before advanced techniques,medium,survey,Start with simple text metrics before complex analysis
+r026,time_series,has_datetime_index,Check for seasonality and trend before modeling,decompose time series first,high,financial,Understanding components improves forecasting
+r027,time_series,forecasting_needed,Use ARIMA or Prophet for univariate forecasting,fit appropriate time series model,high,financial,Proper time series models capture autocorrelation
+r028,weighting,is_survey_data,Check if sample weighting is needed to match population,compare sample demographics to targets,high,survey,Unweighted surveys may not represent population
+r029,weighting,has_weight_column,Apply weights to all calculations,use weighted means and weighted crosstabs,critical,survey,Ignoring weights produces biased estimates
+r030,effect_size,significant_result,Report effect size alongside p-value,calculate Cohen's d or eta-squared,high,research,P-values don't indicate practical significance
+r031,multiple_testing,n_tests > 5,Apply Bonferroni or FDR correction,adjust alpha or use FDR method,high,research,Multiple comparisons inflate false positive rate
+r032,assumption_check,using_regression,Check residual normality and homoscedasticity,plot residuals and run diagnostic tests,high,research,Violated assumptions invalidate inference
+r033,data_quality,has_duplicates,Remove or investigate duplicate records,check for true duplicates vs valid repeats,critical,general,Duplicates can inflate sample size artificially
+r034,data_quality,has_inconsistent_coding,Standardize category labels before analysis,clean and map to consistent values,critical,general,Inconsistent coding creates fake categories
+r035,crosstab,expected_insight_type == comparison,Calculate row percentages for comparison across groups,use normalize='index' in crosstab,high,survey,Row percentages enable group comparison
+r036,crosstab,expected_insight_type == composition,Calculate column percentages to see composition,use normalize='columns' in crosstab,high,survey,Column percentages show within-group composition
+r037,hypothesis,no_prior_hypothesis,Use exploratory analysis first then confirmatory,clearly separate EDA from hypothesis testing,high,research,Exploratory findings need confirmation on new data
+r038,automation,recurring_report,Create reusable analysis pipeline,build parameterized scripts,medium,general,Automation reduces errors and saves time
+r039,deliverable,client_facing,Export visualizations at 300 DPI minimum,set dpi=300 in savefig,medium,general,High resolution needed for print and presentations
+r040,reproducibility,any_analysis,Set random seeds and document package versions,use random_state and pip freeze,high,research,Reproducibility is scientific standard
