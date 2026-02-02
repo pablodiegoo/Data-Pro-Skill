@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datapro"
+version = "0.1.0"
+description = "Data Analysis Intelligence - AI-powered recommendations for statistics, visualization, and reporting"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Pablo Diego", email = "pablo@example.com"}
+]
+keywords = ["data-analysis", "statistics", "visualization", "survey", "ai", "recommendations"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "pandas>=1.5.0",
+    "numpy>=1.21.0",
+    "scipy>=1.9.0",
+    "scikit-learn>=1.1.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.12.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "factor-analyzer>=0.4.0",
+    "textblob>=0.17.0",
+    "openpyxl>=3.0.0",
+]
+docs = [
+    "pypandoc>=1.11",
+    "pdfminer.six>=20221105",
+    "pdf2image>=1.16.0",
+    "pytesseract>=0.3.10",
+    "python-pptx>=0.6.21",
+    "Pillow>=9.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+datapro = "datapro.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/pablodiegoo/Data-Pro-Skill"
+Documentation = "https://github.com/pablodiegoo/Data-Pro-Skill#readme"
+Repository = "https://github.com/pablodiegoo/Data-Pro-Skill"
+Issues = "https://github.com/pablodiegoo/Data-Pro-Skill/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+datapro = ["data/*.csv", "data/*.json", "data/*.md"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]

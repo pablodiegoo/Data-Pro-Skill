@@ -28,6 +28,7 @@ FILES = {
     "visualization": DATA_DIR / "visualization_rules.csv",
     "palette": DATA_DIR / "palettes.csv",
     "rule": DATA_DIR / "reasoning_rules.csv",
+    "style": DATA_DIR / "visualization_styles.csv",
 }
 
 
@@ -144,11 +145,28 @@ def format_rule(row: dict) -> str:
 └─────────────────────────────────────────────────────────────┘"""
 
 
+def format_style(row: dict) -> str:
+    """Format visualization style result."""
+    return f"""
+┌─────────────────────────────────────────────────────────────┐
+│ {row['name']:<59} │
+├─────────────────────────────────────────────────────────────┤
+│ Category:    {row['category']:<46} │
+│ Fonts:       {row['font_title'][:20] + ' / ' + row['font_body'][:20]:<46} │
+│ Figure Size: {row['figsize_default']:<46} │
+│ DPI:         {row['dpi']:<46} │
+│ Best For:    {row['best_for'][:46]:<46} │
+│ Matplotlib:  {row['matplotlib_style']:<46} │
+│ Seaborn:     {row['seaborn_context']:<46} │
+└─────────────────────────────────────────────────────────────┘"""
+
+
 FORMATTERS = {
     "analysis": format_analysis,
     "visualization": format_visualization,
     "palette": format_palette,
     "rule": format_rule,
+    "style": format_style,
 }
 
 
@@ -170,7 +188,7 @@ Examples:
     parser.add_argument(
         "--type",
         "-t",
-        choices=["analysis", "visualization", "palette", "rule", "all"],
+        choices=["analysis", "visualization", "palette", "rule", "style", "all"],
         default="all",
         help="Type of data to search",
     )

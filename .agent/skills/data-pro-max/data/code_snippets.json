@@ -1,0 +1,152 @@
+{
+  "desc_univar": {
+    "id": "desc_univar",
+    "name": "Univariate Descriptive",
+    "category": "descriptive",
+    "description": "Summarize single variable distribution",
+    "imports": "import pandas as pd\nimport numpy as np",
+    "code": "def univariate_summary(df, col):\n    \"\"\"Generate univariate statistics for a column.\"\"\"\n    stats = {\n        'count': df[col].count(),\n        'missing': df[col].isna().sum(),\n        'missing_pct': round(df[col].isna().mean() * 100, 1),\n        'unique': df[col].nunique()\n    }\n    if pd.api.types.is_numeric_dtype(df[col]):\n        stats.update({\n            'mean': round(df[col].mean(), 2),\n            'std': round(df[col].std(), 2),\n            'min': df[col].min(),\n            'median': df[col].median(),\n            'max': df[col].max(),\n            'skew': round(df[col].skew(), 2)\n        })\n    else:\n        stats['top_values'] = df[col].value_counts().head(5).to_dict()\n    return stats",
+    "output_type": "dict",
+    "example": "result = univariate_summary(df, 'satisfaction')"
+  },
+  "cross_tab": {
+    "id": "cross_tab",
+    "name": "Cross Tabulation",
+    "category": "descriptive",
+    "description": "Calculate frequency tables between two categorical variables",
+    "imports": "import pandas as pd",
+    "code": "def cross_tabulation(df, row_var, col_var, normalize=None):\n    \"\"\"Create cross-tabulation with optional normalization.\n    normalize: None, 'index', 'columns', 'all'\n    \"\"\"\n    ct = pd.crosstab(df[row_var], df[col_var], margins=True, normalize=normalize)\n    return ct",
+    "output_type": "DataFrame",
+    "example": "ct = cross_tabulation(df, 'gender', 'region', normalize='index')"
+  },
+  "chi_square": {
+    "id": "chi_square",
+    "name": "Chi-Square Test",
+    "category": "inferential",
+    "description": "Test independence between categorical variables",
+    "imports": "from scipy import stats\nimport pandas as pd\nimport numpy as np",
+    "code": "def chi_square_test(df, var1, var2):\n    \"\"\"Perform chi-square test of independence.\"\"\"\n    contingency = pd.crosstab(df[var1], df[var2])\n    chi2, p, dof, expected = stats.chi2_contingency(contingency)\n    n = len(df)\n    cramers_v = np.sqrt(chi2 / (n * (min(contingency.shape) - 1)))\n    return {\n        'chi2': round(chi2, 4),\n        'p_value': round(p, 4),\n        'dof': dof,\n        'cramers_v': round(cramers_v, 4),\n        'significant': p < 0.05\n    }",
+    "output_type": "dict",
+    "example": "result = chi_square_test(df, 'gender', 'preference')"
+  },
+  "ttest_ind": {
+    "id": "ttest_ind",
+    "name": "Independent T-Test",
+    "category": "inferential",
+    "description": "Compare means between two groups",
+    "imports": "from scipy import stats\nimport numpy as np",
+    "code": "def independent_ttest(group1, group2, alpha=0.05):\n    \"\"\"Perform independent samples t-test with effect size.\"\"\"\n    t_stat, p_value = stats.ttest_ind(group1, group2)\n    pooled_std = np.sqrt(((len(group1)-1)*np.var(group1) + (len(group2)-1)*np.var(group2)) / (len(group1)+len(group2)-2))\n    cohens_d = (np.mean(group1) - np.mean(group2)) / pooled_std\n    return {\n        't_statistic': round(t_stat, 4),\n        'p_value': round(p_value, 4),\n        'cohens_d': round(cohens_d, 4),\n        'significant': p_value < alpha,\n        'effect': 'small' if abs(cohens_d) < 0.5 else 'medium' if abs(cohens_d) < 0.8 else 'large'\n    }",
+    "output_type": "dict",
+    "example": "result = independent_ttest(df[df['group']=='A']['score'], df[df['group']=='B']['score'])"
+  },
+  "mann_whitney": {
+    "id": "mann_whitney",
+    "name": "Mann-Whitney U Test",
+    "category": "inferential",
+    "description": "Non-parametric alternative to t-test",
+    "imports": "from scipy import stats",
+    "code": "def mann_whitney_test(group1, group2, alpha=0.05):\n    \"\"\"Perform Mann-Whitney U test (non-parametric).\"\"\"\n    stat, p_value = stats.mannwhitneyu(group1, group2, alternative='two-sided')\n    n1, n2 = len(group1), len(group2)\n    effect_size = 1 - (2*stat) / (n1 * n2)\n    return {\n        'u_statistic': round(stat, 4),\n        'p_value': round(p_value, 4),\n        'effect_size': round(abs(effect_size), 4),\n        'significant': p_value < alpha\n    }",
+    "output_type": "dict",
+    "example": "result = mann_whitney_test(group_a, group_b)"
+  },
+  "anova_oneway": {
+    "id": "anova_oneway",
+    "name": "One-Way ANOVA",
+    "category": "inferential",
+    "description": "Compare means across 3+ groups",
+    "imports": "from scipy import stats\nimport numpy as np",
+    "code": "def oneway_anova(*groups):\n    \"\"\"Perform one-way ANOVA with effect size.\"\"\"\n    f_stat, p_value = stats.f_oneway(*groups)\n    all_data = np.concatenate(groups)\n    grand_mean = np.mean(all_data)\n    ss_between = sum(len(g) * (np.mean(g) - grand_mean)**2 for g in groups)\n    ss_total = sum((x - grand_mean)**2 for x in all_data)\n    eta_squared = ss_between / ss_total\n    return {\n        'f_statistic': round(f_stat, 4),\n        'p_value': round(p_value, 4),\n        'eta_squared': round(eta_squared, 4),\n        'significant': p_value < 0.05\n    }",
+    "output_type": "dict",
+    "example": "result = oneway_anova(group_a, group_b, group_c)"
+  },
+  "correlation_pearson": {
+    "id": "correlation_pearson",
+    "name": "Pearson Correlation",
+    "category": "correlation",
+    "description": "Measure linear relationship between numeric variables",
+    "imports": "from scipy import stats",
+    "code": "def pearson_correlation(df, var1, var2):\n    \"\"\"Calculate Pearson correlation with significance.\"\"\"\n    data = df[[var1, var2]].dropna()\n    r, p = stats.pearsonr(data[var1], data[var2])\n    return {\n        'correlation': round(r, 4),\n        'p_value': round(p, 4),\n        'strength': 'weak' if abs(r) < 0.3 else 'moderate' if abs(r) < 0.7 else 'strong',\n        'significant': p < 0.05\n    }",
+    "output_type": "dict",
+    "example": "result = pearson_correlation(df, 'age', 'income')"
+  },
+  "correlation_spearman": {
+    "id": "correlation_spearman",
+    "name": "Spearman Correlation",
+    "category": "correlation",
+    "description": "Measure monotonic relationship for ordinal data",
+    "imports": "from scipy import stats",
+    "code": "def spearman_correlation(df, var1, var2):\n    \"\"\"Calculate Spearman correlation for ordinal data.\"\"\"\n    data = df[[var1, var2]].dropna()\n    rho, p = stats.spearmanr(data[var1], data[var2])\n    return {\n        'correlation': round(rho, 4),\n        'p_value': round(p, 4),\n        'significant': p < 0.05\n    }",
+    "output_type": "dict",
+    "example": "result = spearman_correlation(df, 'satisfaction', 'loyalty')"
+  },
+  "nps_calc": {
+    "id": "nps_calc",
+    "name": "NPS Calculation",
+    "category": "survey",
+    "description": "Calculate Net Promoter Score",
+    "imports": "import pandas as pd",
+    "code": "def calculate_nps(df, nps_column):\n    \"\"\"Calculate Net Promoter Score from 0-10 scale.\"\"\"\n    promoters = (df[nps_column] >= 9).sum()\n    detractors = (df[nps_column] <= 6).sum()\n    total = df[nps_column].notna().sum()\n    nps = ((promoters - detractors) / total) * 100\n    return {\n        'nps': round(nps, 1),\n        'promoters_pct': round(promoters/total*100, 1),\n        'passives_pct': round((total-promoters-detractors)/total*100, 1),\n        'detractors_pct': round(detractors/total*100, 1),\n        'n': total\n    }",
+    "output_type": "dict",
+    "example": "result = calculate_nps(df, 'recommend_score')"
+  },
+  "top_box": {
+    "id": "top_box",
+    "name": "Top-Box Score",
+    "category": "survey",
+    "description": "Calculate top-box percentage for satisfaction scales",
+    "imports": "import pandas as pd",
+    "code": "def top_box_score(df, column, top_values=[4, 5], scale_max=5):\n    \"\"\"Calculate top-box score (% selecting top values).\"\"\"\n    valid = df[column].dropna()\n    top_box = valid.isin(top_values).sum()\n    return {\n        'top_box_pct': round(top_box / len(valid) * 100, 1),\n        'top_2_box': round((valid >= scale_max - 1).sum() / len(valid) * 100, 1),\n        'mean': round(valid.mean(), 2),\n        'n': len(valid)\n    }",
+    "output_type": "dict",
+    "example": "result = top_box_score(df, 'satisfaction')"
+  },
+  "weighted_freq": {
+    "id": "weighted_freq",
+    "name": "Weighted Frequency",
+    "category": "survey",
+    "description": "Calculate weighted frequencies for survey data",
+    "imports": "import pandas as pd",
+    "code": "def weighted_frequency(df, column, weight_column):\n    \"\"\"Calculate weighted frequencies.\"\"\"\n    result = df.groupby(column).apply(\n        lambda x: x[weight_column].sum()\n    ).reset_index(name='weighted_count')\n    result['weighted_pct'] = result['weighted_count'] / result['weighted_count'].sum() * 100\n    return result.round(2)",
+    "output_type": "DataFrame",
+    "example": "result = weighted_frequency(df, 'satisfaction', 'weight')"
+  },
+  "factor_analysis": {
+    "id": "factor_analysis",
+    "name": "Factor Analysis",
+    "category": "dimensionality",
+    "description": "Identify latent constructs from Likert scales",
+    "imports": "from factor_analyzer import FactorAnalyzer\nimport pandas as pd",
+    "code": "def run_factor_analysis(df, columns, n_factors=3, rotation='varimax'):\n    \"\"\"Perform factor analysis on survey items.\"\"\"\n    data = df[columns].dropna()\n    fa = FactorAnalyzer(n_factors=n_factors, rotation=rotation)\n    fa.fit(data)\n    loadings = pd.DataFrame(\n        fa.loadings_,\n        index=columns,\n        columns=[f'Factor_{i+1}' for i in range(n_factors)]\n    )\n    variance = fa.get_factor_variance()\n    return {\n        'loadings': loadings.round(3),\n        'variance_explained': variance[1].round(3).tolist(),\n        'total_variance': round(sum(variance[1]) * 100, 1)\n    }",
+    "output_type": "dict",
+    "example": "result = run_factor_analysis(df, ['q1', 'q2', 'q3', 'q4', 'q5'])"
+  },
+  "kmeans_segment": {
+    "id": "kmeans_segment",
+    "name": "K-Means Segmentation",
+    "category": "segmentation",
+    "description": "Cluster respondents into segments",
+    "imports": "from sklearn.cluster import KMeans\nfrom sklearn.preprocessing import StandardScaler\nimport pandas as pd",
+    "code": "def kmeans_segmentation(df, columns, n_clusters=4):\n    \"\"\"Perform K-Means clustering for segmentation.\"\"\"\n    data = df[columns].dropna()\n    scaler = StandardScaler()\n    scaled = scaler.fit_transform(data)\n    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)\n    clusters = kmeans.fit_predict(scaled)\n    df_result = data.copy()\n    df_result['segment'] = clusters\n    profiles = df_result.groupby('segment')[columns].mean().round(2)\n    return {\n        'labels': clusters,\n        'profiles': profiles,\n        'inertia': round(kmeans.inertia_, 2)\n    }",
+    "output_type": "dict",
+    "example": "result = kmeans_segmentation(df, ['factor1', 'factor2', 'factor3'])"
+  },
+  "normality_test": {
+    "id": "normality_test",
+    "name": "Normality Test",
+    "category": "assumption",
+    "description": "Test if data is normally distributed",
+    "imports": "from scipy import stats",
+    "code": "def test_normality(data, alpha=0.05):\n    \"\"\"Test normality using Shapiro-Wilk test.\"\"\"\n    sample = data.dropna()\n    if len(sample) > 5000:\n        sample = sample.sample(5000, random_state=42)\n    stat, p = stats.shapiro(sample)\n    return {\n        'statistic': round(stat, 4),\n        'p_value': round(p, 4),\n        'normal': p >= alpha,\n        'recommendation': 'Use parametric tests' if p >= alpha else 'Use non-parametric tests'\n    }",
+    "output_type": "dict",
+    "example": "result = test_normality(df['score'])"
+  },
+  "cohens_d": {
+    "id": "cohens_d",
+    "name": "Cohen's d Effect Size",
+    "category": "effect_size",
+    "description": "Calculate standardized effect size",
+    "imports": "import numpy as np",
+    "code": "def cohens_d(group1, group2):\n    \"\"\"Calculate Cohen's d effect size.\"\"\"\n    n1, n2 = len(group1), len(group2)\n    var1, var2 = np.var(group1, ddof=1), np.var(group2, ddof=1)\n    pooled_std = np.sqrt(((n1-1)*var1 + (n2-1)*var2) / (n1+n2-2))\n    d = (np.mean(group1) - np.mean(group2)) / pooled_std\n    return {\n        'cohens_d': round(d, 4),\n        'interpretation': 'small' if abs(d) < 0.5 else 'medium' if abs(d) < 0.8 else 'large'\n    }",
+    "output_type": "dict",
+    "example": "result = cohens_d(treatment_scores, control_scores)"
+  }
+}

@@ -2,51 +2,124 @@
 
 **An AI skill for data analysis intelligence** — the equivalent of [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for data science.
 
-Auto-activates for data analysis work. Provides reasoning-based recommendations for statistics, visualization, and reporting.
+## 📦 Installation
 
-## Features
-
-| Component | Count | Description |
-|-----------|-------|-------------|
-| Analysis Types | 30+ | Descriptive, inferential, modeling, NLP, time series |
-| Visualization Rules | 35+ | Chart recommendations with when-to-use guidance |
-| Color Palettes | 22 | Domain-specific (survey, healthcare, finance) |
-| Reasoning Rules | 40+ | Auto-recommendations based on data characteristics |
-
-## Quick Start
-
-The skill activates automatically when you request data analysis work:
-
-```
-Analyze this survey data and create a professional report
-What statistical test should I use for comparing 3 groups?
-Create visualizations for my customer satisfaction data
-```
-
-## Search the Knowledge Base
+Since this is now a standard Python package, you can install it using pip:
 
 ```bash
-# General search
-python3 .agent/skills/data-pro-max/scripts/search.py "correlation"
+# Clone the repository
+git clone https://github.com/pablodiegoo/Data-Pro-Skill
+cd Data-Pro-Skill
 
-# Search by type
-python3 .agent/skills/data-pro-max/scripts/search.py --type visualization "bar chart"
-python3 .agent/skills/data-pro-max/scripts/search.py --type palette --domain survey
-python3 .agent/skills/data-pro-max/scripts/search.py --type rule "missing data"
-
-# Filter by domain
-python3 .agent/skills/data-pro-max/scripts/search.py --domain survey --category inferential
+# Install in development mode
+pip install -e .
 ```
 
-## Integrated Skills
+For production-ready use (after you're satisfied with your local changes):
+```bash
+pip install .
+```
 
-| Skill | Purpose |
-|-------|---------|
-| `survey-stats` | Weighting, factor analysis, clustering, TURF |
-| `report-writer` | Professional PDF/DOCX generation |
-| `mermaid-diagrams` | Flowcharts and architecture diagrams |
-| `documentation-mastery` | Rich Markdown documentation |
+## 🚀 CLI Usage
 
-## License
+After installation, the `datapro` command will be available in your terminal.
+
+### 🔍 Search Knowledge Base
+Find recommendations for statistics, visualizations, and color palettes.
+```bash
+# General search
+datapro search "correlation"
+
+# Filter by type
+datapro search --type visualization "bar chart"
+datapro search --type palette --domain survey
+
+# Filter by domain and category
+datapro search --domain survey --category inferential
+```
+
+### � Get Code Snippets
+Copy-paste ready-to-use Python code for common data tasks.
+```bash
+# List all available snippets
+datapro snippet --list
+
+# Get a specific snippet by ID
+datapro snippet --id nps_calc
+
+# Search snippets by keyword
+datapro snippet --query "test"
+```
+
+### 📊 Analyze Data
+Automatically profile a dataset and generate an analysis plan.
+```bash
+datapro analyze your_data.csv --domain survey --goal "identify drivers of satisfaction"
+```
+
+### �📄 Convert Documents
+
+Ingest external data reports from PDF, Word, or PowerPoint.
+```bash
+# Convert PDF to Markdown (auto-detects digital vs scan)
+datapro convert source_data.pdf
+
+# Force OCR for scanned images
+datapro convert scanned_report.pdf --ocr
+
+# Convert all DOCX/PPTX in a directory
+datapro convert ./raw_docs/ -o ./processed_md/
+```
+
+### 📑 Generate Reports
+Export your analysis findings as professional, styled documents.
+```bash
+# Generate professional PDF with cover page and TOC
+datapro report findings.md --title "Survey Results" --subtitle "Q1 2026"
+
+# Generate DOCX for manual final edits
+datapro report findings.md --format docx
+
+# Custom branding (primary hex color)
+datapro report findings.md --color "2980b9"
+```
+
+### 🛠️ Setup in New Project
+Initialize a new project with DataPro analysis power and AI intelligence.
+```bash
+# Integrates CLI and copies Agent Skills to the new directory
+datapro setup /path/to/your/new-project
+```
+
+
+## 📚 Library Usage
+
+You can also use `datapro` as a Python library in your scripts or Jupyter notebooks.
+
+```python
+from datapro import search_knowledge_base, generate_analysis_plan, get_styles
+import pandas as pd
+
+# 1. Search recommendations
+recommendations = search_knowledge_base("timeseries", search_type="analysis")
+
+# 2. Analyze a dataframe
+df = pd.read_csv("data.csv")
+plan = generate_analysis_plan(df, domain="survey")
+print(plan.checklist)
+
+# 3. Apply professional styles for plots
+styles = get_styles()
+styles.apply_matplotlib("presentation")
+```
+
+## 🏗️ Project Structure
+
+- `src/datapro/`: Main package source code.
+- `src/datapro/data/`: Knowledge base CSVs and JSON snippets.
+- `src/datapro/scripts/`: Individual tools and logic.
+- `.agent/skills/`: Original skill definitions and metadata for Agent integration.
+
+## ⚖️ License
 
 MIT

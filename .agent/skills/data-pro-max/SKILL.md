@@ -1,6 +1,6 @@
 ---
 name: data-pro-max
-description: "Data Analysis Intelligence. Auto-activates for data analysis work. Provides reasoning-based recommendations for statistics, visualization, and reporting. Includes 30+ analysis types, 35+ chart types, 22 color palettes, and 40+ reasoning rules."
+description: "Data Analysis Intelligence. Auto-activates for data analysis work. Provides reasoning-based recommendations for statistics, visualization, and reporting. Includes 65+ analysis types, 63+ chart types, 42 color palettes, and 80+ reasoning rules."
 ---
 
 # Data Pro Max - Data Analysis Intelligence
@@ -28,10 +28,13 @@ What statistical test should I use for comparing 3 groups?
 
 | Component | Count | Description |
 |-----------|-------|-------------|
-| Analysis Types | 30+ | Descriptive, inferential, modeling, NLP, time series |
-| Visualization Rules | 35+ | Chart recommendations with when-to-use guidance |
-| Color Palettes | 22 | Domain-specific palettes (survey, healthcare, finance) |
-| Reasoning Rules | 40+ | Automatic recommendations based on data characteristics |
+| Analysis Types | 65+ | Descriptive, inferential, modeling, NLP, time series, survey-stats |
+| Visualization Rules | 63+ | Chart recommendations with when-to-use guidance |
+| Visualization Styles | 20 | Pre-configured matplotlib/seaborn styles for different contexts |
+| Color Palettes | 42 | Domain-specific palettes (survey, healthcare, finance, accessibility) |
+| Reasoning Rules | 80+ | Automatic recommendations based on data characteristics |
+
+
 
 ## How It Works
 
@@ -56,23 +59,25 @@ The skill profiles your data to understand:
 - **Structure**: Sample size, missing values, grouping variables
 
 ### Step 2: Query Knowledge Base (REQUIRED)
-Use the search tool to find approved patterns:
+Use the unified `datapro` CLI to find approved patterns:
 
 ```bash
-# Search for analysis types
-python3 .agent/skills/data-pro-max/scripts/search.py "correlation analysis"
+# Search knowledge base
+datapro search "correlation analysis"
+datapro search --type visualization "bar chart"
+datapro search --type palette --domain survey
 
-# Search for visualizations
-python3 .agent/skills/data-pro-max/scripts/search.py --type visualization "bar chart"
+# Analyze a dataset and get recommendations
+datapro analyze data.csv --domain survey --goal "segmentation"
 
-# Search for palettes by domain
-python3 .agent/skills/data-pro-max/scripts/search.py --type palette --domain survey
+# Generate PDF report from markdown
+datapro report analysis.md -o report.pdf --title "Survey Results"
 
-# Search for reasoning rules
-python3 .agent/skills/data-pro-max/scripts/search.py --type rule "missing data"
+# List visualization styles
+datapro style --list
 
-# Filter by domain and category
-python3 .agent/skills/data-pro-max/scripts/search.py --domain survey --category inferential
+# Full pipeline: analyze → report
+datapro pipeline data.csv -o report.pdf --domain survey
 ```
 
 ### Step 3: Apply Recommendations
@@ -93,13 +98,83 @@ Implement analysis following the retrieved patterns with proper:
 | `financial` | Time series, forecasting, risk analysis |
 | `general` | Universal patterns applicable across domains |
 
-## Integration with Other Skills
+## Integrated Skills
 
-Data Pro Max integrates with:
-- **survey-stats**: Advanced weighting, factor analysis, clustering
-- **report-writer**: Professional PDF/DOCX generation
-- **mermaid-diagrams**: Flowcharts, ERDs, architecture diagrams
-- **documentation-mastery**: Rich Markdown with GitHub alerts
+Data Pro Max orchestrates these specialized skills for end-to-end analysis:
+
+### survey-stats (Statistical Analysis)
+Advanced multivariate analysis for survey data.
+
+```python
+# Sample Weighting (Raking)
+from scripts.weighting import rake_weights
+targets = {'gender': {'Male': 0.49, 'Female': 0.51}}
+df['weight'] = rake_weights(df, targets)
+
+# Factor Analysis
+from scripts.factor_analysis import run_factor_analysis
+cols = ['q1_sat', 'q2_sat', 'q3_sat']
+loadings, variance = run_factor_analysis(df, cols)
+
+# Clustering / Personas
+from scripts.clustering import run_segmentation
+df = run_segmentation(df, ['factor1', 'factor2'], n_clusters=4)
+
+# TURF Analysis
+from scripts.turf_analysis import run_turf_analysis
+results = run_turf_analysis(df, product_columns)
+```
+
+### document-converter (PDF/DOCX Output)
+Professional report generation from Markdown.
+
+```bash
+# Generate PDF with cover page
+python3 .agent/skills/document-converter/scripts/compile_report.py \
+    report.md \
+    --format pdf \
+    --title "Survey Analysis Report" \
+    --subtitle "Q1 2026" \
+    --color "2980b9"
+
+# Generate DOCX for editing
+python3 .agent/skills/document-converter/scripts/compile_report.py \
+    report.md --format docx
+```
+
+
+### mermaid-diagrams (Visual Documentation)
+Syntax-correct diagrams for documentation.
+
+```mermaid
+flowchart LR
+    A[Raw Data] --> B[Data Cleaning]
+    B --> C{Weighting Needed?}
+    C -->|Yes| D[survey-stats: rake_weights]
+    C -->|No| E[Analysis]
+    D --> E
+    E --> F[Visualization]
+    F --> G[report-writer: PDF]
+```
+
+**Best Practice**: Wrap labels with special chars in quotes: `id["Label (Info)"]`
+
+### dictionary-mapper (Variable Mapping)
+Automates mapping of raw variable names (P1, Q3) to semantic labels.
+
+```bash
+# Infer mapping from CSV headers (SurveyMonkey/Google Forms style)
+python3 .agent/skills/data-pro-max/scripts/dictionary_mapper.py \
+    raw_data.csv \
+    -o mapping.json
+
+# Then use mapping in analysis
+import json
+with open('mapping.json') as f:
+    var_map = json.load(f)
+df.rename(columns={v['original_name']: v['label'] for v in var_map.values()})
+```
+
 
 ## Example Workflow
 
@@ -146,11 +221,19 @@ Before delivering analysis:
 .agent/skills/data-pro-max/
 ├── SKILL.md                    # This file
 ├── data/
-│   ├── analysis_types.csv      # 30+ analysis methods
-│   ├── visualization_rules.csv # 35+ chart recommendations
-│   ├── palettes.csv            # 22 domain palettes
-│   ├── reasoning_rules.csv     # 40+ auto-recommendations
+│   ├── analysis_types.csv      # 65+ analysis methods
+│   ├── visualization_rules.csv # 63+ chart recommendations
+│   ├── palettes.csv            # 42 domain palettes
+│   ├── reasoning_rules.csv     # 80+ auto-recommendations
 │   └── framework.md            # Detailed implementation guide
 └── scripts/
-    └── search.py               # CLI search tool
+    ├── search.py               # CLI search tool
+    ├── reasoning_engine.py     # Auto-recommendation system
+    └── dictionary_mapper.py    # Variable name → label mapping
+
+Related Skills:
+├── survey-stats/               # Weighting, FA, PCA, Clustering, TURF
+├── document-converter/         # PDF/DOCX import/export
+└── mermaid-diagrams/           # Visual documentation
 ```
+

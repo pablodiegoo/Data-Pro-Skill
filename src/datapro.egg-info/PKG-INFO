@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: datapro
+Version: 0.1.0
+Summary: Data Analysis Intelligence - AI-powered recommendations for statistics, visualization, and reporting
+Author-email: Pablo Diego <pablo@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/pablodiegoo/Data-Pro-Skill
+Project-URL: Documentation, https://github.com/pablodiegoo/Data-Pro-Skill#readme
+Project-URL: Repository, https://github.com/pablodiegoo/Data-Pro-Skill
+Project-URL: Issues, https://github.com/pablodiegoo/Data-Pro-Skill/issues
+Keywords: data-analysis,statistics,visualization,survey,ai,recommendations
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=1.5.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: scipy>=1.9.0
+Requires-Dist: scikit-learn>=1.1.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: seaborn>=0.12.0
+Provides-Extra: full
+Requires-Dist: factor-analyzer>=0.4.0; extra == "full"
+Requires-Dist: textblob>=0.17.0; extra == "full"
+Requires-Dist: openpyxl>=3.0.0; extra == "full"
+Provides-Extra: docs
+Requires-Dist: pypandoc>=1.11; extra == "docs"
+Requires-Dist: pdfminer.six>=20221105; extra == "docs"
+Requires-Dist: pdf2image>=1.16.0; extra == "docs"
+Requires-Dist: pytesseract>=0.3.10; extra == "docs"
+Requires-Dist: python-pptx>=0.6.21; extra == "docs"
+Requires-Dist: Pillow>=9.0.0; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
+
+# Data Pro Skill
+
+**An AI skill for data analysis intelligence** — the equivalent of [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for data science.
+
+Auto-activates for data analysis work. Provides reasoning-based recommendations for statistics, visualization, and reporting.
+
+## Features
+
+| Component | Count | Description |
+|-----------|-------|-------------|
+| Analysis Types | 30+ | Descriptive, inferential, modeling, NLP, time series |
+| Visualization Rules | 35+ | Chart recommendations with when-to-use guidance |
+| Color Palettes | 22 | Domain-specific (survey, healthcare, finance) |
+| Reasoning Rules | 40+ | Auto-recommendations based on data characteristics |
+
+## Quick Start
+
+The skill activates automatically when you request data analysis work:
+
+```
+Analyze this survey data and create a professional report
+What statistical test should I use for comparing 3 groups?
+Create visualizations for my customer satisfaction data
+```
+
+## Search the Knowledge Base
+
+```bash
+# General search
+python3 .agent/skills/data-pro-max/scripts/search.py "correlation"
+
+# Search by type
+python3 .agent/skills/data-pro-max/scripts/search.py --type visualization "bar chart"
+python3 .agent/skills/data-pro-max/scripts/search.py --type palette --domain survey
+python3 .agent/skills/data-pro-max/scripts/search.py --type rule "missing data"
+
+# Filter by domain
+python3 .agent/skills/data-pro-max/scripts/search.py --domain survey --category inferential
+```
+
+## Integrated Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `survey-stats` | Weighting, factor analysis, clustering, TURF |
+| `report-writer` | Professional PDF/DOCX generation |
+| `mermaid-diagrams` | Flowcharts and architecture diagrams |
+| `documentation-mastery` | Rich Markdown documentation |
+
+## License
+
+MIT

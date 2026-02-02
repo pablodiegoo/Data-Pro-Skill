@@ -1,0 +1,21 @@
+style_id,name,category,font_title,font_body,font_size_title,font_size_body,grid_style,spine_style,legend_position,figsize_default,dpi,best_for,matplotlib_style,seaborn_context
+executive,Executive Report,professional,Montserrat,Open Sans,16,11,hidden,minimal,right,12x8,150,C-level presentations financial reports,seaborn-whitegrid,talk
+academic,Academic Paper,research,Times New Roman,Times New Roman,14,10,visible,full,best,8x6,300,Journal submissions thesis chapters,classic,paper
+dashboard,Dashboard Panel,analytics,Roboto,Roboto,14,10,hidden,none,none,6x4,100,Web dashboards real-time displays,dark_background,notebook
+infographic,Infographic Style,marketing,Poppins,Lato,18,12,hidden,none,outside-right,10x14,150,Social media blog posts marketing,seaborn-white,poster
+minimal,Minimalist Clean,general,Helvetica,Helvetica,12,10,hidden,minimal,right,10x6,150,Clean professional versatile,seaborn-whitegrid,notebook
+survey,Survey Report,survey,Source Sans Pro,Source Sans Pro,14,11,light,minimal,right,10x7,150,Market research survey analysis,seaborn-whitegrid,talk
+healthcare,Medical Report,healthcare,Calibri,Calibri,14,11,visible,full,right,10x7,150,Clinical research patient reports,seaborn-whitegrid,paper
+financial,Financial Charts,financial,Bloomberg,Arial,12,10,visible,full,right,12x6,150,Trading analysis financial reports,dark_background,talk
+tech,Tech Modern,technology,Inter,Inter,14,10,hidden,none,right,10x6,150,SaaS products tech presentations,seaborn-darkgrid,notebook
+editorial,Editorial Style,publication,Georgia,Georgia,16,11,hidden,minimal,none,9x6,300,Magazine articles blog features,seaborn-white,paper
+government,Government Official,government,Liberation Sans,Liberation Sans,14,11,visible,full,right,10x7,150,Public sector official reports,classic,paper
+startup,Startup Pitch,startup,Outfit,Outfit,18,12,hidden,none,right,12x8,150,Pitch decks investor presentations,seaborn-white,poster
+education,Educational,education,Comic Neue,Nunito,16,12,visible,minimal,right,10x8,150,Learning materials student reports,seaborn-whitegrid,talk
+accessible,High Accessibility,accessibility,Atkinson Hyperlegible,Atkinson Hyperlegible,16,13,visible,full,right,12x8,150,Visually impaired large print,seaborn-whitegrid,poster
+print,Print Optimized,print,Merriweather,Source Serif Pro,12,10,visible,full,right,8x6,300,Physical printing brochures,classic,paper
+dark_mode,Dark Mode,technology,SF Pro Display,SF Pro Text,14,11,hidden,none,right,10x6,150,Dark theme apps night mode,dark_background,notebook
+presentation,Slide Deck,presentation,Montserrat,Open Sans,20,14,hidden,none,right,13.33x7.5,96,PowerPoint Google Slides,seaborn-white,poster
+report_dense,Dense Report,analytics,Roboto Condensed,Roboto Condensed,12,9,visible,minimal,right,8x10,150,Multi-chart reports dense data,seaborn-whitegrid,paper
+web_embed,Web Embed,web,System UI,System UI,12,10,hidden,none,right,8x5,72,Website embeds responsive,seaborn-white,notebook
+mobile,Mobile Optimized,mobile,SF Pro,SF Pro,18,14,hidden,none,bottom,4x6,144,Mobile apps portrait displays,seaborn-white,poster
