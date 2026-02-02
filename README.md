@@ -72,22 +72,35 @@ datapro convert ./raw_docs/ -o ./processed_md/
 ```
 
 ### 📑 Generate Reports
-Export your analysis findings as professional, styled documents.
+Export your analysis findings as professional, styled documents using the **Advanced PDF Engine**.
+
 ```bash
-# Generate professional PDF with cover page and TOC
+# Basic professional PDF
 datapro report findings.md --title "Survey Results" --subtitle "Q1 2026"
 
-# Generate DOCX for manual final edits
-datapro report findings.md --format docx
+# Advanced design: Theme, Columns and Watermark
+datapro report summary.md --theme dark --columns 2 --watermark "INTERNAL USE"
 
-# Custom branding (primary hex color)
-datapro report findings.md --color "2980b9"
+# Branding: Custom logo and colors
+datapro report findings.md --logo ./logo.png --color "27ae60"
+
+# Layout: Landscape and custom margins
+datapro report data_dense.md --landscape --margins 1.5cm
+
+# Formats: Generate DOCX for manual edits
+datapro report findings.md --format docx
 ```
+
+**Supported Themes:** `executive` (default), `minimalist`, `academic`, `dark`.
+**MermaidJS:** Diagram blocks are automatically rendered in PDF if `mmdc` is installed.
 
 ### 🛠️ Setup in New Project
 Initialize a new project with DataPro analysis power and AI intelligence.
 ```bash
-# Integrates CLI and copies Agent Skills to the new directory
+# Integrates CLI and copies Agent Skills to the CURRENT directory
+datapro setup
+
+# Setup in a SPECIFIC directory
 datapro setup /path/to/your/new-project
 ```
 

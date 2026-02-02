@@ -135,6 +135,68 @@ class StylePresets:
         return preset.dpi if preset else 150
 
 
+@dataclass
+class PDFTheme:
+    """A theme for PDF reports."""
+    name: str
+    primary_color: str
+    secondary_color: str
+    font_main: str
+    font_title: str
+    titlepage_color: str
+    titlepage_text_color: str
+    line_spacing: float
+    best_for: str
+
+
+PDF_THEMES = {
+    "executive": PDFTheme(
+        name="Executive",
+        primary_color="1a5276",
+        secondary_color="2980b9",
+        font_main="Inter",
+        font_title="Inter-Bold",
+        titlepage_color="1a5276",
+        titlepage_text_color="FFFFFF",
+        line_spacing=1.3,
+        best_for="Professional business reports",
+    ),
+    "minimalist": PDFTheme(
+        name="Minimalist",
+        primary_color="232b2b",
+        secondary_color="333333",
+        font_main="Helvetica",
+        font_title="Helvetica-Bold",
+        titlepage_color="FFFFFF",
+        titlepage_text_color="232b2b",
+        line_spacing=1.4,
+        best_for="Clean, modern documents",
+    ),
+    "academic": PDFTheme(
+        name="Academic",
+        primary_color="000000",
+        secondary_color="000000",
+        font_main="Times New Roman",
+        font_title="Times New Roman",
+        titlepage_color="FFFFFF",
+        titlepage_text_color="000000",
+        line_spacing=1.5,
+        best_for="Research papers and technical journals",
+    ),
+    "dark": PDFTheme(
+        name="Dark Mode",
+        primary_color="3498db",
+        secondary_color="9b59b6",
+        font_main="Inter",
+        font_title="Inter-Bold",
+        titlepage_color="1e1e1e",
+        titlepage_text_color="FFFFFF",
+        line_spacing=1.3,
+        best_for="Tech reports and digital dashboard exports",
+    ),
+}
+
+
 # Global instance
 _styles = StylePresets()
 
