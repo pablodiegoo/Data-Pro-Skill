@@ -57,6 +57,15 @@ Automatically profile a dataset and generate an analysis plan.
 datapro analyze your_data.csv --domain survey --goal "identify drivers of satisfaction"
 ```
 
+### 🧹 Data Transformation
+Follow the **Tidy Data** principle to optimize visual reporting.
+```bash
+# Get code for converting Wide to Long (Melting)
+datapro snippet --id melt_data
+```
+> [!TIP]
+> **Strategy:** Keep your base in **Wide** format for statistical tests (FA, PCA, Correlations) and transform to **Long** (Melted) specifically for high-impact visualizations and grouped reports.
+
 ### �📄 Convert Documents
 
 Ingest external data reports from PDF, Word, or PowerPoint.
