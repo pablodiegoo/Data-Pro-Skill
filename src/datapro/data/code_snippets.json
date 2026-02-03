@@ -148,5 +148,15 @@
     "code": "def cohens_d(group1, group2):\n    \"\"\"Calculate Cohen's d effect size.\"\"\"\n    n1, n2 = len(group1), len(group2)\n    var1, var2 = np.var(group1, ddof=1), np.var(group2, ddof=1)\n    pooled_std = np.sqrt(((n1-1)*var1 + (n2-1)*var2) / (n1+n2-2))\n    d = (np.mean(group1) - np.mean(group2)) / pooled_std\n    return {\n        'cohens_d': round(d, 4),\n        'interpretation': 'small' if abs(d) < 0.5 else 'medium' if abs(d) < 0.8 else 'large'\n    }",
     "output_type": "dict",
     "example": "result = cohens_d(treatment_scores, control_scores)"
+  },
+  "melt_data": {
+    "id": "melt_data",
+    "name": "Wide to Long (Melt)",
+    "category": "transformation",
+    "description": "Convert wide table to long format (Tidy Data) for visualization",
+    "imports": "import pandas as pd",
+    "code": "def tidy_melt(df, id_vars, value_vars=None, var_name='question', value_name='score'):\n    \"\"\"Convert wide dataframe to long format.\n    id_vars: columns to keep fixed (e.g. ['id', 'gender'])\n    value_vars: columns to melt (default: all others)\n    \"\"\"\n    return pd.melt(\n        df, \n        id_vars=id_vars, \n        value_vars=value_vars, \n        var_name=var_name, \n        value_name=value_name\n    )",
+    "output_type": "DataFrame",
+    "example": "long_df = tidy_melt(df, id_vars=['respondent_id'], value_vars=['q1', 'q2', 'q3'])"
   }
 }
