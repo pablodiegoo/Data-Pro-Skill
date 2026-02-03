@@ -15,10 +15,21 @@ cd Data-Pro-Skill
 pip install -e .
 ```
 
-For production-ready use (after you're satisfied with your local changes):
+### 🌍 Install on another computer (Remote)
+If you just want to use the tool on a different machine without cloning the full repository, you can install it directly from GitHub:
+
 ```bash
-pip install .
+pip install git+https://github.com/pablodiegoo/Data-Pro-Skill
 ```
+
+For the **full features** (OCR, Factor Analysis, PPTX conversion):
+```bash
+pip install "datapro[full,docs] @ git+https://github.com/pablodiegoo/Data-Pro-Skill"
+```
+
+> [!IMPORTANT]
+> To use the **Advanced PDF Engine**, you still need to install the system dependencies:
+> `sudo apt install pandoc texlive-xetex texlive-fonts-extra`
 
 ## 🚀 CLI Usage
 
