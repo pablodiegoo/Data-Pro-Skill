@@ -199,9 +199,23 @@ def cmd_setup(args):
     from pathlib import Path
 
     target_project = Path(args.path).absolute()
-    source_root = Path(__file__).parent.parent.parent.parent # Root of Data-Pro-Skill
+    
+    # Default assumption: Running from source (src/datapro/cli.py -> ProjectRoot)
+    # cli.py -> datapro -> src -> Data-Pro-Skill
+    source_root = Path(__file__).parent.parent.parent 
+
+    # Verify if we are truly at the source root (check for SKILL.md)
+    # If not (e.g., installed in site-packages), try to find it via CWD
+    if not (source_root / "SKILL.md").exists():
+        current_path = Path.cwd()
+        # Walk up from CWD to find the repo root
+        for parent in [current_path] + list(current_path.parents):
+            if (parent / "SKILL.md").exists() and (parent / "src").exists():
+                source_root = parent
+                break
     
     print(f"\n🚀 Setting up DataPro potential in: {target_project}\n")
+    print(f"ℹ️  Source Root: {source_root}")
     
     # 1. Provide Pip instructions
     print("📦 Step 1: Install Python Package")
