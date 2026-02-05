@@ -1,6 +1,9 @@
 ---
 name: data-pro-max
-description: "Data Analysis Intelligence. Auto-activates for data analysis work. Provides reasoning-based recommendations for statistics, visualization, and reporting. Includes 65+ analysis types, 63+ chart types, 42 color palettes, and 80+ reasoning rules."
+description: "Data Analysis- **stats-causal-inference**: Advanced drivers analysis and causal modeling.
+- **political-science-metrics**: Disapproval analysis, pain curves, and vote transfer.
+- **marketing-science-metrics**: Ipsative analysis and Halo effect removal.
+- **survey-data-viz**: Generates professional statistical charts (Bar, Pie, Grouped) using Matplotlib and Seaborn. Includes 65+ analysis types, 63+ chart types, 42 color palettes, and 80+ reasoning rules."
 ---
 
 # Data Pro Max - Data Analysis Intelligence

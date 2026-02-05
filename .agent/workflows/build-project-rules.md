@@ -39,6 +39,7 @@ Utilize a skill `coding-standards` como base.
 - **Estrutura**: Organização de métodos (públicos antes de privados), tamanho máximo de classes/funções.
 - **Boas Práticas**: Tipagem forte, Early Returns, tratamento de exceções.
 - **Python Data Sciece**: "Sempre use `matplotlib.use('Agg')` em scripts headless."
+- **Visualização**: "Todo script de plot deve ter um dicionário `label_map` explícito para traduzir colunas técnicas em títulos legíveis."
 - **Exemplos**: Blocos de código "✅ Do" e "❌ Don't".
 
 ---
