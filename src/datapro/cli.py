@@ -341,6 +341,49 @@ This project is enabled with DataPro Intelligence. Use this guide to understand 
             print("   ✅ Created: .agent/references/agent_guide.md")
         except Exception as e:
             print(f"   ❌ Error creating guide: {e}")
+
+        # 6. Git Configuration (Best Practices)
+        print("🛡️  Step 6: Git Configuration")
+        gitignore_path = target_project / ".gitignore"
+        gitignore_content = """# DataPro Project - Git Configuration
+
+# --- Data Science Governance ---
+# Data is typically large and confidential. Do not commit.
+db/raw/*
+!db/raw/.gitkeep
+db/processed/*
+!db/processed/.gitkeep
+assets/temp/*
+
+# --- Agent Ephemeral State ---
+# Keep rules and workflows, but ignore dynamic memory/tasks
+.agent/memory/*
+!.agent/memory/project_facts.md
+.agent/tasks/*
+
+# --- Python & Jupyter ---
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+.DS_Store
+"""
+        if not gitignore_path.exists():
+            try:
+                with open(gitignore_path, "w") as f:
+                    f.write(gitignore_content)
+                print("   ✅ Created: .gitignore (Enforcing Data Governance)")
+                
+                # Create .gitkeep files to ensure folders are tracked
+                for keep_tracker in ["db/raw/.gitkeep", "db/processed/.gitkeep"]:
+                    keep_path = target_project / keep_tracker
+                    if not keep_path.exists():
+                        with open(keep_path, "w") as f: 
+                            pass
+            except Exception as e:
+                print(f"   ❌ Error creating .gitignore: {e}")
+        else:
+             print("   - .gitignore already exists, skipping.")
             
     print("\n✨ Done! Your AI agent now has DataPro intelligence in the new project.")
     
