@@ -217,12 +217,21 @@ def cmd_setup(args):
         try:
             os.makedirs(target_skills_dir, exist_ok=True)
             for skill in skills_to_copy:
-                source_skill = source_root / ".agent" / "skills" / skill
-                if source_skill.exists():
-                    target_skill = target_skills_dir / skill
-                    if target_skill.exists():
-                        print(f"   - {skill} already exists, skipping.")
-                    else:
+                target_skill = target_skills_dir / skill
+                if target_skill.exists():
+                    print(f"   - {skill} already exists, skipping.")
+                    continue
+
+                if skill == "data-pro-max":
+                    # Special case: Main skill is at root
+                    source_skill_md = source_root / "SKILL.md"
+                    if source_skill_md.exists():
+                        os.makedirs(target_skill, exist_ok=True)
+                        shutil.copy2(source_skill_md, target_skill / "SKILL.md")
+                        print(f"   ✅ Integrated skill: {skill}")
+                else:
+                    source_skill = source_root / ".agent" / "skills" / skill
+                    if source_skill.exists():
                         shutil.copytree(source_skill, target_skill)
                         print(f"   ✅ Integrated skill: {skill}")
             print("\n✨ Done! Your AI agent now has DataPro intelligence in the new project.")

@@ -1,6 +1,6 @@
 # Data Pro Skill
 
-**An AI skill for data analysis intelligence** — the equivalent of [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for data science.
+**An AI skill for data analysis intelligence** — the equivalent of [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for data science and analytics.
 
 ## 📦 Installation
 
@@ -150,8 +150,11 @@ styles.apply_matplotlib("presentation")
 
 - `src/datapro/`: Main package source code.
 - `src/datapro/data/`: Knowledge base CSVs and JSON snippets.
-- `src/datapro/scripts/`: Individual tools and logic.
-- `.agent/skills/`: Original skill definitions and metadata for Agent integration.
+- `SKILL.md`: Main Agent Skill Definition.
+- `src/datapro/`: Main package source code.
+- `src/datapro/data/`: Knowledge base CSVs and JSON snippets.
+- `src/datapro/cli.py`: Unified Command Line Interface.
+- `.agent/skills/`: Specialized sub-skills (plugins).
 
 ## ⚖️ License
 
