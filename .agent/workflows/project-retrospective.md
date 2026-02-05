@@ -6,16 +6,22 @@ description: "Guides the post-mortem process to harvest reusable skills, improve
 
 This workflow executes the "Continuous Improvement" cycle. It transforms project-specific wins into permanent Agent capabilities.
 
-## Phase 1: The Harvest (Code & Artifacts)
-**Goal**: Identify what should be promoted to the permanent knowledge base.
+## Phase 1: The Harvest & The Filter
+**Goal**: Identify candidates and **filter out noise**.
 
-1.  **Scan `scripts/`**:
-    - Identify scripts used repeatedly or that solved a generic problem.
-    - *Decision*: Should this become a named Skill or a CLI command?
+### The "Anti-Pollution" Filter (Strict Criteria):
+Before promoting anything, apply the **Rule of 3**:
+1.  **Usage**: Was this logic useful in at least 3 distinct scenarios?
+2.  **Genericity**: Can it run without *any* modification on a completely different dataset? (No hardcoded column names like `"Q3_Satisfaction"`).
+3.  **Independence**: Does it drag in fewer than 3 heavy dependencies?
+
+### Scanning:
+1.  **Review `scripts/`**:
+    - *Passes Filter?* -> Mark as **CANDIDATE**.
+    - *Fails Filter?* -> Archive in project `assets/` only.
 2.  **Review `workflows/`**:
-    - Did we modify any standard workflow?
-    - Did we create a new ad-hoc workflow?
-    - *Decision*: Update the master workflow in `Data-Pro-Skill`?
+    - *Project Specific?* -> Keep local.
+    - *Methodology Improvement?* -> **CANDIDATE**.
 3.  **Review `docs/`**:
     - Did we create a new template?
     - Did we find a gap in the `agent_guide.md`?
