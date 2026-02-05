@@ -19,14 +19,19 @@ Goal: Identify what needs to be done and what data is available.
 - **Action**: Call @[/context-bootstrap].
 - **Output**: Populated `.agent/references/` and data inventory.
 
-## Phase 3: Goal & Deliverable Mapping
+## Phase 3: Governance & Rules
+Goal: Define how the project will be built and structured.
+- **Action**: Call @[/build-project-rules].
+- **Output**: `.agent/rules/` populated with Coding Standards and DS Governance.
+
+## Phase 4: Goal & Deliverable Mapping
 Goal: Align with the user on "Why" and "What".
 - **Interaction**: Ask the user about:
     1.  The "Big Question" (Business impact).
     2.  Success criteria.
     3.  Deliverable formats (PDF, Dashboard, etc.).
 
-## Phase 4: Strategy & Finalization
+## Phase 5: Strategy & Finalization
 Goal: Define the "How" and create the roadmap.
 - **Action**: Call @[/discovery-completion].
 - **Output**: `project-brief.md` and initial `task.md`.

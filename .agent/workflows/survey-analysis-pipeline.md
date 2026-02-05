@@ -31,7 +31,16 @@ This workflow outlines the standard operating procedure for analyzing survey dat
     - Apply the mapping generated above.
     - Export to Parquet (e.g., `db_cleaned.parquet`).
 
-## 3. Weighting (Raking)
+## 3. Data Validation (Gatekeeper)
+**Goal**: Ensure data is chemically pure before analysis.
+
+1.  **Run Validation**:
+    - Check for missing values in critical columns (e.g., Weights, Regions).
+    - Verify logic consistency (e.g., Age > 18).
+    - Check for duplicates.
+    - **Stop** if critical errors found.
+
+## 4. Weighting (Raking)
 **Goal**: Adjust sample to match population targets.
 
 1.  **Define Targets**: Extract targets from `project_facts.md` (e.g., Size, Sector, Region).
@@ -42,7 +51,7 @@ This workflow outlines the standard operating procedure for analyzing survey dat
     df['weight'] = rake_weights(df, targets)
     ```
 
-## 4. Analysis & Visuals
+## 5. Analysis & Visuals
 **Goal**: Generate insights and charts.
 
 1.  **Crosstabs**:
@@ -51,7 +60,7 @@ This workflow outlines the standard operating procedure for analyzing survey dat
     - Generate breakdown charts (Sector, Size) using `matplotlib`/`seaborn`.
     - Save to `Assets/Results/`.
 
-## 5. Reporting
+## 6. Reporting
 **Goal**: Compile the final deliverable.
 
 1.  **Draft Report**: Write `report.md` referencing the generated charts.

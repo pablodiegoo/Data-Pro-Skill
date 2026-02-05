@@ -80,7 +80,23 @@ Utilize a skill `testing` e `security`.
 
 ---
 
-## Passo 6: Criação dos Arquivos
+## Passo 6: Data Science Governance (NOVO)
+
+Gere o arquivo `.agent/rules/data-governance.md`.
+Essencial para projetos de dados, garantindo reprodutibilidade e confiança.
+
+**O que incluir:**
+- **Imutabilidade**: "Dados brutos (`db/raw`) nunca devem ser editados manualmente."
+- **Reprodutibilidade**: "Todo gráfico/tabela deve ser gerado por script/notebook. Nenhuma alteração manual em Excel."
+- **Estrutura de Scripts**:
+  - `01_prep_*.py`: Limpeza e normalização.
+  - `02_analysis_*.py`: Estatísticas e modelagem.
+  - `03_viz_*.py`: Geração de charts.
+- **Versionamento de Saída**: Outputs vão para `assets/results/YYYY-MM-DD/`.
+
+---
+
+## Passo 7: Criação dos Arquivos
 
 Execute a criação dos arquivos na pasta `.agent/rules/`.
 
@@ -90,6 +106,7 @@ touch .agent/rules/coding-standards.md
 touch .agent/rules/architecture.md
 touch .agent/rules/git-workflow.md
 touch .agent/rules/quality-assurance.md
+touch .agent/rules/data-governance.md
 ```
 
 Preencha cada arquivo com o conteúdo gerado nos passos anteriores.
