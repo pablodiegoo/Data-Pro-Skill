@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Distribution / Packaging
+dist/
+build/
+*.egg-info/
+
+# Development
+.agent/memory/
+.agent/tasks/
+.vscode/
+.idea/
+
+# Staging Area (Incoming Contributions)
+staging/

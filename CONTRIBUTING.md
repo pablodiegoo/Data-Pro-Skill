@@ -12,16 +12,18 @@ This document outlines the **Lifecyle of a Skill**, defining how we capture proj
 2.  **Harvesting (End-of-Project)**
     - Run the `@/project-retrospective` workflow.
     - Identify the "Candidate" scripts.
-    - Assess if they are **Atomic** (do one thing well) and **Generic** (not project-specific).
+    - **Action**: Copy the selected files (AND `retrospective.md`) to the `staging/` folder in this repository.
 
 3.  **Promotion (Upstreaming)**
-    - **Scenario A: It's a Script (e.g., specific graph)**
-        - Move to `.agent/skills/<category>/scripts/`.
-    - **Scenario B: It's a Core Logic (e.g., new statistical test)**
-        - Integrate into `src/datapro/` python package.
-        - Expose it via `cli.py` if needed.
-    - **Scenario C: It's a Workflow improvement**
-        - Update the master `.md` file in `.agent/workflows/`.
+    - **Action**: Run the `@/process-contribution` workflow.
+    - **From `staging/`**: Review the files.
+    - **Refactor**: Clean up code.
+    - **Move**:
+        - **Scenario A: It's a Script** -> Move to `.agent/skills/<category>/scripts/`.
+        - **Scenario B: Core Logic** -> Integrate into `src/datapro/`.
+        - **Scenario C: Workflow** -> Update `.agent/workflows/`.
+        - **Scenario D: Lesson Learned** -> Read `retrospective.md` and update `agent_guide.md` or `SKILL.md`.
+    - **Cleanup**: Delete the file from `staging/`.
 
 ## Best Practices for Reusability
 

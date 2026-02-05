@@ -38,6 +38,7 @@ Utilize a skill `coding-standards` como base.
 - **Nomenclatura**: Convenções para variáveis, classes, métodos, tabelas (ex: PascalCase vs snake_case).
 - **Estrutura**: Organização de métodos (públicos antes de privados), tamanho máximo de classes/funções.
 - **Boas Práticas**: Tipagem forte, Early Returns, tratamento de exceções.
+- **Python Data Sciece**: "Sempre use `matplotlib.use('Agg')` em scripts headless."
 - **Exemplos**: Blocos de código "✅ Do" e "❌ Don't".
 
 ---
