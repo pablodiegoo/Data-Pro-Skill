@@ -314,6 +314,7 @@ This project is enabled with DataPro Intelligence. Use this guide to understand 
 - **Start Project**: `/project-discovery` - Organize goals and context.
 - **Analyze Survey**: `/survey-analysis-pipeline` - End-to-end processing (Prep -> Weight -> Viz).
 - **Governance**: `/build-project-rules` - Enforce consistency.
+- **Close & Harvest**: `/project-retrospective` - Promote code to new skills.
 
 ## 💻 CLI Tools
 - `datapro search "correlation"`: Find code snippets and rules.
