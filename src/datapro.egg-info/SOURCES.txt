@@ -2,8 +2,10 @@ README.md
 pyproject.toml
 src/datapro/__init__.py
 src/datapro/cli.py
+src/datapro/converter.py
 src/datapro/dictionary_mapper.py
 src/datapro/reasoning.py
+src/datapro/reporter.py
 src/datapro/search.py
 src/datapro/styles.py
 src/datapro.egg-info/PKG-INFO

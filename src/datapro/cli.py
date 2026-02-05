@@ -225,8 +225,14 @@ def cmd_setup(args):
     # 2. Copy Agent Skills
     if not args.no_skills:
         print("🤖 Step 2: Integrating AI Skills")
-        skills_to_copy = ["data-pro-max", "survey-stats", "document-converter", "mermaid-diagrams"]
+        
         target_skills_dir = target_project / ".agent" / "skills"
+        source_skills_dir = source_root / ".agent" / "skills"
+        
+        # Get all available skills from source directory
+        available_skills = [d.name for d in source_skills_dir.iterdir() if d.is_dir()]
+        # Add the core skill (which lives at root)
+        skills_to_copy = ["data-pro-max"] + available_skills
         
         try:
             os.makedirs(target_skills_dir, exist_ok=True)
@@ -244,14 +250,98 @@ def cmd_setup(args):
                         shutil.copy2(source_skill_md, target_skill / "SKILL.md")
                         print(f"   ✅ Integrated skill: {skill}")
                 else:
-                    source_skill = source_root / ".agent" / "skills" / skill
+                    source_skill = source_skills_dir / skill
                     if source_skill.exists():
                         shutil.copytree(source_skill, target_skill)
                         print(f"   ✅ Integrated skill: {skill}")
-            print("\n✨ Done! Your AI agent now has DataPro intelligence in the new project.")
+            
         except Exception as e:
             print(f"   ❌ Error copying skills: {e}")
             print("   You may need to manually copy the .agent/skills/ folder.")
+
+        # 3. Copy Workflows
+        print("📋 Step 3: Integrating Workflows")
+        target_workflows_dir = target_project / ".agent" / "workflows"
+        source_workflows_dir = source_root / ".agent" / "workflows"
+        
+        try:
+            if source_workflows_dir.exists():
+                os.makedirs(target_workflows_dir, exist_ok=True)
+                for workflow_file in source_workflows_dir.glob("*.md"):
+                    target_file = target_workflows_dir / workflow_file.name
+                    if not target_file.exists():
+                        shutil.copy2(workflow_file, target_file)
+                        print(f"   ✅ Integrated workflow: {workflow_file.name}")
+                    else:
+                         print(f"   - {workflow_file.name} already exists, skipping.")
+            else:
+                print("   ⚠️ No workflows directory found in source.")
+                
+        except Exception as e:
+            print(f"   ❌ Error copying workflows: {e}")
+
+        # 4. Create Standard Directories (Best Practices)
+        print("📁 Step 4: Scaffolding Directories")
+        directories_to_create = [
+            # Project Structure
+            "assets",
+            "db/raw",      # Enforce Immutable Data
+            "db/processed",
+            "docs",
+            "scripts",     # New standard (was 'script')
+            "notebooks",
+            
+            # Agent Governance (Brain)
+            ".agent/memory",
+            ".agent/references",
+            ".agent/rules",
+            ".agent/tasks",
+        ]
+        
+        for d in directories_to_create:
+            target_dir = target_project / d
+            if not target_dir.exists():
+                os.makedirs(target_dir, exist_ok=True)
+                print(f"   ✅ Created: {d}")
+
+        # 5. Generate Agent Guide (Best Practices)
+        print("📘 Step 5: Generating Agent Guide")
+        guide_content = """# DataPro Agent Capabilities
+
+This project is enabled with DataPro Intelligence. Use this guide to understand your super-powers.
+
+## 🚀 Key Workflows (Type these in Chat)
+- **Start Project**: `/project-discovery` - Organize goals and context.
+- **Analyze Survey**: `/survey-analysis-pipeline` - End-to-end processing (Prep -> Weight -> Viz).
+- **Governance**: `/build-project-rules` - Enforce consistency.
+
+## 💻 CLI Tools
+- `datapro search "correlation"`: Find code snippets and rules.
+- `datapro analyze data.csv`: profiling and plan generation.
+- `datapro snippet --list`: Get ready-to-use Python code.
+
+## 📂 Governance Rules
+- **`db/raw/`**: **IMMUTABLE**. Drop your CSVs here. Never edit them.
+- **`scripts/`**: Number your scripts:
+  - `01_prep_*.py`: Cleaning
+  - `02_analysis_*.py`: Computing
+  - `03_viz_*.py`: Plotting
+- **`assets/`**: All outputs (charts, tables) go here.
+
+## 🧠 Brain Structure
+- `.agent/memory/`: Project facts and decisions.
+- `.agent/references/`: This guide and other docs.
+- `.agent/skills/`: Your toolbox.
+"""
+        guide_path = target_project / ".agent/references/agent_guide.md"
+        try:
+            with open(guide_path, "w") as f:
+                f.write(guide_content)
+            print("   ✅ Created: .agent/references/agent_guide.md")
+        except Exception as e:
+            print(f"   ❌ Error creating guide: {e}")
+            
+    print("\n✨ Done! Your AI agent now has DataPro intelligence in the new project.")
     
     print("\n💡 Tip: After setup, try 'datapro --help' in the new project directory.")
 
