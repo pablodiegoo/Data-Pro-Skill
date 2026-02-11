@@ -8,10 +8,11 @@ This workflow ensures that the standard project structure is in place and initia
 
 ## Step 1: Directory Verification
 Ensure the following directories exist:
-- `script/`
+- `scripts/`
 - `db/`
-- `docs/`
 - `assets/`
+- `assets/docs/`
+- `assets/images/`
 - `context/`
 
 Use calling `run_command` with `mkdir -p script db docs assets context` if any are missing.

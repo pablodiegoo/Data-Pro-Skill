@@ -31,6 +31,39 @@ python3 .agent/skills/dictionary-mapper/scripts/infer_from_csv.py \
     --output mapping.json
 ```
 
+## Template Structures
+
+When generating a `dictionary.py`, always include these three structures alongside `QUESTION_MAP` and `LABEL_MAP`:
+
+### `SHORT_LABEL_MAP`
+Concise labels (≤15 chars) for chart axes. Auto-derive from `LABEL_MAP` by extracting the key noun.
+
+```python
+SHORT_LABEL_MAP = {
+    'P14_Eval_Attractions': 'Atrativos',
+    'P15_Eval_Beaches': 'Praias',
+    'P33_Eval_General': 'Geral',
+}
+```
+
+### `FEATURE_GROUPS`
+Logical groupings of columns by analytical purpose. Used by prep scripts and downstream analysis.
+
+```python
+FEATURE_GROUPS = {
+    'satisfaction': ['P14_Eval_Attractions', 'P15_Eval_Beaches', ...],
+    'demographics': ['P1_Relation', 'P4_Age', 'P5_Gender', ...],
+    'behavior': ['P8_Reason', 'P9_Duration', ...],
+}
+```
+
+### `SCALE_COLUMNS`
+Ordinal columns that `01_prep_data.py` should auto-encode using `SCALE_MAP`. Enables the "Encode Once" rule.
+
+```python
+SCALE_COLUMNS = FEATURE_GROUPS['satisfaction'] + ['P33_Eval_General']
+```
+
 ## Dependencies
 ```bash
 pip install pandas openpyxl

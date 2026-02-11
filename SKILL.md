@@ -128,8 +128,44 @@ from scripts.turf_analysis import run_turf_analysis
 results = run_turf_analysis(df, product_columns)
 ```
 
+### stats-causal-inference (Drivers & Segmentation)
+Advanced regression-based analysis for causality and deep dives.
+
+```python
+# Key Driver Analysis
+python3 .agent/skills/stats-causal-inference/scripts/drivers_analysis.py \
+    data.csv --target "NPS_Class" --predictors "sat_price,sat_quality"
+
+# Chi-Square Residuals (cross-tab significance)
+from chi2_residuals import chi2_residuals
+result = chi2_residuals(df, 'Cluster', 'Gender', 'output/chi2')
+
+# Residual Segmentation (Disappointed/Aligned/Delighted)
+from residual_segmentation import residual_segmentation
+seg_df = residual_segmentation(df, 'Overall', predictors, 'output/')
+```
+
+### duckdb-sql-master (Data Infrastructure)
+Master-level skill for efficient local OLAP analysis.
+
+```sql
+-- Query CSV directly via DuckDB
+SELECT * FROM 'data/*.csv' WHERE id > 100;
+
+-- Convert to optimized Parquet
+COPY (SELECT * FROM 'raw.csv') TO 'optimized.parquet' (FORMAT 'PARQUET');
+```
+
+### survey-data-viz (Visualization)
+Specialized survey charts (evolution, proportions, word clouds).
+
+```python
+from scripts.evolution_plotter import plot_evolution_line
+plot_evolution_line(df, x="Cycle", hue="Domain")
+```
+
 ### document-converter (PDF/DOCX Output)
-Professional report generation from Markdown.
+Professional report generation and OCR import. Supports Tesseract, Mistral AI, and PaddleOCR engines.
 
 ```bash
 # Generate PDF with cover page

@@ -285,11 +285,15 @@ def cmd_setup(args):
         directories_to_create = [
             # Project Structure
             "assets",
-            "db/raw",      # Enforce Immutable Data
-            "db/processed",
-            "docs",
+            "assets/context",
+            "assets/database/raw",      # Enforce Immutable Data
+            "assets/database/processed",
+            "assets/docs",
+            "assets/images",
+            "assets/reports",
             "scripts",     # New standard (was 'script')
-            "notebooks",
+            "scripts/notebooks",
+            "scripts/utils",
             
             # Agent Governance (Brain)
             ".agent/memory",
