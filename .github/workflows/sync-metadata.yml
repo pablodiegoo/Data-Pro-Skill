@@ -12,9 +12,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      repository-projects: write # Needed for some gh operations
-      administration: write     # REQUIRED to edit repo description/topics
+      contents: write
     
     steps:
       - name: Checkout code

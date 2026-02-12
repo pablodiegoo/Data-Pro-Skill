@@ -8,7 +8,7 @@ env/
 venv/
 .env
 
-# Distribution / Packaging
+# Distribution / Packaging 
 dist/
 build/
 *.egg-info/
