@@ -1,0 +1,30 @@
+---
+title: "Project Title"
+subtitle: "Analytical Report"
+author: "Data Analytics Team"
+date: today
+format:
+  pdf:
+    template-partials:
+      - title-contents.tex
+      - before-body.tex
+    toc: true
+    number-sections: true
+    colorlinks: true
+    titlepage: "bg-image"
+    titlepage-bg-image: "cover.png" # Replace with actual image in assets
+    titlepage-color: "000000"
+    titlepage-text-color: "FFFFFF"
+---
+
+# Executive Summary
+[Summary of the project]
+
+# Methodology
+[Description of data collection and analysis]
+
+# Results
+[Sections for charts and insights]
+
+# Conclusion
+[Final takeaways]

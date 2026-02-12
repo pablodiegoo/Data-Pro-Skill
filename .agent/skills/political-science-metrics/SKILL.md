@@ -5,22 +5,37 @@ description: "Specialized metrics for political campaigning, including Disapprov
 
 # Political Science Metrics Skill
 
-This skill provides advanced frameworks for analyzing political survey data, going beyond simple "Vote Intention".
+This skill provides advanced frameworks for analyzing political survey data, focusing on rejection drivers and threshold analysis.
 
-## Scripts
+## Core Procedures
+
+### 1. Disapproval Analysis (Inverse Regression)
+Identifies "shields"—attributes that, when high, significantly reduce the probability of rejection.
+- **Goal**: Find "deal breakers" rather than "vote gatherers".
+
+### 2. Pain Curves
+Visualizes the relationship between attribute performance and rejection probability.
+- **Goal**: Identify critical thresholds where failure becomes unacceptable.
+
+## Reference Material
+- **Conceptual Details & Examples**: See [political_reference.md](references/political_reference.md)
+
+## Available Scripts
 
 ### `disapproval_analysis.py`
-Runs an "Inverse Regression" to identify what drives **Rejection** (Disapproval).
-Most models predict Approval. This one predicts the *absence* of Approval to find the "Deal Breakers".
-
-**Logic**:
-- **Technique**: Logistic Regression with `Target = (Approval == 0)`.
-- **Output**:
-    - **Rejection Drivers**: Attributes with negative coefficients (meaning their presence prevents rejection).
-    - **Pain Curve**: Visualization showing how probability of rejection increases as an attribute score drops.
+Runs a logistic regression targeting the absence of approval.
 
 **Usage**:
 ```bash
-python3 .agent/skills/political-science-metrics/scripts/disapproval_analysis.py
+python3 .agent/skills/political-science-metrics/scripts/disapproval_analysis.py \
+    data.parquet --target "Vote" --val 1 --attributes "Q1,Q2,Q3" --output output_dir
 ```
-*(Note: Ensure your dataset has the standard attributes columns and a binary approval target)*
+
+### `pain_curves.py`
+Generates probabilistic curves segmented by demographic variables.
+
+**Usage**:
+```bash
+python3 .agent/skills/political-science-metrics/scripts/pain_curves.py \
+    data.parquet --target "Rejection" --driver "Info" --segment "Income"
+```

@@ -5,24 +5,37 @@ description: "Advanced marketing science techniques to remove survey bias (Halo 
 
 # Marketing Science Metrics Skill
 
-This skill provides "De-Biasing" techniques for attribute analysis in surveys.
+This skill provides "De-Biasing" techniques for attribute analysis in surveys, removing response style and halo effects.
 
-## Scripts
+## Core Procedures
+
+### 1. Removing Respondent Bias (Ipsative)
+Reduces "generosity" or "strictness" of respondents by centering scores on their personal mean.
+- **Why**: Reveals *relative* priorities inside the respondent's mind.
+
+### 2. Removing Halo Effect (Residuals)
+Subtracts general sentiment (image) from individual attributes using OLS residuals.
+- **Why**: Reveals "pure" attribute performance independent of brand popularity.
+
+## Reference Material
+- **Conceptual Details & Examples**: See [ipsative_reference.md](references/ipsative_reference.md)
+
+## Available Scripts
 
 ### `ipsative_analysis.py`
-Performs **Ipsative Standardization** (centering around respondent mean) and **Residual Analysis** (removing Halo effect).
-
-**Techniques**:
-1.  **Ipsative Analysis**:
-    - Problem: Some people give all 10s, others all 5s. This allows "Response Style Bias" to skew correlations.
-    - Solution: `Variable_New = Variable_Raw - Respondent_Mean`.
-    - Result: Reveals *relative* priorities (what is important *to that person* compared to *their other ratings*).
-
-2.  **Residual Analysis (Halo Removal)**:
-    - Problem: If a brand is popular, people rate all attributes high ("Halo Effect").
-    - Solution: Regress `Attribute ~ Overall_Image`. The *Residuals* are the "Pure Attribute Performance".
+Standardized script for Ipsative and/or Residual correlation analysis.
 
 **Usage**:
 ```bash
-python3 .agent/skills/marketing-science-metrics/scripts/ipsative_analysis.py
+python3 .agent/skills/marketing-science-metrics/scripts/ipsative_analysis.py \
+    data.parquet --attributes "Q1,Q2,Q3" --output output_dir
+```
+
+### `halo_removal.py`
+Standalone script specifically for Halo Effect removal using regression residuals.
+
+**Usage**:
+```bash
+python3 .agent/skills/marketing-science-metrics/scripts/halo_removal.py \
+    data.parquet --attributes "Q1,Q2,Q3" --output output_dir
 ```

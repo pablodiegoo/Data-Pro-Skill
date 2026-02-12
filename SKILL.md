@@ -1,8 +1,8 @@
 ---
 name: data-pro-max
-description: "Data Analysis- **stats-causal-inference**: Advanced drivers analysis and causal modeling.
-- **political-science-metrics**: Disapproval analysis, pain curves, and vote transfer.
-- **marketing-science-metrics**: Ipsative analysis and Halo effect removal.
+description: "Data Analysis- **stats-causal-inference**: Advanced drivers analysis (Association Matrix), and causal modeling.
+- **political-science-metrics**: Disapproval analysis, pain curves (thresholds), and vote transfer.
+- **marketing-science-metrics**: Ipsative analysis, Halo effect removal, and respondent de-biasing.
 - **survey-data-viz**: Generates professional statistical charts (Bar, Pie, Grouped) using Matplotlib and Seaborn. Includes 65+ analysis types, 63+ chart types, 42 color palettes, and 80+ reasoning rules."
 ---
 
@@ -136,13 +136,31 @@ Advanced regression-based analysis for causality and deep dives.
 python3 .agent/skills/stats-causal-inference/scripts/drivers_analysis.py \
     data.csv --target "NPS_Class" --predictors "sat_price,sat_quality"
 
-# Chi-Square Residuals (cross-tab significance)
+# Chi-Square Residuals & Association Matrix
 from chi2_residuals import chi2_residuals
 result = chi2_residuals(df, 'Cluster', 'Gender', 'output/chi2')
 
 # Residual Segmentation (Disappointed/Aligned/Delighted)
 from residual_segmentation import residual_segmentation
 seg_df = residual_segmentation(df, 'Overall', predictors, 'output/')
+```
+
+### political-science-metrics (Rejection Analysis)
+Specialized tools for analyzing thresholds and deal-breakers.
+
+```bash
+# Pain Curves (segmented)
+python3 .agent/skills/political-science-metrics/scripts/pain_curves.py \
+    data.parquet --target "Rejection" --driver "Info" --segment "Income"
+```
+
+### marketing-science-metrics (De-Biasing)
+Removes respondent response style and brand halo effects.
+
+```bash
+# Halo Removal (Regression Residuals)
+python3 .agent/skills/marketing-science-metrics/scripts/halo_removal.py \
+    data.parquet --attributes "Q1,Q2,Q3" --output output_dir
 ```
 
 ### duckdb-sql-master (Data Infrastructure)
@@ -165,20 +183,15 @@ plot_evolution_line(df, x="Cycle", hue="Domain")
 ```
 
 ### document-converter (PDF/DOCX Output)
-Professional report generation and OCR import. Supports Tesseract, Mistral AI, and PaddleOCR engines.
+Professional report generation and OCR import. Supports Tesseract, Mistral AI, and PaddleOCR engines. Includes **Quarto** for premium reports.
 
 ```bash
 # Generate PDF with cover page
 python3 .agent/skills/document-converter/scripts/compile_report.py \
-    report.md \
-    --format pdf \
-    --title "Survey Analysis Report" \
-    --subtitle "Q1 2026" \
-    --color "2980b9"
+    report.md --format pdf --title "Survey Report"
 
-# Generate DOCX for editing
-python3 .agent/skills/document-converter/scripts/compile_report.py \
-    report.md --format docx
+# Premium Quarto Rendering
+quarto render report.qmd --to pdf
 ```
 
 
