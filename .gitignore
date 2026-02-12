@@ -14,10 +14,11 @@ build/
 *.egg-info/
 
 # Development
-.agent/memory/
-.agent/tasks/
+.agent/memory/*
+.agent/tasks/*
 .vscode/
 .idea/
 
 # Staging Area (Incoming Contributions)
-staging/
+staging/*
+tests/*

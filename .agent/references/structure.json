@@ -1,0 +1,48 @@
+{
+  "project_name": "Data-Pro-Skill",
+  "version": "2.1",
+  "structure": {
+    "scripts": {
+      "path": "scripts/",
+      "description": "Project-specific analysis and automation scripts.",
+      "subfolders": {
+        "utils": "scripts/utils/",
+        "notebooks": "scripts/notebooks/"
+      }
+    },
+    "database": {
+      "path": "database/",
+      "description": "Database and data files.",
+      "subfolders": {
+        "raw": "database/raw/",
+        "processed": "database/processed/",
+        "final": "database/final/"
+      }
+    },
+    "assets": {
+      "path": "assets/",
+      "description": "Graphic assets, final docs and project context.",
+      "subfolders": {
+        "images": "assets/images/",
+        "docs": "assets/docs/",
+        "context": "assets/context/"
+      }
+    },
+    ".agent": {
+      "path": ".agent/",
+      "description": "AI Agent configuration and persistent state.",
+      "subfolders": {
+        "rules": ".agent/rules/",
+        "references": ".agent/references/",
+        "skills": ".agent/skills/",
+        "workflows": ".agent/workflows/",
+        "memory": ".agent/memory/"
+      }
+    }
+  },
+  "conventions": {
+    "scripts": "snake_case",
+    "folders": "kebab-case",
+    "data_format": "parquet"
+  }
+}
