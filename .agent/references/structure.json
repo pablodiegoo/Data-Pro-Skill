@@ -45,7 +45,8 @@
       "subfolders": {
         "workflows": ".github/workflows/",
         "scripts": ".github/scripts/",
-        "images": ".github/images/"
+        "images": ".github/images/",
+        "release": ".github/release/"
       }
     }
   },
