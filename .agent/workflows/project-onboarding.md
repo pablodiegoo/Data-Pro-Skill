@@ -10,7 +10,12 @@ This workflow is the mandatory starting point for all new analytical projects. I
 **Goal**: Initialize the project structure.
 1.  **Action**: Use the `datapro setup` terminal command.
 2.  **Verify**: Ensure the directory tree complies with [structure.json](file:///.agent/references/structure.json).
-3.  **Mandatory Directories**: `scripts/`, `db/` (raw/processed), `docs/`, `assets/`, and `.agent/`.
+3.  **Mandatory Directories**: 
+    - `scripts/` (utils/ notebooks/)
+    - `database/` (raw/ processed/ final/)
+    - `docs/` (studies/ reports/)
+    - `assets/` (images/ docs/ context/)
+    - `.agent/` (rules/ references/ skills/ workflows/ memory/)
 
 ## Phase 2: Context Discovery (Deep Search)
 **Goal**: Identify available data and objectives.

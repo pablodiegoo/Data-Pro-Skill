@@ -1,161 +1,125 @@
-# Data Pro Skill
+<div align="center">
+  <img src="assets/images/logo.png" alt="Data Pro Logo" width="200">
+  <h1>Data Pro Pro Max</h1>
+  <p><b>The Ultimate AI-Powered Intelligence Suite for Data Science & Surveys</b></p>
+  
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python Version">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+    <img src="https://img.shields.io/badge/Status-Stable-green.svg" alt="Status">
+    <img src="https://img.shields.io/badge/Architecture-Modular-orange.svg" alt="Architecture">
+  </p>
+</div>
 
-**An AI skill for data analysis intelligence** — the equivalent of [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) for data science and analytics.
+---
+
+## 🌟 Overview
+
+**Data Pro** is a high-performance intelligence layer designed to transform raw data into professional insight. It combines a powerful Python CLI, a versatile library, and specialized **AI Agent Skills** to automate the most complex parts of the data science lifecycle.
+
+> [!TIP]
+> This repository is the "Data Science counterpart" to the acclaimed [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill).
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    User([User / AI Agent]) --> CLI[datapro CLI]
+    User --> Lib[Python Library]
+    
+    subgraph "Intelligence Cores"
+        CLI --> Suite[data-analysis-suite]
+        CLI --> Viz[data-viz]
+        CLI --> Geo[geoprocessing-brazil]
+        CLI --> Report[reporting-mastery]
+    end
+    
+    subgraph "Data Storage"
+        Suite --> DB[(Database / Parquet)]
+        Viz --> Assets[Assets / Images]
+    end
+    
+    subgraph "External Integration"
+        Report --> Notebook[NotebookLM]
+        Suite --> OCR[Document Converter]
+    end
+```
+
+---
+
+## ⚡ Key Features
+
+| Feature | Description | Tooling |
+| :--- | :--- | :--- |
+| **Survey Intelligence** | Weighting (Raking), Drivers, and Halo Removal. | `data-analysis-suite` |
+| **Advanced Visuals** | Evolution plots, heatmaps, and word clouds. | `data-viz` |
+| **Geo-Spatial** | Brazilian city normalization and choropleth maps. | `geoprocessing-brazil` |
+| **Professional Reports** | Styled PDFs with Mermaid support and watermarks. | `reporting-mastery` |
+| **Auto-Mapping** | Variable standardization and dictionary mapping. | `datapro setup` |
+
+---
 
 ## 📦 Installation
 
-Since this is now a standard Python package, you can install it using pip:
-
 ```bash
-# Clone the repository
+# Clone and Install
 git clone https://github.com/pablodiegoo/Data-Pro-Skill
 cd Data-Pro-Skill
-
-# Install in development mode
 pip install -e .
-```
 
-### 🌍 Install on another computer (Remote)
-If you just want to use the tool on a different machine without cloning the full repository, you can install it directly from GitHub:
-
-```bash
-pip install git+https://github.com/pablodiegoo/Data-Pro-Skill
-```
-
-For the **full features** (OCR, Factor Analysis, PPTX conversion):
-```bash
+# Full Feature Suite (OCR, Stats, Advanced PDF)
 pip install "datapro[full,docs] @ git+https://github.com/pablodiegoo/Data-Pro-Skill"
 ```
 
 > [!IMPORTANT]
-> To use the **Advanced PDF Engine**, you still need to install the system dependencies:
+> For the **Advanced PDF Engine**, system dependencies are required:
 > `sudo apt install pandoc texlive-xetex texlive-fonts-extra`
 
-## 🚀 CLI Usage
+---
 
-After installation, the `datapro` command will be available in your terminal.
+## 🚀 Quick Start
 
-### 🔍 Search Knowledge Base
-Find recommendations for statistics, visualizations, and color palettes.
+### 1. Project Initialization
 ```bash
-# General search
-datapro search "correlation"
-
-# Filter by type
-datapro search --type visualization "bar chart"
-datapro search --type palette --domain survey
-
-# Filter by domain and category
-datapro search --domain survey --category inferential
-```
-
-### � Get Code Snippets
-Copy-paste ready-to-use Python code for common data tasks.
-```bash
-# List all available snippets
-datapro snippet --list
-
-# Get a specific snippet by ID
-datapro snippet --id nps_calc
-
-# Search snippets by keyword
-datapro snippet --query "test"
-```
-
-### 📊 Analyze Data
-Automatically profile a dataset and generate an analysis plan.
-```bash
-datapro analyze your_data.csv --domain survey --goal "identify drivers of satisfaction"
-```
-
-### 🧹 Data Transformation
-Follow the **Tidy Data** principle to optimize visual reporting.
-```bash
-# Get code for converting Wide to Long (Melting)
-datapro snippet --id melt_data
-```
-> [!TIP]
-> **Strategy:** Keep your base in **Wide** format for statistical tests (FA, PCA, Correlations) and transform to **Long** (Melted) specifically for high-impact visualizations and grouped reports.
-
-### �📄 Convert Documents
-
-Ingest external data reports from PDF, Word, or PowerPoint.
-```bash
-# Convert PDF to Markdown (auto-detects digital vs scan)
-datapro convert source_data.pdf
-
-# Force OCR for scanned images
-datapro convert scanned_report.pdf --ocr
-
-# Convert all DOCX/PPTX in a directory
-datapro convert ./raw_docs/ -o ./processed_md/
-```
-
-### 📑 Generate Reports
-Export your analysis findings as professional, styled documents using the **Advanced PDF Engine**.
-
-```bash
-# Basic professional PDF
-datapro report findings.md --title "Survey Results" --subtitle "Q1 2026"
-
-# Advanced design: Theme, Columns and Watermark
-datapro report summary.md --theme dark --columns 2 --watermark "INTERNAL USE"
-
-# Branding: Custom logo and colors
-datapro report findings.md --logo ./logo.png --color "27ae60"
-
-# Layout: Landscape and custom margins
-datapro report data_dense.md --landscape --margins 1.5cm
-
-# Formats: Generate DOCX for manual edits
-datapro report findings.md --format docx
-```
-
-**Supported Themes:** `executive` (default), `minimalist`, `academic`, `dark`.
-**MermaidJS:** Diagram blocks are automatically rendered in PDF if `mmdc` is installed.
-
-### 🛠️ Setup in New Project
-Initialize a new project with DataPro analysis power and AI intelligence.
-```bash
-# Integrates CLI and copies Agent Skills to the CURRENT directory
 datapro setup
+```
+Initializes the [Source of Truth](.agent/references/structure.json) and prepares the agent environment.
 
-# Setup in a SPECIFIC directory
-datapro setup /path/to/your/new-project
+### 2. High-Speed Analysis
+```bash
+datapro analyze data.csv --goal "nps drivers"
 ```
 
-
-## 📚 Library Usage
-
-You can also use `datapro` as a Python library in your scripts or Jupyter notebooks.
-
-```python
-from datapro import search_knowledge_base, generate_analysis_plan, get_styles
-import pandas as pd
-
-# 1. Search recommendations
-recommendations = search_knowledge_base("timeseries", search_type="analysis")
-
-# 2. Analyze a dataframe
-df = pd.read_csv("data.csv")
-plan = generate_analysis_plan(df, domain="survey")
-print(plan.checklist)
-
-# 3. Apply professional styles for plots
-styles = get_styles()
-styles.apply_matplotlib("presentation")
+### 3. Premium Reporting
+```bash
+datapro report results.md --theme executive --logo ./logo.png
 ```
 
-## 🏗️ Project Structure
+---
 
-- `src/datapro/`: Main package source code.
-- `src/datapro/data/`: Knowledge base CSVs and JSON snippets.
-- `SKILL.md`: Main Agent Skill Definition.
-- `src/datapro/`: Main package source code.
-- `src/datapro/data/`: Knowledge base CSVs and JSON snippets.
-- `src/datapro/cli.py`: Unified Command Line Interface.
-- `.agent/skills/`: Specialized sub-skills (plugins).
+## 📂 Project Structure
+
+Following the **Unified Structure Reference** ([structure.json](.agent/references/structure.json)):
+
+- `scripts/`: Implementation scripts (utils, notebooks).
+- `database/`: Raw, processed, and final datasets.
+- `docs/`: Studies, reports, and retrospectives.
+- `assets/`: Images, final docs, and project context.
+- `.agent/`: AI Agent "Brain" (Rules, Skills, Workflows).
+
+---
+
+## 🤝 Contributing
+
+We follow a strict **English-only policy** for code and documentation. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) before submitting pull requests.
 
 ## ⚖️ License
 
-MIT
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+<div align="center">
+  Built with ❤️ for the Data Science Community
+</div>

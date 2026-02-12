@@ -5,13 +5,33 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "datapro"
 version = "0.1.0"
-description = "Data Analysis Intelligence - AI-powered recommendations for statistics, visualization, and reporting"
+description = "Data Pro Pro Max: The Ultimate AI-Powered Intelligence Suite for Data Science, Survey Analysis, and Professional Reporting."
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Pablo Diego", email = "pablo@example.com"}
+    {name = "Pablo Diego", email = "pablodiegoo@gmail.com"}
 ]
-keywords = ["data-analysis", "statistics", "visualization", "survey", "ai", "recommendations"]
+keywords = [
+    "data-analysis", 
+    "statistics", 
+    "visualization", 
+    "survey-analysis", 
+    "ai-agent", 
+    "causal-inference", 
+    "market-research", 
+    "data-science",
+    "cli",
+    "automation",
+    "awesome",
+    "awesome-list",
+    "awesome-lists",
+    "claude",
+    "antigravity",
+    "agent-skills",
+    "ai-skills",
+    "mcp",
+    "skills"
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",

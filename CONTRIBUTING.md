@@ -1,39 +1,30 @@
-# How to Contribute & Evolve "Data Pro Max"
+# Contributing to Data Pro
 
-This document outlines the **Lifecyle of a Skill**, defining how we capture project learnings and turn them into permanent Agent capabilities.
+First off, thank you for considering contributing to Data Pro! It's people like you that make Data Pro such a great tool.
 
-## The Evolution Cycle
+## 📜 Code of Conduct
+By participating in this project, you agree to abide by its terms.
 
-1.  **Incubation (In-Project)**
-    - Don't try to build a perfect "Skill" immediately.
-    - Solve the problem inside your current project using `scripts/` or `notebooks/`.
-    - **Tagging**: If a script feels generic, add a comment header: `# CANDIDATE FOR PROMOTION`.
+## 🌍 Language Policy
+**CRITICAL**: This repository follows an **English-only policy** for:
+- Code (Variable names, functions, classes).
+- Documentation (README, Workflows, Skills).
+- Commit Messages.
+- Comments.
 
-2.  **Harvesting (End-of-Project)**
-    - Run the `@/project-retrospective` workflow.
-    - Identify the "Candidate" scripts.
-    - **Action**: Copy the selected files (AND `retrospective.md`) to the `staging/` folder in this repository.
+## 🛠️ Development Workflow
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Follow the [Project Structure](.agent/references/structure.json).
+4. Run tests (`pytest`).
+5. Commit your changes (`git commit -m 'feat: Add some AmazingFeature'`).
+6. Push to the branch (`git push origin feature/AmazingFeature`).
+7. Open a Pull Request.
 
-3.  **Promotion (Upstreaming)**
-    - **Action**: Run the `@/process-contribution` workflow.
-    - **From `staging/`**: Review the files.
-    - **Refactor**: Clean up code.
-    - **Move**:
-        - **Scenario A: It's a Script** -> Move to `.agent/skills/<category>/scripts/`.
-        - **Scenario B: Core Logic** -> Integrate into `src/datapro/`.
-        - **Scenario C: Workflow** -> Update `.agent/workflows/`.
-        - **Scenario D: Lesson Learned** -> Read `retrospective.md` and update `agent_guide.md` or `SKILL.md`.
-    - **Cleanup**: Delete the file from `staging/`.
+## 📏 Standards
+- **Python**: PEP 8 compliance.
+- **Documentation**: Use GitHub-style alerts and Mermaid diagrams where applicable.
+- **Skills**: All new skills must include a `SKILL.md` and a `references/` directory.
 
-## Best Practices for Reusability
-
-- **No Hardcoded Paths**: Use `argparse` or function arguments for input/output paths.
-- **Dependencies**: If you use a new library (`scipy`, `networkx`), add it to `pyproject.toml`.
-- **Documentation**: Every new Skill needs a `SKILL.md` (or update existing one).
-- **Interface**: Prefer CLI availability (`datapro <command>`) over hidden scripts.
-
-## Registering Changes
-After promoting a feature:
-1.  Update `SKILL.md` (Root) to advertise the new power.
-2.  Update `scripts/code_snippets.json` if it's a reusable snippet.
-3.  Bump version in `src/datapro/__init__.py`.
+## 🧪 Testing
+We use `pytest` for unit testing. Please ensure all tests pass before submitting your PR.
