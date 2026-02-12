@@ -38,6 +38,15 @@
         "workflows": ".agent/workflows/",
         "memory": ".agent/memory/"
       }
+    },
+    ".github": {
+      "path": ".github/",
+      "description": "GitHub-specific configurations and branding.",
+      "subfolders": {
+        "workflows": ".github/workflows/",
+        "scripts": ".github/scripts/",
+        "images": ".github/images/"
+      }
     }
   },
   "conventions": {

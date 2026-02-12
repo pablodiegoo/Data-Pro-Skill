@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/images/logo.png/datapro_logo_banner_1770919696616.png" alt="Data Pro Logo" width="200">
+  <img src=".github/images/datapro_logo_banner_1770919696616.png" alt="Data Pro Logo" width="200">
   <h1>Data Pro Pro Max</h1>
   <p><b>The Ultimate AI-Powered Intelligence Suite for Data Science & Surveys</b></p>
   
