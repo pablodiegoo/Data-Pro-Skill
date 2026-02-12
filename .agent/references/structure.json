@@ -15,6 +15,7 @@
       "description": "Database and data files.",
       "subfolders": {
         "raw": "database/raw/",
+        "metadata": "database/metadata/",
         "processed": "database/processed/",
         "final": "database/final/"
       }
