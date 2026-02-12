@@ -1,6 +1,6 @@
 <div align="center">
   <img src=".github/images/logo_clean.png" alt="Data Pro Logo" width="200">
-  <h1>Data Pro Pro Max</h1>
+  <h1>Data Pro Max</h1>
   <p><b>The Ultimate AI-Powered Intelligence Suite for Data Science & Surveys</b></p>
   
   <p>
