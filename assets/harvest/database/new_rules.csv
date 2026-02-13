@@ -1,0 +1,9 @@
+rule_id,condition,suggestion,priority,category
+robust_stats_outliers,"Outliers detected (>5% beyond 3 IQR)","Consider using robust statistics: trimmed mean (scipy.stats.trim_mean), MAD (statsmodels.robust.scale.mad), or median instead of mean/std. These are resistant to outliers.",high,data_quality
+permutation_small_sample,"Sample size < 30 and normality questionable","Consider permutation test instead of t-test for exact p-values without distributional assumptions. Use scipy.stats.permutation_test or implement custom permutation.",medium,hypothesis_testing
+weighted_time_series,"Time series data with varying quality over time","Consider weighted regression with higher weights for recent/higher-quality data. Use sample_weight parameter in sklearn.linear_model.LinearRegression.",medium,regression
+partial_resid_polynomial,"Polynomial terms in regression model","Use partial residual plots (statsmodels.graphics.plot_ccpr) to validate polynomial necessity and check for missed nonlinearity.",high,regression_diagnostics
+correlation_grayscale_pub,"Correlation matrix for publication","For grayscale publications, use correlation ellipse plots instead of heatmaps. Ellipses show direction and strength without color.",low,visualization
+weighted_median_needed,"Need for central tendency with varying observation importance","Use weighted median (wquantiles.median) when observations have different importance. More robust than weighted mean for skewed data.",medium,statistics
+mad_vs_std,"High outlier count or skewed distribution","Use MAD (Median Absolute Deviation) instead of standard deviation for robust variability measure. MAD = median(|X - median(X)|) / 0.6745.",medium,statistics
+bootstrap_ci_small_sample,"Small sample size (<30) for confidence intervals","Consider bootstrap confidence intervals instead of parametric methods. Use sklearn.utils.resample or scipy.stats.bootstrap.",medium,inference
