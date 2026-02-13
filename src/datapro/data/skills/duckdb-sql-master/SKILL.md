@@ -55,6 +55,9 @@ df = pd.DataFrame({'a': [1, 2, 3]})
 result = duckdb.sql("SELECT sum(a) FROM df").df()
 ```
 
+### 4. Data Engine (High-Level API)
+A dedicated `DataEngine` class is provided to simplify common survey analysis tasks, such as automated CSV loading with schema detection and Parquet conversion.
+
 ## Best Practices
 
 1.  **Prefer Parquet**: Always convert large CSVs to Parquet for 10-100x faster queries on subsequent runs.
@@ -62,7 +65,8 @@ result = duckdb.sql("SELECT sum(a) FROM df").df()
 3.  **Memory Management**: For distinct counts on huge data, use `approx_count_distinct()`.
 4.  **Extensions**: Use `httpfs` for querying S3/URLs directly, `spatial` for Geo data.
 
-## Resources
+### Core Modules (`src/datapro/`)
+- `engine.py`: Central `DataEngine` class for high-performance localized OLAP using DuckDB.
 
 ### Scripts (`scripts/`)
 - `setup_duckdb.py`: Verifies installation and installs core extensions.

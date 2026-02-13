@@ -73,8 +73,20 @@ def cmd_analyze(args):
         print(f"Error: File not found: {filepath}", file=sys.stderr)
         sys.exit(1)
     
-    if filepath.suffix == ".csv":
-        df = pd.read_csv(filepath)
+    # Use DataEngine (DuckDB) for CSV and Parquet - High Performance Motor
+    if filepath.suffix in [".csv", ".parquet"]:
+        try:
+            from datapro.engine import DataEngine
+            engine = DataEngine()
+            engine.load_data(str(filepath), "raw_data")
+            df = engine.query("SELECT * FROM raw_data")
+            print(f"✅ Data loaded using DuckDB Engine ({len(df)} rows)")
+        except Exception as e:
+            print(f"⚠️ DuckDB Engine failed, falling back to Pandas: {e}")
+            if filepath.suffix == ".csv":
+                df = pd.read_csv(filepath)
+            else:
+                df = pd.read_parquet(filepath)
     elif filepath.suffix in [".xlsx", ".xls"]:
         df = pd.read_excel(filepath)
     else:

@@ -55,11 +55,12 @@ graph TD
 | Feature | Description | Tooling |
 | :--- | :--- | :--- |
 | **Survey Intelligence** | Weighting (Raking), Drivers, and Halo Removal. | `data-analysis-suite` |
+| **Data Engine** | High-performance local OLAP motor (DuckDB + Parquet). | `datapro.engine` |
 | **Advanced Visuals** | Evolution plots, heatmaps, and word clouds. | `data-viz` |
 | **Geo-Spatial** | Brazilian city normalization and choropleth maps. | `geoprocessing-brazil` |
 | **Premium Documentation** | Mermaid diagrams, markdown standards, document structure. | `document-mastery` |
 | **Format Conversion** | Import (PDF→MD) and Export (MD→PDF/DOCX). | `document-converter` |
-| **High-Performance SQL** | Local OLAP on CSV/Parquet without a server. | `duckdb-sql-master` |
+| **High-Performance SQL** | Local SQL on CSV/Parquet without a server. | `duckdb-sql-master` |
 | **Auto-Mapping** | Variable standardization and dictionary mapping. | `datapro setup` |
 
 ---
