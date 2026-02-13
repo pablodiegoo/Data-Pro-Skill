@@ -1,21 +1,19 @@
 ---
 name: document-converter
-description: "Unified document conversion tool. Import: PDF/DOCX/PPTX → Markdown (with OCR). Export: Markdown → PDF/DOCX (with cover page). Combines pdf-to-markdown and report-writer skills."
+description: "Document format conversion tool. Import: PDF/DOCX/PPTX → Markdown (with OCR fallback). Export: Markdown → PDF/DOCX (with cover page, themes). Use for: (1) Converting external documents to Markdown, (2) Generating professional PDF/DOCX from Markdown analysis results."
 ---
 
 # Document Converter
 
-All-in-one skill for **importing** external documents (PDF/DOCX/PPTX) to Markdown and **exporting** analysis results to professional reports (PDF/DOCX).
+Skill for **importing** external documents (PDF/DOCX/PPTX) to Markdown and **exporting** analysis results to professional reports (PDF/DOCX).
 
-## Core Procedures
-
-### 1. IMPORT: External Docs → Markdown
+## 1. IMPORT: External Docs → Markdown
 Uses `markdowner.py` with optional OCR fallback.
 ```bash
 python3 .agent/skills/document-converter/scripts/markdowner.py input.pdf [--ocr]
 ```
 
-### 2. EXPORT: Markdown → Final Report
+## 2. EXPORT: Markdown → Final Report
 Uses `compile_report.py` for standard reports or **Quarto** for premium reports.
 ```bash
 # Standard PDF
@@ -41,9 +39,11 @@ python3 .agent/skills/document-converter/scripts/compile_report.py report.md --f
 ```
 .agent/skills/document-converter/
 ├── SKILL.md
-├── assets/        # Templates and branding
-├── references/    # Detailed manuals
+├── assets/          # Templates and branding
+├── references/      # Report manuals
+│   ├── quarto_reports.md
+│   └── troubleshooting.md
 └── scripts/
-    ├── markdowner.py     # Import engine
-    └── compile_report.py # Export engine
+    ├── markdowner.py      # Import engine
+    └── compile_report.py  # Export engine
 ```

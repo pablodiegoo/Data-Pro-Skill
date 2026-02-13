@@ -1,11 +1,11 @@
 ---
-name: reporting-mastery
-description: "Patterns, templates, and Mermaid diagrams for creating world-class technical documentation and reports. Use for: (1) Creating new .md files, (2) Adding Mermaid diagrams, (3) Structuring reports and READMEs, (4) Applying GitHub-style alerts and premium visual standards."
+name: document-mastery
+description: "Patterns, templates, and Mermaid diagrams for creating world-class technical documentation and reports. Use for: (1) Creating new .md files, (2) Adding Mermaid diagrams, (3) Structuring reports and READMEs, (4) Applying GitHub-style alerts and premium visual standards, (5) Writing professional analysis reports."
 ---
 
-# Reporting Mastery
+# Document Mastery
 
-This skill consolidates technical documentation standards and Mermaid diagram visualization to ensure high-impact delivery and technical consistency.
+This skill consolidates technical documentation standards and Mermaid diagram visualization to ensure high-impact delivery and technical consistency. Use this skill whenever **producing written deliverables** — reports, READMEs, studies, or any structured document.
 
 ## 1. Markdown Patterns (Premium Visuals)
 
@@ -34,7 +34,7 @@ Use for highlighting critical information visually.
 
 ## 2. Visualization with Mermaid
 
-Use Mermaid diagrams to explain complex flows and architectures.
+Use Mermaid diagrams to explain complex flows, architectures, and data pipelines.
 
 ### Common Patterns:
 - **Sequence Diagram**: For interaction flows between systems/actors.
@@ -58,6 +58,16 @@ Every reference document or report must follow this hierarchy:
 4. **Technical Detail**: Tables, code, or specifications.
 5. **Workflow**: Step-by-step guide or user manual.
 6. **Maintenance Note**: `> [!NOTE] Last updated: YYYY-MM-DD`.
+
+## 4. Report Enrichment Checklist
+
+When producing a final report or documentation:
+
+- [ ] Add relevant **Mermaid diagrams** to illustrate flows and architecture.
+- [ ] Include **tables** for structured comparisons and data summaries.
+- [ ] Use **GitHub alerts** for critical findings and recommendations.
+- [ ] Embed **charts** from `data-viz` skill outputs where applicable.
+- [ ] Ensure the document follows the Standard Document Structure (Section 3).
 
 ---
 > [!TIP]

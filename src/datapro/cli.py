@@ -283,17 +283,22 @@ def cmd_setup(args):
         # 4. Create Standard Directories (Best Practices)
         print("📁 Step 4: Scaffolding Directories")
         directories_to_create = [
-            # Project Structure
-            "assets",
-            "assets/context",
-            "assets/database/raw",      # Enforce Immutable Data
-            "assets/database/processed",
-            "assets/docs",
-            "assets/images",
-            "assets/reports",
-            "scripts",     # New standard (was 'script')
-            "scripts/notebooks",
+            # Project Structure (aligned with structure.json)
+            "scripts",
             "scripts/utils",
+            "scripts/notebooks",
+            "database/raw",         # Immutable source data
+            "database/metadata",
+            "database/processed",
+            "database/final",
+            "docs/studies",
+            "docs/reports",
+            "docs/plans",
+            "assets",
+            "assets/images",
+            "assets/docs",
+            "assets/context",
+            "assets/harvest",
             
             # Agent Governance (Brain)
             ".agent/memory",
@@ -315,24 +320,27 @@ def cmd_setup(args):
 This project is enabled with DataPro Intelligence. Use this guide to understand your super-powers.
 
 ## 🚀 Key Workflows (Type these in Chat)
-- **Start Project**: `/project-discovery` - Organize goals and context.
-- **Analyze Survey**: `/survey-analysis-pipeline` - End-to-end processing (Prep -> Weight -> Viz).
-- **Governance**: `/build-project-rules` - Enforce consistency.
-- **Close & Harvest**: `/project-retrospective` - Promote code to `staging/`.
-- **Integrate**: `/process-contribution` - Move from `staging/` to permanent Skills.
+- **Start Project**: `/project-onboarding` - Environment setup, context discovery, governance.
+- **Analyze Survey**: `/survey-analysis-pipeline` - End-to-end processing (Prep -> Weight -> Viz -> Report).
+- **Study Documents**: `/document-study` - Deep analysis of papers, articles, or methodology.
+- **Harvest Learnings**: `/project-harvest` - Extract reusable insights → `assets/harvest/`.
+- **Evolve Data-Pro**: `/project-evolution` - Absorb harvest into Data-Pro-Skill (run in repo only).
 
 ## 💻 CLI Tools
 - `datapro search "correlation"`: Find code snippets and rules.
-- `datapro analyze data.csv`: profiling and plan generation.
+- `datapro analyze data.csv`: Profiling and plan generation.
 - `datapro snippet --list`: Get ready-to-use Python code.
+- `datapro convert report.pdf`: Convert PDF/DOCX to Markdown.
+- `datapro report analysis.md`: Generate professional PDF/DOCX.
 
 ## 📂 Governance Rules
-- **`db/raw/`**: **IMMUTABLE**. Drop your CSVs here. Never edit them.
+- **`database/raw/`**: **IMMUTABLE**. Drop your CSVs here. Never edit them.
 - **`scripts/`**: Number your scripts:
   - `01_prep_*.py`: Cleaning
   - `02_analysis_*.py`: Computing
   - `03_viz_*.py`: Plotting
-- **`assets/`**: All outputs (charts, tables) go here.
+- **`assets/`**: All graphic outputs (charts, images) go here.
+- **`docs/`**: Studies, reports, and project plans.
 
 ## 🧠 Brain Structure
 - `.agent/memory/`: Project facts and decisions.
@@ -354,10 +362,12 @@ This project is enabled with DataPro Intelligence. Use this guide to understand 
 
 # --- Data Science Governance ---
 # Data is typically large and confidential. Do not commit.
-db/raw/*
-!db/raw/.gitkeep
-db/processed/*
-!db/processed/.gitkeep
+database/raw/*
+!database/raw/.gitkeep
+database/processed/*
+!database/processed/.gitkeep
+database/final/*
+!database/final/.gitkeep
 assets/temp/*
 
 # --- Agent Ephemeral State ---
@@ -380,7 +390,7 @@ __pycache__/
                 print("   ✅ Created: .gitignore (Enforcing Data Governance)")
                 
                 # Create .gitkeep files to ensure folders are tracked
-                for keep_tracker in ["db/raw/.gitkeep", "db/processed/.gitkeep"]:
+                for keep_tracker in ["database/raw/.gitkeep", "database/processed/.gitkeep", "database/final/.gitkeep"]:
                     keep_path = target_project / keep_tracker
                     if not keep_path.exists():
                         with open(keep_path, "w") as f: 

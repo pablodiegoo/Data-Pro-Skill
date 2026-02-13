@@ -24,9 +24,9 @@ for col in SCALE_COLUMNS:
 ```python
 plt.savefig(output_path, dpi=150)
 plt.close()  # ← REQUIRED
+```
 
 ## Pre-Flight Skill Sync Check
 > Before creating any new analysis script, MUST verify that the target functionality doesn't already exist in an upstream skill by checking `Data-Pro-Skill/.agent/skills/*/scripts/`.
 
 **Why**: This prevents duplicate work and ensures the project benefits from the latest generic implementations.
-```

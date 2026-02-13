@@ -28,11 +28,11 @@ For qualitative text analysis visualization. Use in conjunction with `survey-qua
 
 ```python
 import pandas as pd
+# Import from skill scripts directory
 from scripts.plotter import plot_bar, plot_pie, plot_grouped_bar
 from scripts.evolution_plotter import plot_evolution_line
-
-# Load data
-df = pd.read_csv("data.csv")
+from scripts.visuals import *  # Additional visualization utilities
+from scripts.advanced_plots import *  # Advanced chart types
 
 # 1. Simple Bar Chart (Top 10 Cities)
 plot_bar(df, x_col="City", title="Respondents by City", filename="output/city_dist.png", orientation='h')

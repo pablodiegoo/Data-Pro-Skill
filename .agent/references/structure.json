@@ -1,6 +1,6 @@
 {
   "project_name": "Data-Pro-Skill",
-  "version": "2.1",
+  "version": "2.2",
   "structure": {
     "scripts": {
       "path": "scripts/",
@@ -20,13 +20,23 @@
         "final": "database/final/"
       }
     },
+    "docs": {
+      "path": "docs/",
+      "description": "Studies, reports, and project planning documents.",
+      "subfolders": {
+        "studies": "docs/studies/",
+        "reports": "docs/reports/",
+        "plans": "docs/plans/"
+      }
+    },
     "assets": {
       "path": "assets/",
       "description": "Graphic assets, final docs and project context.",
       "subfolders": {
         "images": "assets/images/",
         "docs": "assets/docs/",
-        "context": "assets/context/"
+        "context": "assets/context/",
+        "harvest": "assets/harvest/"
       }
     },
     ".agent": {

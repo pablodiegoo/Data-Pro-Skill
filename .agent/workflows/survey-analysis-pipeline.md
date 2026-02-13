@@ -10,7 +10,7 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 **Goal**: Understand the project scope and set up the environment.
 
 1.  **Context Optimization**:
-    - Run `/context-optimizer` to decompose large docs (Work Order, Questionnaire).
+    - Use the `context-optimizer` skill to decompose large docs (Work Order, Questionnaire).
     - Populate `.agent/memory/project_facts.md` with Universe targets and Sample info.
 
 ## 2. Data Preparation
@@ -23,6 +23,12 @@ This workflow outlines the standard operating procedure for analyzing survey dat
       ```
 2.  **Cleaning Script (DuckDB Pipeline)**:
     - Create `01_data_prep.py` leveraging `duckdb-sql-master`.
+
+## 3. Data Validation
+**Goal**: Ensure data quality before analysis.
+
+1.  **Pre-Flight Checks**: Verify data types, missing values, and outliers.
+2.  **Schema Compliance**: Validate against the data dictionary.
 
 ## 4. Weighting (Raking)
 **Goal**: Adjust sample to match population targets.
@@ -39,9 +45,9 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 
 1.  **Charts**:
     - Generate breakdown charts using **`data-viz`**.
-    - Save outputs to the results folder defined in `structure.json` (`assets/results/YYYY-MM-DD/`).
+    - Save outputs to the results folder defined in `structure.json` (`assets/images/`).
 
-## 5.1 Advanced Analysis (Specialized Metrics)
+## 6. Advanced Analysis (Specialized Metrics)
 **Goal**: Reveal hidden patterns and remove biases.
 
 1.  **Methodology**:
@@ -49,9 +55,9 @@ This workflow outlines the standard operating procedure for analyzing survey dat
     - Consult `references/causal.md` for Drivers.
     - Consult `references/science.md` for Halo removal and Pain Curves.
 
-## 6. Reporting
+## 7. Reporting
 **Goal**: Compile the final deliverable.
 
-1.  **Draft Report**: Write `report.md` following **`reporting-mastery`** standards.
+1.  **Draft Report**: Write `report.md` following **`document-mastery`** standards (Mermaid diagrams, alerts, structure).
 2.  **Compile**:
-    - Use **`document-converter`** for final PDF export.
+    - Use **`document-converter`** for final PDF/DOCX export.

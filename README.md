@@ -33,7 +33,7 @@ graph TD
         CLI --> Suite[data-analysis-suite]
         CLI --> Viz[data-viz]
         CLI --> Geo[geoprocessing-brazil]
-        CLI --> Report[reporting-mastery]
+        CLI --> DuckDB[duckdb-sql-master]
     end
     
     subgraph "Data Storage"
@@ -42,8 +42,9 @@ graph TD
     end
     
     subgraph "External Integration"
-        Report --> Notebook[NotebookLM]
-        Suite --> OCR[Document Converter]
+        CLI --> DocConv[document-converter]
+        DocConv --> PDF[PDF / DOCX Reports]
+        CLI --> NLMCP[NotebookLM]
     end
 ```
 
@@ -56,7 +57,9 @@ graph TD
 | **Survey Intelligence** | Weighting (Raking), Drivers, and Halo Removal. | `data-analysis-suite` |
 | **Advanced Visuals** | Evolution plots, heatmaps, and word clouds. | `data-viz` |
 | **Geo-Spatial** | Brazilian city normalization and choropleth maps. | `geoprocessing-brazil` |
-| **Professional Reports** | Styled PDFs with Mermaid support and watermarks. | `reporting-mastery` |
+| **Premium Documentation** | Mermaid diagrams, markdown standards, document structure. | `document-mastery` |
+| **Format Conversion** | Import (PDF→MD) and Export (MD→PDF/DOCX). | `document-converter` |
+| **High-Performance SQL** | Local OLAP on CSV/Parquet without a server. | `duckdb-sql-master` |
 | **Auto-Mapping** | Variable standardization and dictionary mapping. | `datapro setup` |
 
 ---
@@ -105,7 +108,7 @@ Following the **Unified Structure Reference** ([structure.json](.agent/reference
 
 - `scripts/`: Implementation scripts (utils, notebooks).
 - `database/`: Raw, processed, and final datasets.
-- `docs/`: Studies, reports, and retrospectives.
+- `docs/`: Studies, reports, and project plans.
 - `assets/`: Images, final docs, and project context.
 - `.agent/`: AI Agent "Brain" (Rules, Skills, Workflows).
 

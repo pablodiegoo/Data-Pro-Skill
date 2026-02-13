@@ -12,14 +12,14 @@ This workflow is the mandatory starting point for all new analytical projects. I
 2.  **Verify**: Ensure the directory tree complies with [structure.json](file:///.agent/references/structure.json).
 3.  **Mandatory Directories**: 
     - `scripts/` (utils/ notebooks/)
-    - `database/` (raw/ processed/ final/)
-    - `docs/` (studies/ reports/)
+    - `database/` (raw/ metadata/ processed/ final/)
+    - `docs/` (studies/ reports/ plans/)
     - `assets/` (images/ docs/ context/)
     - `.agent/` (rules/ references/ skills/ workflows/ memory/)
 
 ## Phase 2: Context Discovery (Deep Search)
 **Goal**: Identify available data and objectives.
-1.  **Inventory**: Run `list_dir` on root and `db/` to map data files.
+1.  **Inventory**: Run `list_dir` on root and `database/` to map data files.
 2.  **Analysis**: Read the primary brief or proposal.
 3.  **Extraction**:
     - Business Objective & Success Criteria.
@@ -36,7 +36,7 @@ This workflow is the mandatory starting point for all new analytical projects. I
 
 ## Phase 4: Strategy & Roadmap
 **Goal**: Define "How" it will be built.
-1.  **Project Brief**: Create `project-brief.md` summarizing the technical strategy.
+1.  **Project Brief**: Create `docs/plans/project-brief.md` summarizing the technical strategy.
 2.  **Task Initiation**: Create the initial `task.md` with the first concrete steps.
 3.  **User Sign-off**: Present the brief to the user for final approval.
 
