@@ -22,3 +22,5 @@ build/
 # Staging Area (Incoming Contributions)
 staging/*
 tests/*
+
+.venv/
