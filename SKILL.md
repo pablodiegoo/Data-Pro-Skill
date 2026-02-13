@@ -9,7 +9,7 @@ An AI orchestrator that provides **intelligent recommendations** for data analys
 
 ## 1. Integrated Skill Cores
 
-Data Pro Max coordinates these specialized skills:
+Data Pro Max coordinates these specialized skills: 
 
 | Core Skill | Functionality | Location |
 | :--- | :--- | :--- |
