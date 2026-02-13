@@ -9,35 +9,40 @@ An AI orchestrator that provides **intelligent recommendations** for data analys
 
 ## 1. Integrated Skill Cores
 
-Data Pro Max coordinates these specialized consolidated skills:
+Data Pro Max coordinates these specialized skills:
 
-| Core Skill | Functionality | Primary Trigger |
+| Core Skill | Functionality | Location |
 | :--- | :--- | :--- |
-| **`data-analysis-suite`** | All Stats, Causal & Science | Survey weighting, drivers, halo effects, pipeline automation. |
-| **`geoprocessing-brazil`** | Geo-spatial & Mapping | City normalization, Brazil choropleth maps. |
-| **`data-viz`** | Statistical Visualization | Professional charts, evolution plots, word clouds. |
-| **`document-mastery`** | Writing Quality & Mermaid | Creating reports, document structure, diagrams, markdown standards. |
-| **`document-converter`** | Format Conversion | Import (PDF/DOCX→MD), Export (MD→PDF/DOCX). |
+| **`data-analysis-suite`** | All Stats, Causal & Science | 📦 `data/skills/` |
+| **`geoprocessing-brazil`** | Geo-spatial & Mapping | 📦 `data/skills/` |
+| **`data-viz`** | Statistical Visualization | 📦 `data/skills/` |
+| **`document-converter`** | Format Conversion (Import/Export) | 📦 `data/skills/` |
+| **`duckdb-sql-master`** | High-performance SQL on local files | 📦 `data/skills/` |
+| **`context-optimizer`** | Document decomposition into .agent | 📦 `data/skills/` |
 
-### Supporting Skills
+### Shared Skills (deployed via manifest)
 
-| Skill | Purpose |
-| :--- | :--- |
-| **`duckdb-sql-master`** | High-performance SQL on local files (CSV/Parquet). |
-| **`brainstorming`** | Creative ideation & design exploration. |
-| **`context-optimizer`** | Document decomposition into .agent structure. |
-| **`skill-creator`** | Creating and packaging new skills. |
-| **`notebooklm`** | Querying Google NotebookLM notebooks. |
+| Skill | Purpose | Location |
+| :--- | :--- | :--- |
+| **`brainstorming`** | Creative ideation & design | 🔗 `.agent/skills/` → manifest |
+| **`document-mastery`** | Writing quality & Mermaid diagrams | 🔗 `.agent/skills/` → manifest |
+
+### Agent-Only Skills (NOT deployed)
+
+| Skill | Purpose | Location |
+| :--- | :--- | :--- |
+| **`skill-creator`** | Creating and packaging new skills | 🏠 `.agent/skills/` |
+| **`notebooklm`** | Querying Google NotebookLM notebooks | 🏠 `.agent/skills/` |
 
 ## 2. Master Workflows (Slash Commands)
 
-| Command | Workflow | Usage |
+| Command | Workflow | Location |
 | :--- | :--- | :--- |
-| **`/project-onboarding`** | Initial setup & rules | Mandatory for every new project startup. |
-| **`/survey-analysis-pipeline`**| End-to-end execution | From data prep to final automated report. |
-| **`/project-harvest`** | Learning extraction | Loop-based scan of project insights → `assets/harvest/`. |
-| **`/project-evolution`** | Absorption into Data-Pro | Filtered integration of harvest into ALL project components. |
-| **`/document-study`** | Research tool | Deep analysis of papers, articles, or methodology. |
+| **`/project-onboarding`** | Initial setup & rules | 📦 Packaged (`datapro setup`) |
+| **`/survey-analysis-pipeline`**| End-to-end execution | 📦 Packaged (`datapro setup`) |
+| **`/project-harvest`** | Learning extraction → `assets/harvest/` | 📦 Packaged (`datapro setup`) |
+| **`/document-study`** | Deep analysis of papers/methodology | 📦 Packaged (`datapro setup`) |
+| **`/project-evolution`** | Absorb harvest into Data-Pro-Skill | 🏠 Local (this repo only) |
 
 ## 3. High-Performance Workflow
 

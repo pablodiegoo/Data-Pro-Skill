@@ -35,13 +35,13 @@ New CLI flags to control Pandoc/LaTeX geometry:
 ## 🛠️ Implementation Plan
 
 ### Component Modifications
-- **[MODIFY] [reporter.py](file:///home/pablo-diego/Data-Pro-Skill/src/datapro/reporter.py)**: 
+- **[MODIFY] `src/datapro/reporter.py`**: 
     - Refactor `create_latex_header` to accept a configuration object.
     - Improve Markdown pre-processing to handle complex image scaling and table widths.
     - Add `preprocess_mermaid` function to detect and render diagrams via `mmdc` (mermaid-cli).
     - Support `\begin{multicols}{N}` injection for flexible column layouts.
     - Add new arguments to the `report` subparser.
-- **[NEW] [styles.py](file:///home/pablo-diego/Data-Pro-Skill/src/datapro/styles.py)** (Expanded): 
+- **[NEW] `src/datapro/styles.py`** (Expanded): 
     - Store LaTeX font/color snippets for each theme.
 
 ## 🧪 Verification Plan

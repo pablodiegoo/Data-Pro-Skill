@@ -13,7 +13,12 @@ Core calculations for survey automation.
 - **Normalization**: Scales point systems (e.g., 1-13) to unified ranges (0-10).
 - **Domain Scoring**: Aggregates batteries of questions into higher-level domains.
 
-## 3. Qualitative Analysis
+## 3. Cross Tabulation
+Frequency analysis between categorical variables.
+- **Script**: `scripts/crosstabs.py`
+- **Key Functionality**: Generates cross-tabs with margins and normalization options.
+
+## 4. Qualitative Analysis
 Processing open-ended text fields.
 - **Script**: `scripts/qual_analyzer.py`
 - **Word Frequency**: Identifies dominant themes.

@@ -1,4 +1,4 @@
-# Data Pro Max - Tutorials
+# Data Pro Max — Tutorials
 
 ## Tutorial 1: Survey Analysis Pipeline
 
@@ -16,23 +16,6 @@ You have customer satisfaction survey data and need to:
 
 ```bash
 datapro analyze survey.csv --domain survey --goal "satisfaction drivers" -o plan.md
-```
-
-Output:
-```
-## Data Profile
-| Metric | Value |
-|--------|-------|
-| Rows | 1,500 |
-| Columns | 25 |
-| Numeric | 15 |
-| Categorical | 8 |
-
-## Recommended Analyses
-1. Univariate Descriptive
-2. Cross Tabulation
-3. Factor Analysis
-4. K-Means Segmentation
 ```
 
 #### Step 2: Calculate Key Metrics
@@ -102,11 +85,8 @@ print(profiles)
 #### Step 5: Generate Visualizations
 
 ```python
-from style_presets import apply_style
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-apply_style('survey')
 
 fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
@@ -132,6 +112,7 @@ ax.set_title('Segment Distribution')
 
 plt.tight_layout()
 plt.savefig('analysis_charts.png', dpi=150)
+plt.close()
 ```
 
 #### Step 6: Generate Report
@@ -190,12 +171,9 @@ Analyze sales trends over time.
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
-from style_presets import apply_style
 
 df = pd.read_csv("sales.csv", parse_dates=['date'])
 df.set_index('date', inplace=True)
-
-apply_style('financial')
 
 fig, axes = plt.subplots(3, 1, figsize=(12, 10))
 
@@ -216,6 +194,7 @@ axes[2].set_title('Monthly Sales')
 
 plt.tight_layout()
 plt.savefig('timeseries.png', dpi=150)
+plt.close()
 ```
 
 ---

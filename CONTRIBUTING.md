@@ -15,7 +15,7 @@ By participating in this project, you agree to abide by its terms.
 ## 🛠️ Development Workflow
 1. Fork the repository.
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Follow the [Project Structure](.agent/references/structure.json).
+3. Follow the [Project Structure](src/datapro/data/structure.json).
 4. Run tests (`pytest`).
 5. Commit your changes (`git commit -m 'feat: Add some AmazingFeature'`).
 6. Push to the branch (`git push origin feature/AmazingFeature`).

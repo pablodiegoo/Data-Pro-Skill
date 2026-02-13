@@ -1,6 +1,6 @@
 {
   "project_name": "Data-Pro-Skill",
-  "version": "2.2",
+  "version": "2.3",
   "structure": {
     "scripts": {
       "path": "scripts/",
@@ -36,7 +36,18 @@
         "images": "assets/images/",
         "docs": "assets/docs/",
         "context": "assets/context/",
-        "harvest": "assets/harvest/"
+        "harvest": {
+          "path": "assets/harvest/",
+          "description": "Output from /project-harvest workflow. Organized learnings for absorption.",
+          "subfolders": {
+            "scripts": "assets/harvest/scripts/",
+            "database": "assets/harvest/database/",
+            "rules": "assets/harvest/rules/",
+            "references": "assets/harvest/references/",
+            "workflows": "assets/harvest/workflows/",
+            "memory": "assets/harvest/memory/"
+          }
+        }
       }
     },
     ".agent": {
@@ -65,5 +76,11 @@
     "scripts": "snake_case",
     "folders": "kebab-case",
     "data_format": "parquet"
+  },
+  "deploy_manifest": {
+    "shared_agent_skills": [
+      "brainstorming",
+      "document-mastery"
+    ]
   }
 }

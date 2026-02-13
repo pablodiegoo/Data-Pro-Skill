@@ -158,5 +158,15 @@
     "code": "def tidy_melt(df, id_vars, value_vars=None, var_name='question', value_name='score'):\n    \"\"\"Convert wide dataframe to long format.\n    id_vars: columns to keep fixed (e.g. ['id', 'gender'])\n    value_vars: columns to melt (default: all others)\n    \"\"\"\n    return pd.melt(\n        df, \n        id_vars=id_vars, \n        value_vars=value_vars, \n        var_name=var_name, \n        value_name=value_name\n    )",
     "output_type": "DataFrame",
     "example": "long_df = tidy_melt(df, id_vars=['respondent_id'], value_vars=['q1', 'q2', 'q3'])"
+  },
+  "missing_report": {
+    "id": "missing_report",
+    "name": "Missing Data Report",
+    "category": "data_quality",
+    "description": "Generate a summary of missing values with decision thresholds (<5% drop rows, 5-30% impute, >30% consider dropping variable)",
+    "imports": "import pandas as pd",
+    "code": "def missing_data_report(df):\n    \"\"\"Generate a missing data report with action recommendations.\"\"\"\n    missing = df.isna().sum().sort_values(ascending=False)\n    pct = (missing / len(df) * 100).round(1)\n    report = pd.DataFrame({'missing_count': missing, 'missing_pct': pct})\n    report['action'] = report['missing_pct'].apply(\n        lambda x: 'OK - listwise delete' if x < 5 else 'Consider imputation' if x < 30 else 'Consider dropping'\n    )\n    return report[report['missing_count'] > 0]",
+    "output_type": "DataFrame",
+    "example": "report = missing_data_report(df)"
   }
 }

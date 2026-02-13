@@ -1,14 +1,14 @@
-# Data Pro Max - Quick Start Guide
+# Data Pro Max — Quick Start Guide
 
 ## 🚀 Getting Started
 
 ### Installation
 
-No installation required! Just use the CLI:
-
 ```bash
-# From project root
-alias datapro='python3 .agent/skills/data-pro-max/scripts/datapro.py'
+pip install -e .
+
+# Full suite (OCR, advanced stats, PDF export)
+pip install "datapro[full,docs]"
 ```
 
 ### Basic Workflow
@@ -53,100 +53,69 @@ datapro analyze survey.csv --domain survey --goal "customer segmentation"
 datapro analyze data.csv -o plan.md --json
 ```
 
-### 3. Generate Reports
+### 3. Code Snippets
 
 ```bash
-# PDF report with styling
+# List all snippets
+datapro snippet --list
+
+# Get a specific snippet by ID
+datapro snippet nps_calc
+```
+
+### 4. Document Conversion
+
+```bash
+# Convert PDF/DOCX to Markdown
+datapro convert report.pdf
+
+# Generate PDF report from Markdown
 datapro report analysis.md -o report.pdf --title "Q1 Results" --color "2980b9"
 
 # DOCX for editing
 datapro report analysis.md --format docx
 ```
 
-### 4. Full Pipeline
+### 5. Project Setup
 
 ```bash
-# Complete workflow in one command
-datapro pipeline data.csv -o report.pdf --domain survey --title "Survey Analysis"
+# Initialize a new analysis project
+datapro setup
 ```
+Creates the full directory structure per [structure.json](../src/datapro/data/structure.json) and installs agent skills.
 
 ---
 
 ## 🐍 Python Integration
 
-### Using Code Snippets
+### Using the Library Directly
 
 ```python
-from pathlib import Path
-import csv
+from datapro import search_knowledge_base, generate_analysis_plan
 
-# Load snippets
-snippets_file = Path(".agent/skills/data-pro-max/data/code_snippets.csv")
-with open(snippets_file) as f:
-    snippets = {row['id']: row for row in csv.DictReader(f)}
+# Search for analytical techniques
+results = search_knowledge_base("regression", search_type="analysis")
+for r in results:
+    print(f"  {r['name']}: {r['use_case']}")
 
-# Get and execute a snippet
-snippet = snippets['nps_calc']
-exec(snippet['imports'])
-exec(snippet['code'])
-
-# Use the function
-result = calculate_nps(df, 'recommend_score')
-print(f"NPS: {result['nps']}")
-```
-
-### Using the Reasoning Engine
-
-```python
+# Auto-analyze a dataset
 import pandas as pd
-from reasoning_engine import generate_analysis_plan
-
 df = pd.read_csv("survey.csv")
 plan = generate_analysis_plan(df, domain="survey", goal="satisfaction drivers")
-
-print(f"Recommended analyses: {len(plan.recommended_analyses)}")
-for a in plan.recommended_analyses[:3]:
-    print(f"  - {a['name']}: {a['use_case']}")
-```
-
-### Applying Styles
-
-```python
-from style_presets import apply_style, list_styles
-
-# List available styles
-list_styles()
-
-# Apply a style before plotting
-apply_style('executive')
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Now all plots use executive style
-sns.barplot(data=df, x='category', y='value')
-plt.show()
 ```
 
 ---
 
-## 📁 File Structure
+## 📁 Project Structure
+
+After running `datapro setup`, your project will have:
 
 ```
-data-pro-max/
-├── scripts/
-│   ├── datapro.py          # Main CLI
-│   ├── search.py           # Search engine
-│   ├── reasoning_engine.py # Recommendation system
-│   └── style_presets.py    # Style management
-├── data/
-│   ├── analysis_types.csv  # 65+ analyses
-│   ├── visualization_rules.csv # 63+ charts
-│   ├── visualization_styles.csv # 20 styles
-│   ├── palettes.csv        # 42 palettes
-│   ├── reasoning_rules.csv # 80+ rules
-│   └── code_snippets.csv   # Python snippets
-└── docs/
-    ├── quickstart.md       # This file
-    └── tutorials.md        # Step-by-step guides
+your-project/
+├── scripts/            # Analysis scripts (01_prep, 02_analysis, 03_viz)
+├── database/           # Data files (raw/, processed/, final/)
+├── docs/               # Studies, reports, plans
+├── assets/             # Images, docs, context, harvest
+├── .agent/             # Agent Brain (skills, rules, workflows)
+└── .gitignore          # Pre-configured for data governance
 ```

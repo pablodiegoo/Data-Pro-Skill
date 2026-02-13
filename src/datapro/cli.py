@@ -222,47 +222,67 @@ def cmd_setup(args):
     pkg_path = source_root
     print(f"   Run: pip install -e {pkg_path}\n")
     
-    # 2. Copy Agent Skills
+    # 2. Copy Agent Skills (3-layer: package data + manifest + core)
     if not args.no_skills:
         print("🤖 Step 2: Integrating AI Skills")
         
         target_skills_dir = target_project / ".agent" / "skills"
-        source_skills_dir = source_root / ".agent" / "skills"
+        data_dir = Path(__file__).parent / "data"
+        data_skills_dir = data_dir / "skills"
+        agent_skills_dir = source_root / ".agent" / "skills"
         
-        # Get all available skills from source directory
-        available_skills = [d.name for d in source_skills_dir.iterdir() if d.is_dir()]
-        # Add the core skill (which lives at root)
-        skills_to_copy = ["data-pro-max"] + available_skills
+        # Load deploy manifest from structure.json
+        manifest_path = data_dir / "structure.json"
+        shared_skills = []
+        if manifest_path.exists():
+            import json
+            with open(manifest_path) as f:
+                structure = json.load(f)
+            shared_skills = structure.get("deploy_manifest", {}).get("shared_agent_skills", [])
         
         try:
             os.makedirs(target_skills_dir, exist_ok=True)
-            for skill in skills_to_copy:
-                target_skill = target_skills_dir / skill
-                if target_skill.exists():
-                    print(f"   - {skill} already exists, skipping.")
-                    continue
-
-                if skill == "data-pro-max":
-                    # Special case: Main skill is at root
-                    source_skill_md = source_root / "SKILL.md"
-                    if source_skill_md.exists():
-                        os.makedirs(target_skill, exist_ok=True)
-                        shutil.copy2(source_skill_md, target_skill / "SKILL.md")
-                        print(f"   ✅ Integrated skill: {skill}")
-                else:
-                    source_skill = source_skills_dir / skill
-                    if source_skill.exists():
-                        shutil.copytree(source_skill, target_skill)
-                        print(f"   ✅ Integrated skill: {skill}")
+            
+            # 2a. Copy core skill (root SKILL.md → data-pro-max/)
+            target_core = target_skills_dir / "data-pro-max"
+            if not target_core.exists():
+                source_skill_md = source_root / "SKILL.md"
+                if source_skill_md.exists():
+                    os.makedirs(target_core, exist_ok=True)
+                    shutil.copy2(source_skill_md, target_core / "SKILL.md")
+                    print(f"   ✅ Integrated skill: data-pro-max (core)")
+            else:
+                print(f"   - data-pro-max already exists, skipping.")
+            
+            # 2b. Copy product-only skills from package data
+            if data_skills_dir.exists():
+                for skill_dir in data_skills_dir.iterdir():
+                    if skill_dir.is_dir():
+                        target_skill = target_skills_dir / skill_dir.name
+                        if not target_skill.exists():
+                            shutil.copytree(skill_dir, target_skill)
+                            print(f"   ✅ Integrated skill: {skill_dir.name} (product)")
+                        else:
+                            print(f"   - {skill_dir.name} already exists, skipping.")
+            
+            # 2c. Copy shared skills from .agent/ via manifest
+            for skill_name in shared_skills:
+                source_skill = agent_skills_dir / skill_name
+                target_skill = target_skills_dir / skill_name
+                if not target_skill.exists() and source_skill.exists():
+                    shutil.copytree(source_skill, target_skill)
+                    print(f"   ✅ Integrated skill: {skill_name} (shared)")
+                elif target_skill.exists():
+                    print(f"   - {skill_name} already exists, skipping.")
             
         except Exception as e:
             print(f"   ❌ Error copying skills: {e}")
             print("   You may need to manually copy the .agent/skills/ folder.")
 
-        # 3. Copy Workflows
+        # 3. Copy Workflows (from package data)
         print("📋 Step 3: Integrating Workflows")
         target_workflows_dir = target_project / ".agent" / "workflows"
-        source_workflows_dir = source_root / ".agent" / "workflows"
+        source_workflows_dir = Path(__file__).parent / "data" / "workflows"
         
         try:
             if source_workflows_dir.exists():
@@ -275,13 +295,34 @@ def cmd_setup(args):
                     else:
                          print(f"   - {workflow_file.name} already exists, skipping.")
             else:
-                print("   ⚠️ No workflows directory found in source.")
+                print("   ⚠️ No workflows directory found in package data.")
                 
         except Exception as e:
             print(f"   ❌ Error copying workflows: {e}")
 
-        # 4. Create Standard Directories (Best Practices)
-        print("📁 Step 4: Scaffolding Directories")
+        # 4. Copy Rules (from package data)
+        print("📏 Step 4: Integrating Rules")
+        target_rules_dir = target_project / ".agent" / "rules"
+        source_rules_dir = Path(__file__).parent / "data" / "rules"
+        
+        try:
+            if source_rules_dir.exists():
+                os.makedirs(target_rules_dir, exist_ok=True)
+                for rule_file in source_rules_dir.glob("*.md"):
+                    target_file = target_rules_dir / rule_file.name
+                    if not target_file.exists():
+                        shutil.copy2(rule_file, target_file)
+                        print(f"   ✅ Integrated rule: {rule_file.name}")
+                    else:
+                        print(f"   - {rule_file.name} already exists, skipping.")
+            else:
+                print("   ⚠️ No rules directory found in package data.")
+                
+        except Exception as e:
+            print(f"   ❌ Error copying rules: {e}")
+
+        # 5. Create Standard Directories (Best Practices)
+        print("📁 Step 5: Scaffolding Directories")
         directories_to_create = [
             # Project Structure (aligned with structure.json)
             "scripts",
@@ -299,6 +340,12 @@ def cmd_setup(args):
             "assets/docs",
             "assets/context",
             "assets/harvest",
+            "assets/harvest/scripts",
+            "assets/harvest/database",
+            "assets/harvest/rules",
+            "assets/harvest/references",
+            "assets/harvest/workflows",
+            "assets/harvest/memory",
             
             # Agent Governance (Brain)
             ".agent/memory",
@@ -313,8 +360,8 @@ def cmd_setup(args):
                 os.makedirs(target_dir, exist_ok=True)
                 print(f"   ✅ Created: {d}")
 
-        # 5. Generate Agent Guide (Best Practices)
-        print("📘 Step 5: Generating Agent Guide")
+        # 6. Generate Agent Guide (Best Practices)
+        print("📘 Step 6: Generating Agent Guide")
         guide_content = """# DataPro Agent Capabilities
 
 This project is enabled with DataPro Intelligence. Use this guide to understand your super-powers.

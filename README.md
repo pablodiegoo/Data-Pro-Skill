@@ -88,7 +88,7 @@ pip install "datapro[full,docs] @ git+https://github.com/pablodiegoo/Data-Pro-Sk
 ```bash
 datapro setup
 ```
-Initializes the [Source of Truth](.agent/references/structure.json) and prepares the agent environment.
+Initializes the [Source of Truth](src/datapro/data/structure.json) and prepares the agent environment.
 
 ### 2. High-Speed Analysis
 ```bash
@@ -104,7 +104,7 @@ datapro report results.md --theme executive --logo ./logo.png
 
 ## 📂 Project Structure
 
-Following the **Unified Structure Reference** ([structure.json](.agent/references/structure.json)):
+Following the **Unified Structure Reference** ([structure.json](src/datapro/data/structure.json)):
 
 - `scripts/`: Implementation scripts (utils, notebooks).
 - `database/`: Raw, processed, and final datasets.
