@@ -17,6 +17,7 @@ To avoid context overflow, specific instructions and scripts are organized into 
 | **Multivariate** | Weights, PCA & Clusters | [multivariate.md](./references/multivariate.md) |
 | **Causal** | Drivers & Associations | [causal.md](./references/causal.md) |
 | **Science** | Bias & Specialty Metrics | [science.md](./references/science.md) |
+| **Machine Learning** | Classification & Feature Importance | [imbalanced_data_strategies.md](./references/imbalanced_data_strategies.md) |
 
 ## 2. Integrated Scripts Overview
 
@@ -26,6 +27,7 @@ The following core scripts are available in the `scripts/` directory:
 - **Stats**: `weighting.py`, `factor_analysis.py`, `survey_pca.py`, `clustering.py`, `turf_analysis.py`
 - **Causal**: `drivers_analysis.py`, `residual_segmentation.py`, `chi2_residuals.py`, `association_matrix.py`
 - **Science**: `halo_removal.py`, `ipsative_analysis.py`, `pain_curves.py`, `disapproval_analysis.py`
+- **ML**: `permutation_feature_importance.py`
 
 ## 3. General Best Practices
 
