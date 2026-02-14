@@ -95,6 +95,33 @@ This directory contains reusable analytical scripts extracted from the Practical
 
 ---
 
+### 8. `glm_partial_residual_plot.py`
+**Source**: Chapter 5 - Classification  
+**Purpose**: Partial residual plots for GLM (logistic regression) with non-linear terms  
+**Genericity**: High - Works with statsmodels GLM results  
+**Value**: Extends partial residual plotting to GLM models with splines/polynomials
+
+**Use Cases**:
+- Diagnosing non-linearity in logistic regression
+- Visualizing feature contributions in classification models
+- Model validation for GLM with transformations
+
+---
+
+### 9. `permutation_feature_importance.py`
+**Source**: Chapter 6 - Statistical Machine Learning  
+**Purpose**: Model-agnostic feature importance via permutation  
+**Genericity**: High - Works with any sklearn classifier  
+**Value**: Alternative to tree-based importance; measures actual predictive power
+
+**Use Cases**:
+- Feature importance for non-tree models (logistic, SVM, neural nets)
+- Comparing importance across different model types
+- Detecting feature interactions
+- Unbiased importance for high-cardinality features
+
+---
+
 ## Non-Harvested Scripts
 
 The following scripts were evaluated but **not harvested** because they are:

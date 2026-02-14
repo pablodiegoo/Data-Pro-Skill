@@ -2,8 +2,8 @@
 
 **Project**: Practical Statistics for Data Scientists (Python & R)  
 **Repository**: gedeck/practical-statistics-for-data-scientists  
-**Harvest Date**: 2026-02-13  
-**Status**: Complete - Cycle 2 (Final)
+**Harvest Date**: 2026-02-14  
+**Status**: Complete - Cycle 3 (Final)
 
 ## Project Summary
 
@@ -27,16 +27,26 @@ This is an educational repository containing code examples for the O'Reilly book
 - **Phase 5 - Architecture & Organization Scan**: Verified against Cycle 1 patterns.
 - **Count**: 32 total items (+8 in Cycle 2).
 
+### Cycle 3 (COMPLETED)
+- **Phase 1 - Scripts Scan**: 2 new utilities (GLM partial residuals, Permutation feature importance).
+- **Phase 2 - Methodology & Patterns Scan**: 1 new reference (Imbalanced data strategies).
+- **Phase 3 - Data & Database Scan**: 8 new snippets in `new_snippets_cycle3.json` (classification, clustering, imbalanced data).
+- **Phase 4 - Documentation & Governance Scan**: No new findings.
+- **Phase 5 - Architecture & Organization Scan**: No new findings.
+- **Count**: 43 total items (+11 in Cycle 3).
+
+
 ## Findings Summary
 
-### Scripts (7 items)
-- `correlation_ellipse_plot.py`, `partial_residual_plot.py`, `permutation_test_utilities.py`, `data_directory_finder.py`, `principal_component_plotting.py`, `gower_distance_utility.py`, `multivariate_normal_contours.py`.
+### Scripts (9 items)
+- `correlation_ellipse_plot.py`, `partial_residual_plot.py`, `permutation_test_utilities.py`, `data_directory_finder.py`, `principal_component_plotting.py`, `gower_distance_utility.py`, `multivariate_normal_contours.py`, `glm_partial_residual_plot.py`, `permutation_feature_importance.py`.
 
-### Methodologies & Patterns (3 items)
-- `educational_visualization_patterns.md`, `analytical_methodology_patterns.md`, `evaluation_and_diagnostics.md`.
+### Methodologies & Patterns (4 items)
+- `educational_visualization_patterns.md`, `analytical_methodology_patterns.md`, `evaluation_and_diagnostics.md`, `imbalanced_data_strategies.md`.
 
-### Database Enhancements (4 files)
-- `new_snippets.json`, `new_snippets_cycle2.json`, `new_analysis_types.csv`, `new_rules.csv`.
+### Database Enhancements (5 files)
+- `new_snippets.json`, `new_snippets_cycle2.json`, `new_snippets_cycle3.json`, `new_analysis_types.csv`, `new_rules.csv`.
+
 
 ### Rules & Governance (1 item)
 - `educational_code_standards.md`: Clarity vs. efficiency guidelines.

@@ -1,0 +1,115 @@
+[
+    {
+        "id": "glm_partial_residual",
+        "category": "visualization",
+        "subcategory": "diagnostics",
+        "name": "GLM Partial Residual Plot",
+        "description": "Create partial residual plot for logistic regression with non-linear terms",
+        "code": "import statsmodels.formula.api as smf\nimport statsmodels.api as sm\nimport matplotlib.pyplot as plt\n\n# Fit GLM with splines\nformula = 'outcome ~ bs(feature, df=8) + other_vars'\nmodel = smf.glm(formula=formula, data=df, family=sm.families.Binomial())\nresults = model.fit()\n\n# Create partial residual plot\nfig, ax = plt.subplots(figsize=(5, 5))\nglm_partial_residual_plot(results, df, 'outcome', 'feature', fig, ax)\nplt.show()",
+        "tags": [
+            "glm",
+            "logistic",
+            "diagnostics",
+            "partial-residual",
+            "splines"
+        ]
+    },
+    {
+        "id": "permutation_importance",
+        "category": "machine_learning",
+        "subcategory": "feature_selection",
+        "name": "Permutation Feature Importance",
+        "description": "Calculate model-agnostic feature importance via permutation",
+        "code": "from sklearn.ensemble import RandomForestClassifier\n\n# Train model\nrf = RandomForestClassifier(n_estimators=500)\nrf.fit(X_train, y_train)\n\n# Calculate permutation importance\nimportance_df = calculate_permutation_importance(\n    rf, X, y, n_repeats=5, test_size=0.3\n)\n\n# Plot results\nfig, ax = plot_permutation_importance(importance_df, top_n=15)\nplt.show()",
+        "tags": [
+            "feature-importance",
+            "permutation",
+            "model-agnostic",
+            "ml"
+        ]
+    },
+    {
+        "id": "smote_resampling",
+        "category": "preprocessing",
+        "subcategory": "imbalanced_data",
+        "name": "SMOTE Oversampling",
+        "description": "Handle imbalanced data using SMOTE synthetic sampling",
+        "code": "from imblearn.over_sampling import SMOTE\nfrom sklearn.model_selection import train_test_split\n\n# Split data first\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.3, stratify=y, random_state=42\n)\n\n# Apply SMOTE only to training data\nsmote = SMOTE(random_state=42)\nX_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)\n\n# Train model on resampled data\nmodel.fit(X_train_resampled, y_train_resampled)\n\n# Evaluate on original test distribution\ny_pred = model.predict(X_test)",
+        "tags": [
+            "imbalanced",
+            "smote",
+            "oversampling",
+            "classification"
+        ]
+    },
+    {
+        "id": "class_weighting",
+        "category": "machine_learning",
+        "subcategory": "imbalanced_data",
+        "name": "Class Weighting for Imbalanced Data",
+        "description": "Handle imbalanced data using sample weights",
+        "code": "from sklearn.linear_model import LogisticRegression\nimport numpy as np\n\n# Calculate weight for minority class\nminority_weight = 1 / np.mean(y == 'minority_class')\nsample_weights = [minority_weight if yi == 'minority_class' else 1 for yi in y]\n\n# Train with weights\nmodel = LogisticRegression()\nmodel.fit(X, y, sample_weight=sample_weights)\n\n# Or use automatic balancing\nmodel_auto = LogisticRegression(class_weight='balanced')\nmodel_auto.fit(X, y)",
+        "tags": [
+            "imbalanced",
+            "class-weight",
+            "classification",
+            "logistic"
+        ]
+    },
+    {
+        "id": "roc_curve_plot",
+        "category": "visualization",
+        "subcategory": "classification",
+        "name": "ROC Curve with AUC",
+        "description": "Plot ROC curve for binary classification with AUC score",
+        "code": "from sklearn.metrics import roc_curve, roc_auc_score\nimport matplotlib.pyplot as plt\n\n# Get predicted probabilities\ny_pred_proba = model.predict_proba(X_test)[:, 1]\n\n# Calculate ROC curve\nfpr, tpr, thresholds = roc_curve(y_test, y_pred_proba, pos_label='positive')\nauc_score = roc_auc_score(y_test, y_pred_proba)\n\n# Plot\nfig, ax = plt.subplots(figsize=(6, 6))\nax.plot(fpr, tpr, label=f'ROC (AUC = {auc_score:.3f})')\nax.plot([0, 1], [0, 1], 'k--', label='Random')\nax.set_xlabel('False Positive Rate (1 - Specificity)')\nax.set_ylabel('True Positive Rate (Recall)')\nax.set_title('ROC Curve')\nax.legend()\nplt.show()",
+        "tags": [
+            "roc",
+            "auc",
+            "classification",
+            "evaluation"
+        ]
+    },
+    {
+        "id": "kmeans_elbow",
+        "category": "machine_learning",
+        "subcategory": "clustering",
+        "name": "K-Means Elbow Method",
+        "description": "Determine optimal number of clusters using elbow method",
+        "code": "from sklearn.cluster import KMeans\nimport matplotlib.pyplot as plt\n\n# Calculate inertia for different k values\ninertias = []\nk_range = range(2, 15)\nfor k in k_range:\n    kmeans = KMeans(n_clusters=k, random_state=42, n_init='auto')\n    kmeans.fit(X)\n    inertias.append(kmeans.inertia_ / k)\n\n# Plot elbow curve\nfig, ax = plt.subplots(figsize=(6, 4))\nax.plot(k_range, inertias, marker='o')\nax.set_xlabel('Number of Clusters (k)')\nax.set_ylabel('Average Within-Cluster Sum of Squares')\nax.set_title('Elbow Method for Optimal k')\nplt.show()",
+        "tags": [
+            "kmeans",
+            "clustering",
+            "elbow",
+            "unsupervised"
+        ]
+    },
+    {
+        "id": "pca_scree_plot",
+        "category": "visualization",
+        "subcategory": "dimensionality_reduction",
+        "name": "PCA Scree Plot",
+        "description": "Visualize explained variance by principal components",
+        "code": "from sklearn.decomposition import PCA\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Fit PCA\npca = PCA()\npca.fit(X)\n\n# Calculate cumulative variance\ncumulative_variance = np.cumsum(pca.explained_variance_ratio_)\n\n# Create scree plot\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))\n\n# Individual variance\nax1.bar(range(1, len(pca.explained_variance_) + 1), \n        pca.explained_variance_ratio_)\nax1.set_xlabel('Principal Component')\nax1.set_ylabel('Explained Variance Ratio')\nax1.set_title('Scree Plot')\n\n# Cumulative variance\nax2.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o')\nax2.axhline(y=0.95, color='r', linestyle='--', label='95% threshold')\nax2.set_xlabel('Number of Components')\nax2.set_ylabel('Cumulative Explained Variance')\nax2.set_title('Cumulative Variance Explained')\nax2.legend()\n\nplt.tight_layout()\nplt.show()",
+        "tags": [
+            "pca",
+            "scree-plot",
+            "dimensionality-reduction",
+            "variance"
+        ]
+    },
+    {
+        "id": "hierarchical_dendrogram",
+        "category": "visualization",
+        "subcategory": "clustering",
+        "name": "Hierarchical Clustering Dendrogram",
+        "description": "Create dendrogram for hierarchical clustering",
+        "code": "from scipy.cluster.hierarchy import linkage, dendrogram, fcluster\nimport matplotlib.pyplot as plt\n\n# Perform hierarchical clustering\nZ = linkage(X, method='ward')\n\n# Plot dendrogram\nfig, ax = plt.subplots(figsize=(10, 6))\ndendrogram(Z, labels=X.index, ax=ax)\nax.set_ylabel('Distance')\nax.set_title('Hierarchical Clustering Dendrogram')\nplt.xticks(rotation=90)\nplt.tight_layout()\nplt.show()\n\n# Cut dendrogram to get clusters\nclusters = fcluster(Z, t=4, criterion='maxclust')",
+        "tags": [
+            "hierarchical",
+            "clustering",
+            "dendrogram",
+            "unsupervised"
+        ]
+    }
+]

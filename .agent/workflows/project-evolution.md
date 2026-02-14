@@ -68,7 +68,10 @@ Every candidate item from the harvest **MUST** pass ALL criteria:
 
 1. Review `assets/harvest/references/` for new methodologies.
 2. For each reference:
-   - Assign to the most relevant skill's `references/` folder.
+   - **Assign to the most relevant skill's `references/` folder**:
+     - Product skills: `src/datapro/data/skills/[skill-name]/references/`
+     - Example: `src/datapro/data/skills/data-analysis-suite/references/imbalanced_data_strategies.md`
+   - **NOT** in `.agent/references/` (that's for agent-only documentation)
    - Update the skill's `SKILL.md` to link the new reference.
 3. Check if `document-mastery` patterns need updating.
 
@@ -126,16 +129,183 @@ After the loop:
 > [!WARNING]
 > **Never delete a harvest file without first confirming the target exists.** The verify-then-delete pattern is mandatory. If verification fails, the harvest file must be preserved.
 
-## Documentation
+### Phase 8: Documentation & Release Generation (Mandatory)
+**Goal**: Document all changes and create a new versioned release.
 
-After all phases complete:
-1. Update version in `pyproject.toml` and `__init__.py` (patch bump).
-2. Create a changelog entry in `docs/plans/YYYY-MM-DD-evolution.md` documenting:
-   - What was absorbed and why.
-   - What was rejected and why.
-   - Source project(s) the learnings came from.
-3. Commit with descriptive tag: `feat: project evolution from <source_project>`.
+#### Step 1: Version Bump
+1. Read current version from `pyproject.toml` (e.g., `0.1.1`)
+2. Determine bump type based on changes:
+   - **Patch** (0.1.X): Bug fixes, minor enhancements, new snippets
+   - **Minor** (0.X.0): New skills, significant features, workflow additions
+   - **Major** (X.0.0): Breaking changes, major restructuring
+3. Update version in:
+   - `pyproject.toml` → `[project] version = "X.Y.Z"`
+   - `src/datapro/__init__.py` → `__version__ = "X.Y.Z"`
+
+#### Step 2: Create Evolution Changelog
+Create `docs/plans/YYYY-MM-DD-evolution-vX.Y.Z.md` with:
+
+```markdown
+# Project Evolution - vX.Y.Z
+
+**Date**: YYYY-MM-DD  
+**Source Project(s)**: [project-name]  
+**Harvest Cycles**: [1, 2, 3]  
+**Total Items Absorbed**: [N]
+
+## Summary
+[Brief description of what was absorbed and why]
+
+## Changes by Category
+
+### ✅ Absorbed Items
+
+#### Skills
+- **[skill-name]**: [what was added]
+  - Files: `scripts/new_script.py`
+  - Rationale: [why it was valuable]
+
+#### References
+- **[reference-name]**: [topic covered]
+  - Location: `skills/[skill]/references/`
+  - Value: [why it fills a gap]
+
+#### Database
+- **Snippets**: [N new snippets]
+  - Categories: [list categories]
+  - Keywords: [key search terms]
+
+#### Rules
+- **[rule-name]**: [governance added]
+
+#### Workflows
+- **[workflow-name]**: [improvement made]
+
+### ❌ Rejected Items
+- **[item-name]**: [reason for rejection]
+  - Failed criterion: [Rule of 3 / Non-Redundant / etc.]
+
+## Impact Assessment
+- **Cognitive Load**: [Low/Medium/High]
+- **Reuse Potential**: [Low/Medium/High]
+- **Production Readiness**: [Ready/Needs Work]
+
+## Testing Performed
+- [ ] All absorbed scripts tested with sample data
+- [ ] Database snippets validated with `datapro search`
+- [ ] Workflows tested end-to-end
+- [ ] Documentation reviewed for accuracy
+
+## Source Attribution
+- **Repository**: [github-url]
+- **License**: [license-type]
+- **Authors**: [original-authors]
+```
+
+#### Step 3: Generate Release Notes
+Create `.github/release/vX.Y.Z.md` with:
+
+```markdown
+# Release Notes - vX.Y.Z
+
+**Release Date**: YYYY-MM-DD  
+**Type**: [Patch/Minor/Major] Release  
+**Source**: Project Evolution from [project-name]
+
+## 🎯 Highlights
+
+[2-3 sentence summary of the most impactful changes]
+
+### 💎 Key Additions
+
+#### New Capabilities
+- **[Feature Name]**: [Brief description]
+  - Location: `[path]`
+  - Use Case: [when to use it]
+
+#### Enhanced Skills
+- **[skill-name]**: [what was improved]
+  - New scripts: [N]
+  - New references: [N]
+
+#### Database Enhancements
+- **[N] New Code Snippets**: [categories covered]
+- **[N] New Analysis Types**: [types added]
+
+### 🛠️ What's Inside?
+
+| Component | Status | Changes |
+|-----------|--------|---------|
+| `[skill-name]` | ✅ Enhanced | [summary of changes] |
+| `datapro` CLI | ✅ Enhanced | [N new snippets] |
+| References | ✅ Enhanced | [N new guides] |
+
+### 📊 Statistics
+
+- **Scripts Added**: [N]
+- **References Added**: [N]
+- **Snippets Added**: [N]
+- **Rules Updated**: [N]
+- **Workflows Enhanced**: [N]
+
+### 🔗 Source Attribution
+
+This release incorporates learnings from:
+- **Project**: [project-name]
+- **Repository**: [github-url]
+- **License**: [license-type]
+- **Harvest Date**: [YYYY-MM-DD]
+
+### 📖 Documentation
+
+- Full evolution details: `docs/plans/YYYY-MM-DD-evolution-vX.Y.Z.md`
+- Harvest overview: [source-project]/assets/harvest/overview.md (if preserved)
 
 ---
+
+**Full Changelog**: [vX.Y.Z-1...vX.Y.Z](https://github.com/pablodiegoo/Data-Pro-Skill/compare/vX.Y.Z-1...vX.Y.Z)
+```
+
+#### Step 4: Update Project Documentation
+1. **README.md**: Update version badge if present
+2. **CHANGELOG.md** (if exists): Add entry for new version
+3. **Root SKILL.md**: Update if new skills/workflows added
+
+#### Step 5: Git Commit & Tag
+```bash
+git add .
+git commit -m "feat(evolution): vX.Y.Z - absorbed learnings from [project-name]
+
+- Added [N] scripts to [skill-name]
+- Enhanced database with [N] snippets
+- Added [N] reference guides
+- [other major changes]
+
+Source: [project-name] harvest (cycles 1-3)
+"
+
+git tag -a vX.Y.Z -m "Release vX.Y.Z: Project Evolution from [project-name]"
+```
+
+---
+
+## Final Checklist
+
+Before completing the evolution:
+- [ ] All absorbed items verified at target locations
+- [ ] Harvest files cleaned up (deleted after verification)
+- [ ] Version bumped in `pyproject.toml` and `__init__.py`
+- [ ] Evolution changelog created in `docs/plans/`
+- [ ] Release notes created in `.github/release/`
+- [ ] Project documentation updated (README, SKILL.md)
+- [ ] Git commit created with descriptive message
+- [ ] Git tag created for new version
+- [ ] All tests passing (if applicable)
+
+---
+
 > [!IMPORTANT]
 > The primary goal is **enrichment without bloat**. The project must remain lean and focused on data analysis. Every addition competes for agent context window space.
+
+> [!TIP]
+> Use the release notes as a communication tool. They should be clear enough for users to understand what changed and why it matters to them.
