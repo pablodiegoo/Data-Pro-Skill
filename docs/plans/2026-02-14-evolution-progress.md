@@ -271,8 +271,27 @@ Remove-Item "harvest/references/[file].md"
 - [ ] Version bump (deferred to full completion)
 - [ ] Release notes (deferred to full completion)
 
+## ✅ Week 2 Items Absorbed (Medium Priority)
+
+### 4. Correlation Ellipse Plot & 5. PCA Plotting Utilities ⭐⭐⭐
+**Status**: ✅ **COMPLETE**
+
+**Details**:
+- **Source**: `harvest/scripts/correlation_ellipse_plot.py`, `harvest/scripts/principal_component_plotting.py`
+- **Destination**: `src/datapro/data/skills/data-viz/scripts/`
+- **Impact**: Enhanced visualization capabilities for multivariate analysis.
+- **Documentation**: Updated `data-viz/SKILL.md` with usage examples.
+
+### 6. GLM Partial Residual Plot ⭐⭐⭐ (and OLS)
+**Status**: ✅ **COMPLETE**
+
+**Details**:
+- **Source**: `harvest/scripts/glm_partial_residual_plot.py`, `harvest/scripts/partial_residual_plot.py`
+- **Destination**: `src/datapro/data/skills/data-analysis-suite/scripts/`
+- **Impact**: Critical diagnostics for regression models.
+- **Documentation**: Updated `data-analysis-suite/SKILL.md`.
+
 ---
 
-**Status**: Ready to resume in next session  
-**Estimated Completion**: 1.5-2 hours remaining  
-**Recommended Next Step**: Merge database snippets (highest remaining priority)
+**Status**: Week 2 Complete. Ready for Low Priority (Week 3) or Final Release.
+**Estimated Completion**: 1 hour remaining for low priority items.

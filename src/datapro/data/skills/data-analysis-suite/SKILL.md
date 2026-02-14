@@ -25,6 +25,7 @@ The following core scripts are available in the `scripts/` directory:
 
 - **Pipeline**: `quant_analyzer.py`, `qual_analyzer.py`, `dict_mapper.py`
 - **Stats**: `weighting.py`, `factor_analysis.py`, `survey_pca.py`, `clustering.py`, `turf_analysis.py`
+- **Diagnostics**: `partial_residual_plot.py`, `glm_partial_residual_plot.py`
 - **Causal**: `drivers_analysis.py`, `residual_segmentation.py`, `chi2_residuals.py`, `association_matrix.py`
 - **Science**: `halo_removal.py`, `ipsative_analysis.py`, `pain_curves.py`, `disapproval_analysis.py`
 - **ML**: `permutation_feature_importance.py`

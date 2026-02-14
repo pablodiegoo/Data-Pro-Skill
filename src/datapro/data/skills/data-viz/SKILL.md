@@ -24,6 +24,10 @@ Best for comparing means of domains across points in time (e.g., Start vs End). 
 ### 5. Word Clouds
 For qualitative text analysis visualization. Use in conjunction with `survey-qual-analyzer` frequencies.
 
+### 6. Multivariate Analysis (`principal_component_plotting`, `correlation_ellipse_plot`)
+- **PCA**: Scree plots, loadings, and biplots.
+- **Correlation**: Ellipse plots for correlation matrices (publication style).
+
 ## Usage
 
 ```python
@@ -33,6 +37,8 @@ from scripts.plotter import plot_bar, plot_pie, plot_grouped_bar
 from scripts.evolution_plotter import plot_evolution_line
 from scripts.visuals import *  # Additional visualization utilities
 from scripts.advanced_plots import *  # Advanced chart types
+from scripts.principal_component_plotting import plot_feature_importance, plot_biplot 
+from scripts.correlation_ellipse_plot import plot_corr_ellipses
 
 # 1. Simple Bar Chart (Top 10 Cities)
 plot_bar(df, x_col="City", title="Respondents by City", filename="output/city_dist.png", orientation='h')

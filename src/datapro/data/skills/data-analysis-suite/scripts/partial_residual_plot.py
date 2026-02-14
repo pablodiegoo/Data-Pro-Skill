@@ -36,6 +36,27 @@ def partial_residual_plot(model, df, outcome, feature, ax=None):
     Returns
     -------
     ax : matplotlib.axes.Axes
+        The plot axes
+        
+    Examples
+    --------
+    >>> import statsmodels.formula.api as smf
+    >>> import pandas as pd
+    >>> 
+    >>> # Fit polynomial regression
+    >>> model = smf.ols('y ~ x + np.power(x, 2)', data=df).fit()
+    >>> 
+    >>> # Create partial residual plot
+    >>> fig, ax = plt.subplots(figsize=(6, 6))
+    >>> partial_residual_plot(model, df, 'y', 'x', ax)
+    >>> plt.show()
+    
+    Notes
+    -----
+    - Black line shows the fitted relationship for the feature
+    - Gray line shows LOWESS smoothing of the partial residuals
+    - Scatter points show partial residuals + feature contribution
+    - Useful for diagnosing nonlinearity in individual predictors
     """
     if ax is None:
         fig, ax = plt.subplots(figsize=(6, 6))
