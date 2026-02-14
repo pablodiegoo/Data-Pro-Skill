@@ -7,6 +7,15 @@ def calculate_gower_distance(df: pd.DataFrame) -> np.ndarray:
     Gower's distance is defined as the average of partial dissimilarities:
     - Numeric: |x1 - x2| / range(variable)
     - Categorical: 0 if x1 == x2, else 1
+    
+    Note: This is a simplified implementation. For production use with large datasets,
+    consider using the 'gower' package: `pip install gower`.
+    
+    Args:
+        df: DataFrame with mixed types (numeric, boolean, category/object)
+        
+    Returns:
+        Square matrix of distances
     """
     n = len(df)
     distance_matrix = np.zeros((n, n))
@@ -72,6 +81,9 @@ if __name__ == "__main__":
         'city': ['A', 'B', 'A', 'B', 'C']               # Categorical
     }
     df = pd.DataFrame(data)
+    
+    print("DataFrame:")
+    print(df)
     
     dist = calculate_gower_distance(df)
     print("\nGower Distance Matrix:")
