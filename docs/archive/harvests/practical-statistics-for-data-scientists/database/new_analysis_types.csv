@@ -1,6 +1,0 @@
-analysis_type,description,typical_methods,when_to_use,example_query
-robust_eda,"Exploratory analysis using robust statistics resistant to outliers","Trimmed mean, MAD, median, IQR","Data with outliers, skewed distributions, small samples","analyze data with outliers"
-permutation_inference,"Non-parametric hypothesis testing via resampling methods","Permutation tests, bootstrap, randomization tests","Small samples, non-normal data, exact p-values needed","compare groups without assuming normality"
-weighted_regression,"Regression analysis with observation-specific weights","WLS, weighted OLS, robust regression","Varying data quality, heteroskedasticity, time-varying precision","regression with different observation importance"
-correlation_analysis_grayscale,"Correlation analysis with grayscale-friendly visualizations","Correlation ellipse plots, annotated matrices","Academic publications, print media, accessibility","visualize correlations for publication"
-polynomial_regression_diagnostics,"Diagnostic analysis for polynomial and nonlinear regression","Partial residual plots, component-plus-residual plots","Validating polynomial terms, checking nonlinearity","check if polynomial terms are needed"
