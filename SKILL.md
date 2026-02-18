@@ -18,6 +18,8 @@ Data Pro Max coordinates these specialized skills:
 | **`data-viz`** | Statistical Visualization | 📦 `data/skills/` |
 | **`document-converter`** | Format Conversion (Import/Export) | 📦 `data/skills/` |
 | **`duckdb-sql-master`** | High-performance SQL on local files | 📦 `data/skills/` |
+| **`time-series-analysis`**| Validation & metrics for sequence data | 📦 `data/skills/` |
+| **`clustering-toolkit`** | Advanced PCA+DBSCAN grouping | 📦 `data/skills/` |
 | **`context-optimizer`** | Document decomposition into .agent | 📦 `data/skills/` |
 
 ### Shared Skills (deployed via manifest)

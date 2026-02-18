@@ -24,12 +24,15 @@ To avoid context overflow, specific instructions and scripts are organized into 
 The following core scripts are available in the `scripts/` directory:
 
 - **Pipeline**: `quant_analyzer.py`, `qual_analyzer.py`, `dict_mapper.py`
-- **Stats**: `weighting.py`, `factor_analysis.py`, `survey_pca.py`, `clustering.py`, `turf_analysis.py`, `gower_distance_utility.py`, `permutation_test_utilities.py`
+- **Stats**: `weighting.py`, `factor_analysis.py`, `survey_pca.py`, `turf_analysis.py`, `permutation_test_utilities.py`
 - **Diagnostics**: `partial_residual_plot.py`, `glm_partial_residual_plot.py`
-- **Causal**: `drivers_analysis.py`, `residual_segmentation.py`, `chi2_residuals.py`, `association_matrix.py`
+- **Causal**: `drivers_analysis.py`, `chi2_residuals.py`, `association_matrix.py`
 - **Science**: `halo_removal.py`, `ipsative_analysis.py`, `pain_curves.py`, `disapproval_analysis.py`
 - **ML**: `permutation_feature_importance.py`
 - **Utils**: `data_directory_finder.py`
+
+> [!NOTE]
+> **Segmentation & Clustering**: All clustering-related tasks (K-Means, DBSCAN, Residual Segmentation, Gower Distance) have been migrated to the specialized `@clustering-toolkit`. Use that skill for grouping logic.
 
 ## 3. General Best Practices
 

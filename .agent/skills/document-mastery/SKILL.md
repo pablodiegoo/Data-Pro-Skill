@@ -1,6 +1,6 @@
 ---
 name: document-mastery
-description: "Patterns, templates, and Mermaid diagrams for creating world-class technical documentation and reports. Use for: (1) Creating new .md files, (2) Adding Mermaid diagrams, (3) Structuring reports and READMEs, (4) Applying GitHub-style alerts and premium visual standards, (5) Writing professional analysis reports."
+description: "Patterns, templates, academic personas, and Mermaid diagrams for creating world-class technical documentation and reports. Use for: (1) Creating new .md files, (2) Adding Mermaid diagrams, (3) Structuring academic/technical reports, (4) Applying GitHub-style standards, (5) Thesis defense quality control."
 ---
 
 # Document Mastery
@@ -68,6 +68,13 @@ When producing a final report or documentation:
 - [ ] Use **GitHub alerts** for critical findings and recommendations.
 - [ ] Embed **charts** from `data-viz` skill outputs where applicable.
 - [ ] Ensure the document follows the Standard Document Structure (Section 3).
+
+## 5. Academic & Research Standards
+
+For scientific projects or academic theses, use the following specialized guides:
+
+- [CRISP-DM for Academia](./references/crisp_dm_academic_research.md): Adapting data science cycles to research rigor.
+- [Thesis Defense Critic](./references/thesis_defense_critic_persona.md): Persona for challenging arguments and verifying data integrity.
 
 ---
 > [!TIP]
