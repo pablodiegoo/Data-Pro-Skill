@@ -367,5 +367,25 @@
       "dendrogram",
       "unsupervised"
     ]
+  },
+  "satisfaction_index": {
+    "id": "satisfaction_index",
+    "name": "Satisfaction Index Mapping",
+    "category": "transformation",
+    "description": "Map Likert scales (Portuguese or English) to numeric 0-10 index",
+    "imports": "import pandas as pd",
+    "code": "mapping = {\n    'Excelente': 10.0, 'Bom': 7.5, 'Regular': 5.0, 'Péssimo': 0.0,\n    'Excellent': 10.0, 'Good': 7.5, 'Neutral': 5.0, 'Poor': 0.0,\n    'Muito Satisfeito': 10.0, 'Satisfeito': 7.5, 'Indiferente': 5.0, 'Insatisfeito': 0.0,\n    'Very Satisfied': 10.0, 'Satisfied': 7.5, 'Neutral/Neither': 5.0, 'Dissatisfied': 0.0\n}\ndf[f'{col}_INDEX'] = df[col].map(mapping)",
+    "output_type": "Series",
+    "example": "df['q1_INDEX'] = df['q1'].map(mapping)"
+  },
+  "weighted_grouped_mean": {
+    "id": "weighted_grouped_mean",
+    "name": "Weighted Grouped Mean",
+    "category": "survey",
+    "description": "Calculate weighted average of a variable across groups",
+    "imports": "import pandas as pd",
+    "code": "def weighted_mean(df, val_col, weight_col):\n    \"\"\"Utility function for weighted average calculation.\"\"\"\n    return (df[val_col] * df[weight_col]).sum() / df[weight_col].sum()\n\n# Usage: Replace 'Group_Col', 'Value_Col', and 'weight' with your actual column names\nresult = df.groupby('Group_Col').apply(weighted_mean, val_col='Value_Col', weight_col='weight')",
+    "output_type": "Series",
+    "example": "result = df.groupby('segment').apply(weighted_mean, val_col='sat_index', weight_col='weight')"
   }
 }

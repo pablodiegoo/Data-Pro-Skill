@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datapro"
-version = "0.2.0"
+version = "0.2.1"
 description = "Data Pro Pro Max: The Ultimate AI-Powered Intelligence Suite for Data Science, Survey Analysis, and Professional Reporting."
 readme = "README.md"
 license = {text = "MIT"}
@@ -93,7 +93,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-datapro = ["data/*.csv", "data/*.json", "data/*.md"]
+datapro = ["data/*", "data/**/*"]
 
 [tool.black]
 line-length = 100

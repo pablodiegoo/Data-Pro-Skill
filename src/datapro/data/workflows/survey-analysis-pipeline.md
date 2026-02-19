@@ -17,9 +17,9 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 **Goal**: Clean raw data and map variable names using DuckDB for high-performance processing.
 
 1.  **Dictionary Mapping**:
-    - Use **`data-analysis-suite`**:
+    - Use **`data-manipulation`**:
       ```bash
-      python3 .agent/skills/data-analysis-suite/scripts/dict_mapper.py dict.xlsx
+      python3 .agent/skills/data-manipulation/scripts/dict_mapper.py dict.xlsx
       ```
 2.  **Cleaning Script (DuckDB Pipeline)**:
     - Create `01_data_prep.py` leveraging `duckdb-sql-master`.
@@ -34,10 +34,10 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 **Goal**: Adjust sample to match population targets.
 
 1.  **Run Weighting**:
-    - Create `02_weighting.py` using **`data-analysis-suite`**.
+    - Create `02_weighting.py` using **`data-manipulation`**.
     ```python
     from scripts.weighting import rake_weights
-    df['weight'] = rake_weights(df, targets)
+    # Note: script is now in data-manipulation/scripts/
     ```
 
 ## 5. Analysis & Visuals
