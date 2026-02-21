@@ -4,7 +4,7 @@ DataPro - Data Analysis Intelligence
 An AI-powered toolkit for data analysis recommendations.
 """
 
-__version__ = "0.1.4"
+__version__ = "0.2.1"
 __author__ = "Pablo Diego"
 
 from datapro.search import search_knowledge_base

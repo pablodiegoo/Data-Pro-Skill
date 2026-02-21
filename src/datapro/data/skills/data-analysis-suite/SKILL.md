@@ -13,23 +13,27 @@ To avoid context overflow, specific instructions and scripts are organized into 
 
 | Domain | Focus Area | Reference File |
 | :--- | :--- | :--- |
-| **Pipeline** | Cleaning, Mapping & Qual | [pipeline.md](./references/pipeline.md) |
+| **Pipeline** | Preparation & T-Layer | Use `@data-manipulation` |
 | **Multivariate** | Weights, PCA & Clusters | [multivariate.md](./references/multivariate.md) |
 | **Causal** | Drivers & Associations | [causal.md](./references/causal.md) |
 | **Science** | Bias & Specialty Metrics | [science.md](./references/science.md) |
 | **Machine Learning** | Classification & Feature Importance | [imbalanced_data_strategies.md](./references/imbalanced_data_strategies.md) |
+| **Strategic** | Priority Matrix & Halo | [priority_matrix.md](./references/priority_matrix.md), [halo_removal.md](./references/halo_removal.md) |
 
 ## 2. Integrated Scripts Overview
 
 The following core scripts are available in the `scripts/` directory:
 
-- **Pipeline**: `quant_analyzer.py`, `qual_analyzer.py`, `dict_mapper.py`
-- **Stats**: `weighting.py`, `factor_analysis.py`, `survey_pca.py`, `clustering.py`, `turf_analysis.py`, `gower_distance_utility.py`, `permutation_test_utilities.py`
+- **Pipeline**: `quant_analyzer.py`, `qual_analyzer.py`, `crosstabs.py`
+- **Stats**: `factor_analysis.py`, `survey_pca.py`, `turf_analysis.py`, `permutation_test_utilities.py`
 - **Diagnostics**: `partial_residual_plot.py`, `glm_partial_residual_plot.py`
-- **Causal**: `drivers_analysis.py`, `residual_segmentation.py`, `chi2_residuals.py`, `association_matrix.py`
+- **Causal**: `drivers_analysis.py`, `chi2_residuals.py`, `association_matrix.py`
 - **Science**: `halo_removal.py`, `ipsative_analysis.py`, `pain_curves.py`, `disapproval_analysis.py`
+- **Strategy**: `priority_matrix.py`, `conversion_funnel.py`
 - **ML**: `permutation_feature_importance.py`
-- **Utils**: `data_directory_finder.py`
+
+> [!NOTE]
+> **Segmentation & Clustering**: All clustering-related tasks (K-Means, DBSCAN, Residual Segmentation, Gower Distance) have been migrated to the specialized `@clustering-toolkit`. Use that skill for grouping logic.
 
 ## 3. General Best Practices
 

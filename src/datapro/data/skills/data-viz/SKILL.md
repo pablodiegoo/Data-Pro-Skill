@@ -29,6 +29,10 @@ For qualitative text analysis visualization. Use in conjunction with `survey-qua
 - **Correlation**: Ellipse plots for correlation matrices (publication style).
 - **Probability**: Bivariate normal distribution contours.
 
+### 7. Performance Visualization (`performance_curve_builder`)
+- **Performance Curves**: Cumulative results over time for any strategy.
+- **Drawdown**: Visualizing risk periods and recovery.
+
 ## Usage
 
 ```python
@@ -41,6 +45,7 @@ from scripts.advanced_plots import *  # Advanced chart types
 from scripts.principal_component_plotting import plot_feature_importance, plot_biplot 
 from scripts.correlation_ellipse_plot import plot_corr_ellipses
 from scripts.multivariate_normal_contours import plot_contours
+from scripts.performance_curve_builder import calculate_drawdown, extend_series_to_date
 
 # 1. Simple Bar Chart (Top 10 Cities)
 plot_bar(df, x_col="City", title="Respondents by City", filename="output/city_dist.png", orientation='h')

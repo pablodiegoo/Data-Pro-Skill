@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datapro"
-version = "0.1.4"
+version = "0.2.1"
 description = "Data Pro Pro Max: The Ultimate AI-Powered Intelligence Suite for Data Science, Survey Analysis, and Professional Reporting."
 readme = "README.md"
 license = {text = "MIT"}
@@ -53,6 +53,7 @@ dependencies = [
     "scikit-learn>=1.1.0",
     "matplotlib>=3.5.0",
     "seaborn>=0.12.0",
+    "duckdb>=0.9.0",
 ]
 
 [project.optional-dependencies]
@@ -92,7 +93,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
-datapro = ["data/*.csv", "data/*.json", "data/*.md"]
+datapro = ["data/*", "data/**/*"]
 
 [tool.black]
 line-length = 100

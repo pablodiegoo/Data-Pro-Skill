@@ -170,11 +170,22 @@ Use this matrix to decide where content belongs:
 5. **Use consistent naming** — `snake_case.md` for all files
 6. **Delete empty directories** — Don't keep placeholder folders
 
-## Bundled Resources
+### Phase 3: Semantic Grouping (Optimized)
 
+Automatically categorize your chunks into `.agent/` folders:
+
+```bash
+python3 .agent/skills/context-optimizer/scripts/group_sections.py <split_dir> --move
+```
+
+This script analyzes each chunk for keywords and structural markers to suggest whether it belongs in `memory/`, `workflows/`, `tasks/`, or `references/`.
+
+### Phase 4: Organize into .agent Structure
+...
 | Resource | Purpose |
 |----------|---------|
 | `scripts/decompose.py` | Split markdown by headers or custom regex |
+| `scripts/group_sections.py` | Automatically categorize chunks by semantic analysis |
 | `references/examples.md` | Real-world categorization examples and patterns |
 
 ## Related Skills
