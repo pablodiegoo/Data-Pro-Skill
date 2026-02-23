@@ -374,7 +374,7 @@
     "category": "transformation",
     "description": "Map Likert scales (Portuguese or English) to numeric 0-10 index",
     "imports": "import pandas as pd",
-    "code": "mapping = {\n    'Excelente': 10.0, 'Bom': 7.5, 'Regular': 5.0, 'Péssimo': 0.0,\n    'Excellent': 10.0, 'Good': 7.5, 'Neutral': 5.0, 'Poor': 0.0,\n    'Muito Satisfeito': 10.0, 'Satisfeito': 7.5, 'Indiferente': 5.0, 'Insatisfeito': 0.0,\n    'Very Satisfied': 10.0, 'Satisfied': 7.5, 'Neutral/Neither': 5.0, 'Dissatisfied': 0.0\n}\ndf[f'{col}_INDEX'] = df[col].map(mapping)",
+    "code": "mapping = {\n    'Excelente': 10.0, 'Bom': 7.5, 'Regular': 5.0, 'P\u00e9ssimo': 0.0,\n    'Excellent': 10.0, 'Good': 7.5, 'Neutral': 5.0, 'Poor': 0.0,\n    'Muito Satisfeito': 10.0, 'Satisfeito': 7.5, 'Indiferente': 5.0, 'Insatisfeito': 0.0,\n    'Very Satisfied': 10.0, 'Satisfied': 7.5, 'Neutral/Neither': 5.0, 'Dissatisfied': 0.0\n}\ndf[f'{col}_INDEX'] = df[col].map(mapping)",
     "output_type": "Series",
     "example": "df['q1_INDEX'] = df['q1'].map(mapping)"
   },
@@ -387,5 +387,30 @@
     "code": "def weighted_mean(df, val_col, weight_col):\n    \"\"\"Utility function for weighted average calculation.\"\"\"\n    return (df[val_col] * df[weight_col]).sum() / df[weight_col].sum()\n\n# Usage: Replace 'Group_Col', 'Value_Col', and 'weight' with your actual column names\nresult = df.groupby('Group_Col').apply(weighted_mean, val_col='Value_Col', weight_col='weight')",
     "output_type": "Series",
     "example": "result = df.groupby('segment').apply(weighted_mean, val_col='sat_index', weight_col='weight')"
+  },
+  "duckdb_fuzzy_csv_header_mapping": {
+    "name": "DuckDB Fuzzy CSV Header Mapping",
+    "description": "Uses DuckDB's read_csv_auto to extract headers and fuzzy-matches them to a clean dictionary before loading. Solves Pandas trailing-comma issues.",
+    "code": "import duckdb\ncon = duckdb.connect()\nheaders = [col[0] for col in con.execute(f\"SELECT * FROM read_csv_auto('{path}') LIMIT 0\").description]\n# Map headers...\nsel = ', '.join([f'\"{o}\" AS {c}' for o,c in mapped.items()])\ndf = con.execute(f\"SELECT {sel} FROM read_csv_auto('{path}')\").df()",
+    "tags": [
+      "duckdb",
+      "cleaning",
+      "csv",
+      "fuzzy-match"
+    ],
+    "id": "duckdb_fuzzy_csv_header_mapping"
+  },
+  "chi_squared_residual_heatmap": {
+    "name": "Chi-Squared Residual Heatmap",
+    "description": "Calculates Chi-Squared standardized residuals for a crosstab and plots them as a heatmap to highlight severe statistical deviations.",
+    "code": "from scipy.stats import chi2_contingency\nimport seaborn as sns\nimport numpy as np\ncrosstab = pd.crosstab(df[col1], df[col2])\nchi2, p, dof, exp = chi2_contingency(crosstab)\nresiduals = (crosstab - exp) / np.sqrt(exp)\nsns.heatmap(residuals, annot=True, cmap='RdBu_r', center=0)",
+    "tags": [
+      "stats",
+      "chi-squared",
+      "heatmap",
+      "visualization",
+      "anomaly"
+    ],
+    "id": "chi_squared_residual_heatmap"
   }
 }

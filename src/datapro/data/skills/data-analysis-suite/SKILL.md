@@ -17,6 +17,7 @@ To avoid context overflow, specific instructions and scripts are organized into 
 | **Multivariate** | Weights, PCA & Clusters | [multivariate.md](./references/multivariate.md) |
 | **Causal** | Drivers & Associations | [causal.md](./references/causal.md) |
 | **Science** | Bias & Specialty Metrics | [science.md](./references/science.md) |
+| **Methodologies** | Advanced Harvested Patterns | [new_methodologies.md](./references/new_methodologies.md) |
 | **Machine Learning** | Classification & Feature Importance | [imbalanced_data_strategies.md](./references/imbalanced_data_strategies.md) |
 | **Strategic** | Priority Matrix & Halo | [priority_matrix.md](./references/priority_matrix.md), [halo_removal.md](./references/halo_removal.md) |
 
@@ -25,7 +26,9 @@ To avoid context overflow, specific instructions and scripts are organized into 
 The following core scripts are available in the `scripts/` directory:
 
 - **Pipeline**: `quant_analyzer.py`, `qual_analyzer.py`, `crosstabs.py`
+- **Generators**: `eda_notebook_generator.py`, `advanced_analytics_generator.py`
 - **Stats**: `factor_analysis.py`, `survey_pca.py`, `turf_analysis.py`, `permutation_test_utilities.py`
+- **Qualitative**: `qualitative_categorizer.py`
 - **Diagnostics**: `partial_residual_plot.py`, `glm_partial_residual_plot.py`
 - **Causal**: `drivers_analysis.py`, `chi2_residuals.py`, `association_matrix.py`
 - **Science**: `halo_removal.py`, `ipsative_analysis.py`, `pain_curves.py`, `disapproval_analysis.py`

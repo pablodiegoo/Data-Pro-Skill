@@ -1,4 +1,0 @@
-id,name,description,tags,requires_target
-adv_analytics_gen,Advanced Analytics Notebook Generation,Generates an ipynb combining correlation, Random Forest drivers, PCA, and Clustering.,notebook;machine-learning;personas;drivers,true
-eda_notebook_gen,Automated EDA Notebook Generation,Generates a comprehensive descriptive statistics notebook grouping by data types.,notebook;eda;descriptive,false
-halo_removal,Halo Effect Removal (Residuals),Uses linear regression against respondent mean to find bias-free feature importance.,bias;stats;regression,false

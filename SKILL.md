@@ -45,6 +45,7 @@ Data Pro Max coordinates these specialized skills:
 | **`/survey-analysis-pipeline`**| End-to-end execution | 📦 Packaged (`datapro setup`) |
 | **`/project-harvest`** | Learning extraction → `assets/harvest/` | 📦 Packaged (`datapro setup`) |
 | **`/document-study`** | Deep analysis of papers/methodology | 📦 Packaged (`datapro setup`) |
+| **`/notebook-generation`** | Dual-layered automated notebook reporting | 📦 Packaged (`datapro setup`) |
 | **`/project-evolution`** | Absorb harvest into Data-Pro-Skill | 🏠 Local (this repo only) |
 
 ## 3. High-Performance Workflow
