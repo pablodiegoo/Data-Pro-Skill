@@ -49,7 +49,7 @@ The workflow runs sequentially through **5 scan phases**, then loops back. Stop 
 
 ### Phase 2: Methodology & Patterns Scan
 **Goal**: Identify novel analytical approaches used in this project.
-1. Scan analysis scripts for techniques not covered by `data-analysis-suite`.
+1. Scan analysis scripts for techniques not covered by our analytical skills (`survey-analytics`, `causal-inference`, `strategic-frameworks`, `machine-learning-lite`).
 2. Check for:
    - New statistical methods or formulas.
    - Innovative data cleaning or transformation patterns.

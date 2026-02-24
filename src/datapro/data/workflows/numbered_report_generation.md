@@ -1,7 +1,7 @@
 # Numbered Reproducible Script Architecture
 
 ## The Pattern
-In OS18, the project execution was managed through strict numerically ordered Python scripts in the `scripts/` directory:
+Project execution should be managed through strict numerically ordered Python scripts in the `scripts/` directory:
 1. `01_prep_data.py` (Data cleaning and Parquet export)
 2. `02_create_notebook.py` (Generating exploratory/statistical notebooks)
 3. `03_eda_report.py` (Generating Markdown EDA reports)

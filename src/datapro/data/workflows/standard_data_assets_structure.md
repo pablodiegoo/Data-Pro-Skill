@@ -11,7 +11,7 @@ For data-intensive survey projects, we propose a 3-tier structure for `assets/da
 -   **Performance**:
     - **raw/**: Direct from source (CSV/XLSX).
     - **intermediate/**: Prepared by **`@data-manipulation`** (Parquet).
-    - **results/**: Analyzed by **`@data-analysis-suite`** (Tables/JSON).
+    - **results/**: Analyzed by **`@survey-analytics`** or **`@causal-inference`** (Tables/JSON).
     Reading Parquet from `intermediate/` is 10x-50x faster than raw CSV during iterative analysis.
 -   **Auditability**: Keeping raw files immutable ensures reproducibility.
 -   **Reporting**: Separating final results prevents cluttering the code with data-processing logic during visualization.

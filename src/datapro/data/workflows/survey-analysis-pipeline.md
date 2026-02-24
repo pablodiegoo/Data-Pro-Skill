@@ -51,7 +51,7 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 **Goal**: Reveal hidden patterns and remove biases.
 
 1.  **Methodology**:
-    - Use **`data-analysis-suite`** for specialized calculations.
+    - Use **`@causal-inference`** or **`@strategic-frameworks`** for specialized calculations (Drivers, Halo Removal, Priority Matrices).
     - Consult `references/causal.md` for Drivers.
     - Consult `references/science.md` for Halo removal and Pain Curves.
 
