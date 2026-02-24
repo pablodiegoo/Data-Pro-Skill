@@ -58,7 +58,8 @@
         "references": ".agent/references/",
         "skills": ".agent/skills/",
         "workflows": ".agent/workflows/",
-        "memory": ".agent/memory/"
+        "memory": ".agent/memory/",
+        "scripts": ".agent/scripts/"
       }
     },
     ".github": {
