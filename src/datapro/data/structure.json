@@ -80,7 +80,9 @@
   "deploy_manifest": {
     "shared_agent_skills": [
       "brainstorming",
-      "document-mastery"
+      "document-mastery",
+      "notebooklm",
+      "skill-creator"
     ]
   }
 }

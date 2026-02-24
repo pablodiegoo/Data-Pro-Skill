@@ -225,6 +225,11 @@ def cmd_setup(args):
             if (parent / "SKILL.md").exists() and (parent / "src").exists():
                 source_root = parent
                 break
+                
+    if target_project.resolve() == source_root.resolve():
+        print("❌ Error: You cannot run 'datapro setup' inside the Data-Pro-Skill source repository.")
+        print("   The source repository is the engine itself. Setup is for integrating DataPro into OTHER projects.")
+        sys.exit(1)
     
     print(f"\n🚀 Setting up DataPro potential in: {target_project}\n")
     print(f"ℹ️  Source Root: {source_root}")

@@ -14,9 +14,9 @@ Standardizes raw, cryptic variables into semantic labels using external mapping 
 - **Script**: `scripts/dict_mapper.py`
 - **Reference**: [pipeline.md](./references/pipeline.md)
 
-### B. High-Performance Aggregation (DuckDB)
-Performs SQL-based analytics on large datasets without high RAM overhead.
-- **Script**: `scripts/quant_analyzer_duckdb.py`
+### B. High-Performance Ingestion & Aggregation (DuckDB Track)
+Provides extremely fast ingestion and fuzzy cleaning for messy local files or files > 1GB.
+- **Scripts**: `scripts/duckdb_fuzzy_cleaner.py`, `scripts/quant_analyzer_duckdb.py`
 - **Reference**: [duckdb_analytics.md](./references/duckdb_analytics.md)
 
 ### C. Sample Weighting
