@@ -412,5 +412,38 @@
       "anomaly"
     ],
     "id": "chi_squared_residual_heatmap"
+  },
+  "point_biserial": {
+    "id": "point_biserial",
+    "name": "Point-Biserial Correlation",
+    "category": "correlation",
+    "description": "Measure correlation between a binary categorical and a continuous variable",
+    "imports": "from scipy import stats\nimport pandas as pd",
+    "code": "def point_biserial(df, binary_col, continuous_col):\n    \"\"\"Calculate Point-Biserial correlation.\n    binary_col: column with exactly 2 categories.\n    continuous_col: numeric column.\n    \"\"\"\n    data = df[[binary_col, continuous_col]].dropna()\n    codes = data[binary_col].astype('category').cat.codes\n    r, p = stats.pointbiserialr(codes, data[continuous_col])\n    return {\n        'correlation': round(r, 4),\n        'p_value': round(p, 4),\n        'significant': p < 0.05,\n        'strength': 'weak' if abs(r) < 0.3 else 'moderate' if abs(r) < 0.5 else 'strong'\n    }",
+    "output_type": "dict",
+    "example": "result = point_biserial(df, 'gender', 'satisfaction_score')",
+    "tags": ["correlation", "binary", "point-biserial", "relationships"]
+  },
+  "kruskal_wallis": {
+    "id": "kruskal_wallis",
+    "name": "Kruskal-Wallis H Test",
+    "category": "inferential",
+    "description": "Non-parametric alternative to one-way ANOVA for comparing 3+ groups",
+    "imports": "from scipy import stats\nimport numpy as np",
+    "code": "def kruskal_wallis_test(*groups, alpha=0.05):\n    \"\"\"Perform Kruskal-Wallis H test (non-parametric ANOVA).\n    Pass each group as a separate array.\n    \"\"\"\n    h_stat, p_value = stats.kruskal(*groups)\n    n = sum(len(g) for g in groups)\n    k = len(groups)\n    epsilon_squared = (h_stat - k + 1) / (n - k)\n    return {\n        'h_statistic': round(h_stat, 4),\n        'p_value': round(p_value, 4),\n        'epsilon_squared': round(epsilon_squared, 4),\n        'significant': p_value < alpha,\n        'post_hoc': 'Use Dunn test for pairwise comparisons' if p_value < alpha else 'No post-hoc needed'\n    }",
+    "output_type": "dict",
+    "example": "result = kruskal_wallis_test(group_a, group_b, group_c)",
+    "tags": ["non-parametric", "kruskal-wallis", "compare-groups", "3-plus-groups"]
+  },
+  "multinomial_logistic": {
+    "id": "multinomial_logistic",
+    "name": "Multinomial Logistic Regression",
+    "category": "regression",
+    "description": "Predict a categorical outcome with 3+ classes from multiple predictors",
+    "imports": "from sklearn.linear_model import LogisticRegression\nfrom sklearn.preprocessing import StandardScaler\nimport pandas as pd\nimport numpy as np",
+    "code": "def multinomial_logistic(df, target_col, predictor_cols, scale=True):\n    \"\"\"Fit multinomial logistic regression.\n    target_col: categorical column with 3+ levels.\n    predictor_cols: list of numeric predictor columns.\n    \"\"\"\n    data = df[[target_col] + predictor_cols].dropna()\n    X = data[predictor_cols].values\n    y = data[target_col].values\n    if scale:\n        X = StandardScaler().fit_transform(X)\n    model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=1000)\n    model.fit(X, y)\n    return {\n        'classes': model.classes_.tolist(),\n        'accuracy': round(model.score(X, y), 4),\n        'coefficients': pd.DataFrame(\n            model.coef_, index=model.classes_, columns=predictor_cols\n        ).round(4).to_dict(),\n        'n_obs': len(data)\n    }",
+    "output_type": "dict",
+    "example": "result = multinomial_logistic(df, 'travel_purpose', ['age', 'income', 'frequency'])",
+    "tags": ["regression", "multinomial", "classification", "multi-class", "prediction"]
   }
 }

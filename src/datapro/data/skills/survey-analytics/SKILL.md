@@ -25,3 +25,4 @@ This skill provides fundamental data operations exclusively tailored for Survey 
 Refer to the `references/` folder for specific guidelines on:
 - **Explicit Weight Handling** (`explicit_weight_handling.md`)
 - **Survey Governance** (`survey_governance.md`)
+- **Statistical Test Selector** (`statistical_test_selector.md`) — Decision tree for choosing the right test
