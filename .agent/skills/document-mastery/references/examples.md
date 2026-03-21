@@ -286,6 +286,21 @@ requirementDiagram
     test_req - contains -> test_req3
 ```
 
+### Venn Diagram
+Useful for showing relationships between sets.
+
+```mermaid
+venn-beta
+  set A["Alpha"]:20
+    text A1["React"]
+    text A2["Design Systems"]
+  set B["Beta"]:12
+  union A,B["AB"]:3
+  style A fill:#ff6b6b
+  style A,B color:#333
+  style A1 color:red
+```
+
 ### C4 Context Diagram
 Useful for software architecture documentation (C4 model).
 
@@ -310,16 +325,26 @@ Alternative syntax for sequence diagrams (more readable).
 
 ```mermaid
 zenuml
-    title Order Process
-    
-    @Actor Client
-    @Boundary OrderController
-    @Entity OrderService
-    @Database OrderDB
-    
-    Client->OrderController.createOrder(items) {
-        OrderController->OrderService.validate(items)
-        OrderService->OrderDB.save(order)
-        return order
+    title Order Service
+    @Actor Client #FFEBE6
+    @Boundary OrderController #0747A6
+    @EC2 <<BFF>> OrderService #E3FCEF
+    group BusinessService {
+      @Lambda PurchaseService
+      @AzureFunction InvoiceService
+    }
+
+    @Starter(Client)
+    // `POST /orders`
+    OrderController.post(payload) {
+      OrderService.create(payload) {
+        order = new Order(payload)
+        if(order != null) {
+          par {
+            PurchaseService.createPO(order)
+            InvoiceService.createInvoice(order)      
+          }      
+        }
+      }
     }
 ```
