@@ -11,6 +11,8 @@
 | Show trends | **XY Chart (line)** | Time series, growth metrics |
 | Show flow of quantities | **Sankey** | Budget allocation, energy flow |
 | Strategic positioning | **Quadrant Chart** | BCG matrix, priority matrix |
+| Hierarchical proportions | **Treemap** | Budget breakdown, disk usage, market share |
+| Multi-dimensional comparison | **Radar Chart** | Skill profiles, product comparison |
 
 ### 🔄 Process & Workflow
 
@@ -55,6 +57,7 @@
 | Brainstorming | **Mindmap** | Feature ideas, research topics |
 | Hierarchical concepts | **Mindmap** | Taxonomy, org structure |
 | Experience mapping | **User Journey** | Pain points, emotions |
+| Set overlaps / intersections | **Venn Diagram** | Skill overlap, audience segments |
 
 ### 🔧 Technical Documentation
 
@@ -106,6 +109,11 @@ What are you documenting?
     ├── Git branches → Gitgraph
     ├── API flow → Sequence/ZenUML
     └── Network → Packet Diagram
+
+📊 New Diagram Types (v11.6+):
+├── Multi-dimension metrics → Radar Chart
+├── Hierarchical proportions → Treemap
+└── Set intersections → Venn Diagram
 ```
 
 ---
@@ -119,3 +127,4 @@ What are you documenting?
 | Simple Flowchart | State Diagram | ERD (full schema) |
 | Mindmap (small) | Gantt Chart | Class Diagram |
 | Gitgraph (simple) | XY Chart | Sankey (many flows) |
+| Venn (2-3 sets) | Radar Chart | Treemap (deep hierarchy) |

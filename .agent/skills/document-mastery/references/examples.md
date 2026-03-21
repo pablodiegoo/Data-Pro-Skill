@@ -286,20 +286,6 @@ requirementDiagram
     test_req - contains -> test_req3
 ```
 
-### Venn Diagram
-Useful for showing relationships between sets.
-
-```mermaid
-venn-beta
-  set A["Alpha"]:20
-    text A1["React"]
-    text A2["Design Systems"]
-  set B["Beta"]:12
-  union A,B["AB"]:3
-  style A fill:#ff6b6b
-  style A,B color:#333
-  style A1 color:red
-```
 
 ### C4 Context Diagram
 Useful for software architecture documentation (C4 model).
@@ -317,6 +303,73 @@ C4Context
     Rel(banking, email, "Sends emails", "SMTP")
     Rel(banking, mainframe, "Gets account info", "XML/HTTPS")
 ```
+
+---
+
+## Diagrams v11.6+ (Newest)
+
+### Radar Chart (v11.6.0+)
+Useful for multidimensional comparison (spider/star chart).
+
+```mermaid
+---
+title: "Grades"
+---
+radar-beta
+  axis m["Math"], s["Science"], e["English"]
+  axis h["History"], g["Geography"], a["Art"]
+  curve alice["Alice"]{85, 90, 80, 70, 75, 90}
+  curve bob["Bob"]{70, 75, 85, 80, 90, 85}
+
+  max 100
+  min 0
+```
+
+**Key syntax:**
+- `axis id["Label"]` — defines each dimension
+- `curve id["Label"]{v1, v2, ...}` — data series (values in axis order)
+- `graticule circle|polygon` — grid style (default: circle)
+- `max`, `min`, `ticks`, `showLegend`
+
+### Treemap (v11.x+)
+Useful for hierarchical proportional data (budget, file sizes, market share).
+
+```mermaid
+treemap-beta
+"Budget"
+    "Operations"
+        "Salaries": 700000
+        "Equipment": 200000
+    "Marketing"
+        "Advertising": 400000
+        "Events": 100000
+```
+
+**Key syntax:**
+- Hierarchy via indentation; leaf nodes use `"Name": value`
+- `classDef` works for styling: `"Node":::myClass`
+- `valueFormat: '$0,0'` — D3 format specifiers for value display
+
+### Venn Diagram (v11.12.3+)
+Useful for showing set relationships and overlaps.
+
+```mermaid
+venn-beta
+  title "Team overlap"
+  set A["Frontend"]
+    text A1["React"]
+    text A2["Design Systems"]
+  set B["Backend"]
+    text B1["API"]
+  union A,B["Shared"]
+    text AB1["OpenAPI"]
+```
+
+**Key syntax:**
+- `set id["Label"]:size` — define a circle (`:size` optional)
+- `union id1,id2["Label"]:size` — overlap region
+- `text id["Label"]` — text inside a set/union (indented)
+- `style A fill:#ff6b6b` — inline styling
 
 ---
 

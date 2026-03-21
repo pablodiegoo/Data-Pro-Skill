@@ -25,6 +25,9 @@
 | Requirement | `requirementDiagram` | - |
 | C4 Context | `C4Context` | - |
 | ZenUML | `zenuml` | - |
+| Radar | `radar-beta` | - |
+| Treemap | `treemap-beta` | - |
+| Venn | `venn-beta` | - |
 
 ## Node Shapes (Flowchart)
 
@@ -177,4 +180,43 @@ ENTITY1 ||--|| ENTITY2 : one-to-one
     'tertiaryColor': '#fff'
   }
 }}%%
+```
+
+## Math / KaTeX (v10.9.0+)
+
+Mermaid renders mathematical expressions via **KaTeX**. Wrap expressions in `$$`.
+Supported in: `flowchart` e `sequenceDiagram`.
+
+```
+graph LR
+    A["$$x^2$$"] -->|"$$\\sqrt{x+3}$$"| B("$$\\frac{1}{2}$$")
+```
+
+```
+sequenceDiagram
+    participant A as $$\\alpha$$
+    A->>B: Solve: $$\\sqrt{2+2}$$
+```
+
+> **Legacy mode**: set `legacyMathML: true` or `forceLegacyMathML: true` in config for cross-browser consistency.
+
+## Icon Packs (Architecture Diagrams)
+
+Register icon packs from [icones.js.org](https://icones.js.org/) to use in `architecture-beta` diagrams.
+
+```js
+// Via CDN (in mermaid.initialize)
+mermaid.registerIconPacks([
+  {
+    name: 'logos',
+    loader: () =>
+      fetch('https://unpkg.com/@iconify-json/logos@1/icons.json').then(r => r.json()),
+  },
+]);
+```
+
+```js
+// Via npm with lazy loading
+import { icons } from '@iconify-json/logos';
+mermaid.registerIconPacks([{ name: icons.prefix, icons }]);
 ```

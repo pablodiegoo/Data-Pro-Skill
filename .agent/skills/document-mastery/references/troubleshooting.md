@@ -206,5 +206,47 @@ xychart-beta
 | `sankey-beta` | Not rendering | Needs v10.0+ |
 | `architecture-beta` | Unknown diagram | Needs v11.1+ |
 | `kanban` | Not recognized | Needs v11.4+ |
+| `radar-beta` | Unknown diagram | Needs v11.6+ |
+| `treemap-beta` | Not rendering | Needs v11.x+ |
+| `venn-beta` | Unknown diagram | Needs v11.12.3+ |
+| Math `$$` | Not rendering | Needs v10.9+ — KaTeX support |
 | Mindmap icons | Not showing | Limited icon support |
 | Themes | Not applying | Check `%%{init}%%` syntax |
+
+### 11. Radar: Invalid graticule value
+
+**Problem**: `graticule` option fails silently.
+
+**Solution**: Only `circle` or `polygon` are valid values.
+
+```
+radar-beta
+  axis A, B, C
+  curve c1{1, 2, 3}
+  graticule polygon  ✅  (not 'hex' or 'square')
+```
+
+### 12. Treemap: Negative values break layout
+
+**Problem**: Treemap crashes or renders incorrectly with negative values.
+
+**Solution**: Treemap only supports positive numeric values for leaf nodes.  
+Use `Sankey` for flow data with negatives instead.
+
+### 13. Venn: Undefined set in union
+
+**Problem**: `union` references an ID not declared with `set`.
+
+```
+venn-beta
+  union A,B["Both"]  ❌ A and B never defined
+```
+
+**Solution**: Always declare `set` before using in `union`.
+
+```
+venn-beta
+  set A["Alpha"]
+  set B["Beta"]
+  union A,B["Both"]  ✅
+```
