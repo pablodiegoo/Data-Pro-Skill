@@ -14,6 +14,8 @@ This skill provides fundamental data operations exclusively tailored for Survey 
 - **`qual_analyzer.py`**: Basic qualitative text processing.
 - **`eda_notebook_generator.py`**: Generates automated Exploratory Data Analysis notebooks.
 - **`advanced_analytics_generator.py`**: Scaffolds advanced statistical notebooks.
+- **`survey_report_generator.py`**: Generates initial EDA using 100% Native Markdown and Mermaid.js.
+- **`final_report_generator.py`**: Generates a senior-level analytical report with automatic hypotheses testing.
 
 ### 2. Market Research Standards
 - **`crosstabs.py`**: Cross-tabulation matrices with significance testing.

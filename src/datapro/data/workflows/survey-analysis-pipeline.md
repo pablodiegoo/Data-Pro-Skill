@@ -44,8 +44,8 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 **Goal**: Generate insights and charts.
 
 1.  **Charts**:
-    - Generate breakdown charts using **`data-viz`**.
-    - Save outputs to the results folder defined in `structure.json` (`assets/images/`).
+    - Use `survey_report_generator.py` for automated EDA.
+    - Standardize the use of Mermaid.js (`xychart-beta` and `pie`) for frequencies to maintain 100% Markdown output.
 
 ## 6. Advanced Analysis (Specialized Metrics)
 **Goal**: Reveal hidden patterns and remove biases.
@@ -58,6 +58,6 @@ This workflow outlines the standard operating procedure for analyzing survey dat
 ## 7. Reporting
 **Goal**: Compile the final deliverable.
 
-1.  **Draft Report**: Write `report.md` following **`document-mastery`** standards (Mermaid diagrams, alerts, structure).
+1.  **Draft Report**: Generate the final analytical report via a hypothesis-driven script like `final_report_generator.py`. This script must natively output cross-tabs, NPS, and statistical significance tests in Markdown.
 2.  **Compile**:
     - Use **`document-converter`** for final PDF/DOCX export.

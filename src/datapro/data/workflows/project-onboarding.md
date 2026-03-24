@@ -33,11 +33,12 @@ This workflow is the mandatory starting point for all new analytical projects. I
     - `coding-standards.md`: Python & DuckDB best practices.
     - `data-governance.md`: Reproducibility and immutability rules.
     - `quality-assurance.md`: Pre-flight and weighted audit checks.
+    - `reporting-standards.md`: Enforce 100% Markdown (zero external images) rule using Mermaid.js.
 
 ## Phase 4: Strategy & Roadmap
 **Goal**: Define "How" it will be built.
 1.  **Project Brief**: Create `docs/plans/project-brief.md` summarizing the technical strategy.
-2.  **Task Initiation**: Create the initial `task.md` with the first concrete steps.
+2.  **Task Initiation**: Create the initial `task.md` with the first concrete steps. Ensure task mapping mandates the inclusion of two-tier reporting scripts (Initial EDA script first, Final Analytical Report script second).
 3.  **User Sign-off**: Present the brief to the user for final approval.
 
 ---
