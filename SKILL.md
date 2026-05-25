@@ -171,6 +171,61 @@ segments: [{seg1}, {seg2}, ...]
 
 ---
 
+## Command: /dps-cross [VarX] x [VarY] — Tufte Crosstab with Statistical Test
+
+**Purpose:** Produce a dense, Tufte-style crosstab table comparing two user-specified variables. Runs the full invisible agent loop: Statistician selects the appropriate statistical test based on observed data types, Critic validates test selection and assumptions, Tufte Designer formats the output. Output includes N column, percentages with margin of error, statistical test result (test statistic, degrees of freedom, p-value, effect size), and interpretive margin note.
+
+### Execution Steps
+
+1. **Run the invisible agent loop (Stage 1 → Stage 2 → Stage 3).** No other steps needed — the agent loop IS the execution.
+
+   **Stage 1 — Statistician (internal, never shown to user):**
+
+   1. Determine data type of VarX and VarY (categorical 2-group, categorical 3+ group, continuous). Read the actual data to determine types — do not assume from variable names.
+   2. Consult the Statistical Test Selector Matrix in `agents/agent-statistician.md` for the recommended test. The matrix is a GUIDE, not a rigid rule — exercise judgment based on observed data characteristics.
+   3. Check test assumptions: sample size per group (N ≥ 30 for parametric per constitution.md Article 5), normality (if t-test/ANOVA), homogeneity of variance (Levene's test), expected cell frequencies ≥ 5 for χ² (fall back to Fisher's exact if violated).
+   4. If parametric assumptions are violated, fall back to non-parametric equivalent: Mann-Whitney U for t-test, Kruskal-Wallis for ANOVA, Spearman's ρ for Pearson's r.
+   5. Compute the test statistic, degrees of freedom, p-value, and effect size (Cohen's d for mean comparisons, Cramér's V for χ², η² for ANOVA, r² for correlation).
+   6. Compute all percentages with margin of error per constitution.md Article 1: MoE = 1.96 × √(p(1-p)/n).
+
+   **Stage 2 — Critic (internal, never shown to user):**
+
+   1. Validate test selection: is this the right test for the observed data types? Are assumptions met? Did the Statistician check them?
+   2. Verify all constitution.md articles: Article 1 (MoE on every %), Article 2 (p < 0.05 for significance claims), Article 5 (parametric test N ≥ 30 per group), Article 6b (% sums within 99.5%-100.5%).
+   3. Flag issues: small sample sizes (flag per constitution), spurious correlations (no plausible causal mechanism), overgeneralization risks (convenience sample, single segment).
+   4. If test selection is invalid OR constitution articles are violated → return to Statistician with specific correction. Do NOT pass invalid output to Tufte Designer.
+
+   **Stage 3 — Tufte Designer (ONLY output user sees):**
+
+   1. Format as dense crosstab table. The header row MUST contain the key finding (conclusion-first). The table has EXACTLY these columns: `{VarX}` (left-aligned), `N` (center-aligned), `{VarY Category A}` (center-aligned), `{VarY Category B}` (center-aligned), `Teste` (left-aligned). Add categories dynamically for 3+ group VarY.
+   2. Every row: segment name, N for that row, count and % with MoE for each VarY category. Total row at bottom with overall N and test statistic.
+   3. After the table, include a `> **Nota de Margem:**` blockquote with 1-3 sentences of sharp interpretation — "so what?" for this cross. Never repeat what the table already shows. Connect to business implications.
+   4. Zero prose fluff. Go straight to the data. The first text after the heading is the table. No introductory paragraphs, no "Based on the data provided..." throat-clearing.
+
+### Output Format
+
+```markdown
+## {VarX} × {VarY} — {Key Finding in Header}
+
+| {VarX} | N | {VarY Category A} | {VarY Category B} | Teste |
+| :--- | :--: | :--: | :--: | :--- |
+| {Group 1} | {n} | {n} ({pct}% ±{moe}%, 95% CI) | {n} ({pct}% ±{moe}%, 95% CI) | — |
+| {Group 2} | {n} | {n} ({pct}% ±{moe}%, 95% CI) | {n} ({pct}% ±{moe}%, 95% CI) | — |
+| **Total** | **{N}** | **{n} ({pct}%)** | **{n} ({pct}%)** | {test_name}({df}, N={N}) = {statistic}, p={value}, {effect_size_name} = {effect_size_value} |
+
+> **Nota de Margem:** {1-3 sentence sharp interpretation — "so what?" for this cross. Never repeat what the table already shows. Connect to business implications. Reference qualitative verbatims if available.}
+```
+
+**Constraints:**
+- NEVER hardcode a test mapping (e.g., "if categorical then χ²") — the Statistician consults the matrix and exercises judgment
+- ALWAYS check assumptions before applying a test — do not skip to the test
+- The Critic CAN and MUST block invalid test selections — it is not advisory
+- The table IS the output — no surrounding prose
+- Effect size is mandatory — significance without effect size is insufficient
+- The `/dps-setup` manifesto is NOT required for `/dps-cross` — the user provides data directly. If a manifesto exists, cross-reference segment definitions for naming consistency.
+
+---
+
 ## Command Reference
 
 | Command | Description | Status |
