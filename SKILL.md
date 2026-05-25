@@ -123,6 +123,54 @@ segments: [{seg1}, {seg2}, ...]
 
 ---
 
+## Command: /dps-clarify — Adaptive Business Hypothesis Questions
+
+**Purpose:** Generate 3-5 provocative, data-specific questions about business goals, stakeholder hypotheses, and analytical assumptions BEFORE any quantitative analysis. Ensures analysis is hypothesis-driven, not fishing expedition. Bypasses the invisible agent loop — no statistical validation needed for hypothesis elicitation.
+
+### Execution Steps
+
+1. **Inspect the data.** Scan all provided data for: segment names, variable names, sample size (N), metric values (NPS, CSAT, churn rate, etc.), and any notable patterns (outliers, extreme values, unexpected distributions). Do NOT skip this step — generic questions are forbidden per constitution.md Article 3.
+
+2. **Select relevant categories.** From the 5 reference categories below, select the 3-5 most relevant to this specific data:
+
+   | # | Categoria | O que Investigar |
+   |---|-----------|-----------------|
+   | 1 | Business Objective | What decision will this analysis inform? |
+   | 2 | Stakeholder Hypotheses | What do decision-makers BELIEVE before seeing data? |
+   | 3 | Expected Surprises | Where do stakeholders expect the data to challenge assumptions? |
+   | 4 | Dependent Decisions | What budget/strategy/timeline decision hinges on this analysis? |
+   | 5 | Data Quality & Reliability | Collection method, timing, known biases, missing segments |
+
+   Not all 5 categories are required every time — choose 3-5 based on data relevance.
+
+3. **Generate questions.** For each selected category, craft ONE question that:
+   - References CONCRETE data elements (segment names, N values, metric values — never generic placeholders)
+   - Is provocative — challenges assumptions, not confirms them
+   - Cannot be answered with yes/no
+   - Would change the analysis approach depending on the answer
+
+   **Forbidden:** Generic questions ("What is your business objective?")
+   **Required:** Data-specific questions ("Segment C (B2B, N=145) shows NPS -22 while Segment A (B2C, N=520) shows NPS +41. What hypothesis do stakeholders have about the B2B product experience driving this gap?")
+
+4. **Output questions.** Numbered list 1 to 3-5. Each line format: `{N}. [{Category Name}] {Data-specific provocative question}`. No preamble. No closing remarks. No "Here are your questions:" introduction — go straight to the numbered list.
+
+### Output Format
+
+```markdown
+1. [Business Objective] {Data-specific provocative question referencing concrete segment and metric}
+2. [Stakeholder Hypotheses] {Data-specific provocative question referencing concrete segment and metric}
+3. [Expected Surprises] {Data-specific provocative question referencing concrete segment and metric}
+4. [Data Quality & Reliability] {Data-specific provocative question referencing concrete segment and metric}
+```
+
+**Constraints:**
+- Every question MUST name a specific data element (segment, N, metric, variable) — zero exceptions
+- Minimum 3 questions, maximum 5 — no fewer, no more
+- No agent loop — clarify is pre-analytical, no statistics involved
+- No prose wrapping the numbered list — output IS the list
+
+---
+
 ## Command Reference
 
 | Command | Description | Status |
