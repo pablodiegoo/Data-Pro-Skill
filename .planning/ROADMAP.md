@@ -6,15 +6,21 @@
 
 ### Phase 1: Constitution & Setup
 
-**Goal:** Establish the analytical constitution and `/setup` command that anchors all subsequent analysis with a quantitative manifesto in Tufte style.
+**Goal:** Establish the analytical constitution and `/dps-setup` command that anchors all subsequent analysis with a quantitative manifesto in Tufte style.
 
 **Mode:** mvp
 
 **Requirements:**
 - SETUP-01, SETUP-02, CONST-01, OUTP-01, OUTP-02, HARN-01, HARN-02, ARCH-01, ARCH-03
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Create constitution.md (6 articles, 8 rules) + SKILL.md (agent loop, /dps-setup, commands, Tufte rules, DPS naming)
+- [ ] 01-02-PLAN.md — Walking skeleton validation: run /dps-setup with sample data, validate all 9 requirements, create SKELETON.md
+
 **Success Criteria:**
-1. `/setup` produces a YAML-frontmatter manifesto with segments, N, volumetrics, and core metrics
+1. `/dps-setup` produces a YAML-frontmatter manifesto with segments, N, volumetrics, and core metrics
 2. Output has zero prose fluff — goes straight to data
 3. Output is pure Markdown with no XML tags (harness-agnostic)
 4. Invisible agent loop (Statistician → Critic → Tufte Designer) is documented in the prompt
