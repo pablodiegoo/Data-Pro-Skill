@@ -1,0 +1,48 @@
+{
+  "name": "release-branches",
+  "target": "branch",
+  "enforcement": "disabled",
+  "conditions": {
+    "ref_name": {
+      "include": ["refs/heads/release/**", "refs/heads/hotfix/**"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": true,
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true,
+        "allowed_merge_methods": ["squash", "rebase"]
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "required_status_checks": [
+          { "context": "lint-tests" },
+          { "context": "test (ubuntu-latest, 22)" },
+          { "context": "test (macos-latest, 22)" },
+          { "context": "test (windows-latest, 22)" },
+          { "context": "test (ubuntu-latest, 24)" },
+          { "context": "test (macos-latest, 24)" },
+          { "context": "test (windows-latest, 24)" },
+          { "context": "Changeset Required" },
+          { "context": "require-issue-link" },
+          { "context": "pr-template-format" }
+        ]
+      }
+    }
+  ]
+}

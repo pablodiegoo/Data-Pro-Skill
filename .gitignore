@@ -1,26 +1,71 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.env
+node_modules/
+.DS_Store
+TO-DOS.md
+CLAUDE.md
+/research.claude/
+commands.html
 
-# Distribution / Packaging 
+# Local test installs
+.claude/
+
+# Cursor IDE — local agents/skills bundle (never commit)
+.cursor/
+
+# Build artifacts (committed to npm, not git)
+hooks/dist/
+
+# Per-process atomic-write staging dirs used by scripts/build-hooks.js (see comment there)
+hooks/.dist-staging-*/
+
+# Coverage artifacts
+coverage/
+
+# Animation assets
+animation/
+*.gif
+
+# Installed skills
+.github/agents/gsd-*
+.github/skills/gsd-*
+.github/get-shit-done/*
+.github/skills/get-shit-done
+.github/copilot-instructions.md
+.bg-shell/
+
+# ── GSD baseline (auto-generated) ──
+.gsd
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+.env
+.env.*
+!.env.example
+.next/
 dist/
 build/
-*.egg-info/
-
-# Development
-.agent/memory/*
-.agent/tasks/*
-.vscode/
-.idea/
-
-# Staging Area (Incoming Contributions)
-staging/*
-tests/*
-
+__pycache__/
+*.pyc
 .venv/
+venv/
+target/
+vendor/
+*.log
+.cache/
+tmp/
+.worktrees
+.envrc
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json
+
+# Local scratch + Claude-test artifacts
+.scratch/
+claude-test-command.md
+
+# Observability audit trail (issue #177) — append-only, local only
+.planning/.gsd-trace.jsonl
