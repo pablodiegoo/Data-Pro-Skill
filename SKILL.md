@@ -188,9 +188,18 @@ segments: [{seg1}, {seg2}, ...]
 
 Activate specialized personas that overlay the invisible agent loop:
 
-### /dps-mode:quant
+### /dps-mode:quant — Senior Statistician Persona
 
-Activates **Statistician** persona. Focus: correlations, crosstabs, NPS analysis, Churn modeling, CSAT breakdowns, significance testing. The Statistician reads `agents/agent-statistician.md` for test selection, sample profiling, and data quality checks. Use when the user needs deep quantitative analysis beyond what `/dps-cross` provides.
+A session-scoped toggle. Once activated, all subsequent commands in the current session operate in quant mode. The Statistician agent takes a more prominent role — deeper distribution analysis, explicit effect size reporting (Cohen's d, η², Cramér's V), and assumption diagnostics (normality tests, homogeneity of variance, residual analysis).
+
+**Behavioral changes when quant mode is active:**
+
+- **Full distribution summaries:** The Statistician reports mean, median, SD, skewness, kurtosis, and quartiles for every continuous variable touched — not just the test statistic.
+- **Mandatory effect sizes:** Every test result includes effect size, not just significance. No "significant" without "how large."
+- **Explicit assumption checks:** Normality (Shapiro-Wilk for N < 2000 or Kolmogorov-Smirnov for larger samples), homogeneity (Levene's test), independence — all explicitly reported, not assumed.
+- **Stricter Critic:** The Critic flags missing effect sizes, unreported assumption violations, and significance claims without confidence intervals.
+
+**Usage:** If `/dps-mode:quant` is run as a standalone command, the persona activates for all subsequent commands. If used as a prefix (`/dps-mode:quant /dps-cross VarX x VarY`), the persona activates for that single command only. Reference: the Statistician reads `agents/agent-statistician.md` for test selection, sample profiling, and data quality checks — quant mode deepens these responsibilities, does not replace them.
 
 ### /dps-mode:quali
 
