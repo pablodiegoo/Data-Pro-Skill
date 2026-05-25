@@ -265,6 +265,37 @@ segments: [{seg1}, {seg2}, ...]
 
 ---
 
+## Command: /dps-execute — Autonomous Quantitative Analysis
+
+**Purpose:** Run autonomous multi-cross quantitative analysis. Reads the `/dps-setup` manifesto to identify segments and metrics, derives cross combinations, runs each through the full agent loop (Statistician → Critic → Tufte Designer), and produces a consolidated Tufte report. Works independently from `/dps-plan`. If `/dps-plan` output exists, uses it as a starting point but adapts to actual data. Use this when you want comprehensive analysis without manually specifying each cross.
+
+### Execution Steps
+
+1. **Read the manifesto.** Load the YAML frontmatter and segment matrix from the `/dps-setup` output. Extract: all segment names, all tracked metrics, and sample sizes. If no manifesto exists, inform the user: "Execute `/dps-setup` primeiro para definir os segmentos e métricas." Do not proceed without the manifesto.
+
+2. **Determine crosses to run.** If `/dps-plan` output exists in the current context, scan it as a starting point — use its suggested crosses as the initial candidate set. If no plan exists, derive crosses algorithmically: every segment × metric combination from the manifesto. If the number of crosses exceeds 20, prioritize: (a) crosses with largest N per cell, (b) crosses where metrics show high variance between segments in the manifesto. Include a note in the output listing which crosses were prioritized and which were deferred. If ≤20 crosses, run all combinations.
+
+3. **For each cross: run the full agent loop.** For EACH cross in the determined set: (a) Statistician selects test and computes statistics (same as `/dps-cross`), (b) Critic validates test selection and constitution enforcement, (c) Tufte Designer formats the cross result as a crosstab table with margin note. If a cross fails validation (Critic blocks it), include it with the Critic's caveat rather than silently dropping it — transparency over completeness.
+
+4. **Consolidate.** Combine all crosstab outputs into a single Tufte report with this structure:
+   - YAML frontmatter: `project`, `date`, `sample_size`, and `crosses_run` (integer count)
+   - `# {Project Name} — Análise Quantitativa Completa` as the top-level heading
+   - `> **Nota de Margem:**` overview blockquote summarizing key patterns across all crosses (1-3 sentences)
+   - Each cross as a `## {VarX} × {VarY} — {Key Finding}` subsection with its table and margin note
+   - Final `## Síntese dos Achados` section: 3-5 bullet points of the most impactful findings across all crosses, each backed by at least one test statistic
+
+5. **Synthesize key findings.** The final synthesis section must: (a) rank findings by effect size, not p-value (a large effect with p=0.06 is more actionable than a tiny effect with p=0.001), (b) note which findings are consistent across multiple crosses (convergent evidence), (c) flag any finding that contradicts another cross (divergent evidence — surface the tension, do not resolve it silently), (d) include at most 5 bullet points — prioritize ruthlessly. The Critic audits the synthesis for overgeneralization and spurious patterns.
+
+**Constraints:**
+- `/dps-execute` is autonomous — the user does not specify which crosses to run
+- `/dps-execute` MUST work without `/dps-plan` — the cross derivation in Step 2 covers this
+- If `/dps-plan` exists, treat it as a starting point but deviate from the plan if actual data suggests different tests
+- Every cross runs the full agent loop — no shortcuts, no skipping Critic validation
+- The consolidated report is a SINGLE output, not incremental — all crosses run before any output is shown
+- If the manifesto has only 1 segment or 1 metric, output: "Manifesto contém apenas {1 segmento / 1 métrica} — análise multi-cruzamento requer pelo menos 2 segmentos e 1 métrica (ou 1 segmento e 2 métricas). Execute `/dps-cross` para cruzamentos individuais."
+
+---
+
 ## Command Reference
 
 | Command | Description | Status |
