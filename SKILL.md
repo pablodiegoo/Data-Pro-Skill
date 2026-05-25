@@ -231,7 +231,7 @@ segments: [{seg1}, {seg2}, ...]
 | Command | Description | Status |
 |---|---|---|
 | `/dps-setup` | Generate quantitative manifesto — YAML frontmatter, segment matrix, margin notes. Anchors all subsequent analysis. | Phase 1 — implemented |
-| `/dps-cross [VarX] x [VarY]` | Produce Tufte-style crosstab table with N, %, margin notes, and significance tests. Reads segments from the manifesto. | Full implementation in Phase 2 |
+| `/dps-cross [VarX] x [VarY]` | Produce Tufte-style crosstab table with N, %, margin notes, and significance tests. Auto-selects statistical test via agent loop. | Phase 2 — implemented |
 | `/dps-clarify` | Ask 3-5 provocative business hypothesis questions before data analysis. Ensures analysis is hypothesis-driven, not fishing. | Phase 2 — implemented |
 | `/dps-plan` | Design analytical approach — which tests, which crosstabs, why each. Outputs a structured plan before execution. | Full implementation in Phase 2 |
 | `/dps-inject-open [text]` | Categorize open-ended responses within existing quantitative segments from the manifesto. Qualitative findings enrich — never replace — quantitative data. | Full implementation in Phase 3 |
