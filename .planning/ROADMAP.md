@@ -16,8 +16,8 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Create constitution.md (6 articles, 8 rules) + SKILL.md (agent loop, /dps-setup, commands, Tufte rules, DPS naming)
-- [ ] 01-02-PLAN.md — Walking skeleton validation: run /dps-setup with sample data, validate all 9 requirements, create SKELETON.md
+- [x] 01-01-PLAN.md — Create constitution.md (6 articles, 8 rules) + SKILL.md (agent loop, /dps-setup, commands, Tufte rules, DPS naming) ✓
+- [x] 01-02-PLAN.md — Walking skeleton validation: run /dps-setup with sample data, validate all 9 requirements, create SKELETON.md ✓
 
 **Success Criteria:**
 1. `/dps-setup` produces a YAML-frontmatter manifesto with segments, N, volumetrics, and core metrics
@@ -38,6 +38,13 @@ Plans:
 
 **Requirements:**
 - CLAR-01, PLAN-01, CROSS-01, CROSS-02, EXEC-01, MODE-01
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Pre-analysis layer: /dps-clarify (adaptive hypothesis questions) + /dps-mode:quant (session-scoped Statistician persona)
+- [ ] 02-02-PLAN.md — Core analysis: /dps-cross [VarX] x [VarY] (Tufte crosstab with auto-selected statistical test, full agent loop)
+- [ ] 02-03-PLAN.md — Scaling up: /dps-plan (checklist of suggested crosses) + /dps-execute (autonomous multi-cross analysis)
 
 **Success Criteria:**
 1. `/clarify` asks 3-5 provocative business questions before any calculation
