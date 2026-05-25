@@ -254,6 +254,251 @@ def compile_document(args):
             os.remove(tmp_path)
 
 
+def simple_markdown_to_html(md_content: str) -> str:
+    """
+    A lightweight, regex-based Markdown to HTML converter.
+    Handles headings, tables, blockquotes, bold/italic, links, and paragraphs.
+    """
+    import re
+    lines = md_content.split("\n")
+    html_lines = []
+    in_table = False
+    table_headers = []
+    table_rows = []
+    in_list = False
+    in_quote = False
+    quote_lines = []
+    
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        
+        # Code block
+        if line.startswith("```"):
+            code_lines = []
+            i += 1
+            while i < len(lines) and not lines[i].startswith("```"):
+                code_lines.append(lines[i])
+                i += 1
+            code_text = "\n".join(code_lines)
+            code_text = code_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            html_lines.append(f"<pre><code>{code_text}</code></pre>")
+            i += 1
+            continue
+            
+        # Table parsing
+        if line.strip().startswith("|") and "|" in line:
+            if re.match(r'^[\s|:-]+$', line.strip()):
+                i += 1
+                continue
+                
+            cells = [c.strip() for c in line.split("|")[1:-1]]
+            if not in_table:
+                in_table = True
+                table_headers = cells
+            else:
+                table_rows.append(cells)
+            i += 1
+            continue
+        elif in_table:
+            table_html = "<table>\n<thead>\n<tr>"
+            for h in table_headers:
+                table_html += f"<th>{h}</th>"
+            table_html += "</tr>\n</thead>\n<tbody>\n"
+            for r in table_rows:
+                table_html += "<tr>"
+                for cell in r:
+                    table_html += f"<td>{cell}</td>"
+                table_html += "</tr>\n"
+            table_html += "</tbody>\n</table>"
+            html_lines.append(table_html)
+            in_table = False
+            table_headers = []
+            table_rows = []
+            
+        # List parsing
+        if line.strip().startswith("- ") or line.strip().startswith("* "):
+            content = line.strip()[2:]
+            if not in_list:
+                in_list = True
+                html_lines.append("<ul>")
+            html_lines.append(f"<li>{content}</li>")
+            i += 1
+            continue
+        elif in_list:
+            html_lines.append("</ul>")
+            in_list = False
+            
+        # Blockquote parsing
+        if line.strip().startswith(">"):
+            content = line.strip()[1:].strip()
+            if not in_quote:
+                in_quote = True
+            quote_lines.append(content)
+            i += 1
+            continue
+        elif in_quote:
+            quote_text = " ".join(quote_lines)
+            html_lines.append(f"<blockquote>{quote_text}</blockquote>")
+            in_quote = False
+            quote_lines = []
+            
+        # Heading parsing
+        if line.startswith("# "):
+            html_lines.append(f"<h1>{line[2:]}</h1>")
+        elif line.startswith("## "):
+            html_lines.append(f"<h2>{line[3:]}</h2>")
+        elif line.startswith("### "):
+            html_lines.append(f"<h3>{line[4:]}</h3>")
+        elif line.startswith("#### "):
+            html_lines.append(f"<h4>{line[5:]}</h4>")
+        elif not line.strip():
+            html_lines.append("")
+        else:
+            html_lines.append(f"<p>{line}</p>")
+            
+        i += 1
+        
+    if in_table:
+        table_html = "<table>\n<thead>\n<tr>"
+        for h in table_headers:
+            table_html += f"<th>{h}</th>"
+        table_html += "</tr>\n</thead>\n<tbody>\n"
+        for r in table_rows:
+            table_html += "<tr>"
+            for cell in r:
+                table_html += f"<td>{cell}</td>"
+            table_html += "</tr>\n"
+        table_html += "</tbody>\n</table>"
+        html_lines.append(table_html)
+    if in_list:
+        html_lines.append("</ul>")
+    if in_quote:
+        quote_text = " ".join(quote_lines)
+        html_lines.append(f"<blockquote>{quote_text}</blockquote>")
+        
+    full_html = "\n".join(html_lines)
+    full_html = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', full_html)
+    full_html = re.sub(r'\*(.*?)\*', r'<em>\1</em>', full_html)
+    full_html = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', full_html)
+    full_html = full_html.replace("<p></p>", "")
+    
+    return full_html
+
+
+def export_tufte_report(outputs_dir: str, output_path: str) -> bool:
+    """
+    Finds all Markdown files in outputs_dir, sorts them alphabetically,
+    concatenates their content, and compiles them to a self-contained Tufte HTML report.
+    """
+    from pathlib import Path
+    
+    outputs_path = Path(outputs_dir)
+    if not outputs_path.exists() or not outputs_path.is_dir():
+        print(f"❌ Error: Outputs directory '{outputs_dir}' not found.")
+        return False
+
+    # Find all .md files, sorted alphabetically
+    md_files = sorted(list(outputs_path.glob("*.md")))
+    if not md_files:
+        print(f"❌ Error: No Markdown files found in '{outputs_dir}'.")
+        return False
+
+    print(f"📄 Found {len(md_files)} Markdown files in '{outputs_dir}'. Merging...")
+    
+    # Merge contents
+    merged_content = ""
+    for md_file in md_files:
+        print(f"   - Merging: {md_file.name}")
+        with open(md_file, "r", encoding="utf-8") as f:
+            content = f.read()
+            # Strip yaml frontmatter from individual files if present
+            if content.startswith("---"):
+                parts = content.split("---", 2)
+                if len(parts) >= 3:
+                    content = parts[2].strip()
+            merged_content += content + "\n\n"
+            
+    # Load tufte.css
+    css_path = Path(__file__).parent / "data" / "tufte.css"
+    if css_path.exists():
+        with open(css_path, "r", encoding="utf-8") as f:
+            css_content = f.read()
+    else:
+        css_content = "/* Tufte CSS fallback */"
+        
+    # Attempt compilation with Pandoc
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    header_content = f"<style>\n{css_content}\n</style>"
+    
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False, dir=script_dir, encoding='utf-8') as tmp_header:
+            tmp_header.write(header_content)
+            tmp_header_path = tmp_header.name
+            
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.md', delete=False, dir=script_dir, encoding='utf-8') as tmp_merged:
+            tmp_merged.write(merged_content)
+            tmp_merged_path = tmp_merged.name
+            
+        cmd = [
+            "pandoc",
+            "-s",
+            "-H", tmp_header_path,
+            "-o", output_path,
+            "--metadata", 'title=Data Pro Max Analysis Report',
+            tmp_merged_path
+        ]
+        
+        print("📑 Attempting self-contained Tufte HTML report via Pandoc...")
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode == 0:
+            print(f"✅ Success! Tufte HTML report generated via Pandoc: {output_path}")
+            return True
+        else:
+            print("⚠️ Pandoc compilation failed. Falling back to native Python compiler...")
+    except FileNotFoundError:
+        print("⚠️ Pandoc not found. Falling back to native Python compiler...")
+    except Exception as e:
+        print(f"⚠️ Error with Pandoc: {e}. Falling back to native Python compiler...")
+    finally:
+        if 'tmp_header_path' in locals() and os.path.exists(tmp_header_path):
+            os.remove(tmp_header_path)
+        if 'tmp_merged_path' in locals() and os.path.exists(tmp_merged_path):
+            os.remove(tmp_merged_path)
+
+    # Native Python Compiler Fallback (highly portable)
+    try:
+        print("🐍 Compiling using native Python Markdown-to-HTML engine...")
+        body_html = simple_markdown_to_html(merged_content)
+        
+        full_html = f"""<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Pro Max Analysis Report</title>
+  <style>
+{css_content}
+  </style>
+</head>
+<body>
+  <div class="report-container">
+    <div class="main-column">
+{body_html}
+    </div>
+  </div>
+</body>
+</html>
+"""
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(full_html)
+        print(f"✅ Success! Self-contained Tufte HTML report generated: {output_path}")
+        return True
+    except Exception as e:
+        print(f"❌ Error during native compilation: {e}")
+        return False
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Report Writer - Advanced PDF/DOCX Engine")
     parser.add_argument("input_file", help="Path to input Markdown file")

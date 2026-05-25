@@ -1,0 +1,11 @@
+Satisfaction,Recommendation,Age_Segment
+Very Satisfied,Yes,18-24
+Satisfied,Yes,25-34
+Neutral,No,35+
+Dissatisfied,No,18-24
+Very Satisfied,Yes,25-34
+Satisfied,Yes,35+
+Neutral,Yes,18-24
+Dissatisfied,No,25-34
+Very Satisfied,Yes,35+
+Neutral,No,18-24

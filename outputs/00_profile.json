@@ -1,0 +1,11 @@
+{
+  "n_rows": 10,
+  "n_cols": 3,
+  "numeric_cols": [],
+  "categorical_cols": [],
+  "datetime_cols": [],
+  "text_cols": [],
+  "has_likert": false,
+  "has_weight_col": false,
+  "missing_pct": {}
+}

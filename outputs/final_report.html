@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Pro Max Analysis Report</title>
+  <style>
+/* Tufte CSS - Custom design for Data Pro Max reports */
+
+body {
+  font-family: Georgia, Palatino, "Palatino Linotype", "Times New Roman", serif;
+  background-color: #fffff8;
+  color: #111111;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111111;
+  font-weight: 400;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-style: italic;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  max-width: 55%;
+}
+
+/* Wide margin layout for grid rendering */
+@media (min-width: 900px) {
+  .report-container {
+    display: grid;
+    grid-template-columns: 55% 5% 40%;
+    column-gap: 20px;
+  }
+  
+  .main-column {
+    grid-column: 1;
+  }
+  
+  .margin-column {
+    grid-column: 3;
+  }
+}
+
+/* Table styling: Tufte style (no vertical grid lines, clean boundaries) */
+table {
+  border-collapse: collapse;
+  margin: 2rem 0;
+  max-width: 100%;
+  font-size: 0.95rem;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+th, td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+}
+
+th {
+  border-bottom: 1px solid #111111;
+  font-weight: bold;
+}
+
+td {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+table tr:last-child td {
+  border-bottom: 2px solid #111111;
+}
+
+/* Sidenotes and Margin notes using blockquote */
+blockquote {
+  border-left: 2px solid #1c3d5a;
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background-color: #f7f7f0;
+  font-size: 0.95rem;
+  color: #333333;
+}
+
+@media (min-width: 900px) {
+  blockquote {
+    float: right;
+    clear: right;
+    margin-right: -45%;
+    width: 38%;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-left: 2px solid #1c3d5a;
+    background-color: #fcfcf4;
+  }
+}
+
+code {
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-size: 0.9rem;
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 4px;
+  border: 1px solid #e1e1e1;
+  max-width: 55%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+}
+
+  </style>
+</head>
+<body>
+  <div class="report-container">
+    <div class="main-column">
+<h1>Project Manifest: Sample Survey</h1>
+
+<blockquote>💡 <strong>Nota de Margem:</strong> This manifest anchors the quantitative analysis context. All subsequent crossed tables must reference segments defined here.</blockquote>
+
+<h2>📊 Dataset Profile Summary</h2>
+<ul>
+<li><strong>Total Records (N)</strong>: 10</li>
+<li><strong>Variables</strong>: 3</li>
+<li><strong>Numeric Columns</strong>: 0 (...)</li>
+<li><strong>Categorical Columns</strong>: 0 (...)</li>
+<li><strong>Text/Open-Ended Columns</strong>: 0 (...)</li>
+</ul>
+
+<h2>📊 Cruzamento: Satisfaction x Recommendation</h2>
+
+<blockquote>💡 <strong>Nota de Margem:</strong> Cruzamento analítico de Satisfaction por Recommendation. [Inserir observações qualitativas dos segmentos aqui]</blockquote>
+
+<h3>Tabela de Frequência Absoluta (N)</h3>
+<table>
+<thead>
+<tr><th>Satisfaction</th><th>No</th><th>Yes</th><th>Total</th></tr>
+</thead>
+<tbody>
+<tr><td>Dissatisfied</td><td>2</td><td>0</td><td>2</td></tr>
+<tr><td>Neutral</td><td>2</td><td>1</td><td>3</td></tr>
+<tr><td>Satisfied</td><td>0</td><td>2</td><td>2</td></tr>
+<tr><td>Very Satisfied</td><td>0</td><td>3</td><td>3</td></tr>
+<tr><td>Total</td><td>4</td><td>6</td><td>10</td></tr>
+</tbody>
+</table>
+
+<h3>Tabela de Distribuição Percentual (%)</h3>
+<table>
+<thead>
+<tr><th>Satisfaction</th><th>No</th><th>Yes</th></tr>
+</thead>
+<tbody>
+<tr><td>Dissatisfied</td><td>50</td><td>0</td></tr>
+<tr><td>Neutral</td><td>50</td><td>16.7</td></tr>
+<tr><td>Satisfied</td><td>0</td><td>33.3</td></tr>
+<tr><td>Very Satisfied</td><td>0</td><td>50</td></tr>
+<tr><td>Total</td><td>100</td><td>100</td></tr>
+</tbody>
+</table>
+
+
+
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "status": "WARNING",
+  "checks": [
+    {
+      "name": "Project Manifest",
+      "status": "OK"
+    },
+    {
+      "name": "Data Profile JSON",
+      "status": "OK"
+    },
+    {
+      "name": "Analysis Spec",
+      "status": "PENDING"
+    },
+    {
+      "name": "Crosstabulations Run",
+      "status": "OK (1 found)"
+    }
+  ]
+}

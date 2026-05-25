@@ -33,6 +33,17 @@ PRESETS = {
         palette_id="neutral_blue",
         best_for="Business reports, presentations",
     ),
+    "tufte": StylePreset(
+        name="Tufte",
+        font_title="Georgia",
+        font_body="Georgia",
+        figsize=(7, 4.5),
+        dpi=300,
+        background="white",
+        grid=False,
+        palette_id="tufte_dense",
+        best_for="Edward Tufte style high data-ink ratio plots",
+    ),
     "academic": StylePreset(
         name="Academic",
         font_title="Times New Roman",
@@ -194,6 +205,17 @@ PDF_THEMES = {
         line_spacing=1.3,
         best_for="Tech reports and digital dashboard exports",
     ),
+    "tufte": PDFTheme(
+        name="Tufte",
+        primary_color="111111",
+        secondary_color="333333",
+        font_main="Palatino",
+        font_title="Palatino-Bold",
+        titlepage_color="FFFFFF",
+        titlepage_text_color="111111",
+        line_spacing=1.4,
+        best_for="Edward Tufte handouts style reports",
+    ),
 }
 
 
@@ -203,3 +225,45 @@ _styles = StylePresets()
 def get_styles() -> StylePresets:
     """Get the global StylePresets instance."""
     return _styles
+
+
+def set_tufte_theme(ax=None):
+    """
+    Applies Edward Tufte's data visualization principles to matplotlib.
+    Removes top and right spines, minimizes gridlines, sets serif typography.
+    """
+    try:
+        import matplotlib.pyplot as plt
+        
+        # Configure global parameters
+        plt.rcParams.update({
+            "font.family": "serif",
+            "font.serif": ["Georgia", "Palatino", "Times New Roman", "DejaVu Serif"],
+            "figure.figsize": (7, 4.5),
+            "figure.dpi": 300,
+            "axes.facecolor": "white",
+            "figure.facecolor": "white",
+            "axes.grid": False,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.spines.left": True,
+            "axes.spines.bottom": True,
+            "axes.edgecolor": "#111111",
+            "axes.linewidth": 0.6,
+            "xtick.major.size": 4,
+            "ytick.major.size": 4,
+            "xtick.color": "#111111",
+            "ytick.color": "#111111",
+            "text.color": "#111111",
+            "axes.labelcolor": "#111111",
+        })
+        
+        if ax:
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['left'].set_linewidth(0.6)
+            ax.spines['bottom'].set_linewidth(0.6)
+            ax.tick_params(axis='both', which='both', length=4, width=0.6, colors='#111111')
+    except ImportError:
+        pass
+

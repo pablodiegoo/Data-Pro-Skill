@@ -449,6 +449,216 @@ __pycache__/
     print("\n💡 Tip: After setup, try 'datapro --help' in the new project directory.")
 
 
+def cmd_init(args):
+    """Profile data and initialize the outputs/ directory."""
+    import pandas as pd
+    import json
+    import os
+    import sys
+    from pathlib import Path
+    from datapro.reasoning import profile_data
+    
+    filepath = Path(args.file)
+    if not filepath.exists():
+        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        sys.exit(1)
+        
+    outputs_dir = Path("outputs")
+    os.makedirs(outputs_dir, exist_ok=True)
+    
+    # Load data
+    if filepath.suffix in [".csv"]:
+        df = pd.read_csv(filepath)
+    elif filepath.suffix in [".parquet"]:
+        df = pd.read_parquet(filepath)
+    elif filepath.suffix in [".xlsx", ".xls"]:
+        df = pd.read_excel(filepath)
+    else:
+        print(f"Error: Unsupported format: {filepath.suffix}", file=sys.stderr)
+        sys.exit(1)
+        
+    # Profile data
+    profile = profile_data(df, goal=args.goal)
+    
+    # Write outputs/00_profile.json
+    profile_data_dict = {
+        "n_rows": profile.n_rows,
+        "n_cols": profile.n_cols,
+        "numeric_cols": profile.numeric_cols,
+        "categorical_cols": profile.categorical_cols,
+        "datetime_cols": profile.datetime_cols,
+        "text_cols": profile.text_cols,
+        "has_likert": profile.has_likert,
+        "has_weight_col": profile.has_weight_col,
+        "missing_pct": profile.missing_pct,
+    }
+    
+    with open(outputs_dir / "00_profile.json", "w", encoding="utf-8") as f:
+        json.dump(profile_data_dict, f, indent=2)
+        
+    # Write outputs/00_project_manifest.md
+    manifest_content = f"""---
+project: "{args.name or filepath.stem.replace('_', ' ').title()}"
+goal: "{args.goal}"
+sample_size: {len(df)}
+has_weight_column: {profile.has_weight_col}
+---
+
+# Project Manifest: {args.name or filepath.stem.replace('_', ' ').title()}
+
+> 💡 **Nota de Margem:** This manifest anchors the quantitative analysis context. All subsequent crossed tables must reference segments defined here.
+
+## 📊 Dataset Profile Summary
+- **Total Records (N)**: {profile.n_rows}
+- **Variables**: {profile.n_cols}
+- **Numeric Columns**: {len(profile.numeric_cols)} ({', '.join(profile.numeric_cols[:5])}...)
+- **Categorical Columns**: {len(profile.categorical_cols)} ({', '.join(profile.categorical_cols[:5])}...)
+- **Text/Open-Ended Columns**: {len(profile.text_cols)} ({', '.join(profile.text_cols[:5])}...)
+"""
+    with open(outputs_dir / "00_project_manifest.md", "w", encoding="utf-8") as f:
+        f.write(manifest_content)
+        
+    print(f"✅ Project initialized successfully!")
+    print(f"   Created folder: outputs/")
+    print(f"   Generated: outputs/00_profile.json")
+    print(f"   Generated: outputs/00_project_manifest.md")
+
+
+def cmd_cross(args):
+    """Execute cross-tabulation and append to outputs."""
+    import pandas as pd
+    import os
+    import sys
+    from pathlib import Path
+    
+    filepath = Path(args.file)
+    if not filepath.exists():
+        print(f"Error: File not found: {filepath}", file=sys.stderr)
+        sys.exit(1)
+        
+    # Load data
+    if filepath.suffix in [".csv"]:
+        df = pd.read_csv(filepath)
+    elif filepath.suffix in [".parquet"]:
+        df = pd.read_parquet(filepath)
+    elif filepath.suffix in [".xlsx", ".xls"]:
+        df = pd.read_excel(filepath)
+    else:
+        print(f"Error: Unsupported format: {filepath.suffix}", file=sys.stderr)
+        sys.exit(1)
+        
+    col_x, col_y = args.x, args.y
+    if col_x not in df.columns or col_y not in df.columns:
+        print(f"Error: Columns '{col_x}' or '{col_y}' not found in dataset.", file=sys.stderr)
+        sys.exit(1)
+        
+    outputs_dir = Path("outputs")
+    os.makedirs(outputs_dir, exist_ok=True)
+    
+    # Compute counts
+    ct_counts = pd.crosstab(df[col_x], df[col_y], margins=True, margins_name="Total")
+    # Compute percentages (column-wise)
+    ct_pct = pd.crosstab(df[col_x], df[col_y], normalize='columns') * 100
+    # Add a Total row of 100%
+    ct_pct.loc['Total'] = [100.0] * len(ct_pct.columns)
+    
+    # Clean up column names for formatting
+    ct_pct = ct_pct.round(1)
+    
+    # Render markdown
+    markdown_content = f"""## 📊 Cruzamento: {col_x} x {col_y}
+
+> 💡 **Nota de Margem:** Cruzamento analítico de {col_x} por {col_y}. [Inserir observações qualitativas dos segmentos aqui]
+
+### Tabela de Frequência Absoluta (N)
+{ct_counts.to_markdown()}
+
+### Tabela de Distribuição Percentual (%)
+{ct_pct.to_markdown()}
+"""
+    
+    filename = f"01_crosstab_{col_x.replace(' ', '_')}_x_{col_y.replace(' ', '_')}.md"
+    with open(outputs_dir / filename, "w", encoding="utf-8") as f:
+        f.write(markdown_content)
+        
+    print(f"✅ Crosstabulation complete!")
+    print(f"   Generated: outputs/{filename}")
+
+
+def cmd_verify_pipeline(args):
+    """Run programmatic pipeline checks on outputs."""
+    import json
+    import sys
+    from pathlib import Path
+    
+    outputs_dir = Path("outputs")
+    if not outputs_dir.exists():
+        print("❌ Error: outputs/ directory does not exist. Run 'datapro init' first.")
+        sys.exit(1)
+        
+    report = {
+        "status": "PASS",
+        "checks": []
+    }
+    
+    # Check 1: Manifest exists
+    manifest_path = outputs_dir / "00_project_manifest.md"
+    if manifest_path.exists():
+        report["checks"].append({"name": "Project Manifest", "status": "OK"})
+    else:
+        report["checks"].append({"name": "Project Manifest", "status": "MISSING"})
+        report["status"] = "FAIL"
+        
+    # Check 2: Profile exists
+    profile_path = outputs_dir / "00_profile.json"
+    if profile_path.exists():
+        report["checks"].append({"name": "Data Profile JSON", "status": "OK"})
+    else:
+        report["checks"].append({"name": "Data Profile JSON", "status": "MISSING"})
+        report["status"] = "FAIL"
+        
+    # Check 3: Analysis Spec exists
+    spec_path = outputs_dir / "00_analysis_spec.md"
+    if spec_path.exists():
+        report["checks"].append({"name": "Analysis Spec", "status": "OK"})
+    else:
+        # Warning only
+        report["checks"].append({"name": "Analysis Spec", "status": "PENDING"})
+        if report["status"] != "FAIL":
+            report["status"] = "WARNING"
+            
+    # Check 4: Crosstabs run
+    crosstabs = list(outputs_dir.glob("01_crosstab_*.md"))
+    if crosstabs:
+        report["checks"].append({"name": "Crosstabulations Run", "status": f"OK ({len(crosstabs)} found)"})
+    else:
+        report["checks"].append({"name": "Crosstabulations Run", "status": "PENDING (none found)"})
+        if report["status"] != "FAIL":
+            report["status"] = "WARNING"
+            
+    with open(outputs_dir / "verification_report.json", "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2)
+        
+    print("\n🔍 --- Pipeline Verification Report ---")
+    print(f"Overall Status: {report['status']}")
+    for check in report["checks"]:
+        print(f"  [{check['status']}] {check['name']}")
+    print("Report saved to outputs/verification_report.json\n")
+
+
+def cmd_export(args):
+    """Compile merged outputs to Tufte HTML."""
+    import sys
+    from datapro.reporter import export_tufte_report
+    
+    outputs_dir = args.input_dir
+    output_path = args.output or "outputs/final_report.html"
+    
+    success = export_tufte_report(outputs_dir, output_path)
+    if not success:
+        sys.exit(1)
+
+
 def cmd_version(args):
     """Show version info."""
     print(f"datapro {__version__}")
@@ -527,6 +737,26 @@ Examples:
     setup_parser.add_argument("path", nargs="?", default=".", help="Path to the project directory (default: current)")
     setup_parser.add_argument("--no-skills", action="store_true", help="Only show installation info, don't copy skills")
     
+    # INIT command
+    init_parser = subparsers.add_parser("init", help="Initialize outputs/ context anchor directory")
+    init_parser.add_argument("file", help="Path to data file (CSV, Excel, Parquet)")
+    init_parser.add_argument("--goal", "-g", default="", help="Business goal / hypotheses of the analysis")
+    init_parser.add_argument("--name", "-n", default="", help="Project name (optional)")
+
+    # CROSS command
+    cross_parser = subparsers.add_parser("cross", help="Run a cross-tabulation table")
+    cross_parser.add_argument("file", help="Path to data file")
+    cross_parser.add_argument("--x", required=True, help="Column name for X axis (rows)")
+    cross_parser.add_argument("--y", required=True, help="Column name for Y axis (columns)")
+
+    # VERIFY command
+    verify_parser = subparsers.add_parser("verify", help="Verify outputs/ analysis state pipeline")
+
+    # EXPORT command
+    export_parser = subparsers.add_parser("export", help="Compile and export outputs/ to Tufte HTML")
+    export_parser.add_argument("input_dir", nargs="?", default="outputs", help="Directory of markdown files")
+    export_parser.add_argument("-o", "--output", help="Output path (default: outputs/final_report.html)")
+
     args = parser.parse_args()
     
     if args.version:
@@ -543,6 +773,14 @@ Examples:
         cmd_report(args)
     elif args.command == "setup":
         cmd_setup(args)
+    elif args.command == "init":
+        cmd_init(args)
+    elif args.command == "cross":
+        cmd_cross(args)
+    elif args.command == "verify":
+        cmd_verify_pipeline(args)
+    elif args.command == "export":
+        cmd_export(args)
     else:
         parser.print_help()
 
