@@ -171,6 +171,45 @@ segments: [{seg1}, {seg2}, ...]
 
 ---
 
+## Command: /dps-plan — Suggested Analytical Plan
+
+**Purpose:** Generate a checklist of recommended crosstabs and statistical tests based on the segments defined in the `/dps-setup` manifesto. This is a SUGGESTION — `/dps-execute` works independently and may adapt based on actual data characteristics. Use this when you want to review and hand-pick specific crosses before committing to full execution.
+
+### Execution Steps
+
+1. **Read the manifesto.** Load the YAML frontmatter and segment matrix from the `/dps-setup` output. Extract: segment names, tracked metrics (NPS, CSAT, churn, etc.), and sample size per segment. If no manifesto exists, inform the user: "Execute `/dps-setup` primeiro para definir os segmentos."
+
+2. **Statistician: recommend crosses.** For each segment × metric combination: (a) determine data types of the segment variable and the metric variable, (b) consult the Statistical Test Selector Matrix in `agents/agent-statistician.md`, (c) recommend the appropriate test. Do NOT run the full agent loop — no Critic validation, no Tufte Designer formatting. This command is a recommendation engine, not an analysis command.
+
+3. **Generate the checklist.** Output ONLY the table. No introductory paragraphs. No concluding remarks. No "Here is your plan:" throat-clearing. The table IS the output.
+
+### Output Format
+
+```markdown
+## Plano Analítico Sugerido
+
+> **⚠️ Sugestão — não requisito.** `/dps-execute` pode ser executado independentemente e adaptará os testes aos dados reais. Use como ponto de partida.
+
+**Pré-requisitos:** `/dps-setup` deve ter sido executado (manifesto com segmentos definidos).
+
+| # | Cruzamento | Teste Recomendado | Justificativa |
+|---|-----------|-------------------|---------------|
+| 1 | {Segment A} × {Metric 1} | {χ² / t-test / ANOVA} | {1-sentence rationale — why this cross matters for business decisions} |
+| 2 | {Segment B} × {Metric 1} | {test} | {1-sentence rationale} |
+
+**Próximo passo:** Execute `/dps-cross {VarX} x {VarY}` para qualquer cruzamento acima, ou `/dps-execute` para rodar todos os cruzamentos sugeridos de forma autônoma.
+```
+
+**Constraints:**
+- The output MUST be a table, not paragraphs — a checklist, not narrative
+- No introductory text before the warning blockquote — it starts immediately
+- No concluding text after the next-step note — that IS the end
+- Single-agent only (Statistician) — this is a recommendation engine, not an analysis
+- If no `/dps-setup` manifesto exists, output a single line: "Execute `/dps-setup` primeiro para definir os segmentos."
+- The `/dps-plan` does NOT run the agent loop — it is lightweight and advisory
+
+---
+
 ## Command: /dps-cross [VarX] x [VarY] — Tufte Crosstab with Statistical Test
 
 **Purpose:** Produce a dense, Tufte-style crosstab table comparing two user-specified variables. Runs the full invisible agent loop: Statistician selects the appropriate statistical test based on observed data types, Critic validates test selection and assumptions, Tufte Designer formats the output. Output includes N column, percentages with margin of error, statistical test result (test statistic, degrees of freedom, p-value, effect size), and interpretive margin note.
