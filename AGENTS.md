@@ -20,25 +20,98 @@ Works across AI harnesses (OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude) �
 <!-- GSD:stack-start source:STACK.md -->
 ## Technology Stack
 
-Technology stack not yet documented. Will populate after codebase mapping or first phase.
+This is a **document-driven meta-prompt** — not a software application. No compilation, no runtime, no database.
+
+- **Core format:** Markdown + YAML frontmatter (harness-agnostic)
+- **Output pipeline:** Markdown → Quarto/LaTeX → PDF (or direct Pandoc)
+- **Agent system:** Invisible loop (Statistician → Critic → Tufte Designer) controlled via prompt instructions
+- **GSD engine:** `get-shit-done/` — workflows, templates, references for project management
+- **Testing:** Manual validation across 6 target harnesses (OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude)
+- **Version control:** Git + GSD planning artifacts in `.planning/`
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+### Document Format
+
+- **No XML tags.** Use YAML frontmatter and pure Markdown only.
+- **No platform-specific syntax.** Test on all 6 target harnesses.
+- **Tables:** Always include N (sample size) and conclusion in headers. Self-explanatory.
+- **Margin notes:** Use `>` blockquotes after data tables for interpretation.
+
+### Code Style
+
+- **No comments** unless strictly necessary — the prompt is the documentation.
+- **No emoji** in analytical output (margin notes may use subtle indicators).
+- **No prose fluff.** Never use phrases like "It's important to note that..." or "Based on the data provided...". Go straight to the data.
+
+### Quantitative Rules
+
+- Always compute margin of error for sample-based claims
+- Require p < 0.05 for significance claims
+- Never generalize from qualitative samples (N < 30 = no percentages)
+
+### Qualitative Rules
+
+- Categorize within existing quantitative segments only
+- No standalone qualitative sections — always attached to a quant segment
+- Quote verbatims directly, note frequency without false precision
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
-Architecture not yet mapped. Follow existing patterns found in the codebase.
+### Invisible Agent Loop
+
+```
+User command → [Orchestrator] → [Statistician] → [Critic] → [Tufte Designer]
+                                                              ↓
+                                                     Output to user ONLY
+```
+
+Three internal agents run silently per command. The user only sees the Tufte-formatted output:
+
+1. **Statistician** — Validates numerical consistency, calculates distributions, chooses tests
+2. **Critic** — Detects biases, spurious correlations, overgeneralizations, missing data
+3. **Tufte Designer** — Synthesizes output: zero fluff, max data density, margin notes
+
+### Document-Driven Context
+
+```
+/setup  →  outputs/00_project_manifest.md
+/cross  →  outputs/01_crosstab_[VarX]_x_[VarY].md
+/cross  →  outputs/02_crosstab_[VarA]_x_[VarB].md
+/inject →  (enriches existing segments inline)
+/export →  outputs/final_report.md (consolidated)
+```
+
+The `/setup` manifesto is the single source of truth. No subsequent command can produce output that contradicts metrics established in setup.
+
+### Command Pipeline
+
+Each command appends or enriches the growing analytical document:
+- `/setup` — creates the quantitative manifesto (YAML + segment matrix)
+- `/cross` — produces Tufte-style crosstab tables with margin notes
+- `/inject-open` — categorizes open-ended responses within existing segments
+- `/export` — consolidates everything into a clean Markdown file for Quarto/LaTeX/PDF
 <!-- GSD:architecture-end -->
 
 <!-- GSD:skills-start source:skills/ -->
 ## Project Skills
 
-No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.codex/skills/` with a `SKILL.md` index file.
+Core analysis skills defined in the meta-prompt:
+
+| Skill | Command | Purpose |
+|-------|---------|---------|
+| Setup | `/setup` | Generate quantitative manifesto from raw data |
+| Crosstab | `/cross` | Slice variables with Tufte-style tables |
+| Qualitative | `/inject-open` | Weave open-ended responses into quant segments |
+| Export | `/export` | Consolidate to publication-ready Markdown |
+| Clarify | `/clarify` | Surface business hypotheses before analysis |
+| Plan | `/plan` | Design analytical approach before execution |
+
+Specialized modes: `/mode:quant` (Statistician), `/mode:quali` (Anthropologist), `/mode:strategy` (BI Director)
 <!-- GSD:skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->

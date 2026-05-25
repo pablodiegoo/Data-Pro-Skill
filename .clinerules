@@ -1,27 +1,43 @@
-# GSD — Get Shit Done
+# Data-Pro-Skill v2
 
-## What This Project Is
-GSD is a structured AI development workflow system. It coordinates AI agents through planning phases, not direct code edits.
+Projeto: Meta-prompt para análise de dados de pesquisa de mercado.
+Base estrutural: get-shit-done-redux (engine GSD).
 
-## Core Rule: Never Edit Outside a GSD Workflow
-Do not make direct repo edits. All changes must go through a GSD workflow:
-- `/gsd:plan-phase` → plan the work
-- `/gsd:execute-phase` → build it
-- `/gsd:verify-work` → verify results
+## Regra Principal
 
-## Architecture
-- `get-shit-done/bin/lib/` — Core Node.js library (CommonJS .cjs, no external deps)
-- `get-shit-done/workflows/` — Workflow definition files (.md)
-- `agents/` — Agent definition files (.md)
-- `commands/gsd/` — Slash command definitions (.md)
-- `tests/` — Test files (.test.cjs, node:test + node:assert)
+Este é um meta-prompt — o conteúdo principal são arquivos Markdown que definem agentes, comandos e workflows. Não há código Python/JS para alterar.
 
-## Coding Standards
-- **CommonJS only** — use `require()`, never `import`
-- **No external dependencies in core** — only Node.js built-ins
-- **Test framework** — `node:test` and `node:assert` ONLY, never Jest/Mocha/Chai
-- **File extensions** — `.cjs` for all test and lib files
+## Estrutura
 
-## Safety
-- Use `execFileSync` (array args) not `execSync` (string interpolation)
-- Validate user-provided paths with `validatePath()` from `get-shit-done/bin/lib/security.cjs`
+- `SKILL.md` — Meta-prompt principal (a ser criado na Fase 1)
+- `constitution.md` — Regras inegociáveis de rigor estatístico/qualitativo
+- `agents/` — Definições dos agentes GSD (.md)
+- `commands/` — Comandos de workflow (.md)
+- `get-shit-done/` — Engine GSD (workflows, templates, referências)
+- `docs/` — Documentação do projeto
+- `hooks/` — Hooks de validação git
+- `.planning/` — Artefatos de planejamento (ROADMAP, STATE, REQUIREMENTS)
+- `.deprecated/v1/` — Código antigo preservado
+
+## Arquitetura do Meta-Prompt
+
+- **Document-driven:** Cada comando ancora contexto para o próximo
+- **Multi-harness:** Funciona em OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude
+- **Zero dependências:** Apenas YAML frontmatter + Markdown puro
+- **Agentes invisíveis:** Estatístico → Crítico → Designer Tufte (usuário vê só o output final)
+
+## Estilo de Output (Tufte)
+
+- Zero prosa fluff ("É importante notar que...", "Com base nos dados...")
+- Tabelas com N, volumetria e conclusão no cabeçalho
+- Notas de margem com `>` blockquotes
+- Alta densidade de informação, mínimo de tinta
+
+## Workflow GSD
+
+Antes de usar Edit/Write, iniciar via comando GSD:
+- `/gsd-quick` — tarefas rápidas
+- `/gsd-execute-phase` — trabalho planejado de fase
+- `/gsd-debug` — investigação de bugs
+
+Não fazer edições diretas fora de um workflow GSD a menos que o usuário peça explicitamente.
