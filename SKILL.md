@@ -315,6 +315,84 @@ segments: [{seg1}, {seg2}, ...]
 
 ---
 
+## Command: /dps-inject-open [text] — Qualitative Injection into Quant Segments
+
+**Purpose:** Categorize open-ended responses within existing quantitative segments defined by the `/dps-setup` manifesto. The AI auto-extracts themes from raw text (no structured CSV required per D-01), identifies representative verbatims, and maps findings to segments. Qualitative findings enrich — never replace or exist independently of — quantitative data. All output appears as subsections within quantitative segments, never as standalone sections (per ARCH-02).
+
+### Execution Steps
+
+1. **Validate manifesto.** Load the YAML frontmatter from the `/dps-setup` output. Extract the `segments` array and `sample_size`. If no manifesto exists in the current context, output the exact error message: "Execute `/dps-setup` primeiro para definir os segmentos quantitativos." Do not proceed with analysis. This gate ensures all qualitative findings have a quantitative segment to attach to per ARCH-02.
+
+2. **Run the invisible agent loop (Stage 1 → 2 → 3 → 4).** Stage 3 (Anthropologist) activates for this command regardless of mode. The loop produces internal reports at Stage 1-3, and the Tufte Designer (Stage 4) synthesizes the only user-visible output.
+
+   **Stage 1 — Statistician (internal, never shown to user):**
+   For qualitative data, the Statistician's role is limited but important: (a) count the number of open-ended responses provided, (b) identify which segments have qualitative responses and which do not, (c) verify the response count per segment does not exceed the segment N from the manifesto (inconsistency flag), (d) report any segments from the manifesto that have zero qualitative responses as "sem dados qualitativos" for the Anthropologist to note as silence.
+
+   **Stage 2 — Critic (internal, never shown to user):**
+   Standard audit applies (all 6 constitution articles + Bias Detection, Spurious Correlations, Overgeneralization Risks). Additionally, the Qualitative Audit dimension (dimension 7) activates: (a) flag any theme backed by <2 verbatims as "menção isolada — não reportar como tema", (b) flag any percentage applied to qualitative N < 30 (Article 4 violation — hard block), (c) flag overgeneralization from qualitative sample to full population, (d) flag confirmation bias in theme selection.
+
+   **Stage 3 — Anthropologist (internal, never shown to user):**
+   Full responsibilities per agents/agent-anthropologist.md. Key outputs: (a) thematic clusters with verbatim evidence, (b) segment assignments for each theme, (c) archetype identification if patterns coalesce, (d) silence notation for manifesto segments with no qualitative data. Minimum 2 verbatims per theme (per constitution.md Article 4 enforcement + D-07 audit). Verbatims must be literal quotes in the participant's own words — never paraphrased.
+
+   **Stage 4 — Tufte Designer (ONLY output user sees):**
+   Synthesize Anthropologist report into qualitative subsections within the quantitative segment structure. Never create standalone qualitative sections. Never use prose fluff. Go straight to the data.
+
+### Output Format
+
+Output is organized by `/dps-setup` segment. Each segment that has qualitative findings receives a `###` subsection. Segments with zero qualitative data get a silence note. The output starts directly with the first segment subsection — no preamble, no "Here is your qualitative analysis:" throat-clearing.
+
+```markdown
+### Análise Qualitativa — {Segmento}
+
+**Contexto Quantitativo:** {reference to /dps-setup segment — name, N, core metric}
+**Respostas analisadas:** {n} de {N} participantes do segmento
+
+#### Tema 1: {Nome do Tema} — mencionado por {n} de {N} participantes
+
+> "{verbatim literal — palavras exatas do participante, entre aspas}" — {participant context: e.g., P4, 22 anos}
+> "{segundo verbatim do mesmo tema}" — {participant context}
+
+> **Nota de Margem:** {1-3 frases conectando este tema ao padrão quantitativo observado no segmento. Explica o "porquê" por trás dos números. Nunca repete o que a tabela já mostra. Referencia a métrica core do segmento quando relevante.}
+
+#### Tema 2: {Nome do Tema} — mencionado por {n} de {N} participantes
+
+> "{verbatim}" — {context}
+> "{verbatim}" — {context}
+
+> **Nota de Margem:** {interpretação conectando ao quantitativo}
+
+### Análise Qualitativa — {Segmento sem dados}
+
+**Respostas analisadas:** 0 de {N} participantes
+> **Nota de Margem:** Nenhum dado qualitativo disponível para este segmento. A ausência de respostas abertas neste grupo pode indicar menor engajamento ou barreira não identificada — investigar na próxima coleta.
+```
+
+**Segments without qualitative data:** Report the silence explicitly per agent-anthropologist.md rule "Note silence." The silence note must appear after all segments with data, grouped at the end.
+
+**Multiple segments:** Each segment gets its own `### Análise Qualitativa — {Segmento}` subsection. Order follows the segment order in the `/dps-setup` manifesto — do not reorder.
+
+### Format Rules
+
+- **Theme naming:** Descriptive, not abstract. "Barreira de Preço" not "Fator Econômico." Use the participant's own language to name themes when possible.
+- **Verbatim quoting:** Literal quotes in the participant's exact words, wrapped in `"quotes"`. Never paraphrase. Include context: participant identifier, demographic marker, or segment label.
+- **Frequency notation:** Raw counts only — `mencionado por 8 de 12 participantes`. For N < 30, never compute or display percentages per Article 4. For N ≥ 30 (rare in qualitative), percentages are permitted but must include margin of error per Article 1.
+- **Minimum theme threshold:** 2 verbatims minimum to report as a theme. Single mentions are noted as "menção isolada" and grouped at the end under `### Menções Isoladas` — not promoted to full themes.
+- **Margin notes:** Every theme block ends with a `> **Nota de Margem:**` connecting the qualitative finding to the quantitative pattern. 1-3 sentences. Never repeat verbatim content. Explain "so what?" for the business.
+- **No standalone sections:** All qualitative content is nested within `###` subsections keyed to manifesto segments. A top-level `## Análise Qualitativa` heading is FORBIDDEN — the Critic blocks it.
+- **No prose fluff:** The first text after each heading is data, not throat-clearing. All 8 forbidden phrases from constitution.md Article 3 apply.
+
+### Constraints
+
+- `/dps-inject-open` REQUIRES a `/dps-setup` manifesto. Without it, output the single-line error and stop. No partial analysis without segment anchors.
+- The Anthropologist reads ALL responses — not a sample, not the first N responses. Theme frequency counts are from the full response set within each segment.
+- Verbatims must be literal quotes. Paraphrasing loses the participant's voice and is a Critic audit failure.
+- Themes with <2 verbatims are "menções isoladas" — reported collectively, not as individual findings.
+- Never create new segments. All qualitative findings map to segments defined in the `/dps-setup` manifesto only.
+- The output format is the specification — the Tufte Designer does not improvise structure beyond what is defined here.
+- The agent loop runs in full for every `/dps-inject-open` invocation. No caching or incremental mode.
+
+---
+
 ## Command Reference
 
 | Command | Description | Status |
@@ -324,7 +402,7 @@ segments: [{seg1}, {seg2}, ...]
 | `/dps-execute` | Autonomous multi-cross quantitative analysis. Reads manifesto segments, derives cross combinations, runs each through the agent loop, and produces a consolidated Tufte report. Independent from /dps-plan. | Phase 2 — implemented |
 | `/dps-clarify` | Ask 3-5 provocative business hypothesis questions before data analysis. Ensures analysis is hypothesis-driven, not fishing. | Phase 2 — implemented |
 | `/dps-plan` | Design analytical approach — which tests, which crosstabs, why each. Outputs a structured plan before execution. | Phase 2 — implemented |
-| `/dps-inject-open [text]` | Categorize open-ended responses within existing quantitative segments from the manifesto. Qualitative findings enrich — never replace — quantitative data. | Full implementation in Phase 3 |
+| `/dps-inject-open [text]` | Categorize open-ended responses within existing quantitative segments from the manifesto. Qualitative findings enrich — never replace — quantitative data. | Phase 3 — implemented |
 | `/dps-export` | Consolidate all analysis outputs (manifesto, crosstabs, qualitative findings) into a single clean Markdown file ready for Pandoc/Quarto/LaTeX conversion. | Full implementation in Phase 4 |
 
 ---
