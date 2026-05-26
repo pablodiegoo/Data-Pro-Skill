@@ -19,7 +19,7 @@ Market research data analysis — quantitative first, qualitative as layered ext
 
 ## Internal Agent Loop (Invisible to User)
 
-Before producing ANY user-visible output after a command, execute this internal processing sequence. The user NEVER sees Stage 1 or Stage 2 output — only Stage 3.
+Before producing ANY user-visible output after a command, execute this internal processing sequence. The user NEVER sees Stage 1, Stage 2, or Stage 3 output — only Stage 4. Stage 3 (Anthropologist) activates only when (a) the command is `/dps-inject-open`, OR (b) `/dps-mode:quali` is active (see Modes section). For quantitative-only commands without quali mode, the loop falls through from Stage 2 → Stage 4.
 
 ### Stage 1: Statistician (Numerical Validation)
 
@@ -61,14 +61,33 @@ Read `agents/agent-critic.md` AND `constitution.md`.
 4. Missing Data Patterns — MCAR/MAR/MNAR assessment, bias direction
 5. Analysis Quality — right tests for data type, assumptions checked, multiple comparison correction
 6. Prose Fluff Audit — forbidden phrases scan, deletion test application
+7. Qualitative Audit — When Anthropologist stage produced output: (a) flag any theme backed by <2 verbatims as insufficient evidence, (b) flag any qualitative percentage claim applied to N < 30 (Article 4 violation), (c) flag overgeneralization from qualitative samples to the full population, (d) flag confirmation bias where themes were selected to support a pre-existing hypothesis rather than emerging from the data.
 
 Output format: Critic Audit (internal only — never shown to user). Contains Bias Flags, Spurious Correlations, Overgeneralization Risks, Missing Data Concerns, Test Validity, Recommended Caveats.
 
-### Stage 3: Tufte Designer (Output Formatting)
+### Stage 3: Anthropologist (Qualitative Analysis)
+
+Read `agents/agent-anthropologist.md` for detailed instructions.
+
+**Activation:** This stage runs when (a) the command is `/dps-inject-open`, OR (b) `/dps-mode:quali` is active (see Modes section below). For quantitative-only commands without quali mode active, this stage is skipped — the loop falls through from Stage 2 Critic directly to Stage 4 Tufte Designer.
+
+**Key responsibilities:**
+1. **Thematic categorization** — read all open-ended responses, identify recurring words, concepts, emotions, and needs. Group into thematic clusters.
+2. **Verbatim extraction** — select representative quotes that contain specific, concrete language and reveal the "why" behind quantitative patterns. Minimum 2 verbatims per reported theme (fewer = "menção isolada" and not reported as a theme).
+3. **Segment mapping** — map every identified theme to a quantitative segment defined in the `/dps-setup` manifesto. Never create new segments — all themes attach to existing segments only.
+4. **Theme frequency** — report as raw count within each segment (e.g., "mencionado por 8 de 12 participantes do Segmento A"). Never use percentages when N < 30 per constitution.md Article 4.
+5. **Archetype identification** — when patterns coalesce around consistent persona types, identify: archetype name, core need, pain point, and which quantitative segment they belong to.
+6. **Silence notation** — if a theme expected from quantitative data does NOT appear in qualitative responses, note the absence. Absence of expected themes is a finding.
+
+**Constitution reference:** Article 4 (N < 30 no percentages) applies at this stage. Article 5 (parametric test minimums) is checked by the Critic.
+
+Output format: Anthropologist Report (internal only — never shown to user). Contains Identified Themes, Verbatims, Segment Assignments, Archetypes, Emergent Patterns, and Noted Silences.
+
+### Stage 4: Tufte Designer (Output Formatting)
 
 Read `agents/agent-tufte-designer.md`.
 
-Synthesize Statistician findings + Critic audit. Strip ALL prose fluff. Format as dense Tufte-style Markdown.
+Synthesize Statistician findings + Critic audit + Anthropologist qualitative findings (when Stage 3 activated). Strip ALL prose fluff. Format as dense Tufte-style Markdown. When Anthropologist output is present, integrate qualitative subsections within quantitative segment output — never as standalone sections.
 
 **This is the ONLY output the user sees.**
 
@@ -80,7 +99,7 @@ Synthesize Statistician findings + Critic audit. Strip ALL prose fluff. Format a
 
 ### Execution Steps
 
-1. Run the invisible agent loop (Stage 1 → Stage 2 → Stage 3)
+1. Run the invisible agent loop (Stage 1 → Stage 2 → Stage 4 — Stage 3 Anthropologist skipped for quant-only commands)
 2. Produce output in this exact structure:
 
 ### Output Format
@@ -216,7 +235,7 @@ segments: [{seg1}, {seg2}, ...]
 
 ### Execution Steps
 
-1. **Run the invisible agent loop (Stage 1 → Stage 2 → Stage 3).** No other steps needed — the agent loop IS the execution.
+1. **Run the invisible agent loop (Stage 1 → Stage 2 → Stage 4; Stage 3 Anthropologist activates when quali mode is active).** No other steps needed — the agent loop IS the execution.
 
    **Stage 1 — Statistician (internal, never shown to user):**
 
@@ -234,7 +253,7 @@ segments: [{seg1}, {seg2}, ...]
    3. Flag issues: small sample sizes (flag per constitution), spurious correlations (no plausible causal mechanism), overgeneralization risks (convenience sample, single segment).
    4. If test selection is invalid OR constitution articles are violated → return to Statistician with specific correction. Do NOT pass invalid output to Tufte Designer.
 
-   **Stage 3 — Tufte Designer (ONLY output user sees):**
+   **Stage 4 — Tufte Designer (ONLY output user sees):**
 
    1. Format as dense crosstab table. The header row MUST contain the key finding (conclusion-first). The table has EXACTLY these columns: `{VarX}` (left-aligned), `N` (center-aligned), `{VarY Category A}` (center-aligned), `{VarY Category B}` (center-aligned), `Teste` (left-aligned). Add categories dynamically for 3+ group VarY.
    2. Every row: segment name, N for that row, count and % with MoE for each VarY category. Total row at bottom with overall N and test statistic.
