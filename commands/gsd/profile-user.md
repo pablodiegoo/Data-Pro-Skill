@@ -19,8 +19,8 @@ Routes to the profile-user workflow which orchestrates the full flow: consent ga
 </objective>
 
 <execution_context>
-@~/.claude/get-shit-done/workflows/profile-user.md
-@~/.claude/get-shit-done/references/ui-brand.md
+@~/.claude/dps-engine/workflows/profile-user.md
+@~/.claude/dps-engine/references/ui-brand.md
 </execution_context>
 
 <context>

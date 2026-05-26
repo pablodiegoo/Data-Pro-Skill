@@ -26,11 +26,11 @@ Brownfield equivalent of new-project. Project exists, PROJECT.md has history. Ga
 </objective>
 
 <execution_context>
-@~/.claude/get-shit-done/workflows/new-milestone.md
-@~/.claude/get-shit-done/references/questioning.md
-@~/.claude/get-shit-done/references/ui-brand.md
-@~/.claude/get-shit-done/templates/project.md
-@~/.claude/get-shit-done/templates/requirements.md
+@~/.claude/dps-engine/workflows/new-milestone.md
+@~/.claude/dps-engine/references/questioning.md
+@~/.claude/dps-engine/references/ui-brand.md
+@~/.claude/dps-engine/templates/project.md
+@~/.claude/dps-engine/templates/requirements.md
 </execution_context>
 
 <context>

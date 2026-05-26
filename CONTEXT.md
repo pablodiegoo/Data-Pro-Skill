@@ -78,7 +78,7 @@ Projetado para funcionar em qualquer harness de IA — sem depender de features 
 ## Estrutura do Projeto (Base: get-shit-done-redux)
 
 O projeto usa o template `open-gsd/get-shit-done-redux` como base estrutural:
-- `get-shit-done/` — Engine GSD (workflows, templates, referências)
+- `dps-engine/` — Engine GSD (workflows, templates, referências)
 - `agents/` — Definições dos agentes (adaptados para análise de dados)
 - `commands/` — Comandos GSD + comandos específicos de análise
 - `docs/` — Documentação do projeto

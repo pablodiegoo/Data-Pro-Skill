@@ -30,10 +30,10 @@ Three modes:
 </flags>
 
 <execution_context>
-@~/.claude/get-shit-done/workflows/progress.md
-@~/.claude/get-shit-done/workflows/next.md
-@~/.claude/get-shit-done/workflows/do.md
-@~/.claude/get-shit-done/references/ui-brand.md
+@~/.claude/dps-engine/workflows/progress.md
+@~/.claude/dps-engine/workflows/next.md
+@~/.claude/dps-engine/workflows/do.md
+@~/.claude/dps-engine/references/ui-brand.md
 </execution_context>
 
 <process>

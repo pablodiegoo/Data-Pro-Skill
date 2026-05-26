@@ -61,9 +61,9 @@
 
 | ファイル | 操作 | 目的 |
 |------|--------|---------|
-| `get-shit-done/bin/lib/config.cjs` | 変更 | `buildNewProjectConfig()` + `cmdConfigNewProject()` を追加 |
-| `get-shit-done/bin/gsd-tools.cjs` | 変更 | `config-new-project` の case を登録 + usage 文字列を更新 |
-| `get-shit-done/workflows/new-project.md` | 変更 | ステップ 2a + 5: インライン JSON 書き込みを CLI 呼び出しに置換 |
+| `dps-engine/bin/lib/config.cjs` | 変更 | `buildNewProjectConfig()` + `cmdConfigNewProject()` を追加 |
+| `dps-engine/bin/gsd-tools.cjs` | 変更 | `config-new-project` の case を登録 + usage 文字列を更新 |
+| `dps-engine/workflows/new-project.md` | 変更 | ステップ 2a + 5: インライン JSON 書き込みを CLI 呼び出しに置換 |
 | `tests/config.test.cjs` | 変更 | `config-new-project` テストスイートを追加 |
 
 ---
@@ -72,7 +72,7 @@
 
 **ファイル:**
 
-- 変更: `get-shit-done/bin/lib/config.cjs`
+- 変更: `dps-engine/bin/lib/config.cjs`
 
 - [ ] **ステップ 1.1: まず失敗するテストを書く**
 
@@ -235,7 +235,7 @@ node --test tests/config.test.cjs 2>&1 | grep -E "config-new-project|FAIL|Error"
 
 - [ ] **ステップ 1.3: config.cjs に `buildNewProjectConfig` と `cmdConfigNewProject` を実装する**
 
-`get-shit-done/bin/lib/config.cjs` の `validateKnownConfigKeyPath` 関数の後（35行目付近）、`ensureConfigFile` の前に以下を追加する:
+`dps-engine/bin/lib/config.cjs` の `validateKnownConfigKeyPath` 関数の後（35行目付近）、`ensureConfigFile` の前に以下を追加する:
 
 ```js
 /**
@@ -377,7 +377,7 @@ node --test tests/config.test.cjs 2>&1 | tail -20
 
 ```bash
 cd /Users/diego/Dev/get-shit-done
-git add get-shit-done/bin/lib/config.cjs tests/config.test.cjs
+git add dps-engine/bin/lib/config.cjs tests/config.test.cjs
 git commit -m "feat: add config-new-project command for full config materialization"
 ```
 
@@ -387,7 +387,7 @@ git commit -m "feat: add config-new-project command for full config materializat
 
 **ファイル:**
 
-- 変更: `get-shit-done/bin/gsd-tools.cjs`
+- 変更: `dps-engine/bin/gsd-tools.cjs`
 
 - [ ] **ステップ 2.1: gsd-tools.cjs の switch 文に case を追加する**
 
@@ -409,7 +409,7 @@ git commit -m "feat: add config-new-project command for full config materializat
 
 ```bash
 cd /Users/diego/Dev/get-shit-done
-node get-shit-done/bin/gsd-tools.cjs config-new-project '{"mode":"interactive","granularity":"standard"}' --cwd /tmp/gsd-smoke-$(date +%s)
+node dps-engine/bin/gsd-tools.cjs config-new-project '{"mode":"interactive","granularity":"standard"}' --cwd /tmp/gsd-smoke-$(date +%s)
 ```
 
 期待結果: `{"created":true,"path":".planning/config.json"}` （または類似の出力）が表示される。
@@ -429,7 +429,7 @@ node --test tests/config.test.cjs 2>&1 | tail -10
 
 ```bash
 cd /Users/diego/Dev/get-shit-done
-git add get-shit-done/bin/gsd-tools.cjs
+git add dps-engine/bin/gsd-tools.cjs
 git commit -m "feat: register config-new-project in gsd-tools CLI router"
 ```
 
@@ -439,7 +439,7 @@ git commit -m "feat: register config-new-project in gsd-tools CLI router"
 
 **ファイル:**
 
-- 変更: `get-shit-done/workflows/new-project.md`
+- 変更: `dps-engine/workflows/new-project.md`
 
 これが中心となる変更。2箇所を更新する必要がある:
 
@@ -470,7 +470,7 @@ Create `.planning/config.json` using the CLI (fills in all defaults automaticall
 
 ```bash
 mkdir -p .planning
-node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" config-new-project "$(cat <<'CHOICES'
+node "$HOME/.claude/dps-engine/bin/gsd-tools.cjs" config-new-project "$(cat <<'CHOICES'
 {
   "mode": "yolo",
   "granularity": "[selected: coarse|standard|fine]",
@@ -516,7 +516,7 @@ Create `.planning/config.json` using the CLI (fills in all defaults automaticall
 
 ```bash
 mkdir -p .planning
-node "$HOME/.claude/get-shit-done/bin/gsd-tools.cjs" config-new-project "$(cat <<'CHOICES'
+node "$HOME/.claude/dps-engine/bin/gsd-tools.cjs" config-new-project "$(cat <<'CHOICES'
 {
   "mode": "[selected: yolo|interactive]",
   "granularity": "[selected: coarse|standard|fine]",
@@ -542,7 +542,7 @@ CHOICES
 
 ```bash
 cd /Users/diego/Dev/get-shit-done
-grep -n "config-new-project\|config\.json\|CHOICES" get-shit-done/workflows/new-project.md
+grep -n "config-new-project\|config\.json\|CHOICES" dps-engine/workflows/new-project.md
 ```
 
 期待結果: `config-new-project` が2箇所（各ステップに1つ）で出現し、設定作成用のインライン JSON テンプレートがなくなっている。
@@ -551,7 +551,7 @@ grep -n "config-new-project\|config\.json\|CHOICES" get-shit-done/workflows/new-
 
 ```bash
 cd /Users/diego/Dev/get-shit-done
-git add get-shit-done/workflows/new-project.md
+git add dps-engine/workflows/new-project.md
 git commit -m "feat: use config-new-project in new-project workflow for full config materialization"
 ```
 
@@ -578,10 +578,10 @@ TMP=$(mktemp -d)
 cd "$TMP"
 
 # ステップ 1 のシミュレーション: init new-project の実行結果
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs init new-project --cwd "$TMP"
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs init new-project --cwd "$TMP"
 
 # ステップ 5 のシミュレーション: 完全な設定を作成
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-new-project '{
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-new-project '{
   "mode": "interactive",
   "granularity": "standard",
   "parallelization": true,
@@ -611,11 +611,11 @@ rm -rf "$TMP"
 TMP=$(mktemp -d)
 CHOICES='{"mode":"yolo","granularity":"coarse"}'
 
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-new-project "$CHOICES" --cwd "$TMP"
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-new-project "$CHOICES" --cwd "$TMP"
 FIRST=$(cat "$TMP/.planning/config.json")
 
 # 2回目の呼び出しは何も変更しないはず
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-new-project "$CHOICES" --cwd "$TMP"
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-new-project "$CHOICES" --cwd "$TMP"
 SECOND=$(cat "$TMP/.planning/config.json")
 
 [ "$FIRST" = "$SECOND" ] && echo "IDEMPOTENT: OK" || echo "IDEMPOTENT: FAIL"
@@ -628,17 +628,17 @@ rm -rf "$TMP"
 
 ```bash
 TMP=$(mktemp -d)
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-new-project '{
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-new-project '{
   "mode":"yolo","granularity":"standard","parallelization":true,"commit_docs":true,
   "model_profile":"balanced",
   "workflow":{"research":true,"plan_check":false,"verifier":true,"nyquist_validation":true}
 }' --cwd "$TMP"
 
 # loadConfig が正しく plan_check（workflow.plan_check としてネスト）を読み取るか
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-get workflow.plan_check --cwd "$TMP"
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-get workflow.plan_check --cwd "$TMP"
 # 期待値: false
 
-node /Users/diego/Dev/get-shit-done/get-shit-done/bin/gsd-tools.cjs config-get git.branching_strategy --cwd "$TMP"
+node /Users/diego/Dev/dps-engine/dps-engine/bin/gsd-tools.cjs config-get git.branching_strategy --cwd "$TMP"
 # 期待値: "none"
 
 rm -rf "$TMP"

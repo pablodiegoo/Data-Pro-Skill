@@ -8,8 +8,8 @@
 
 `gsd-tools.cjs` は、GSD の約50個のコマンド、ワークフロー、エージェントファイル全体で繰り返し使われるインライン bash パターンを置き換える Node.js CLI ユーティリティです。設定の解析、モデル解決、フェーズ検索、git コミット、サマリー検証、状態管理、テンプレート操作を一元化しています。
 
-**配置場所:** `get-shit-done/bin/gsd-tools.cjs`
-**モジュール:** `get-shit-done/bin/lib/` 内の15個のドメインモジュール
+**配置場所:** `dps-engine/bin/gsd-tools.cjs`
+**モジュール:** `dps-engine/bin/lib/` 内の15個のドメインモジュール
 
 **使い方:**
 ```bash

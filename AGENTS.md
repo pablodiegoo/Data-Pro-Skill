@@ -25,7 +25,7 @@ This is a **document-driven meta-prompt** — not a software application. No com
 - **Core format:** Markdown + YAML frontmatter (harness-agnostic)
 - **Output pipeline:** Markdown → Quarto/LaTeX → PDF (or direct Pandoc)
 - **Agent system:** Invisible loop (Statistician → Critic → Tufte Designer) controlled via prompt instructions
-- **GSD engine:** `get-shit-done/` — workflows, templates, references for project management
+- **GSD engine:** `dps-engine/` — workflows, templates, references for project management
 - **Testing:** Manual validation across 6 target harnesses (OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude)
 - **Version control:** Git + GSD planning artifacts in `.planning/`
 <!-- GSD:stack-end -->

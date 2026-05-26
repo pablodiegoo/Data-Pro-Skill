@@ -42,7 +42,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
                       │
 ┌─────────────────────▼────────────────────────────────┐
 │              WORKFLOW LAYER                           │
-│   get-shit-done/workflows/*.md — Orchestration logic  │
+│   dps-engine/workflows/*.md — Orchestration logic  │
 │   (Reads references, spawns agents, manages state)    │
 └──────┬──────────────┬─────────────────┬──────────────┘
        │              │                 │
@@ -54,7 +54,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
        │              │                 │
 ┌──────▼──────────────▼─────────────────▼──────────────┐
 │              CLI TOOLS LAYER                          │
-│   get-shit-done/bin/gsd-tools.cjs                     │
+│   dps-engine/bin/gsd-tools.cjs                     │
 │   (State, config, phase, roadmap, verify, templates)  │
 └──────────────────────┬───────────────────────────────┘
                        │
@@ -75,7 +75,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
 
 ### 2. 가벼운 오케스트레이터
 
-워크플로우 파일(`get-shit-done/workflows/*.md`)은 무거운 작업을 직접 수행하지 않습니다. 다음 작업만 담당합니다.
+워크플로우 파일(`dps-engine/workflows/*.md`)은 무거운 작업을 직접 수행하지 않습니다. 다음 작업만 담당합니다.
 - `gsd-tools.cjs init <workflow>`로 컨텍스트를 로드합니다
 - 집중된 프롬프트로 전문화된 에이전트를 생성합니다
 - 결과를 수집하여 다음 단계로 전달합니다
@@ -115,7 +115,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
 
 **전체 명령어 수:** 44개
 
-### Workflows (`get-shit-done/workflows/*.md`)
+### Workflows (`dps-engine/workflows/*.md`)
 
 명령어가 참조하는 오케스트레이션 로직입니다. 다음을 포함하는 단계별 프로세스를 담습니다.
 - `gsd-tools.cjs init`을 통한 컨텍스트 로드
@@ -136,7 +136,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
 
 **전체 에이전트 수:** 16개
 
-### References (`get-shit-done/references/*.md`)
+### References (`dps-engine/references/*.md`)
 
 워크플로우와 에이전트가 `@-reference`로 참조하는 공유 지식 문서입니다.
 - `checkpoints.md` — 체크포인트 유형 정의 및 상호작용 패턴
@@ -148,7 +148,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
 - `tdd.md` — 테스트 주도 개발 통합 패턴
 - `ui-brand.md` — 시각적 출력 포매팅 패턴
 
-### Templates (`get-shit-done/templates/`)
+### Templates (`dps-engine/templates/`)
 
 모든 계획 아티팩트를 위한 Markdown 템플릿입니다. `gsd-tools.cjs template fill`과 `scaffold` 명령어가 사전 구조화된 파일을 생성하는 데 사용합니다.
 - `project.md`, `requirements.md`, `roadmap.md`, `state.md` — 핵심 프로젝트 파일
@@ -172,7 +172,7 @@ GSD는 사용자와 AI 코딩 에이전트(Claude Code, Gemini CLI, OpenCode, Ki
 | `gsd-prompt-guard.js` | `PreToolUse` | `.planning/` 쓰기 작업에서 프롬프트 인젝션 패턴 스캔 (권고용) |
 | `gsd-workflow-guard.js` | `PreToolUse` | GSD 워크플로우 컨텍스트 외부의 파일 편집 감지 (권고용, `hooks.workflow_guard`로 활성화) |
 
-### CLI Tools (`get-shit-done/bin/`)
+### CLI Tools (`dps-engine/bin/`)
 
 17개의 도메인 모듈을 포함하는 Node.js CLI 유틸리티(`gsd-tools.cjs`)입니다.
 
@@ -345,7 +345,7 @@ UI-SPEC.md (per phase) ───────────────────
 ```
 ~/.claude/                          # Claude Code (전역 설치)
 ├── commands/gsd/*.md               # 37개 슬래시 명령어
-├── get-shit-done/
+├── dps-engine/
 │   ├── bin/gsd-tools.cjs           # CLI 유틸리티
 │   ├── bin/lib/*.cjs               # 15개 도메인 모듈
 │   ├── workflows/*.md              # 42개 워크플로우 정의

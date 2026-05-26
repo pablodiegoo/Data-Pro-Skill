@@ -120,7 +120,7 @@ No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
 ├── agents/                # Agent definitions (Statistician, Critic, Tufte, etc.)
 ├── commands/              # Workflow commands
 ├── docs/                  # Extended documentation
-├── get-shit-done/         # GSD engine (workflows, templates, references)
+├── dps-engine/         # GSD engine (workflows, templates, references)
 └── .planning/             # Project planning (ROADMAP, STATE, etc.)
 ```
 

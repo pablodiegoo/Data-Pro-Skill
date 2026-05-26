@@ -13,7 +13,7 @@ Este é um meta-prompt — o conteúdo principal são arquivos Markdown que defi
 - `constitution.md` — Regras inegociáveis de rigor estatístico/qualitativo
 - `agents/` — Definições dos agentes GSD (.md)
 - `commands/` — Comandos de workflow (.md)
-- `get-shit-done/` — Engine GSD (workflows, templates, referências)
+- `dps-engine/` — Engine GSD (workflows, templates, referências)
 - `docs/` — Documentação do projeto
 - `hooks/` — Hooks de validação git
 - `.planning/` — Artefatos de planejamento (ROADMAP, STATE, REQUIREMENTS)

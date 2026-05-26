@@ -86,7 +86,7 @@ Both `test.yml` (`paths:`) and `test-skip.yml` (`paths-ignore:`) use this list:
 
 ```
 bin/**
-get-shit-done/**
+dps-engine/**
 agents/**
 commands/**
 hooks/**

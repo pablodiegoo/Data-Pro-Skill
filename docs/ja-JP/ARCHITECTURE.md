@@ -42,7 +42,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
                       │
 ┌─────────────────────▼────────────────────────────────┐
 │              WORKFLOW LAYER                           │
-│   get-shit-done/workflows/*.md — Orchestration logic  │
+│   dps-engine/workflows/*.md — Orchestration logic  │
 │   (Reads references, spawns agents, manages state)    │
 └──────┬──────────────┬─────────────────┬──────────────┘
        │              │                 │
@@ -54,7 +54,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
        │              │                 │
 ┌──────▼──────────────▼─────────────────▼──────────────┐
 │              CLI TOOLS LAYER                          │
-│   get-shit-done/bin/gsd-tools.cjs                     │
+│   dps-engine/bin/gsd-tools.cjs                     │
 │   (State, config, phase, roadmap, verify, templates)  │
 └──────────────────────┬───────────────────────────────┘
                        │
@@ -75,7 +75,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
 
 ### 2. 軽量オーケストレーター
 
-ワークフローファイル（`get-shit-done/workflows/*.md`）は重い処理を行いません。以下の役割に徹します：
+ワークフローファイル（`dps-engine/workflows/*.md`）は重い処理を行いません。以下の役割に徹します：
 - `gsd-tools.cjs init <workflow>` でコンテキストを読み込む
 - 焦点を絞ったプロンプトで専門エージェントを起動する
 - 結果を収集し、次のステップにルーティングする
@@ -115,7 +115,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
 
 **コマンド総数:** 44
 
-### ワークフロー（`get-shit-done/workflows/*.md`）
+### ワークフロー（`dps-engine/workflows/*.md`）
 
 コマンドが参照するオーケストレーションロジックです。以下を含むステップバイステップのプロセスが記述されています：
 - `gsd-tools.cjs init` によるコンテキスト読み込み
@@ -136,7 +136,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
 
 **エージェント総数:** 16
 
-### リファレンス（`get-shit-done/references/*.md`）
+### リファレンス（`dps-engine/references/*.md`）
 
 ワークフローとエージェントが `@-reference` で参照する共有知識ドキュメント：
 - `checkpoints.md` — チェックポイントタイプの定義とインタラクションパターン
@@ -148,7 +148,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
 - `tdd.md` — テスト駆動開発の統合パターン
 - `ui-brand.md` — 視覚的な出力フォーマットパターン
 
-### テンプレート（`get-shit-done/templates/`）
+### テンプレート（`dps-engine/templates/`）
 
 すべてのプランニングアーティファクト用のMarkdownテンプレートです。`gsd-tools.cjs template fill` および `scaffold` コマンドにより、事前構造化されたファイルを作成するために使用されます：
 - `project.md`、`requirements.md`、`roadmap.md`、`state.md` — コアプロジェクトファイル
@@ -172,7 +172,7 @@ GSDは、ユーザーとAIコーディングエージェント（Claude Code、G
 | `gsd-prompt-guard.js` | `PreToolUse` | `.planning/` への書き込みにプロンプトインジェクションパターンがないかスキャン（アドバイザリー） |
 | `gsd-workflow-guard.js` | `PreToolUse` | GSDワークフローコンテキスト外でのファイル編集を検出（アドバイザリー、`hooks.workflow_guard` によるオプトイン） |
 
-### CLIツール（`get-shit-done/bin/`）
+### CLIツール（`dps-engine/bin/`）
 
 17のドメインモジュールを持つNode.js CLIユーティリティ（`gsd-tools.cjs`）：
 
@@ -345,7 +345,7 @@ UI-SPEC.md (per phase) ───────────────────
 ```
 ~/.claude/                          # Claude Code (global install)
 ├── commands/gsd/*.md               # 37 slash commands
-├── get-shit-done/
+├── dps-engine/
 │   ├── bin/gsd-tools.cjs           # CLI utility
 │   ├── bin/lib/*.cjs               # 15 domain modules
 │   ├── workflows/*.md              # 42 workflow definitions

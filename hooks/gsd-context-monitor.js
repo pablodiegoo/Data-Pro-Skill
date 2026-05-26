@@ -137,7 +137,7 @@ process.stdin.on('end', () => {
     if (isCritical && isGsdActive && !warnData.criticalRecorded) {
       try {
         // Runtime-agnostic path: this hook lives at <runtime-config>/hooks/
-        // and gsd-tools.cjs lives at <runtime-config>/get-shit-done/bin/.
+        // and gsd-tools.cjs lives at <runtime-config>/dps-engine/bin/.
         // Using __dirname makes this work on Claude Code, OpenCode, Gemini,
         // Kilo, etc. without hardcoding ~/.claude/.
         const gsdTools = path.join(__dirname, '..', 'get-shit-done', 'bin', 'gsd-tools.cjs');

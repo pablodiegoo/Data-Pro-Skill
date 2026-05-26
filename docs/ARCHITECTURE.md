@@ -82,7 +82,7 @@ Isso resolve o "context rot" — a IA sempre tem um documento de referência est
 │   └── agent-strategist.md
 │
 ├── commands/gsd/              # Comandos de workflow GSD
-├── get-shit-done/             # Engine GSD (workflows, templates)
+├── dps-engine/             # Engine GSD (workflows, templates)
 ├── docs/                      # Documentação
 ├── hooks/                     # Hooks de validação
 ├── assets/                    # Imagens e ícones
@@ -133,4 +133,4 @@ Nunca usar: tags XML, sintaxe específica de plataforma, emojis em output analí
 
 ---
 
-*Baseado no engine GSD (`get-shit-done-redux`). Ver [get-shit-done/](../get-shit-done/) para detalhes do sistema de workflows.*
+*Baseado no engine GSD (`get-shit-done-redux`). Ver [dps-engine/](../dps-engine/) para detalhes do sistema de workflows.*

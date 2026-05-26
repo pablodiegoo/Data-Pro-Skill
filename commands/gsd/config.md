@@ -32,9 +32,9 @@ Mode routing:
 </routing>
 
 <execution_context>
-@~/.claude/get-shit-done/workflows/settings.md
-@~/.claude/get-shit-done/workflows/settings-advanced.md
-@~/.claude/get-shit-done/workflows/settings-integrations.md
+@~/.claude/dps-engine/workflows/settings.md
+@~/.claude/dps-engine/workflows/settings-advanced.md
+@~/.claude/dps-engine/workflows/settings-integrations.md
 </execution_context>
 
 <context>

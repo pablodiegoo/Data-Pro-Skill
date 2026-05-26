@@ -37,7 +37,7 @@ Estabelecer os fundamentos do Data-Pro-Skill v2:
 
 ### Nomenclatura GSD → DPS
 - **D-10:** Todos os comandos do meta-prompt usam prefixo `/dps-`: `/dps-setup`, `/dps-cross`, `/dps-inject-open`, `/dps-export`, `/dps-clarify`, `/dps-plan`, `/dps-mode:quant`, `/dps-mode:quali`, `/dps-mode:strategy`
-- **D-11:** Nos textos internos do meta-prompt, substituir "GSD" por "DPS". O engine `get-shit-done/` mantém o nome original como dependência de infraestrutura
+- **D-11:** Nos textos internos do meta-prompt, substituir "GSD" por "DPS". O engine `dps-engine/` mantém o nome original como dependência de infraestrutura
 
 ### the agent's Discretion
 

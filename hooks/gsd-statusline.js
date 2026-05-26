@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { isSemverNewer } = require('../get-shit-done/bin/lib/semver-compare.cjs');
+const { isSemverNewer } = require('../dps-engine/bin/lib/semver-compare.cjs');
 
 // --- Config + last-command readers ------------------------------------------
 

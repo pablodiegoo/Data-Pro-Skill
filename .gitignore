@@ -27,7 +27,7 @@ animation/
 # Installed skills
 .github/agents/gsd-*
 .github/skills/gsd-*
-.github/get-shit-done/*
+.github/dps-engine/*
 .github/skills/get-shit-done
 .github/copilot-instructions.md
 .bg-shell/

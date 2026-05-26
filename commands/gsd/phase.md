@@ -31,10 +31,10 @@ Mode routing:
 </routing>
 
 <execution_context>
-@~/.claude/get-shit-done/workflows/add-phase.md
-@~/.claude/get-shit-done/workflows/insert-phase.md
-@~/.claude/get-shit-done/workflows/remove-phase.md
-@~/.claude/get-shit-done/workflows/edit-phase.md
+@~/.claude/dps-engine/workflows/add-phase.md
+@~/.claude/dps-engine/workflows/insert-phase.md
+@~/.claude/dps-engine/workflows/remove-phase.md
+@~/.claude/dps-engine/workflows/edit-phase.md
 </execution_context>
 
 <context>

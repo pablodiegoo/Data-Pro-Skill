@@ -38,7 +38,7 @@ This is a document-driven meta-prompt — not a software application. No compila
 - **D-08 (SKILL.md orchestration):** SKILL.md references and orchestrates agents: "Before responding, run internally: 1. Validate numbers (Statistician), 2. Audit biases (Critic), 3. Format Tufte output (Designer). Only the Designer's output is displayed."
 - **D-09 (Specialized agents):** agent-anthropologist.md and agent-strategist.md activated by `/dps-mode:quali` and `/dps-mode:strategy`
 - **D-10 (Command naming):** All meta-prompt commands use prefix `/dps-`: `/dps-setup`, `/dps-cross`, `/dps-inject-open`, `/dps-export`, `/dps-clarify`, `/dps-plan`, `/dps-mode:quant`, `/dps-mode:quali`, `/dps-mode:strategy`
-- **D-11 (Naming):** In internal texts of the meta-prompt, replace "GSD" with "DPS". The `get-shit-done/` engine keeps its original name as infrastructure dependency.
+- **D-11 (Naming):** In internal texts of the meta-prompt, replace "GSD" with "DPS". The `dps-engine/` engine keeps its original name as infrastructure dependency.
 
 ### the agent's Discretion
 
@@ -378,15 +378,15 @@ For qualitative data (`/dps-inject-open`):
 
 ### Pitfall 3: Inconsistent Handling of the "DPS" Naming Convention
 
-**What goes wrong:** SKILL.md uses "GSD" in some places and "DPS" in others, confusing the AI about which system it's operating under. The engine directory is `get-shit-done/` but the meta-prompt's internal identity is "Data-Pro-Skill" (DPS).
+**What goes wrong:** SKILL.md uses "GSD" in some places and "DPS" in others, confusing the AI about which system it's operating under. The engine directory is `dps-engine/` but the meta-prompt's internal identity is "Data-Pro-Skill" (DPS).
 
 **Why it happens:** Mixed naming from two sources — the infrastructure (GSD workflows, GSD commands) and the analysis system (DPS commands, DPS constitution). Both coexist in the same repo.
 
-**How to avoid:** Strict rule: In SKILL.md and constitution.md, EVERY command uses `/dps-` prefix and every system reference uses "DPS". The `get-shit-done/` directory and `commands/gsd/` path are file system details — never mentioned in user-facing prompt text. Enforcement checklist:
+**How to avoid:** Strict rule: In SKILL.md and constitution.md, EVERY command uses `/dps-` prefix and every system reference uses "DPS". The `dps-engine/` directory and `commands/gsd/` path are file system details — never mentioned in user-facing prompt text. Enforcement checklist:
 - `/dps-setup` ✓ (never `/setup`)
 - "DPS constitution" ✓ (never "GSD constitution")
 - "Data-Pro-Skill v2" ✓ (never "GSD Data-Pro")
-- `get-shit-done/` directory path ✓ (only when referencing file locations for the AI to read)
+- `dps-engine/` directory path ✓ (only when referencing file locations for the AI to read)
 
 **Warning signs:** Grepping SKILL.md for "GSD" returning matches in non-file-path contexts.
 

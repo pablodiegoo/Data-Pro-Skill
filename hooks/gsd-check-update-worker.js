@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
-const { isSemverNewer } = require('../get-shit-done/bin/lib/semver-compare.cjs');
+const { isSemverNewer } = require('../dps-engine/bin/lib/semver-compare.cjs');
 
 const cacheFile = process.env.GSD_CACHE_FILE;
 const projectVersionFile = process.env.GSD_PROJECT_VERSION_FILE;

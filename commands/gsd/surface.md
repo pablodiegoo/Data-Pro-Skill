@@ -37,7 +37,7 @@ Parse the first token of $ARGUMENTS:
 ## list / status
 
 Call `listSurface(runtimeConfigDir, manifest, CLUSTERS)` from
-`get-shit-done/bin/lib/surface.cjs`. Display:
+`dps-engine/bin/lib/surface.cjs`. Display:
 
 ```
 Enabled (N skills, ~T tokens):
@@ -150,6 +150,6 @@ All paths can be overridden by reading the `CLAUDE_CONFIG_DIR` env var if set.
 Surface state file: `~/.claude/.gsd-surface.json`
 Install profile marker: `~/.claude/.gsd-profile`
 Skill dirs: `~/.claude/skills/gsd-*/`
-Engine module: `~/.claude/get-shit-done/bin/lib/surface.cjs`
-Cluster definitions: `~/.claude/get-shit-done/bin/lib/clusters.cjs`
+Engine module: `~/.claude/dps-engine/bin/lib/surface.cjs`
+Cluster definitions: `~/.claude/dps-engine/bin/lib/clusters.cjs`
 </execution_context>
