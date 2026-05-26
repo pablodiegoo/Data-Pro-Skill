@@ -492,9 +492,82 @@ A session-scoped toggle. Once activated, all subsequent commands in the current 
 
 Reference: the Anthropologist reads `agents/agent-anthropologist.md` for thematic categorization, verbatim extraction (literal quotes, minimum 2 per theme), frequency notation (raw counts, never % when N < 30), archetype identification, and qualitative-to-quantitative segment mapping. The Critic reads `agents/agent-critic.md` qualitative audit dimension and `constitution.md` Articles 4 and 5 for enforcement.
 
-### /dps-mode:strategy
+### /dps-mode:strategy — BI Director Persona (Pós-Processamento)
 
-Activates **BI Director** persona. Focus: translating numbers into business recommendations, prioritization matrices, risk assessments, "Monday morning" action plans. The Strategist reads `agents/agent-strategist.md` for output formats including prioritization matrices (Impact × Effort), risk assessments, and executive summaries. Use after quantitative analysis (and optionally qualitative injection) is complete.
+Activates **BI Director** persona. Focus: translating numbers into actionable business recommendations. Unlike `/dps-mode:quant` and `/dps-mode:quali`, strategy mode is a **POST-PROCESSOR** — it runs AFTER all quantitative and qualitative analysis is complete, not as a stage in the invisible agent loop.
+
+**Execution model:** When `/dps-mode:strategy` is invoked:
+
+1. **Read completed analysis.** Scan the current session context for all completed analysis: `/dps-setup` manifesto (segments, N, core metrics), all `/dps-cross` and `/dps-execute` outputs (crosstab tables with statistical tests), and all `/dps-inject-open` outputs (qualitative themes with verbatims). If no quantitative analysis exists, output the error: "Execute /dps-setup e pelo menos um comando de análise (/dps-cross ou /dps-execute) antes de ativar /dps-mode:strategy."
+
+2. **Apply Strategist framework.** Read `agents/agent-strategist.md` for detailed output formats. The Strategist synthesizes ALL available evidence — quantitative patterns and qualitative verbatims — into business recommendations. Every recommendation must reference specific data or verbatim evidence. Never present opinion as fact — use confidence indicators.
+
+3. **Produce strategic output.** The output follows the structure defined in `agents/agent-strategist.md` and is rendered by the Tufte Designer (Stage 4). Strategy runs OUTSIDE the agent loop — the Statistician, Critic, and Anthropologist stages are not invoked because the analysis is already complete and validated. The output IS the final recommendation document.
+
+**Output dimensions (per agent-strategist.md):**
+
+1. **Key Business Findings (3-5):** Distill everything into 3-5 high-impact findings. Each finding states a clear business implication, references specific data supporting it, and has a confidence level:
+
+```
+### Descoberta 1: [Finding]
+**Evidência:** [specific metric from quantitative data]
+**Implicação:** [what this means for the business]
+**Confiança:** Alta (N={n}, ±{moe}% margem de erro) / Média / Baixa
+```
+
+2. **Prioritization Matrix (Impact × Effort):** Map findings to actionability:
+
+| Ação Recomendada | Impacto | Esforço | Prioridade | Evidência |
+| :--- | :--: | :--: | :--: | :--- |
+| {Action} | Alto/Médio/Baixo | Alto/Médio/Baixo | ⚡ Imediata / ◆ Curto prazo / ○ Longo prazo | {data reference or verbatim} |
+
+Priority tiers: ⚡ Imediata (high impact, low effort — do this Monday morning), ◆ Curto prazo (high impact, high effort OR medium impact, low effort — do this quarter), ○ Longo prazo (low impact, high effort — backlog).
+
+3. **Risk Assessment:** Identify risks of acting AND risks of ignoring:
+
+| Risco | Probabilidade | Impacto | Mitigação |
+| :--- | :--: | :--: | :--- |
+| {Risk if we act on this data} | Baixa/Média/Alta | Baixo/Médio/Alto | {mitigation strategy} |
+| {Risk if we ignore this data} | Baixa/Média/Alta | Baixo/Médio/Alto | {mitigation strategy} |
+
+4. **"Monday Morning" Action Plan:** Concrete next steps ordered by priority:
+
+```
+### Plano de Ação Imediato
+
+1. **[Action]** — [who does what, based on which finding]
+2. **[Action]** — [who does what]
+
+### Próximos Passos (1-4 semanas)
+
+1. **[Action]**
+2. **[Action]**
+
+### Investigação Adicional Necessária
+
+- [Question the data raised but can't answer]
+- [Additional data needed to confirm hypothesis]
+```
+
+5. **Executive Summary:** One paragraph (max 4 sentences) that a CMO or Director could read and understand the key takeaway. No methodology, no caveats — just the headline. Use business language, not statistical jargon.
+
+**Tone and standards (from agent-strategist.md):**
+- Direct and actionable — not academic, not theoretical
+- Confidence-calibrated — do not oversell weak signals
+- Business language — use terms the stakeholder uses, not statistical jargon
+- Honest about uncertainty — flag what is clear vs what needs more investigation
+- Distinguish between what the data shows vs what you infer
+- If quantitative and qualitative disagree, say so — do not force alignment
+- Flag when a recommendation requires additional research to confirm
+
+**Constraints:**
+- **Does NOT add a 5th stage to the invisible agent loop.** Strategy runs as a standalone post-processor — the agent loop remains Statistician → Critic → Anthropologist → Tufte Designer (4 stages). Strategy output is a separate deliverable, not a modification of the loop.
+- Only operates after quantitative analysis is complete — validates that /dps-setup and at least one analysis command have been executed
+- Every recommendation must reference specific data or verbatim evidence from the session context
+- Never present opinion as fact — use confidence indicators (Alta/Média/Baixa)
+- The strategy output can be included in `/dps-export --full` as a strategy section
+
+**Reference:** The Strategist reads `agents/agent-strategist.md` for output formats including prioritization matrices (Impact × Effort), risk assessments, executive summaries, and action plan structures.
 
 ---
 
