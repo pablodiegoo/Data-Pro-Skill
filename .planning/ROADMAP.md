@@ -66,6 +66,12 @@ Plans:
 **Requirements:**
 - INJECT-01, MODE-02, ARCH-02
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Qualitative injection: Anthropologist stage (Stage 3) in agent loop + /dps-inject-open command (theme extraction, verbatim mapping, quali subsections within quant segments)
+- [ ] 03-02-PLAN.md — Mode toggle: /dps-mode:quali session-scoped implementation (Anthropologist activation for all subsequent commands per D-08)
+
 **Success Criteria:**
 1. `/inject-open [text]` correctly categorizes open-ended responses into quantitative segments defined by `/setup`
 2. `/mode:quali` activates anthropological persona
