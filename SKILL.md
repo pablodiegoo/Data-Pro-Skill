@@ -424,9 +424,23 @@ A session-scoped toggle. Once activated, all subsequent commands in the current 
 
 **Usage:** If `/dps-mode:quant` is run as a standalone command, the persona activates for all subsequent commands. If used as a prefix (`/dps-mode:quant /dps-cross VarX x VarY`), the persona activates for that single command only. Reference: the Statistician reads `agents/agent-statistician.md` for test selection, sample profiling, and data quality checks — quant mode deepens these responsibilities, does not replace them.
 
-### /dps-mode:quali
+### /dps-mode:quali — Anthropologist Persona
 
-Activates **Anthropologist** persona. Focus: latent needs, sentiment analysis, consumer archetypes, journey mapping, verbatim extraction. The Anthropologist reads `agents/agent-anthropologist.md` for thematic categorization, frequency notation (never percentages when N < 30), and qualitative-to-quantitative segment mapping. Use when the user provides open-ended responses, interview transcripts, or focus group notes. **All qualitative output attaches to segments defined in the `/dps-setup` manifesto.**
+A session-scoped toggle. Once activated, all subsequent commands in the current session operate in quali mode — the Anthropologist stage (Stage 3) activates in the invisible agent loop for every command, enriching quantitative output with qualitative analysis. Qualitative findings are always attached to quantitative segments defined in the `/dps-setup` manifesto — never standalone per ARCH-02.
+
+**Behavioral changes when quali mode is active:**
+
+- **Anthropologist activation for all commands:** Stage 3 (Anthropologist) runs in the agent loop for every command — not just `/dps-inject-open`. The Anthropologist reads the current session context for any qualitative data (open-ended responses, interview transcripts, focus group notes) and attaches findings to the quantitative segments being analyzed. If no qualitative data is available in the session context, Stage 3 produces a "sem dados qualitativos disponíveis" notation and the loop falls through — the output is not degraded.
+- **Theme enrichment in crosstabs:** When `/dps-cross` runs in quali mode, the output includes qualitative themes related to the crossed segments as margin notes. The Anthropologist identifies which themes are relevant to the specific cross being analyzed and the Tufte Designer weaves them into the margin notes as `"verbatim quote" — participant context` references that explain the "why" behind the quantitative pattern.
+- **Full qualitative-to-quantitative mapping:** For `/dps-execute` in quali mode, each cross in the consolidated report includes Anthropologist findings. The Tufte Designer adds `### Análise Qualitativa — {Segmento}` subsections within each cross output, mirroring the `/dps-inject-open` output format but integrated into the execute flow.
+- **Critic qualitative enforcement:** The Critic's qualitative audit dimension (dimension 7) activates for all commands: themes with <2 verbatims are flagged as "menção isolada," Article 4 (percentage prohibition for N < 30) is enforced on all output, overgeneralization from qualitative samples is blocked. Constitution enforcement does not relax in quali mode — it tightens.
+- **Mandatory verbatim standards:** All qualitative output must include literal verbatim quotes (never paraphrased per agent-anthropologist.md), themes must have minimum 2 verbatims backing, and frequency is reported as raw counts ("mencionado por 8 de 12 participantes") — never percentages when N < 30 per constitution.md Article 4.
+
+**Usage:** If `/dps-mode:quali` is run as a standalone command, the persona activates for all subsequent commands in the current session. If used as a prefix (`/dps-mode:quali /dps-cross VarX x VarY`), the persona activates for that single command only — the mode does not persist beyond the prefixed command.
+
+**Deactivation (desativar):** Run `/dps-mode:quant` to switch back to quantitative-only mode, deactivating the Anthropologist stage and returning to the default 3-stage loop (Statistician → Critic → Tufte Designer). Running `/dps-mode:quali` again while already in quali mode toggles off and returns to the default 3-stage loop.
+
+Reference: the Anthropologist reads `agents/agent-anthropologist.md` for thematic categorization, verbatim extraction (literal quotes, minimum 2 per theme), frequency notation (raw counts, never % when N < 30), archetype identification, and qualitative-to-quantitative segment mapping. The Critic reads `agents/agent-critic.md` qualitative audit dimension and `constitution.md` Articles 4 and 5 for enforcement.
 
 ### /dps-mode:strategy
 
