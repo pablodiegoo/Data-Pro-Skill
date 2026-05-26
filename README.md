@@ -2,164 +2,161 @@
 
 # Data-Pro-Skill v2
 
-**Português** · [English](README.en.md) (em breve)
+**A multi-harness meta-prompt for market research data analysis. Transforms raw quantitative and qualitative data into dense, Tufte-style analytical documents — zero prose fluff, maximum data density.**
 
-**Meta-prompt para análise de dados de pesquisa de mercado. Transforma dados brutos quantitativos e qualitativos em documentos analíticos densos, estilo Tufte — zero prosa fluff, densidade máxima de dados.**
-
-**Funciona em qualquer harness: OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude.**
+**Works on any AI harness: OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude.**
 
 <br>
 
-```bash
-# Copie o SKILL.md para o diretório de skills do seu harness
-cp SKILL.md ~/.config/opencode/skills/data-pro-skill/
-```
-
-<br>
-
-*"Análises que antes tomavam horas de ajuste manual agora saem prontas para publicar."*
-
-*"Finalmente um prompt que não se perde no meio do caminho."*
+*"Analysis that used to take hours of manual tweaking now comes out publication-ready."*
 
 </div>
 
 ---
 
-## Pipeline de Comandos
+## Command Pipeline
 
-Quatro comandos. Cada um ancora o próximo. Nenhuma análise pode contradizer métricas já estabelecidas.
+Four commands. Each anchors the next. No analysis can contradict previously established metrics.
 
-| Comando | O que faz |
+| Command | What it does |
 |---------|-----------|
-| `/setup` | Gera o manifesto quantitativo (YAML frontmatter + matriz de segmentos) |
-| `/cross [VarX] x [VarY]` | Cruza variáveis com tabelas densas estilo Tufte |
-| `/inject-open [texto]` | Categoriza respostas abertas dentro dos segmentos existentes |
-| `/export` | Consolida tudo em Markdown limpo, pronto para Quarto/LaTeX/PDF |
+| `/dps-setup` | Generates the quantitative manifesto (YAML frontmatter + segment matrix) |
+| `/dps-cross [VarX] x [VarY]` | Slices variables with dense Tufte-style crosstab tables |
+| `/dps-inject-open [text]` | Categorizes open-ended responses within existing quant segments |
+| `/dps-export` | Consolidates everything into clean Markdown, ready for Quarto/LaTeX/PDF |
 
-### Modos especializados
+### Specialized Modes
 
-| Comando | Persona ativada |
+| Command | Persona activated |
 |---------|----------------|
-| `/mode:quant` | Estatístico Sênior — correlações, tabelas cruzadas, NPS, Churn, CSAT |
-| `/mode:quali` | Antropólogo — dores latentes, sentimento, arquétipos, jornadas |
-| `/mode:strategy` | Diretor de BI — recomendações de negócio acionáveis |
+| `/dps-mode:quant` | Senior Statistician — correlations, crosstabs, NPS, Churn, CSAT |
+| `/dps-mode:quali` | Anthropologist — latent needs, sentiment, archetypes, journeys |
+| `/dps-mode:strategy` | BI Director — actionable business recommendations |
 
 ---
 
-## Exemplo de Output (Estilo Tufte)
+## Example Output (Tufte Style)
 
 ```markdown
 ---
-project: "Pesquisa de Churn — Q2 2026"
+project: "Churn Survey — Q2 2026"
 sample_size: 1450
-metrics: [NPS, Frequência, Idade, Motivo]
+metrics: [NPS, Frequency, Age, Reason]
 ---
 
-## Distribuição de Churn por Faixa Etária
+## Churn Distribution by Age Group
 
-O pico de cancelamentos está em 18-24 anos (45% do Churn total, apenas 20% da base).
+The cancellation peak is in 18-24 years (45% of total Churn, only 20% of the base).
 
-| Faixa Etária | N  | Churn (%) | Alvo Qualitativo |
-| :---         |:--:| :--:      | :---             |
-| 18-24        | 290 | 45%       | Barreira de Preço / Valor Percebido |
-| 25-34        | 580 | 12%       | Falta de Tempo / Mudança de Rotina  |
-| 35+          | 580 | 5%        | Problemas Técnicos de Usabilidade   |
+| Age Group | N  | Churn (%) | Qualitative Target |
+| :---      |:--:| :--:      | :---               |
+| 18-24     | 290 | 45%       | Price Barrier / Perceived Value |
+| 25-34     | 580 | 12%       | Lack of Time / Routine Change   |
+| 35+       | 580 | 5%        | Technical Usability Issues      |
 
-> **Nota de Margem:** Análise quali do Segmento A revela correlação entre rejeição e preço
-> pós-trial. Termos recorrentes: "caro", "estudante", "reajuste".
+> **Margin Note:** Qualitative analysis of Segment A reveals a direct correlation between
+> rejection and post-trial pricing. Recurring terms: "expensive", "student", "readjustment".
 ```
 
 ---
 
-## Arquitetura
+## Architecture
 
-### Loop de Agentes Invisíveis
+### Invisible Agent Loop
 
-O usuário interage apenas com o output final. Três agentes internos rodam em silêncio:
+The user interacts only with the final output. Three agents run silently per command:
 
 ```
-Usuário → [Orquestrador] → [Estatístico] → [Crítico] → [Designer Tufte]
-                                                              ↓
-                                                       Output ao usuário
+User → [Orchestrator] → [Statistician] → [Critic] → [Tufte Designer]
+                                                          ↓
+                                                   Output to user ONLY
 ```
 
-| Agente | Responsabilidade |
-|--------|-----------------|
-| **Estatístico** | Valida consistência numérica, calcula distribuições, escolhe testes |
-| **Crítico** | Detecta vieses, correlações espúrias, generalizações indevidas |
-| **Designer Tufte** | Sintetiza eliminando adjetivos, foco em densidade de dados e notas de margem |
+| Agent | Responsibility |
+|--------|---------------|
+| **Statistician** | Validates numerical consistency, calculates distributions, selects tests |
+| **Critic** | Detects biases, spurious correlations, overgeneralizations, missing data |
+| **Tufte Designer** | Synthesizes output — zero fluff, maximum data density, margin notes |
 
 ### Document-Driven Context
 
-Cada comando escreve em um documento compartilhado. O manifesto do `/setup` é a verdade única — nenhuma análise posterior pode contradizer métricas já estabelecidas. Isso elimina o "context rot" (degradação de qualidade conforme a IA preenche a janela de contexto).
+Each command writes to a shared document. The `/dps-setup` manifesto is the single source of truth — no subsequent analysis can contradict established metrics. This eliminates "context rot" (quality degradation as AI fills its context window).
 
 ---
 
-## Constituição dos Dados
+## Data Constitution
 
-Regras inegociáveis definidas em `constitution.md`:
+Non-negotiable rules defined in `constitution.md`:
 
-- **Rigor Estatístico:** Margem de erro, tamanho amostral mínimo, nível de confiança (p < 0.05)
-- **Rigor Qualitativo:** Proibição de generalizações com amostras pequenas (ex: "70% dos entrevistados" com N=10)
-- **Tratamento de Viés:** Identificação de viés de confirmação, correlações espúrias
-- **Prosa Fluff:** Proibição de frases como "É importante notar que..." ou "Com base nos dados..."
-
----
-
-## Compatibilidade Multi-Harness
-
-Projetado para funcionar em qualquer runtime de IA — sem depender de features exclusivas de um plataforma:
-
-| Harness | Status | Notas |
-|---------|--------|-------|
-| **OpenCode** | ✓ | Público-alvo principal |
-| **Gemini CLI** | ✓ | YAML frontmatter + Markdown |
-| **Codex CLI** | ✓ | Testado |
-| **Claude Code** | ✓ | Sem tags XML |
-| **Hermes** | ✓ | Modelos open-source |
-| **OpenClaw** | ✓ | Compatível |
-
-Nada de XML, nada de sintaxe proprietária. Apenas YAML frontmatter e Markdown.
+- **Statistical Rigor:** Margin of error, minimum sample size, confidence level (p < 0.05)
+- **Qualitative Rigor:** Prohibition of generalizations from small samples (e.g., "70% of respondents" when N=10)
+- **Bias Treatment:** Confirmation bias detection, spurious correlation flagging
+- **Prose Fluff:** Prohibition of phrases like "It's important to note..." or "Based on the data..."
 
 ---
 
-## Estrutura do Projeto
+## Multi-Harness Compatibility
+
+Designed to work on any AI runtime — no platform-specific features:
+
+| Harness | Status |
+|---------|:------:|
+| **OpenCode** | ✓ |
+| **Gemini CLI** | ✓ |
+| **Codex CLI** | ✓ |
+| **Claude Code** | ✓ |
+| **Hermes** | ✓ |
+| **OpenClaw** | ✓ |
+
+No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
+
+---
+
+## Project Structure
 
 ```
-├── SKILL.md              # Meta-prompt principal
-├── constitution.md        # Regras de rigor estatístico/qualitativo
-├── agents/                # Definições dos agentes GSD
-├── commands/              # Comandos (setup, cross, inject-open, export)
-├── docs/                  # Documentação expandida
-├── get-shit-done/         # Engine GSD (workflows, templates, referências)
-├── hooks/                 # Hooks de validação
-├── assets/                # Ícones e imagens
-└── .planning/             # Planejamento do projeto (ROADMAP, STATE, etc.)
+├── SKILL.md              # Main meta-prompt (639 lines, 10 commands)
+├── constitution.md        # Statistical rigor rules (6 articles, 8 rules)
+├── agents/                # Agent definitions (Statistician, Critic, Tufte, etc.)
+├── commands/              # Workflow commands
+├── docs/                  # Extended documentation
+├── get-shit-done/         # GSD engine (workflows, templates, references)
+└── .planning/             # Project planning (ROADMAP, STATE, etc.)
 ```
 
 ---
 
-## Inspiração
+## Getting Started
 
-Construído combinando o melhor de três mundos:
-
-| Framework | Contribuição para Data-Pro-Skill |
-|-----------|----------------------------------|
-| **Tufte** (Edward Tufte) | Output com alta densidade de dados, notas de margem, zero fluff |
-| **GSD** (Get Shit Done) | Agentes invisíveis, loop Discutir→Planejar→Executar→Verificar |
-| **Spec-Kit** (GitHub) | Comando `/clarify` — questionar hipóteses antes de tocar nos dados |
-| **BMAD** | Separação de personas (`/mode:quant`, `/mode:quali`) |
+1. Copy `SKILL.md` and `constitution.md` to your harness's skills directory
+2. Start any session with `/dps-setup` and provide your data
+3. Run `/dps-cross` to slice variables
+4. Use `/dps-inject-open` for qualitative data
+5. Run `/dps-export` to get a publication-ready Markdown file
 
 ---
 
-## Licença
+## Inspiration
 
-MIT License. Veja [LICENSE](LICENSE).
+Built by combining the best of four approaches:
+
+| Source | Contribution |
+|--------|-------------|
+| **Edward Tufte** | High data density, margin notes, zero fluff output |
+| **GSD (Get Shit Done)** | Invisible agents, discuss→plan→execute→verify loop |
+| **Spec-Kit (GitHub)** | `/dps-clarify` — hypothesis exploration before touching data |
+| **BMAD Method** | Persona separation (`/dps-mode:quant`, `/dps-mode:quali`) |
+
+---
+
+## License
+
+MIT License. See [LICENSE](LICENSE).
 
 ---
 
 <div align="center">
 
-**Dados brutos entram. Documentos analíticos publicáveis saem. Sem enrolação.**
+**Raw data in. Publication-ready analytical documents out. No fluff.**
 
 </div>
