@@ -91,6 +91,12 @@ Plans:
 **Requirements:**
 - MODE-03, EXPT-01, HARN-03
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — /dps-export command (consolidated MD with flags) + /dps-mode:strategy (post-processing BI Director)
+- [ ] 04-02-PLAN.md — Multi-harness compatibility validation (HARN-03): zero XML, clean YAML, DPS naming, file ref integrity
+
 **Success Criteria:**
 1. `/mode:strategy` translates numbers into business recommendations
 2. `/export` consolidates all analysis into a single clean Markdown file
@@ -101,4 +107,4 @@ Plans:
 
 ---
 *Created: 2026-05-25*
-*Last updated: 2026-05-25*
+*Last updated: 2026-05-26*
