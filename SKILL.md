@@ -393,6 +393,56 @@ Output is organized by `/dps-setup` segment. Each segment that has qualitative f
 
 ---
 
+## Command: /dps-export — Exportação Consolidada do Documento
+
+**Purpose:** Consolidar todas as análises (manifesto, cruzamentos, achados qualitativos, recomendações estratégicas) em um único arquivo Markdown limpo, pronto para conversão via Pandoc/Quarto/LaTeX/PDF.
+
+### Execution Steps
+
+1. **Escanear contexto da sessão.** Identificar todas as análises disponíveis na sessão atual: manifesto do /dps-setup, outputs de /dps-cross e /dps-execute, achados qualitativos do /dps-inject-open, e recomendações estratégicas do /dps-mode:strategy (se existirem). Se nenhuma análise existir, exibir: "Nenhuma análise disponível para exportação. Execute /dps-setup primeiro."
+
+2. **Aplicar filtro da flag.** Baseado na flag fornecida:
+   - `--manifest`: Incluir apenas o manifesto do /dps-setup
+   - `--crosstabs`: Incluir apenas tabelas de cruzamento (/dps-cross e /dps-execute)
+   - `--full`: Incluir TUDO (manifesto + cruzamentos + qualitativo + estratégia). **Comportamento padrão quando nenhuma flag é especificada.**
+
+3. **Montar documento.** Estruturar nesta ordem exata:
+   a. YAML frontmatter com metadados do projeto (extraídos do manifesto /dps-setup)
+   b. Seção do manifesto (se incluída pela flag)
+   c. Seções de cruzamentos em ordem cronológica (se incluídas pela flag)
+   d. Seções qualitativas, aninhadas dentro de seus segmentos (se incluídas pela flag)
+   e. Seção de recomendações estratégicas (se incluída pela flag e output de estratégia existir)
+
+4. **Escrever outputs/final_report.md.** Sobrescrever se existir. Usar Markdown puro — zero tags XML.
+
+### Output Format
+
+YAML frontmatter do documento exportado:
+- `project`: herdado do manifesto /dps-setup
+- `framework`: "Data-Pro-Skill v2" (hardcoded)
+- `sample_size`: herdado do manifesto
+- `metrics_tracked`: herdado do manifesto
+- `segments`: herdado do manifesto
+- `export_date`: data atual no formato YYYY-MM-DD
+- `flags`: array com as flags utilizadas (ex: ["--full"])
+
+Corpo do documento:
+- Título nível 1: `# {Project Name} — Relatório Completo`
+- Cada seção incluída preserva seu formato original Tufte (tabelas, notas de margem, verbatims)
+- Seções aparecem em ordem cronológica (setup → crosses → quali → estratégia)
+- Se uma seção não tem conteúdo (ex: --crosstabs mas nenhum cruzamento executado), incluir nota: "Nenhum cruzamento executado nesta sessão."
+
+### Constraints
+
+- Markdown puro — zero tags XML no output
+- Sem prosa fluff — o documento exportado herda as regras de formatação Tufte (8 frases proibidas do Article 3 em constitution.md)
+- Tabelas preservam alinhamento Markdown (:--- para texto, :--: para números)
+- Output pronto para Quarto/LaTeX/PDF — todas as tabelas usam sintaxe de alinhamento Markdown padrão
+- A exportação NÃO re-executa análise — apenas consolida o que já existe no contexto da sessão
+- Se a flag --full incluir estratégia mas /dps-mode:strategy não foi executado, incluir nota: "Recomendações estratégicas não disponíveis — execute /dps-mode:strategy para adicionar esta seção."
+
+---
+
 ## Command Reference
 
 | Command | Description | Status |
@@ -403,7 +453,7 @@ Output is organized by `/dps-setup` segment. Each segment that has qualitative f
 | `/dps-clarify` | Ask 3-5 provocative business hypothesis questions before data analysis. Ensures analysis is hypothesis-driven, not fishing. | Phase 2 — implemented |
 | `/dps-plan` | Design analytical approach — which tests, which crosstabs, why each. Outputs a structured plan before execution. | Phase 2 — implemented |
 | `/dps-inject-open [text]` | Categorize open-ended responses within existing quantitative segments from the manifesto. Qualitative findings enrich — never replace — quantitative data. | Phase 3 — implemented |
-| `/dps-export` | Consolidate all analysis outputs (manifesto, crosstabs, qualitative findings) into a single clean Markdown file ready for Pandoc/Quarto/LaTeX conversion. | Full implementation in Phase 4 |
+| `/dps-export` | Consolidate all analysis outputs into a single clean Markdown file. Flags: --manifest, --crosstabs, --full (default). Ready for Pandoc/Quarto/LaTeX/PDF. | Phase 4 — implemented |
 
 ---
 
