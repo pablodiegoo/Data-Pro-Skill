@@ -1,0 +1,33 @@
+{
+  "name": "@opengsd/data-pro-skill",
+  "version": "2.0.0",
+  "description": "Multi-harness meta-prompt for market research data analysis. Transforms raw quantitative and qualitative data into dense, Tufte-style analytical documents.",
+  "bin": {
+    "data-pro-skill": "bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "agents/",
+    "commands/",
+    "SKILL.md",
+    "constitution.md",
+    "references/",
+    "dps-engine/"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pablodiegoo/Data-Pro-Skill.git"
+  },
+  "keywords": [
+    "market-research",
+    "data-analysis",
+    "tufte",
+    "meta-prompt",
+    "gsd",
+    "data-pro-skill"
+  ],
+  "license": "MIT"
+}
