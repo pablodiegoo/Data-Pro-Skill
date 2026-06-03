@@ -23,6 +23,10 @@ const AGENT_FILES = [
   'agent-statistician.md', 'agent-critic.md', 'agent-tufte-designer.md',
   'agent-anthropologist.md', 'agent-strategist.md',
 ];
+const REF_FILES = [
+  'agent-loop.md', 'dps-setup.md', 'dps-cross.md', 'dps-inject-open.md',
+  'dps-export.md', 'dps-clarify.md', 'dps-plan.md', 'modes.md', 'tufte-rules.md',
+];
 
 function dl(url) {
   return new Promise((resolve, reject) => {
@@ -75,6 +79,7 @@ Execute \`/${name}\` as defined in SKILL.md.
 
 @${skillDir}/SKILL.md
 @${skillDir}/constitution.md
+@${skillDir}/references
 `);
     }
   }
@@ -156,6 +161,12 @@ async function main() {
       writeFile(agentsDir, a, await dl(`${RAW}/agents/${a}`));
     }
     console.log(`  ✓ ${AGENT_FILES.length} agents`);
+
+    // References
+    for (const r of REF_FILES) {
+      writeFile(path.join(dps, 'references'), r, await dl(`${RAW}/references/${r}`));
+    }
+    console.log(`  ✓ ${REF_FILES.length} reference files`);
 
     // Output dirs
     for (const d of ['setup', 'cross', 'quali', 'export']) {
