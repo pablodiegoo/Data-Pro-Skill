@@ -84,23 +84,20 @@ Execute \`/${name}\` as defined in SKILL.md.
 async function main() {
   console.log(`\n\u001b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Data-Pro-Skill v2 — Installer\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\n`);
 
-  const ans1 = await ask('Install type:\n  0. Local project only\n  1. Harness only\n  2. Both\n\nChoice [2]: ');
+  const ans1 = await ask('Install type:\n  0. Local (current project)\n  1. Global (harness config)\n  2. Both\n\nChoice [2]: ');
   const t = parseInt(ans1 || '2', 10);
   const hasLocal = t === 0 || t === 2;
   const hasHarness = t === 1 || t === 2;
 
-  let selected = [];
-  if (hasHarness) {
-    console.log('');
-    const ans2 = await ask('Harnesses:\n' +
-      HARNESSES.map((h, i) => `  ${i + 1}. ${h.name}`).join('\n') +
-      `\n  ${HARNESSES.length + 1}. All\n\nNumbers [6]: `);
-    const nums = (ans2 || `${HARNESSES.length + 1}`)
-      .split(/[,;\s]+/).map(s => parseInt(s, 10)).filter(n => !isNaN(n));
-    selected = nums.includes(HARNESSES.length + 1)
-      ? HARNESSES
-      : HARNESSES.filter((_, i) => nums.includes(i + 1));
-  }
+  console.log('');
+  const ans2 = await ask('Harnesses to install:\n' +
+    HARNESSES.map((h, i) => `  ${i + 1}. ${h.name}`).join('\n') +
+    `\n  ${HARNESSES.length + 1}. All\n\nNumbers [6]: `);
+  const nums = (ans2 || `${HARNESSES.length + 1}`)
+    .split(/[,;\s]+/).map(s => parseInt(s, 10)).filter(n => !isNaN(n));
+  const selected = nums.includes(HARNESSES.length + 1)
+    ? HARNESSES
+    : HARNESSES.filter((_, i) => nums.includes(i + 1));
 
   let localDps = null;
 
