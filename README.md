@@ -112,6 +112,21 @@ No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
 
 ---
 
+## Getting Started
+
+```bash
+# Install via curl (no npm account needed, Node.js required):
+curl -fsSL https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main/bin/install.js | node
+
+# Or manually copy the files:
+# git clone https://github.com/pablodiegoo/Data-Pro-Skill.git
+# cp Data-Pro-Skill/SKILL.md Data-Pro-Skill/constitution.md ~/.config/opencode/skills/data-pro-skill/
+```
+
+Restart your harness, then start any session with `/dps-setup`.
+
+---
+
 ## Project Structure
 
 ```
@@ -120,7 +135,7 @@ No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
 ├── agents/                # Agent definitions (Statistician, Critic, Tufte, etc.)
 ├── commands/              # Workflow commands
 ├── docs/                  # Extended documentation
-├── dps-engine/         # GSD engine (workflows, templates, references)
+├── dps-engine/              # GSD engine (workflows, templates, references)
 └── .planning/             # Project planning (ROADMAP, STATE, etc.)
 ```
 
