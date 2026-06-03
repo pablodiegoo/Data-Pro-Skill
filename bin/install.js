@@ -144,12 +144,15 @@ async function main() {
   keys.forEach((k, i) => console.log(`  ${i + 1}. ${RUNTIMES[k].name}`));
   console.log(`  ${keys.length + 1}. All of the above`);
 
-  const ans = await ask(`\nEnter number [1]: `);
-  const idx = parseInt(ans || '1', 10) - 1;
+  const ans = await ask(`\nEnter number(s) [1]: `);
+  const nums = (ans || '1')
+    .split(/[,;\s]+/)
+    .map(s => parseInt(s, 10))
+    .filter(n => !isNaN(n) && n >= 1 && n <= keys.length + 1);
 
-  const list = (idx >= keys.length)
+  const list = nums.some(n => n === keys.length + 1)
     ? Object.entries(RUNTIMES)
-    : [[keys[idx] || 'opencode', RUNTIMES[keys[idx] || 'opencode']]];
+    : [...new Set(nums)].map(n => [keys[n - 1], RUNTIMES[keys[n - 1]]]);
 
   for (const [, rt] of list) {
     const skillBase = path.join(expand(rt.dir), 'skills');
