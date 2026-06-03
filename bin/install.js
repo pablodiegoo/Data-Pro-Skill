@@ -167,18 +167,24 @@ async function main() {
   for (const [, rt] of list) {
     if (rt.local) {
       const cwd = process.cwd();
-      console.log(`\n  → Installing to current project (${cwd})`);
-      for (const file of ['SKILL.md', 'constitution.md']) {
-        const content = await download(`${REPO_URL}/${file}`);
-        fs.writeFileSync(path.join(cwd, file), content);
-        console.log(`    ✓ ${file}`);
+      const { execSync } = require('child_process');
+      console.log(`\n  → Installing Data-Pro-Skill in current project (${cwd})`);
+      const dir = path.join(cwd, '.dps');
+      if (fs.existsSync(dir)) {
+        console.log('    ⚠ .dps/ already exists — run: git -C .dps pull origin main');
+        continue;
       }
-      // Add reference to AGENTS.md
+      execSync(
+        `git clone --depth 1 https://github.com/pablodiegoo/Data-Pro-Skill.git "${dir}" 2>&1`,
+        { stdio: 'inherit' }
+      );
+      console.log('    ✓ .dps/ cloned');
+
+      // Reference in AGENTS.md
       const agentsPath = path.join(cwd, 'AGENTS.md');
-      const ref = `\n<!-- DPS:project-start -->\n@${path.join(cwd, 'SKILL.md')}\n@${path.join(cwd, 'constitution.md')}\n<!-- DPS:project-end -->\n`;
+      const ref = `\n<!-- DPS:project-start -->\n- @.dps/SKILL.md\n- @.dps/constitution.md\n<!-- DPS:project-end -->\n`;
       if (fs.existsSync(agentsPath)) {
-        const agents = fs.readFileSync(agentsPath, 'utf-8');
-        if (!agents.includes('DPS:project-start')) {
+        if (!fs.readFileSync(agentsPath, 'utf-8').includes('DPS:project-start')) {
           fs.appendFileSync(agentsPath, ref);
           console.log('    ✓ AGENTS.md updated');
         }
