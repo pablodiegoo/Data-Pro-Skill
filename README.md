@@ -115,8 +115,8 @@ No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
 ## Getting Started
 
 ```bash
-# Install via curl (no npm account needed, Node.js required):
-curl -fsSL https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main/bin/install.js | node
+# Download + run (no npm account needed, Node.js required):
+curl -fsSL -o /tmp/dps-install.js https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main/bin/install.js && node /tmp/dps-install.js
 
 # Or manually copy the files:
 # git clone https://github.com/pablodiegoo/Data-Pro-Skill.git
