@@ -2,208 +2,151 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const http = require('https');
+const { execSync } = require('child_process');
 const readline = require('readline');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const ask = (q) => new Promise((r) => rl.question(q, r));
 const expand = (p) => p.startsWith('~') ? path.join(os.homedir(), p.slice(1)) : p;
 
-const REPO_URL = 'https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main';
+const REPO = 'https://github.com/pablodiegoo/Data-Pro-Skill.git';
+const RAW = 'https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main';
 
-const RUNTIMES = {
-  opencode: {
-    name: 'OpenCode',
-    dir: '~/.config/opencode',
-    needsCommandStubs: true,
-    needsPerCommandSkills: false,
-    extraDirs: [],
-  },
-  gemini: {
-    name: 'Gemini CLI',
-    dir: '~/.gemini',
-    needsCommandStubs: false,
-    needsPerCommandSkills: false,
-    extraDirs: ['~/.gemini/antigravity/skills'],
-  },
-  codex: {
-    name: 'Codex CLI',
-    dir: '~/.codex',
-    needsCommandStubs: false,
-    needsPerCommandSkills: true,
-    extraDirs: [],
-  },
-  antigravity: {
-    name: 'Antigravity CLI',
-    dir: '~/.antigravitycli',
-    needsCommandStubs: false,
-    needsPerCommandSkills: true,
-    extraDirs: [],
-  },
-  copilot: {
-    name: 'GitHub Copilot',
-    dir: '~/.github',
-    needsCommandStubs: false,
-    needsPerCommandSkills: false,
-    extraDirs: [],
-  },
-};
+const CMD_LIST = [
+  'setup', 'cross', 'inject-open', 'export', 'clarify', 'plan',
+  'mode:quant', 'mode:quali', 'mode:strategy'
+];
 
-const DPS_COMMANDS = ['setup', 'cross', 'inject-open', 'export', 'clarify', 'plan'];
-const DPS_MODES = ['mode:quant', 'mode:quali', 'mode:strategy'];
-const LOCAL = { name: 'Local project (current directory)', local: true };
+const HARNESSES = [
+  { id: 'opencode',      name: 'OpenCode',        dir: '~/.config/opencode' },
+  { id: 'gemini',        name: 'Gemini CLI',       dir: '~/.gemini' },
+  { id: 'codex',         name: 'Codex CLI',        dir: '~/.codex' },
+  { id: 'antigravity',   name: 'Antigravity CLI',  dir: '~/.antigravitycli' },
+  { id: 'copilot',       name: 'GitHub Copilot',   dir: '~/.github' },
+];
 
-function download(url) {
-  return new Promise((resolve, reject) => {
-    http.get(url, (res) => {
-      if (res.statusCode !== 200) {
-        reject(new Error(`HTTP ${res.statusCode} fetching ${url}`));
-        return;
-      }
-      let data = '';
-      res.on('data', (c) => data += c);
-      res.on('end', () => resolve(data));
-    }).on('error', reject);
-  });
-}
+const LABELS = HARNESSES.map((h, i) => `${i + 1}. ${h.name}`).join('\n');
+const PROMPT = `Select destination(s) [1]:
 
-async function installForRuntime(runtime, skillBase) {
-  const targetDir = path.join(skillBase, 'data-pro-skill');
-  fs.mkdirSync(targetDir, { recursive: true });
+  0. Local project (current dir)
+${LABELS}
+  ${HARNESSES.length + 1}. All harnesses
 
-  console.log(`\n  → Installing to ${runtime.name}`);
+Enter: `;
 
-  // Download SKILL.md + constitution.md
-  for (const file of ['SKILL.md', 'constitution.md']) {
-    const url = `${REPO_URL}/${file}`;
-    const content = await download(url);
-    fs.writeFileSync(path.join(targetDir, file), content);
-    console.log(`    ✓ ${file} (${(content.length / 1024).toFixed(0)}KB)`);
-  }
-
-  // Extra dirs (Gemini antigravity)
-  for (const extra of runtime.extraDirs) {
-    const d = expand(extra);
-    fs.mkdirSync(d, { recursive: true });
-    for (const file of ['SKILL.md', 'constitution.md']) {
-      const content = await download(`${REPO_URL}/${file}`);
-      fs.writeFileSync(path.join(d, file), content);
-    }
-    console.log(`    ✓ extra: ${extra}`);
-  }
-
-  // Command stubs (OpenCode)
-  if (runtime.needsCommandStubs) {
-    const cmdDir = path.join(expand(runtime.dir), 'command');
-    fs.mkdirSync(cmdDir, { recursive: true });
-    for (const cmd of [...DPS_COMMANDS, ...DPS_MODES]) {
-      const name = `dps-${cmd}`;
-      fs.writeFileSync(path.join(cmdDir, `${name}.md`),
+function stubsFor(targetDir, cmdDir) {
+  fs.mkdirSync(cmdDir, { recursive: true });
+  for (const cmd of CMD_LIST) {
+    const name = `dps-${cmd}`;
+    fs.writeFileSync(path.join(cmdDir, `${name}.md`),
 `---
 description: "Data-Pro-Skill: /${name}"
 ---
 
-Execute \`/${name}\` as defined in the Data-Pro-Skill meta-prompt.
+Execute \`/${name}\` via the Data-Pro-Skill pipeline.
 
 @${targetDir}/SKILL.md
 @${targetDir}/constitution.md
+@${targetDir}/scripts
 `);
-    }
-    console.log(`    ✓ ${DPS_COMMANDS.length + DPS_MODES.length} command stubs`);
-  }
-
-  // Per-command skill dirs (Codex, Antigravity)
-  if (runtime.needsPerCommandSkills) {
-    for (const cmd of [...DPS_COMMANDS, ...DPS_MODES]) {
-      const name = `dps-${cmd}`;
-      const dir = path.join(skillBase, name);
-      fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, 'SKILL.md'),
-`---
-name: ${name}
-description: "Data-Pro-Skill: /${name}"
----
-
-Execute \`/${name}\` as defined in the Data-Pro-Skill meta-prompt.
-
-@${targetDir}/SKILL.md
-@${targetDir}/constitution.md
-`);
-    }
-    console.log(`    ✓ ${DPS_COMMANDS.length + DPS_MODES.length} command skills`);
   }
 }
 
 async function main() {
-  console.log(`
-\x1b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- Data-Pro-Skill v2 — Installer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\x1b[0m
-`);
-  const keys = Object.keys(RUNTIMES);
-  console.log('Select destination(s):\n');
-  keys.forEach((k, i) => console.log(`  ${i + 1}. ${RUNTIMES[k].name}`));
-  console.log(`  ${keys.length + 1}. All of the above`);
-  console.log(`  0. Local project (current dir)`);
+  console.log(`\n\u001b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Data-Pro-Skill v2 — Installer\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\n`);
 
-  const ans = await ask(`\nEnter number(s) [1]: `);
+  const ans = await ask(PROMPT);
   const nums = (ans || '1')
     .split(/[,;\s]+/)
     .map(s => parseInt(s, 10))
     .filter(n => !isNaN(n));
+  const hasLocal  = nums.includes(0);
+  const hasAll    = nums.includes(HARNESSES.length + 1);
+  const selected  = hasAll
+    ? HARNESSES
+    : HARNESSES.filter((_, i) => nums.includes(i + 1));
 
-  const hasAll = nums.some(n => n === keys.length + 1);
-  const hasLocal = nums.some(n => n === 0);
-  const harnessNums = nums.filter(n => n >= 1 && n <= keys.length);
+  // ── LOCAL PROJECT ──────────────────────────────────────────────
+  if (hasLocal) {
+    const cwd = process.cwd();
+    const dps = path.join(cwd, '.dps');
+    console.log(`\n  → Installing in ${cwd}`);
 
-  const list = [];
-  if (hasAll) {
-    Object.entries(RUNTIMES).forEach(([k, v]) => list.push([k, v]));
-  } else {
-    [...new Set(harnessNums)].forEach(n => list.push([keys[n - 1], RUNTIMES[keys[n - 1]]]));
-  }
-  if (hasLocal) list.push(['local', LOCAL]);
-
-  for (const [, rt] of list) {
-    if (rt.local) {
-      const cwd = process.cwd();
-      const { execSync } = require('child_process');
-      console.log(`\n  → Installing Data-Pro-Skill in current project (${cwd})`);
-      const dir = path.join(cwd, '.dps');
-      if (fs.existsSync(dir)) {
-        console.log('    ⚠ .dps/ already exists — run: git -C .dps pull origin main');
-        continue;
-      }
-      execSync(
-        `git clone --depth 1 https://github.com/pablodiegoo/Data-Pro-Skill.git "${dir}" 2>&1`,
-        { stdio: 'inherit' }
-      );
+    if (fs.existsSync(dps)) {
+      console.log('    ⚠ .dps/ exists — run: git -C .dps pull origin main');
+    } else {
+      execSync(`git clone --depth 1 ${REPO} "${dps}"`, { stdio: 'inherit' });
       console.log('    ✓ .dps/ cloned');
-
-      // Reference in AGENTS.md
-      const agentsPath = path.join(cwd, 'AGENTS.md');
-      const ref = `\n<!-- DPS:project-start -->\n- @.dps/SKILL.md\n- @.dps/constitution.md\n<!-- DPS:project-end -->\n`;
-      if (fs.existsSync(agentsPath)) {
-        if (!fs.readFileSync(agentsPath, 'utf-8').includes('DPS:project-start')) {
-          fs.appendFileSync(agentsPath, ref);
-          console.log('    ✓ AGENTS.md updated');
-        }
-      } else {
-        fs.writeFileSync(agentsPath, ref);
-        console.log('    ✓ AGENTS.md created');
-      }
-      continue;
     }
-    const skillBase = path.join(expand(rt.dir), 'skills');
-    await installForRuntime(rt, skillBase);
+
+    // Output directories
+    for (const d of ['setup', 'cross', 'quali', 'export']) {
+      fs.mkdirSync(path.join(dps, 'outputs', d), { recursive: true });
+    }
+    console.log('    ✓ outputs/ prepared');
+
+    // Requirements
+    fs.writeFileSync(path.join(dps, 'requirements.txt'),
+      'pandas>=2.0\nnumpy>=1.24\nscipy>=1.11\nscikit-learn>=1.3\n');
+    console.log('    ✓ requirements.txt');
+
+    // AGENTS.md
+    const agents = path.join(cwd, 'AGENTS.md');
+    const ref = '\n<!-- DPS:project -->\n- @.dps/SKILL.md\n- @.dps/constitution.md\n<!-- /DPS -->\n';
+    if (fs.existsSync(agents)) {
+      if (!fs.readFileSync(agents, 'utf-8').includes('DPS:project')) {
+        fs.appendFileSync(agents, ref);
+      }
+    } else {
+      fs.writeFileSync(agents, ref);
+    }
+    console.log('    ✓ AGENTS.md');
   }
 
-  const harnessCount = list.filter(([, r]) => !r.local).length;
-  const hasLocalInstall = list.some(([, r]) => r.local);
-  console.log(`\n\x1b[32m✓ Data-Pro-Skill v2 installed\x1b[0m`);
-  if (harnessCount > 0) console.log(`  ${harnessCount} harness(es) — restart and run: /dps-setup`);
-  if (hasLocalInstall) console.log(`  Local project — run: /dps-setup`);
+  // ── HARNESS INSTALL ────────────────────────────────────────────
+  const dpsPath = hasLocal
+    ? path.join(process.cwd(), '.dps')
+    : null;
+
+  for (const h of selected) {
+    const base = expand(h.dir);
+    const skillDir = path.join(base, 'skills', 'data-pro-skill');
+    const cmdDir   = path.join(base, 'command');
+
+    fs.mkdirSync(skillDir, { recursive: true });
+
+    // Copy skill files from local .dps/ or download from GitHub
+    if (dpsPath && fs.existsSync(path.join(dpsPath, 'SKILL.md'))) {
+      fs.copyFileSync(path.join(dpsPath, 'SKILL.md'),       path.join(skillDir, 'SKILL.md'));
+      fs.copyFileSync(path.join(dpsPath, 'constitution.md'), path.join(skillDir, 'constitution.md'));
+    } else {
+      // Fallback: download from GitHub
+      const https = require('https');
+      const dl = (url, dest) => new Promise((resolve, reject) => {
+        https.get(url, r => {
+          if (r.statusCode !== 200) return reject(new Error(`HTTP ${r.statusCode}`));
+          let d = '';
+          r.on('data', c => d += c);
+          r.on('end', () => { fs.writeFileSync(dest, d); resolve(); });
+        }).on('error', reject);
+      });
+      await dl(`${RAW}/SKILL.md`,       path.join(skillDir, 'SKILL.md'));
+      await dl(`${RAW}/constitution.md`, path.join(skillDir, 'constitution.md'));
+    }
+    console.log(`    ✓ ${h.name}: skill`);
+
+    // Command stubs – linked to the local .dps/ if available
+    const targetDir = dpsPath || skillDir;
+    stubsFor(targetDir, cmdDir);
+    console.log(`    ✓ ${h.name}: ${CMD_LIST.length} commands`);
+  }
+
+  // ── SUMMARY ────────────────────────────────────────────────────
+  console.log(`\n\u001b[32m✓ Data-Pro-Skill v2 installed\u001b[0m`);
+  if (hasLocal) console.log('  Local:  .dps/ — run: /dps-setup');
+  if (selected.length) console.log(`  Global: ${selected.length} harness(es) — restart and run: /dps-setup`);
+  console.log(`\nInstall Python deps:  pip install -r .dps/requirements.txt\n`);
   rl.close();
 }
 
-main().catch((e) => { console.error(`\n✗ Error: ${e.message}`); process.exit(1); });
+main().catch(e => { console.error(`\n✗ ${e.message}`); process.exit(1); });
