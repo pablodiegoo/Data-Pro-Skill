@@ -51,6 +51,7 @@ const RUNTIMES = {
 
 const DPS_COMMANDS = ['setup', 'cross', 'inject-open', 'export', 'clarify', 'plan'];
 const DPS_MODES = ['mode:quant', 'mode:quali', 'mode:strategy'];
+const LOCAL = { name: 'Local project (current directory)', local: true };
 
 function download(url) {
   return new Promise((resolve, reject) => {
@@ -140,27 +141,62 @@ async function main() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\x1b[0m
 `);
   const keys = Object.keys(RUNTIMES);
-  console.log('Select AI harness:\n');
+  console.log('Select destination(s):\n');
   keys.forEach((k, i) => console.log(`  ${i + 1}. ${RUNTIMES[k].name}`));
   console.log(`  ${keys.length + 1}. All of the above`);
+  console.log(`  0. Local project (current dir)`);
 
   const ans = await ask(`\nEnter number(s) [1]: `);
   const nums = (ans || '1')
     .split(/[,;\s]+/)
     .map(s => parseInt(s, 10))
-    .filter(n => !isNaN(n) && n >= 1 && n <= keys.length + 1);
+    .filter(n => !isNaN(n));
 
-  const list = nums.some(n => n === keys.length + 1)
-    ? Object.entries(RUNTIMES)
-    : [...new Set(nums)].map(n => [keys[n - 1], RUNTIMES[keys[n - 1]]]);
+  const hasAll = nums.some(n => n === keys.length + 1);
+  const hasLocal = nums.some(n => n === 0);
+  const harnessNums = nums.filter(n => n >= 1 && n <= keys.length);
+
+  const list = [];
+  if (hasAll) {
+    Object.entries(RUNTIMES).forEach(([k, v]) => list.push([k, v]));
+  } else {
+    [...new Set(harnessNums)].forEach(n => list.push([keys[n - 1], RUNTIMES[keys[n - 1]]]));
+  }
+  if (hasLocal) list.push(['local', LOCAL]);
 
   for (const [, rt] of list) {
+    if (rt.local) {
+      const cwd = process.cwd();
+      console.log(`\n  → Installing to current project (${cwd})`);
+      for (const file of ['SKILL.md', 'constitution.md']) {
+        const content = await download(`${REPO_URL}/${file}`);
+        fs.writeFileSync(path.join(cwd, file), content);
+        console.log(`    ✓ ${file}`);
+      }
+      // Add reference to AGENTS.md
+      const agentsPath = path.join(cwd, 'AGENTS.md');
+      const ref = `\n<!-- DPS:project-start -->\n@${path.join(cwd, 'SKILL.md')}\n@${path.join(cwd, 'constitution.md')}\n<!-- DPS:project-end -->\n`;
+      if (fs.existsSync(agentsPath)) {
+        const agents = fs.readFileSync(agentsPath, 'utf-8');
+        if (!agents.includes('DPS:project-start')) {
+          fs.appendFileSync(agentsPath, ref);
+          console.log('    ✓ AGENTS.md updated');
+        }
+      } else {
+        fs.writeFileSync(agentsPath, ref);
+        console.log('    ✓ AGENTS.md created');
+      }
+      continue;
+    }
     const skillBase = path.join(expand(rt.dir), 'skills');
     await installForRuntime(rt, skillBase);
   }
 
-  console.log(`\n\x1b[32m✓ Data-Pro-Skill v2 installed to ${list.length} runtime(s)\x1b[0m`);
-  console.log('  Restart your harness and run: /dps-setup\n');
+  const harnessCount = list.filter(([, r]) => !r.local).length;
+  const hasLocalInstall = list.some(([, r]) => r.local);
+  console.log(`\n\x1b[32m✓ Data-Pro-Skill v2 installed\x1b[0m`);
+  if (harnessCount > 0) console.log(`  ${harnessCount} harness(es) — restart and run: /dps-setup`);
+  if (hasLocalInstall) console.log(`  Local project — run: /dps-setup`);
   rl.close();
 }
 
