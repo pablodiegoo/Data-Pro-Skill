@@ -82,7 +82,35 @@ Execute \`/${name}\` as defined in SKILL.md.
 }
 
 async function main() {
-  console.log(`\n\u001b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Data-Pro-Skill v2 — Installer\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\n`);
+  const args = process.argv.slice(2);
+
+  // ── REMOVE ─────────────────────────────────────────────────────
+  if (args.includes('--remove') || args.includes('--uninstall')) {
+    for (const h of HARNESSES) {
+      const base = expand(h.dir);
+      fs.rmSync(path.join(base, 'skills', 'data-pro-skill'), { recursive: true, force: true });
+      for (const c of ALL_CMDS) {
+        fs.rmSync(path.join(base, 'command', `dps-${c}.md`), { recursive: true, force: true });
+      }
+    }
+    fs.rmSync(path.join(process.cwd(), '.dps'), { recursive: true, force: true });
+    console.log('✓ Data-Pro-Skill removed from all harnesses and project\n');
+    rl.close(); return;
+  }
+
+  // ── UPDATE ─────────────────────────────────────────────────────
+  if (args.includes('--update')) {
+    const dps = path.join(process.cwd(), '.dps');
+    if (fs.existsSync(dps)) {
+      console.log('   Updating .dps/ from GitHub...');
+      fs.rmSync(dps, { recursive: true, force: true });
+    }
+    // Fall through to install
+    console.log(`\n\u001b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Data-Pro-Skill v2 — Updater\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\n`);
+    args.forEach(a => { if (a === '--update') {} });
+  } else {
+    console.log(`\n\u001b[36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n Data-Pro-Skill v2 — Installer\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\n`);
+  }
 
   const ans1 = await ask('Install type:\n  0. Local (current project)\n  1. Global (harness config)\n  2. Both\n\nChoice [2]: ');
   const t = parseInt(ans1 || '2', 10);
