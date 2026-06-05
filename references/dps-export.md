@@ -19,44 +19,32 @@ The final report must be in the **project's original language** — detect from 
 | English columns ("income", "age", "satisfaction") | en |
 | Spanish columns | es |
 
-## Execution Steps
+## Execution — Automatic (all formats)
 
-1. **Collect** — read all outputs from `.dps/outputs/setup/`, `cross/`, `quali/`
-2. **Render Markdown** — consolidate with `final_report_generator.py`:
+No flags needed. Running `/dps-export` generates ALL formats automatically.
+
+1. **Read** — all outputs from `.dps/outputs/setup/`, `cross/`, `quali/`
+2. **Consolidate**:
    ```bash
    python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/
    ```
-3. **Add Mermaid charts** — for each crosstab in the report, append:
-   ```markdown
-   ```mermaid
-   xychart-beta
-     title "Cross: X by Y"
-     x-axis "Category" ["A","B","C"]
-     y-axis "Percent" 0 --> 100
-     bar [val1, val2, val3]
-   ```
-   ```
-4. **Generate Tufte HTML**:
+3. **Add Mermaid charts** — for each crosstab, append a Mermaid bar chart.
+   Language matches the project data (detected automatically).
+4. **Generate HTML**:
    ```bash
    python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/
    python3 .dps/scripts/tufte_html.py .dps/references/ .dps/outputs/export/final_report.md
    ```
-5. **Result** — two files:
-   - `final_report.md` — Markdown with Mermaid charts, human-readable
-   - `final_report.html` — Tufte-styled HTML with SVG charts embedded
 
-## Flags
+## Outputs Generated
 
-| Flag | Result |
-|------|--------|
-| `--full` (default) | All sections: manifesto + crosstabs + quali + strategy |
-| `--manifest` | Setup section only |
-| `--crosstabs` | All crosstab sections only |
-| `--lang <code>` | Override language detection: `pt`, `en`, `es` |
+| File | Format | Content |
+|------|--------|---------|
+| `final_report.md` | Markdown + Mermaid | Full report, embeddable in GitHub/GitLab |
+| `final_report.html` | HTML + Tufte CSS + SVG charts | Publication-ready, print-friendly |
 
-## Charts
+Both are always generated. No flags needed.
 
-The HTML output includes Tufte-style SVG charts embedded inline:
-- **Sparklines** — small inline trend charts per variable
-- **Dot plots** — segmented comparisons
-- **Small multiples** — per-segment distribution grids
+## Language
+
+All intermediate files are in English. The final report language is detected automatically from the data (column/segment names).
