@@ -49,6 +49,24 @@ Rules:
 - Effect sizes: `Cohen's d = 0.42 (moderate)`
 - 1 decimal for %, 2 decimals for test stats
 
+## Mermaid Charts
+
+Include Mermaid bar charts in Markdown outputs for visual comparison:
+
+```mermaid
+xychart-beta
+  title "Title"
+  x-axis "Label" ["A","B","C"]
+  y-axis "Unit" 0 --> 100
+  bar [value1, value2, value3]
+```
+
+Rules:
+- Only use `xychart-beta` type (most portable across harnesses)
+- Always include title and axis labels
+- Data must match the table it accompanies
+- Max 8 bars per chart
+
 ## Qualitative Standards
 
 - Verbatims in `"quotes"` with participant context

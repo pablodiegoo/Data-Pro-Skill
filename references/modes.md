@@ -29,6 +29,7 @@ Deactivate with `/dps-mode:quant` or `/dps-mode:strategy`.
   3. **Risk Assessment** (Probability x Impact x Mitigation)
   4. **Monday Morning Action Plan** (concrete next steps)
   5. **Executive Summary** (1 paragraph, max 4 sentences, no methodology)
+- When combined with `/dps-export`, the strategy section is appended BEFORE the Tufte HTML generation
 
 Deactivate with `/dps-mode:quant` or `/dps-mode:quali`.
 

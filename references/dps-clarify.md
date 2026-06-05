@@ -1,25 +1,21 @@
 # /dps-clarify — Business Hypothesis Clarification
 
-Before any analysis, surface the business context by asking 3-5 targeted questions.
+Pre-analysis conversational step. Asks 3-5 adaptive questions before any data processing.
 
 ## Behavior
 
-This is a **conversational pre-analysis** step. It does not run scripts or generate files.
+Does NOT run scripts or generate files. Pure conversation to guide subsequent commands.
 
-1. **Analyze** — examine available data (column names, types, segments)
-2. **Generate questions** — 3-5 adaptive questions covering:
-   - Business goal ("What decision depends on this analysis?")
-   - Hypothesis ("What do you expect to find?")
-   - Surprise ("What would be a surprising result?")
-   - Data quality ("Any columns you suspect are unreliable?")
-3. **Collect answers** — incorporate into subsequent commands
+1. **Scan** — examine columns, types, segments from available data
+2. **Ask 3-5 questions** adaptively from these categories:
+   - *Business goal* — What decision depends on this?
+   - *Hypothesis* — What do you expect to find?
+   - *Surprise* — What would be a surprising result?
+   - *Data quality* — Any unreliable columns?
+3. **Incorporate answers** — feed into `/dps-setup` config and `/dps-plan` suggestions
 
-## Reference Categories
+## Rules
 
-- Business objective driving the analysis
-- Key stakeholder hypothesis
-- Expected surprises / counter-intuitive findings
-- Decision that results will inform
-- Data quality concerns
-
-Max 5 questions, min 3. Adapt to context — do not use a fixed template.
+- Max 5, min 3 questions
+- Never use a fixed template — adapt to each dataset
+- Record answers in `.dps/outputs/clarify_notes.md` if any decisions are made

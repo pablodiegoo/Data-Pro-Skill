@@ -5,33 +5,45 @@ Generates the final publication-ready document in the project's original languag
 ## Pipeline
 
 ```
-All intermediate files → Python script + tufte_viz.py → final_report.md + final_report.html
+All intermediate files → Python scripts → final_report.md (with Mermaid charts) + final_report.html (Tufte styled)
 ```
 
 ## Language
 
-The final report must be in the **project's original language**. E.g.:
-- Portuguese survey data → final report in Portuguese
-- English survey data → final report in English
-- Spanish survey data → final report in Spanish
+All intermediate files (setup, cross, quali) are in **English**.
+The final report must be in the **project's original language** — detect from data (column names, segment names, verbatims).
 
-The AI must detect the language from the data (column names, segment names, verbatims) and render the export in that language.
+| Data language | Final report |
+|---------------|-------------|
+| Portuguese columns ("bairro", "renda", "domicílio") | pt-BR |
+| English columns ("income", "age", "satisfaction") | en |
+| Spanish columns | es |
 
 ## Execution Steps
 
-1. **Collect** all outputs from `.dps/outputs/setup/`, `cross/`, `quali/`
-2. **Generate Tufte charts**:
-   ```bash
-   python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/
-   ```
-3. **Run report consolidation**:
+1. **Collect** — read all outputs from `.dps/outputs/setup/`, `cross/`, `quali/`
+2. **Render Markdown** — consolidate with `final_report_generator.py`:
    ```bash
    python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/
    ```
-4. **Generate HTML**:
+3. **Add Mermaid charts** — for each crosstab in the report, append:
+   ```markdown
+   ```mermaid
+   xychart-beta
+     title "Cross: X by Y"
+     x-axis "Category" ["A","B","C"]
+     y-axis "Percent" 0 --> 100
+     bar [val1, val2, val3]
+   ```
+   ```
+4. **Generate Tufte HTML**:
    ```bash
+   python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/
    python3 .dps/scripts/tufte_html.py .dps/references/ .dps/outputs/export/final_report.md
    ```
+5. **Result** — two files:
+   - `final_report.md` — Markdown with Mermaid charts, human-readable
+   - `final_report.html` — Tufte-styled HTML with SVG charts embedded
 
 ## Flags
 
