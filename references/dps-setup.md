@@ -8,6 +8,10 @@ Generates the YAML frontmatter + segment matrix that anchors all subsequent anal
 Raw data → Python script → setup_manifest.json + setup_segments.csv + setup_report.md
 ```
 
+## Language
+
+All intermediate files must be in **English**. The final report language is handled by `/dps-export`.
+
 ## Execution Steps
 
 1. **Read input data** — CSV, copypasta table, or structured summary
@@ -21,6 +25,16 @@ Raw data → Python script → setup_manifest.json + setup_segments.csv + setup_
 6. **Render** — Tufte-style manifesto Markdown
 
 ## Output Format
+
+Per-variable blocks required. Each variable (column) in the dataset must have its OWN subsection:
+
+### Variable: {name}
+| Segment | N | % | Value |
+|---------|---|----|-------|
+
+> **Margin Note:** Insight specific to this variable.
+
+Do NOT group multiple variables under a single section — each variable gets its own analysis block.
 
 ```yaml
 ---
