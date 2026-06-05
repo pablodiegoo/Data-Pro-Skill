@@ -18,6 +18,7 @@ const SCRIPT_FILES = [
   'qualitative_categorizer.py', 'final_report_generator.py',
   'survey_report_generator.py', 'survey_pca.py', 'turf_analysis.py',
   'eda_notebook_generator.py', 'advanced_analytics_generator.py', 'weighting.py',
+  'tufte_viz.py', 'tufte_html.py',
 ];
 const AGENT_FILES = [
   'agent-statistician.md', 'agent-critic.md', 'agent-tufte-designer.md',
@@ -27,6 +28,7 @@ const REF_FILES = [
   'agent-loop.md', 'dps-setup.md', 'dps-cross.md', 'dps-inject-open.md',
   'dps-export.md', 'dps-clarify.md', 'dps-plan.md', 'modes.md', 'tufte-rules.md',
 ];
+const STYLE_FILES = ['tufte.css', 'palettes.csv', 'visualization_rules.csv', 'visualization_styles.csv'];
 
 function dl(url) {
   return new Promise((resolve, reject) => {
@@ -167,6 +169,12 @@ async function main() {
       writeFile(path.join(dps, 'references'), r, await dl(`${RAW}/references/${r}`));
     }
     console.log(`  ✓ ${REF_FILES.length} reference files`);
+
+    // Styles (tufte.css)
+    for (const s of STYLE_FILES) {
+      writeFile(path.join(dps, 'references'), s, await dl(`${RAW}/references/styles/${s}`));
+    }
+    console.log(`  ✓ ${STYLE_FILES.length} style files`);
 
     // Output dirs
     for (const d of ['setup', 'cross', 'quali', 'export']) {
