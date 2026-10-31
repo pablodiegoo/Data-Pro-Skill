@@ -30,6 +30,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+try:
+    import design_schools
+except ImportError:
+    design_schools = None
+
 
 # ==============================================================================
 # LEGACY DOMAIN NORMALIZATION API (Preserved for backwards compatibility)
@@ -183,10 +192,30 @@ def _compute_moe_proportion(p, n):
     return 1.96 * math.sqrt((p_clamped * (1.0 - p_clamped)) / n) * 100.0
 
 
-def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="Survey Dataset"):
-    """Run comprehensive /dps-setup profiling and Article 6 Quality Gates."""
+def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="Survey Dataset", school="auto"):
+    """Run comprehensive /dps-setup profiling, Data Design School lock, and Article 6 Quality Gates."""
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Resolve Data Design School from CLI -> config -> clarify_notes.md -> .dps/config.json -> default "tufte"
+    cfg_school = config.get("design_school") if isinstance(config, dict) else None
+    explicit_school = school if (school and str(school).lower() != "auto") else cfg_school
+    if design_schools is not None:
+        active_school = design_schools.resolve_active_school(
+            explicit_school=explicit_school,
+            search_dirs=[out_dir, out_dir.parent],
+            default="tufte",
+        )
+        school_spec = design_schools.get_school_spec(active_school)
+        design_schools.save_school_selection(active_school, output_dir=out_dir)
+    else:
+        active_school = str(explicit_school or "tufte").strip().lower()
+        school_spec = {
+            "id": active_school,
+            "name": "Edward Tufte (Classic Data-Ink & Sidenote School)",
+            "short_name": "Edward Tufte",
+            "tagline_en": "Ivory paper, Palatino serif, 58%/36% floating right Margin Notes, Booktabs & Cleveland dot plots.",
+        }
 
     if config:
         df = calculate_scores(df.copy(), config)
@@ -438,6 +467,8 @@ def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="
     profile_payload = {
         "project": dataset_name,
         "generated_at": datetime.datetime.now().isoformat(),
+        "design_school": active_school,
+        "design_school_name": school_spec["name"],
         "sample_size": n_rows,
         "effective_sample_size": round(n_eff, 1),
         "design_effect_deff": round(deff, 3),
@@ -458,6 +489,8 @@ def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="
 
     manifest_payload = {
         "project": dataset_name,
+        "design_school": active_school,
+        "design_school_name": school_spec["name"],
         "sample_size": n_rows,
         "effective_sample_size": round(n_eff, 1),
         "global_moe_95ci": f"±{global_moe_pct:.2f}%",
@@ -476,13 +509,25 @@ def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="
     manifest_path = out_dir / "setup_manifest.json"
     manifest_path.write_text(json.dumps(manifest_payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # 6. Generate Tufte-styled setup_report.md and 00_project_manifest.md
+    # 6. Generate setup_report.md and 00_project_manifest.md
     report_lines = [
+        "---",
+        f'project: "{dataset_name}"',
+        f'framework: "Data-Pro-Skill v2.1 ({school_spec["short_name"]} Edition)"',
+        f'design_school: "{active_school}"',
+        f'design_school_name: "{school_spec["name"]}"',
+        f"sample_size: {n_rows}",
+        f"effective_sample_size: {round(n_eff, 1)}",
+        f'global_moe_95ci: "±{global_moe_pct:.2f}%"',
+        f"metrics_tracked: {len(likert_cols) + len(numeric_cols)}",
+        f"segments_count: {len(segments_list)}",
+        "---",
+        "",
         f"# Dataset Setup & Statistical Hygiene Report — {dataset_name}",
         "",
-        f"**Total Sample ($N$):** `{n_rows:,}` · **Effective Sample ($N_{{\\text{{eff}}}}$):** `{n_eff:,.1f}` (DEFF = `{deff:.2f}`) · **Global 95% CI MoE:** `±{global_moe_pct:.2f}%`",
+        f"**Total Sample ($N$):** `{n_rows:,}` · **Effective Sample ($N_{{\\text{{eff}}}}$):** `{n_eff:,.1f}` (DEFF = `{deff:.2f}`) · **Global 95% CI MoE:** `±{global_moe_pct:.2f}%` · **Data Design School:** `{school_spec['short_name']}` (`{active_school}`)",
         "",
-        "> **Margin Note:** Global Margin of Error is computed at the 95% confidence level ($z = 1.96$) under maximum binomial variance ($p = 0.50$). Subgroup margins widen proportionally to $1/\\sqrt{n_{\\text{sub}}}$.",
+        f"> **Margin Note:** Global Margin of Error is computed at the 95% confidence level ($z = 1.96$) under maximum binomial variance ($p = 0.50$). Subgroup margins widen proportionally to $1/\\sqrt{{n_{{\\text{{sub}}}}}}$ . Visual & typographic output is locked to the **{school_spec['name']}** (`--school {active_school}`).",
         "",
         "## 1. Article 6 Data Quality Gates Audit",
         "",
@@ -552,16 +597,50 @@ def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="
 
 def main():
     parser = argparse.ArgumentParser(description="Data-Pro-Skill Quantitative Setup & Profiling Engine")
-    parser.add_argument("input", help="Input dataset file (.csv, .xlsx, .ods, .parquet)")
+    parser.add_argument("input", nargs="?", default=None, help="Input dataset file (.csv, .xlsx, .ods, .parquet)")
     parser.add_argument("config", nargs="?", default=None, help="Optional domain configuration JSON file")
     parser.add_argument("-o", "--output", default=".dps/outputs/setup", help="Output directory or CSV file path")
     parser.add_argument("--profile", action="store_true", help="Force full /dps-setup profiling mode")
     parser.add_argument("--weight", default=None, help="Optional survey weight column name")
     parser.add_argument("--name", default=None, help="Project / dataset display title")
+    parser.add_argument(
+        "--school",
+        "-s",
+        default="auto",
+        help="Data Design School to lock on setup: tufte (default), few, knaflic, swiss, editorial, or auto",
+    )
+    parser.add_argument(
+        "--pick-school",
+        action="store_true",
+        help="Interactively prompt the user to pick one of the 5 Data Design Schools during setup",
+    )
+    parser.add_argument(
+        "--list-schools",
+        action="store_true",
+        help="List all 5 available Data Design Schools and exit",
+    )
     parser.add_argument("--json-only", action="store_true", help="Emit JSON profile summary to stdout")
     parser.add_argument("--csv", action="store_true", help="Also export processed dataset CSV")
 
     args = parser.parse_args()
+
+    if args.list_schools:
+        if design_schools is not None:
+            print(design_schools.format_schools_table_markdown())
+        return
+
+    chosen_school = args.school
+    if args.pick_school and design_schools is not None:
+        chosen_school = design_schools.interactive_pick_school(
+            default=design_schools.resolve_active_school(explicit_school=args.school, search_dirs=[args.output])
+        )
+        design_schools.save_school_selection(chosen_school, output_dir=args.output, update_project_config=True)
+        if not args.input:
+            print(f"✅ Data Design School locked to `{chosen_school}` in {args.output}")
+            return
+
+    if not args.input:
+        parser.error("the following arguments are required: input (unless --list-schools or --pick-school is used)")
 
     try:
         df = load_dataset(args.input)
@@ -589,6 +668,7 @@ def main():
             weight_col=args.weight,
             config=config,
             dataset_name=dataset_title,
+            school=chosen_school,
         )
         if args.csv:
             df.to_csv(target_dir / "processed_dataset.csv", index=False)
@@ -597,6 +677,8 @@ def main():
             print(json.dumps({
                 "sample_size": profile["sample_size"],
                 "global_moe_95ci": profile["global_moe_95ci"],
+                "design_school": profile["design_school"],
+                "design_school_name": profile["design_school_name"],
                 "likert_columns": profile["likert_columns"],
                 "categorical_columns": profile["categorical_columns"],
                 "open_text_columns": profile["open_text_columns"],
@@ -605,6 +687,7 @@ def main():
             print(
                 f"✅ Setup profiling complete in {target_dir} "
                 f"(N={profile['sample_size']}, MoE={profile['global_moe_95ci']}, "
+                f"School={profile['design_school']}, "
                 f"{len(profile['likert_columns'])} Likert, {len(profile['categorical_columns'])} Categorical, "
                 f"{len(profile['open_text_columns'])} Open-Text)"
             )

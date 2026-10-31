@@ -1,6 +1,6 @@
-# Tufte Output & Print-Ready HTML Formatting Rules
+# Tufte & Multi-School Output & Print-Ready HTML Formatting Rules
 
-Every user-visible output from the **Tufte Designer** (`final_report.html`, `final_report.md`, and interactive command outputs) obeys Edward Tufte's principles of analytical design: **maximize Data-Ink Ratio, eliminate chartjunk and prose fluff, make every table self-explanatory, and engineer HTML to print to PDF with standard running headers and footers.**
+Every user-visible output from the **Designer** (`final_report.html`, `final_report.md`, and interactive command outputs) obeys Edward Tufte's foundational principles of analytical design (**maximize Data-Ink Ratio, eliminate chartjunk and prose fluff, make every table self-explanatory, and engineer HTML to print to PDF with standard running headers and footers**), while supporting **five selectable Data Design Schools** ([`references/design-schools.md`](design-schools.md)) chosen during `/dps-setup` (`tufte` [Default], `few`, `knaflic`, `swiss`, or `editorial`).
 
 ---
 

@@ -24,7 +24,12 @@ Finding *facts* from the environment is your job, never the user's. Before askin
 ## 2. The 5-Branch Analytical Design Tree
 
 Explore these five branches until every open decision is settled:
-1. **Decision Destination:** What concrete Monday-morning decision, budget allocation, or policy change rides on this report? Who is the target audience for `final_report.html`?
+1. **Decision Destination & Data Design School:** What concrete Monday-morning decision, budget allocation, or policy change rides on this report? Who is the target audience for `final_report.html`, and which of the 5 **Data Design Schools** ([`references/design-schools.md`](../references/design-schools.md)) should `/dps-setup` and `/dps-export` lock:
+   - `tufte` (*Edward Tufte* — Default: ivory `#fffff8`, floating Margin Notes, Booktabs, Cleveland dot plots)
+   - `few` (*Stephen Few*: full-width perceptual BI grid, Bullet Graphs, threshold alerts)
+   - `knaflic` (*Cole Knaflic / Storytelling with Data*: greyed-out context + single bold focal accent, Action Titles)
+   - `swiss` (*Swiss Grid / Jacques Bertin*: exposed modular black grid, Neo-Grotesque sans, Bertin retinal symbols)
+   - `editorial` (*The Economist / FT Editorial*: crimson `#e3120b` top rule, Kicker/Standfirst, lollipop range charts)
 2. **Hypotheses & Priors:** What do stakeholders believe is happening before seeing the numbers? What quantitative result would falsify their prior?
 3. **Analytical Spine:** Which variable is the primary dependent outcome (e.g., NPS, Churn, Overall Satisfaction, Spend), and which 1–3 categorical variables form the canonical **Segments** (banners) in `/dps-setup`?
 4. **Weights & Governance:** Does the sample require **Raking (IPF)** (`scripts/weighting.py`) against census/universe targets or uniform weights (`weight = 1.0`)? Which high-missingness columns represent intentional skip logic vs. dropout?

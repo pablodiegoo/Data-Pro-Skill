@@ -41,3 +41,8 @@ set1,Set1,general,#e41a1c,#377eb8,#4daf4a,#ffffff,#1f2937,bold,Bold distinct cat
 set2,Set2,general,#66c2a5,#fc8d62,#8da0cb,#ffffff,#1f2937,medium,Medium saturation categories up to 8,"categorical","Set2"
 paired,Paired,comparison,#a6cee3,#1f78b4,#b2df8a,#ffffff,#1f2937,matched,Paired comparisons before/after groups,"categorical","Paired"
 dark2,Dark2,research,#1b9e77,#d95f02,#7570b3,#ffffff,#1f2937,dark,Dark saturated academic research,"categorical","Dark2"
+school_tufte,Edward Tufte Classic,design_school,#1b4f72,#52524e,#a61c1c,#fffff8,#111111,editorial,Tufte Data-Ink reports Booktabs & Cleveland dot plots,"monochrome-accent","deep"
+school_few,Stephen Few Perceptual,design_school,#0f172a,#64748b,#0d9488,#f8fafc,#0f172a,perceptual,Stephen Few Bullet Graphs & perceptual BI threshold alerts,"perceptual","muted"
+school_knaflic,Cole Knaflic SWD,design_school,#1e40af,#cbd5e1,#ea580c,#ffffff,#1e293b,executive,Storytelling with Data grey context + focal preattentive highlight,"focal-highlight","Blues"
+school_swiss,Swiss Grid Bertin,design_school,#1d3557,#0a0a0a,#e63946,#f5f5f0,#0a0a0a,architectural,Josef Muller-Brockmann modular grid & Jacques Bertin semiology,"high-contrast","dark"
+school_editorial,Economist FT Editorial,design_school,#005689,#59544f,#e3120b,#fcf8f2,#1a1817,journalistic,The Economist / FT crimson top bar & editorial lollipop charts,"editorial","RdBu"

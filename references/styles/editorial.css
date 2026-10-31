@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Data-Pro-Skill v2.1 — The Economist / FT Editorial & Print-to-PDF CSS
+   ==========================================================================
+   School: The Economist Style Guide & Financial Times Visual Vocabulary
+   Standard:
+   1. Editorial Authority: Warm newsprint/salmon-tinted ivory paper (#fcf8f2),
+      signature Economist Crimson top bar (6px solid #e3120b), and editorial
+      Navy (#005689) + Crimson (#e3120b) contrast.
+   2. Journalism Hierarchy: Sans-serif Kicker + bold Headline + italic Standfirst
+      paired with Merriweather/Charter editorial serif body prose.
+   3. Editorial Sidebar Briefs & Source Footlines: Right-column editorial briefs
+      topped with a 3px crimson rule and structured horizontal-grid tables.
+   4. Print-to-PDF Ready: Dual W3C @page rules + repeating <table class="print-frame">
+      thead/tfoot spacers and fixed running Header & Footer on every printed page.
+   ========================================================================== */
+
+:root {
+  --tufte-paper: #fcf8f2;
+  --tufte-ink: #1a1817;
+  --tufte-muted: #59544f;
+  --tufte-accent: #e3120b;
+  --tufte-crimson: #e3120b;
+  --tufte-forest: #005689;
+  --tufte-amber: #b45309;
+  --tufte-border: #1a1817;
+  --tufte-hairline: #dfd8ce;
+  --tufte-note-bg: #f4ece1;
+  --tufte-card-bg: #fffdf9;
+  --font-serif: "Merriweather", "Charter", Georgia, "Times New Roman", serif;
+  --font-sans: "IBM Plex Sans", "Franklin Gothic Medium", "Helvetica Neue", Inter, Arial, sans-serif;
+  --font-mono: Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-serif);
+  background-color: var(--tufte-paper);
+  color: var(--tufte-ink);
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem 5rem;
+  line-height: 1.65;
+  counter-reset: sidenote-counter;
+}
+
+/* ── Screen Utility Toolbar (.no-print) ──────────────────────────────────── */
+.tufte-toolbar {
+  position: fixed;
+  top: 0.9rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(252, 248, 242, 0.96);
+  border: 1px solid #dfd8ce;
+  border-top: 4px solid #e3120b;
+  padding: 0.38rem 0.7rem;
+  box-shadow: 0 3px 10px rgba(26, 24, 23, 0.08);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.tufte-toolbar button,
+.tufte-toolbar select {
+  background: #fffdf9;
+  border: 1px solid #cec6b9;
+  color: var(--tufte-ink);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.24rem 0.6rem;
+  cursor: pointer;
+}
+
+.tufte-toolbar button:hover {
+  background: #e3120b;
+  color: #ffffff;
+  border-color: #e3120b;
+}
+
+/* ── Print Frame Wrapper ─────────────────────────────────────────────────── */
+table.print-frame {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+table.print-frame > thead,
+table.print-frame > tfoot {
+  display: none;
+  border: none !important;
+}
+
+table.print-frame > thead > tr > td,
+table.print-frame > tbody > tr > td,
+table.print-frame > tfoot > tr > td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.print-running-header,
+.print-running-footer {
+  display: none;
+}
+
+/* ── Editorial Header Block with Signature Crimson Bar ───────────────────── */
+.report-header-block {
+  border-top: 6px solid #e3120b;
+  border-bottom: 1.5px solid #1a1817;
+  padding: 1.4rem 0 1.2rem;
+  margin-bottom: 2.2rem;
+}
+
+.report-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #e3120b;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.report-header-block h1 {
+  font-family: var(--font-sans);
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.5rem 0;
+  border-bottom: none;
+  string-set: doc-title content();
+}
+
+.report-subtitle,
+.subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--tufte-muted);
+  margin: 0 0 1rem 0;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem 2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #dfd8ce;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--tufte-muted);
+  string-set: doc-meta content();
+}
+
+.meta-item strong {
+  color: var(--tufte-ink);
+  font-weight: 700;
+}
+
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #f4ece1;
+  border-left: 3px solid #e3120b;
+  color: #1a1817;
+  padding: 0.12rem 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* ── Editorial Column Grid (60% Main + 34% Right Editorial Briefs) ───────── */
+.report-container {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 920px) {
+  .tufte-prose > p,
+  .tufte-prose > ul,
+  .tufte-prose > ol,
+  .tufte-prose > pre {
+    width: 60%;
+  }
+
+  .tufte-prose > h1,
+  .tufte-prose > h2,
+  .tufte-prose > h3,
+  .tufte-prose > h4 {
+    width: 62%;
+  }
+
+  .tufte-prose > .table-wrapper,
+  .tufte-prose > .chart-figure {
+    width: 62%;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  color: var(--tufte-ink);
+  line-height: 1.24;
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  border-top: 3px solid #e3120b;
+  padding-top: 0.45rem;
+  margin-top: 2.4rem;
+  margin-bottom: 0.9rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  border-top: 1px solid #1a1817;
+  padding-top: 0.45rem;
+  margin-top: 2.2rem;
+  margin-bottom: 0.8rem;
+  position: relative;
+}
+
+h2::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: #e3120b;
+  margin-top: -0.45rem;
+  margin-bottom: 0.35rem;
+}
+
+h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #005689;
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 1.1rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #dfd8ce;
+  margin: 2rem 0;
+  width: 60%;
+}
+
+/* ── Editorial Sidebar Briefs (<aside class="margin-note">) ──────────────── */
+aside.margin-note,
+blockquote.margin-note {
+  counter-increment: sidenote-counter;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.48;
+  color: #1a1817;
+  background-color: #f4ece1;
+  border-top: 3px solid #e3120b;
+  border-left: none;
+  padding: 0.7rem 0.95rem;
+  margin: 0.85rem 0 1.25rem 0;
+}
+
+aside.margin-note .margin-note-num {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #e3120b;
+  margin-right: 0.45rem;
+}
+
+@media (min-width: 920px) {
+  body:not(.hide-margin-notes) aside.margin-note,
+  body:not(.hide-margin-notes) blockquote.margin-note {
+    float: right;
+    clear: right;
+    width: 34%;
+    margin-top: 0.15rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+blockquote.verbatim-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.96rem;
+  color: #2c2825;
+  border-left: 3px solid #005689;
+  padding: 0.3rem 0 0.3rem 1rem;
+  margin: 0.55rem 0 0.9rem 0;
+  width: 58%;
+}
+
+/* ── Editorial Data Tables ───────────────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.1rem 0 1.45rem 0;
+}
+
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  border-top: 3px solid #e3120b;
+  border-bottom: 1.5px solid #1a1817;
+}
+
+table.data-table thead th {
+  border-bottom: 1.5px solid #1a1817;
+  padding: 0.5rem 0.65rem;
+  font-weight: 700;
+  color: #1a1817;
+  background-color: rgba(244, 236, 225, 0.65);
+}
+
+table.data-table tbody td {
+  border-bottom: 1px solid #dfd8ce;
+  padding: 0.44rem 0.65rem;
+  color: #1a1817;
+  font-variant-numeric: tabular-nums;
+}
+
+table.data-table tbody tr.total-row td,
+table.data-table tbody tr.base-row td {
+  border-top: 1.5px solid #1a1817;
+  font-weight: 700;
+  background-color: #f4ece1;
+}
+
+table.data-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Charts ──────────────────────────────────────────────────────────────── */
+.chart-figure {
+  margin: 1.2rem 0 1.6rem 0;
+}
+
+.chart-container {
+  padding: 0.85rem 0.65rem;
+  background: #fffdf9;
+  border-top: 3px solid #e3120b;
+  border-bottom: 1px solid #1a1817;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-caption {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  margin-top: 0.35rem;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background-color: #f4ece1;
+  padding: 0.1rem 0.32rem;
+}
+
+/* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
+@page {
+  size: A4 portrait;
+  margin: 18mm 14mm 18mm 14mm;
+  @top-left { content: string(doc-title); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
+  @top-right { content: string(doc-meta); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
+  @bottom-left { content: "The Economist / FT Editorial Data Journalism Standard"; font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
+  @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
+}
+
+@media print {
+  html { font-size: 10pt; }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print, .tufte-toolbar { display: none !important; }
+  table.print-frame { width: 100% !important; border: none !important; }
+  table.print-frame > thead { display: table-header-group !important; }
+  table.print-frame > tfoot { display: table-footer-group !important; }
+  .print-header-space { height: 12mm; }
+  .print-footer-space { height: 12mm; }
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 2.5pt solid #e3120b;
+    border-bottom: 0.6pt solid #1a1817;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    z-index: 9999;
+  }
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 0.6pt solid #1a1817;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    z-index: 9999;
+  }
+  table.data-table, figure, .chart-container, aside.margin-note, .report-header-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  h1, h2, h3, h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}

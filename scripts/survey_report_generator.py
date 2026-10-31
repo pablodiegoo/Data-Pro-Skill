@@ -442,7 +442,13 @@ def main():
     parser.add_argument("input", nargs="?", default=INPUT_FILE, help="Input CSV/XLSX survey file")
     parser.add_argument("-o", "--output", default=OUTPUT_FILE, help="Output Markdown file path")
     parser.add_argument("--title", default=REPORT_TITLE, help="Report title")
-    parser.add_argument("--html", action="store_true", help="Also compile output to Print-Ready Tufte HTML")
+    parser.add_argument("--html", action="store_true", help="Also compile output to Print-Ready HTML")
+    parser.add_argument(
+        "--school",
+        "-s",
+        default="auto",
+        help="Data Design School for HTML output: tufte (default), few, knaflic, swiss, editorial, or auto",
+    )
     args = parser.parse_args()
 
     in_file = args.input
@@ -532,7 +538,7 @@ def main():
         if str(script_dir) not in sys.path:
             sys.path.insert(0, str(script_dir))
         import tufte_html
-        tufte_html.generate_html(Path(out_file))
+        tufte_html.generate_html(Path(out_file), school=args.school)
 
 
 if __name__ == "__main__":

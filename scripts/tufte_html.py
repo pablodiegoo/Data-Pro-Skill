@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
-"""Convert final_report.md to a self-contained Edward Tufte HTML report with print-to-PDF headers/footers.
+"""Convert final_report.md to a self-contained Multi-School HTML report with print-to-PDF headers/footers.
 
-Features:
-  - Full Tufte layout (58% body prose + 36% right margin notes column on #fffff8 ivory stock)
-  - Booktabs tables (zero vertical gridlines, tabular-nums alignment, automatic numeric detection)
-  - Automatic compilation of Mermaid (xychart-beta, pie) blocks into inline Tufte SVGs
-  - Numbered <aside class="margin-note"> sidenotes for statistical diagnostics & caveats
-  - Standards-compliant Print-to-PDF (@page rules + repeating <table class="print-frame"> header/footer)
+Supports all 5 canonical Data Design Schools selectable during `/dps-setup`:
+  1. tufte     — Edward Tufte (58%/36% floating right Margin Notes on #fffff8 ivory, Booktabs) [Default]
+  2. few       — Stephen Few (Full-width Perceptual BI grid, Bullet Graphs & inline diagnostic strips)
+  3. knaflic   — Cole Nussbaumer Knaflic (Storytelling with Data: grey context + bold focal accent)
+  4. swiss     — Swiss Grid & Jacques Bertin (Exposed architectural modular grid & retinal matrices)
+  5. editorial — The Economist / FT Editorial (Crimson top rule, Kicker/Standfirst & editorial briefs)
 """
 
 import argparse
 import datetime
 import html as html_lib
+import json
 import re
 import sys
 from pathlib import Path
 
-# Allow importing tufte_viz from the same scripts/ folder
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
+
+try:
+    import design_schools
+except ImportError:
+    design_schools = None
 
 try:
     import tufte_viz
@@ -48,7 +53,6 @@ def _parse_frontmatter(md_text):
 
 def _format_inline(text):
     """Convert inline Markdown (**bold**, *italic*, `code`, [label](url)) to HTML."""
-    # Protect inline <code> and <svg> tags first
     placeholders = {}
 
     def _stash(match):
@@ -57,13 +61,9 @@ def _format_inline(text):
         return key
 
     text = re.sub(r"`([^`]+)`", _stash, text)
-    # Links
     text = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', text)
-    # Bold + Italic
     text = re.sub(r"\*\*\*(.+?)\*\*\*", r"<strong><em>\1</em></strong>", text)
-    # Bold
     text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
-    # Italic
     text = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"<em>\1</em>", text)
 
     for key, val in placeholders.items():
@@ -76,7 +76,6 @@ def _is_numeric_cell(cell_text):
     clean = re.sub(r"<[^>]+>", "", cell_text).strip()
     if not clean or clean in ("—", "-", "N/A"):
         return False
-    # Matches numbers, percentages, ±MoE, p-values, z-scores, currency, raw counts "4 of 19"
     if re.match(r"^[+\-±$R€£]?\s*\d+([.,]\d+)?\s*(%|pts|pp|bps)?(\s*\(±[0-9.]+%?\))?(\*+)?$", clean):
         return True
     if re.match(r"^\d+\s+(of|de)\s+\d+$", clean, re.IGNORECASE):
@@ -87,12 +86,11 @@ def _is_numeric_cell(cell_text):
 
 
 def _render_table(table_lines):
-    """Convert Markdown pipe-table lines into a Tufte Booktabs <table class='data-table'>."""
+    """Convert Markdown pipe-table lines into a <table class='data-table'>."""
     rows = []
     alignments = []
-    for idx, line in enumerate(table_lines):
+    for line in table_lines:
         raw_cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        # Check if this row is a separator row like | :--- | :---: | ---: |
         if all(re.match(r"^:?-{2,}:?$", c.replace(" ", "")) for c in raw_cells if c != ""):
             alignments = []
             for c in raw_cells:
@@ -113,7 +111,6 @@ def _render_table(table_lines):
     body_rows = rows[1:]
 
     out = ['<div class="table-wrapper"><table class="data-table">']
-    # Header
     out.append("  <thead>\n    <tr>")
     for j, cell in enumerate(header):
         align = alignments[j] if j < len(alignments) else ("right" if j > 0 and _is_numeric_cell(cell) else "left")
@@ -121,7 +118,6 @@ def _render_table(table_lines):
         out.append(f"      <th{cls}>{_format_inline(cell)}</th>")
     out.append("    </tr>\n  </thead>")
 
-    # Body
     if body_rows:
         out.append("  <tbody>")
         for r in body_rows:
@@ -153,8 +149,11 @@ def clean_header_is_num(header_text):
     return any(h == tok or h.startswith(tok + " ") or h.endswith(" " + tok) or "%" in h or "±" in h for tok in num_tokens)
 
 
-def convert_markdown_to_tufte_html(md_body):
-    """Convert Markdown body into semantic Edward Tufte HTML."""
+def convert_markdown_to_tufte_html(md_body, school="tufte", is_pt=False):
+    """Convert Markdown body into semantic HTML adapted to the selected Data Design School."""
+    canon_school = design_schools.normalize_school(school) if design_schools else "tufte"
+    spec = design_schools.get_school_spec(canon_school) if design_schools else None
+
     lines = md_body.splitlines()
     out = []
     i = 0
@@ -176,7 +175,7 @@ def convert_markdown_to_tufte_html(md_body):
             i += 1  # skip closing ```
             raw_code = "\n".join(code_lines)
             if fence_lang == "mermaid" and tufte_viz is not None:
-                svg_str = tufte_viz.mermaid_to_svg(raw_code)
+                svg_str = tufte_viz.mermaid_to_svg(raw_code, school=canon_school)
                 if svg_str:
                     out.append(f'<figure class="chart-figure"><div class="chart-container">{svg_str}</div></figure>')
                     continue
@@ -208,7 +207,7 @@ def convert_markdown_to_tufte_html(md_body):
             out.append(_render_table(table_lines))
             continue
 
-        # 5. Blockquotes -> Tufte Margin Notes vs Verbatim Quotes
+        # 5. Blockquotes -> Margin Notes / Callout Notes vs Verbatim Quotes
         if stripped.startswith(">"):
             bq_lines = []
             while i < n and lines[i].strip().startswith(">"):
@@ -227,6 +226,10 @@ def convert_markdown_to_tufte_html(md_body):
                     "methodological note",
                     "nota metodológica",
                     "sidenote",
+                    "perceptual diagnostic",
+                    "key takeaway",
+                    "grid module",
+                    "editorial brief",
                     "💡",
                     "📌",
                     "📐",
@@ -243,20 +246,24 @@ def convert_markdown_to_tufte_html(md_body):
             )
             if is_margin_note:
                 sidenote_counter += 1
-                # Strip redundant prefix like "**Margin Note:**"
                 cleaned_note = re.sub(
-                    r"^\*?\*?(Margin Note|Nota de Margem|Sidenote|💡\s*Insight)\s*:?\*?\*?\s*",
+                    r"^\*?\*?(Margin Note|Nota de Margem|Sidenote|💡\s*Insight|Key Takeaway|Perceptual Diagnostic|Editorial Brief)\s*:?\*?\*?\s*",
                     "",
                     bq_text,
                     flags=re.IGNORECASE,
                 )
+                if spec:
+                    lbl_tmpl = spec["note_label_pt"] if is_pt else spec["note_label_en"]
+                    note_badge = lbl_tmpl.format(n=sidenote_counter)
+                else:
+                    note_badge = f"§{sidenote_counter}"
                 out.append(
-                    f'<aside class="margin-note">'
-                    f'<span class="margin-note-num">§{sidenote_counter}</span>'
-                    f'{_format_inline(cleaned_note)}'
+                    f'<aside class="margin-note" data-note-index="{sidenote_counter}">'
+                    f'<span class="margin-note-num">{html_lib.escape(note_badge)}</span> '
+                    f"{_format_inline(cleaned_note)}"
                     f"</aside>"
                 )
-            elif '—' in bq_text or '"' in bq_text or "“" in bq_text or bq_text.startswith("*"):
+            elif "—" in bq_text or '"' in bq_text or "“" in bq_text or bq_text.startswith("*"):
                 out.append(f'<blockquote class="verbatim-quote"><p>{_format_inline(bq_text)}</p></blockquote>')
             else:
                 out.append(f"<blockquote><p>{_format_inline(bq_text)}</p></blockquote>")
@@ -287,7 +294,7 @@ def convert_markdown_to_tufte_html(md_body):
             i += 1
             continue
 
-        # 9. Standard Paragraph (merge consecutive text lines)
+        # 9. Standard Paragraph
         para_lines = []
         while (
             i < n
@@ -303,32 +310,55 @@ def convert_markdown_to_tufte_html(md_body):
     return "\n".join(out)
 
 
-def _resolve_css_path(css_arg):
-    """Resolve tufte.css path whether passed a file, a references directory, or None."""
-    if css_arg:
-        p = Path(css_arg)
-        if p.is_file():
-            return p
-        if p.is_dir():
-            for rel in ("styles/tufte.css", "tufte.css"):
-                cand = p / rel
-                if cand.exists():
-                    return cand
-    # Fallback to repository's canonical references/styles/tufte.css
-    repo_css = SCRIPT_DIR.parent / "references" / "styles" / "tufte.css"
-    if repo_css.exists():
-        return repo_css
-    return None
+def _load_all_school_stylesheets(primary_css_arg=None):
+    """Load CSS text for all 5 Data Design Schools so the report is 100% self-contained."""
+    styles_map = {}
+    if design_schools is not None:
+        for sid in design_schools.SCHOOL_ORDER:
+            cpath = design_schools.resolve_css_for_school(sid, custom_css_arg=primary_css_arg if sid == "tufte" else None)
+            if cpath and cpath.exists():
+                styles_map[sid] = cpath.read_text(encoding="utf-8")
+    if not styles_map.get("tufte"):
+        repo_css = SCRIPT_DIR.parent / "references" / "styles" / "tufte.css"
+        if repo_css.exists():
+            styles_map["tufte"] = repo_css.read_text(encoding="utf-8")
+    return styles_map
 
 
-def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_file=None):
-    """Generate a self-contained, print-ready Edward Tufte HTML report from Markdown."""
+def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_file=None, school="auto"):
+    """Generate a self-contained, print-ready HTML report in the chosen Data Design School."""
     md_file = Path(md_file)
-    css_path = _resolve_css_path(css_file)
-    css = css_path.read_text(encoding="utf-8") if (css_path and css_path.exists()) else ""
     raw_md = md_file.read_text(encoding="utf-8") if md_file.exists() else "# No report found"
-
     meta, body_md = _parse_frontmatter(raw_md)
+
+    # Resolve active Data Design School from CLI -> frontmatter -> setup_manifest -> config -> default "tufte"
+    search_dirs = [md_file.parent, md_file.parent.parent]
+    if design_schools is not None:
+        active_school = design_schools.resolve_active_school(
+            explicit_school=school,
+            search_dirs=search_dirs,
+            md_meta=meta,
+            default="tufte",
+        )
+        spec = design_schools.get_school_spec(active_school)
+        css_path = design_schools.resolve_css_for_school(active_school, custom_css_arg=css_file)
+    else:
+        active_school = "tufte"
+        spec = {
+            "id": "tufte",
+            "name": "Edward Tufte (Classic Data-Ink & Sidenote School)",
+            "short_name": "Edward Tufte",
+            "kicker_en": "EDWARD TUFTE ANALYTICAL STANDARD",
+            "kicker_pt": "PADRÃO ANALÍTICO EDWARD TUFTE",
+            "footer_stamp_en": "Edward Tufte Standard",
+            "footer_stamp_pt": "Padrão Edward Tufte",
+        }
+        css_path = SCRIPT_DIR.parent / "references" / "styles" / "tufte.css"
+
+    css = css_path.read_text(encoding="utf-8") if (css_path and css_path.exists()) else ""
+    all_school_css = _load_all_school_stylesheets(primary_css_arg=css_file)
+    if css and active_school not in all_school_css:
+        all_school_css[active_school] = css
 
     # Detect language from content
     if lang == "auto":
@@ -350,7 +380,6 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
     if not doc_title:
         doc_title = "Relatório Analítico Data-Pro-Skill" if is_pt else "Data-Pro-Skill Analytical Report"
 
-    # If the body starts with an H1 and we render a structured header block, strip the duplicate first H1
     if first_h1_match and meta:
         body_md = body_md[:first_h1_match.start()] + body_md[first_h1_match.end():]
 
@@ -358,26 +387,34 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
     moe_95 = meta.get("global_moe_95ci", meta.get("moe_95", "—"))
     conf_level = meta.get("confidence_level", "95%")
     export_date = meta.get("export_date", datetime.date.today().isoformat())
-    framework = meta.get("framework", "Data-Pro-Skill v2.0 · Tufte Edition")
+    framework = meta.get("framework", f"Data-Pro-Skill v2.1 · {spec['short_name']} Edition")
     classification = meta.get(
         "classification",
         "Confidencial · Inteligência Analítica" if is_pt else "Confidential · Decision Intelligence",
     )
 
-    # Labels localized
+    kicker_txt = spec.get("kicker_pt" if is_pt else "kicker_en", spec["short_name"])
+    footer_stamp = spec.get("footer_stamp_pt" if is_pt else "footer_stamp_en", f"{spec['short_name']} Standard")
+
     labels = {
         "print_btn": "🖨️ Imprimir / Salvar PDF" if is_pt else "🖨️ Print / Save as PDF",
-        "notes_btn": "📐 Notas de Margem" if is_pt else "📐 Toggle Margin Notes",
+        "notes_btn": "📐 Notas / Callouts" if is_pt else "📐 Toggle Callouts",
+        "school_lbl": "🎨 Escola:" if is_pt else "🎨 School:",
         "sample_lbl": "Amostra (N)" if is_pt else "Sample (N)",
         "moe_lbl": "Margem de Erro (IC 95%)" if is_pt else "Global MoE (95% CI)",
+        "school_meta_lbl": "Escola de Design" if is_pt else "Design School",
         "date_lbl": "Data" if is_pt else "Export Date",
         "audit_badge": (
             "✓ VERIFICADO · CONSTITUIÇÃO ARTIGOS 1–8"
             if is_pt
             else "✓ VERIFIED · CONSTITUTION ARTICLES 1–8 COMPLIANT"
         ),
-        "charts_heading": "Anexo Visual: Gráficos Vetoriais Tufte" if is_pt else "Visual Appendix: Tufte Vector Graphics",
-        "footer_left": f"{framework} · Edward Tufte Standard",
+        "charts_heading": (
+            f"Anexo Visual: Gráficos Vetoriais ({spec['short_name']})"
+            if is_pt
+            else f"Visual Appendix: Vector Graphics ({spec['short_name']})"
+        ),
+        "footer_left": f"{framework} · {footer_stamp}",
         "footer_right": (
             f"N = {sample_size} · MoE = {moe_95} ({conf_level} CI) · {export_date}"
             if sample_size != "—"
@@ -385,7 +422,7 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
         ),
     }
 
-    body_html = convert_markdown_to_tufte_html(body_md)
+    body_html = convert_markdown_to_tufte_html(body_md, school=active_school, is_pt=is_pt)
 
     # Embed standalone SVG charts from charts_dir (if present)
     charts_html = ""
@@ -406,12 +443,12 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
                     )
                 charts_html = (
                     f'<section class="report-section" id="visual-appendix">'
-                    f'<h2>{labels["charts_heading"]}</h2>'
+                    f'<h2>{html_lib.escape(labels["charts_heading"])}</h2>'
                     f'{"".join(charts_items)}'
                     f"</section>"
                 )
 
-    # Build header metadata strip if frontmatter exists
+    # Build header metadata strip
     header_block_html = ""
     if meta or first_h1_match:
         meta_items = []
@@ -419,6 +456,10 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
             meta_items.append(f'<span class="meta-item"><strong>{labels["sample_lbl"]}:</strong> {html_lib.escape(str(sample_size))}</span>')
         if moe_95 != "—":
             meta_items.append(f'<span class="meta-item"><strong>{labels["moe_lbl"]}:</strong> {html_lib.escape(str(moe_95))}</span>')
+        meta_items.append(
+            f'<span class="meta-item"><strong>{labels["school_meta_lbl"]}:</strong> '
+            f'<span id="dps-active-school-label">{html_lib.escape(spec["short_name"])}</span> (<code>{html_lib.escape(active_school)}</code>)</span>'
+        )
         if meta.get("metrics_tracked"):
             meta_items.append(f'<span class="meta-item"><strong>Metrics:</strong> {html_lib.escape(str(meta["metrics_tracked"]))}</span>')
         if meta.get("segments"):
@@ -427,12 +468,13 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
         meta_items.append(f'<span class="audit-badge">{labels["audit_badge"]}</span>')
 
         subtitle_html = (
-            f'<p class="subtitle">{html_lib.escape(meta["subtitle"])}</p>'
+            f'<p class="report-subtitle subtitle">{html_lib.escape(meta["subtitle"])}</p>'
             if meta.get("subtitle")
             else ""
         )
         header_block_html = f"""
         <header class="report-header-block">
+          <div class="report-kicker" id="dps-report-kicker">{html_lib.escape(kicker_txt)}</div>
           <h1>{html_lib.escape(doc_title)}</h1>
           {subtitle_html}
           <div class="meta-strip">
@@ -441,25 +483,59 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
         </header>
         """
 
+    # Build interactive school selector options for the screen-only toolbar
+    school_options_html = []
+    school_js_meta = {}
+    if design_schools is not None:
+        for sid in design_schools.SCHOOL_ORDER:
+            s_info = design_schools.SCHOOLS[sid]
+            sel_attr = ' selected="selected"' if sid == active_school else ""
+            school_options_html.append(
+                f'<option value="{sid}"{sel_attr}>{html_lib.escape(s_info["short_name"])} ({sid})</option>'
+            )
+            school_js_meta[sid] = {
+                "short_name": s_info["short_name"],
+                "kicker": s_info["kicker_pt" if is_pt else "kicker_en"],
+                "footer_left": f"Data-Pro-Skill v2.1 · {s_info['footer_stamp_pt' if is_pt else 'footer_stamp_en']}",
+                "css": all_school_css.get(sid, css),
+            }
+    else:
+        school_options_html.append('<option value="tufte" selected="selected">Edward Tufte (tufte)</option>')
+        school_js_meta["tufte"] = {
+            "short_name": "Edward Tufte",
+            "kicker": kicker_txt,
+            "footer_left": labels["footer_left"],
+            "css": css,
+        }
+
+    school_selector_html = (
+        f'<label for="dps-school-select" style="font-weight:600;">{labels["school_lbl"]}</label>'
+        f'<select id="dps-school-select" aria-label="Select Data Design School" onchange="window.dpsSwitchSchool(this.value)">'
+        f'{"".join(school_options_html)}'
+        f"</select>"
+    )
+
     full_html = f"""<!DOCTYPE html>
-<html lang="{'pt-BR' if is_pt else 'en'}">
+<html lang="{'pt-BR' if is_pt else 'en'}" data-school="{html_lib.escape(active_school)}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="generator" content="Data-Pro-Skill v2.0 (Edward Tufte Print-Ready HTML Engine)">
+  <meta name="generator" content="Data-Pro-Skill v2.1 ({html_lib.escape(spec['short_name'])} Print-Ready HTML Engine)">
+  <meta name="dps-design-school" content="{html_lib.escape(active_school)}">
   <title>{html_lib.escape(doc_title)}</title>
-  <style>
+  <style id="dps-school-stylesheet">
 {css}
   </style>
 </head>
-<body>
+<body data-school="{html_lib.escape(active_school)}">
   <!-- Screen-only interactive utility bar -->
   <nav class="tufte-toolbar no-print" aria-label="Report Controls">
     <div class="toolbar-brand">
       <span>{html_lib.escape(doc_title)}</span>
-      <span class="toolbar-meta">N = {html_lib.escape(str(sample_size))} · MoE {html_lib.escape(str(moe_95))}</span>
+      <span class="toolbar-meta"> · N = {html_lib.escape(str(sample_size))} · MoE {html_lib.escape(str(moe_95))}</span>
     </div>
-    <div class="toolbar-actions">
+    <div class="toolbar-actions" style="display:flex;align-items:center;gap:0.45rem;">
+      {school_selector_html}
       <button type="button" class="toolbar-btn" onclick="document.body.classList.toggle('hide-margin-notes')">
         {labels["notes_btn"]}
       </button>
@@ -475,7 +551,7 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
     <span>{html_lib.escape(classification)}</span>
   </div>
   <div class="print-running-footer" aria-hidden="true">
-    <span>{html_lib.escape(labels["footer_left"])}</span>
+    <span id="dps-print-footer-left">{html_lib.escape(labels["footer_left"])}</span>
     <span>{html_lib.escape(labels["footer_right"])}</span>
   </div>
 
@@ -489,7 +565,7 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
         <td class="print-body-cell">
           <main class="report-container">
             {header_block_html}
-            <article class="tufte-prose">
+            <article class="tufte-prose main-column">
               {body_html}
             </article>
             {charts_html}
@@ -509,6 +585,23 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
     body.hide-margin-notes ol,
     body.hide-margin-notes blockquote {{ width: 92% !important; }}
   </style>
+  <script>
+    window.DPS_SCHOOLS = {json.dumps(school_js_meta, ensure_ascii=False)};
+    window.dpsSwitchSchool = function(schoolId) {{
+      var info = window.DPS_SCHOOLS[schoolId];
+      if (!info) return;
+      document.documentElement.setAttribute('data-school', schoolId);
+      document.body.setAttribute('data-school', schoolId);
+      var styleEl = document.getElementById('dps-school-stylesheet');
+      if (styleEl && info.css) styleEl.textContent = info.css;
+      var kickerEl = document.getElementById('dps-report-kicker');
+      if (kickerEl && info.kicker) kickerEl.textContent = info.kicker;
+      var lblEl = document.getElementById('dps-active-school-label');
+      if (lblEl && info.short_name) lblEl.textContent = info.short_name;
+      var footEl = document.getElementById('dps-print-footer-left');
+      if (footEl && info.footer_left) footEl.textContent = info.footer_left;
+    }};
+  </script>
 </body>
 </html>
 """
@@ -517,28 +610,45 @@ def generate_html(md_file, css_file=None, charts_dir=None, lang="auto", output_f
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(full_html, encoding="utf-8")
     size_kb = out_path.stat().st_size / 1024.0
-    print(f"✓ {out_path} ({size_kb:.1f} KB, {'pt-BR' if is_pt else 'en'}, Print-to-PDF Ready)")
+    print(
+        f"✓ {out_path} ({size_kb:.1f} KB, {'pt-BR' if is_pt else 'en'}, "
+        f"School: {spec['short_name']} [{active_school}], Print-to-PDF Ready)"
+    )
     return out_path
 
 
 if __name__ == "__main__":
     # Support both legacy positional usage:
-    #   python3 scripts/tufte_html.py .dps/references .dps/outputs/export/final_report.md
+    #   python3 scripts/tufte_html.py .dps/references .dps/outputs/export/final_report.md [school]
     # and explicit flag usage:
-    #   python3 scripts/tufte_html.py --md final_report.md --css references/styles/tufte.css
+    #   python3 scripts/tufte_html.py --md final_report.md --school few
     if len(sys.argv) >= 2 and not sys.argv[1].startswith("-"):
         refs_arg = Path(sys.argv[1])
         md_arg = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(".dps/outputs/export/final_report.md")
+        school_arg = sys.argv[3] if len(sys.argv) > 3 else "auto"
         charts_arg = md_arg.parent / "charts"
-        generate_html(md_arg, refs_arg, charts_arg if charts_arg.exists() else None)
+        generate_html(md_arg, refs_arg, charts_arg if charts_arg.exists() else None, school=school_arg)
     else:
-        parser = argparse.ArgumentParser(description="Compile Markdown report to Print-Ready Edward Tufte HTML")
+        parser = argparse.ArgumentParser(description="Compile Markdown report to Print-Ready Multi-School HTML")
         parser.add_argument("--md", default=".dps/outputs/export/final_report.md", help="Input Markdown file")
-        parser.add_argument("--css", default=None, help="Path to tufte.css or references directory")
+        parser.add_argument("--css", default=None, help="Path to stylesheet or references directory")
         parser.add_argument("--charts-dir", default=None, help="Directory with standalone SVG charts")
         parser.add_argument("--output", "-o", default=None, help="Output HTML file path")
         parser.add_argument("--lang", default="auto", choices=["auto", "en", "pt"], help="Report language")
+        parser.add_argument(
+            "--school",
+            "-s",
+            default="auto",
+            help="Data Design School: tufte (default), few, knaflic, swiss, editorial, or auto",
+        )
         args = parser.parse_args()
         md_p = Path(args.md)
         c_dir = Path(args.charts_dir) if args.charts_dir else (md_p.parent / "charts")
-        generate_html(md_p, args.css, c_dir if c_dir.exists() else None, lang=args.lang, output_file=args.output)
+        generate_html(
+            md_p,
+            args.css,
+            c_dir if c_dir.exists() else None,
+            lang=args.lang,
+            output_file=args.output,
+            school=args.school,
+        )

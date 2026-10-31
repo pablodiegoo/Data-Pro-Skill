@@ -30,6 +30,7 @@ import qualitative_categorizer
 import advanced_analytics_generator
 import tufte_viz
 import tufte_html
+import design_schools
 
 
 def _read_json(path):
@@ -65,6 +66,7 @@ def consolidate_outputs(
     output_dir=".dps/outputs/export",
     project_title=None,
     lang="auto",
+    school="auto",
 ):
     """Consolidate all .dps/outputs/* stages into final_report.md, verification_report.json, and final_report.html."""
     in_dir = Path(input_dir)
@@ -81,6 +83,13 @@ def consolidate_outputs(
     leaderboard = _read_json(cross_dir / "execute_leaderboard.json") or []
     adv_metrics = _read_json(adv_dir / "advanced_metrics.json") or {}
     quali_data = _read_json(quali_dir / "quali_verbatims.json") or {}
+
+    active_school = design_schools.resolve_active_school(
+        explicit_school=school,
+        search_dirs=[setup_dir, in_dir, out_dir],
+        default="tufte",
+    )
+    school_spec = design_schools.get_school_spec(active_school)
 
     # Also collect individual cross_*_stats.json if execute_leaderboard.json wasn't used
     if not leaderboard and cross_dir.exists():
@@ -103,7 +112,9 @@ def consolidate_outputs(
         "---",
         f'project: "{title}"',
         'subtitle: "Answer-First Statistical & Qualitative Decision Intelligence Report"',
-        'framework: "Data-Pro-Skill v2.0 (Edward Tufte Print-Ready HTML Edition)"',
+        f'framework: "Data-Pro-Skill v2.1 ({school_spec["short_name"]} Print-Ready HTML Edition)"',
+        f'design_school: "{active_school}"',
+        f'design_school_name: "{school_spec["name"]}"',
         f"sample_size: {n_sample}",
         f"effective_sample_size: {n_eff}",
         f'global_moe_95ci: "{global_moe}"',
@@ -118,7 +129,7 @@ def consolidate_outputs(
         "",
         "## 1. Executive Synthesis & Headline Findings (Answer-First)",
         "",
-        f"This study analyzes **$N = {n_sample}$** respondents (effective sample $N_{{\\text{{eff}}}} = {n_eff}$, global 95% confidence margin of error **{global_moe}**). "
+        f"This study analyzes **$N = {n_sample}$** respondents (effective sample $N_{{\\text{{eff}}}} = {n_eff}$, global 95% confidence margin of error **{global_moe}**, rendered under the **{school_spec['name']}**). "
         f"All findings below are ordered by statistical effect magnitude and verified against Articles 1–8 of the Data-Pro-Skill Constitution.",
         "",
         f"> **Margin Note:** **Methodological Standard:** Every claim pairs a parametric estimator (`Mean ± SD`) with its non-parametric counterpart (`Median / IQR`), exact test statistic ($p$-value), and effect size (`Cramér's V`, `Cohen's d`, `$\\eta^2$`, or `$|r|$`). Subgroups with $N < 30$ report raw counts only.",
@@ -294,6 +305,8 @@ def consolidate_outputs(
         "project": title,
         "verified_at": datetime.datetime.now().isoformat(),
         "overall_status": "PASSED",
+        "design_school": active_school,
+        "design_school_name": school_spec["name"],
         "constitutional_audit": {
             "article_1_precision_and_moe": {
                 "passed": True,
@@ -329,6 +342,9 @@ def consolidate_outputs(
             },
             "article_8_tufte_print_ready_html": {
                 "passed": True,
+                "design_school": active_school,
+                "design_school_name": school_spec["name"],
+                "stylesheet": school_spec["css_file"],
                 "running_headers_and_footers": True,
                 "booktabs_tables": True,
                 "inline_svg_graphics": True,
@@ -338,18 +354,19 @@ def consolidate_outputs(
     ver_path = out_dir / "verification_report.json"
     ver_path.write_text(json.dumps(verification_payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # Generate standalone SVG charts via tufte_viz.py
+    # Generate standalone SVG charts via tufte_viz.py in the active Data Design School
     charts_dir = out_dir / "charts"
-    tufte_viz.generate_charts(in_dir, charts_dir)
+    tufte_viz.generate_charts(in_dir, charts_dir, school=active_school)
 
-    # Compile final_report.html via tufte_html.py
-    css_path = SCRIPT_DIR.parent / "references" / "styles" / "tufte.css"
-    html_path = tufte_html.generate_html(final_md_path, css_path, charts_dir, lang=lang)
+    # Compile final_report.html via tufte_html.py in the active Data Design School
+    css_path = design_schools.resolve_css_for_school(active_school)
+    html_path = tufte_html.generate_html(final_md_path, css_path, charts_dir, lang=lang, school=active_school)
 
     return {
         "final_report_md": str(final_md_path),
         "final_report_html": str(html_path),
         "verification_report_json": str(ver_path),
+        "design_school": active_school,
     }
 
 
@@ -361,6 +378,7 @@ def run_end_to_end_pipeline(
     target_col=None,
     weight_col=None,
     lang="auto",
+    school="auto",
 ):
     """Execute the complete Data-Pro-Skill pipeline on a raw dataset and emit final_report.html."""
     w_dir = Path(work_dir)
@@ -369,7 +387,10 @@ def run_end_to_end_pipeline(
 
     df = quant_analyzer.load_dataset(dataset_path)
     print(f"▶ [1/5] Running /dps-setup profiling & Article 6 quality gates on {dataset_path} (N={len(df)})...")
-    quant_analyzer.profile_dataset(df, w_dir / "setup", weight_col=weight_col, dataset_name=title)
+    prof = quant_analyzer.profile_dataset(
+        df, w_dir / "setup", weight_col=weight_col, dataset_name=title, school=school
+    )
+    active_school = prof.get("design_school", "tufte")
 
     print("▶ [2/5] Running /dps-execute autonomous cross-tabulations & hypothesis tests...")
     crosstabs.execute_all_crosstabs(df, output_dir=w_dir / "cross", weight_col=weight_col)
@@ -388,8 +409,10 @@ def run_end_to_end_pipeline(
     except Exception as exc:
         print(f"  ⚠ Qualitative synthesis skipped: {exc}")
 
-    print("▶ [5/5] Consolidating final_report.md, verification_report.json, and Print-Ready Tufte final_report.html...")
-    return consolidate_outputs(input_dir=w_dir, output_dir=exp_dir, project_title=title, lang=lang)
+    print(f"▶ [5/5] Consolidating final_report.md, verification_report.json, and Print-Ready HTML (School: {active_school})...")
+    return consolidate_outputs(
+        input_dir=w_dir, output_dir=exp_dir, project_title=title, lang=lang, school=active_school
+    )
 
 
 def main():
@@ -401,8 +424,24 @@ def main():
     parser.add_argument("--target", default=None, help="Optional target outcome column for driver/priority analysis")
     parser.add_argument("--weight", default=None, help="Optional survey weight column")
     parser.add_argument("--lang", default="auto", choices=["auto", "en", "pt"], help="Report language")
+    parser.add_argument(
+        "--school",
+        "-s",
+        default="auto",
+        help="Data Design School: tufte (default), few, knaflic, swiss, editorial, or auto",
+    )
+    parser.add_argument(
+        "--pick-school",
+        action="store_true",
+        help="Interactively pick a Data Design School before running",
+    )
 
     args = parser.parse_args()
+    chosen_school = args.school
+    if args.pick_school:
+        chosen_school = design_schools.interactive_pick_school(
+            default=design_schools.resolve_active_school(explicit_school=args.school, search_dirs=[args.input])
+        )
 
     try:
         if args.data:
@@ -414,6 +453,7 @@ def main():
                 target_col=args.target,
                 weight_col=args.weight,
                 lang=args.lang,
+                school=chosen_school,
             )
         else:
             res = consolidate_outputs(
@@ -421,8 +461,14 @@ def main():
                 output_dir=args.output,
                 project_title=args.title,
                 lang=args.lang,
+                school=chosen_school,
             )
-        print(f"✅ Export complete:\n  • Markdown: {res['final_report_md']}\n  • Tufte HTML: {res['final_report_html']}\n  • Audit JSON: {res['verification_report_json']}")
+        print(
+            f"✅ Export complete (School: {res.get('design_school', 'tufte')}):\n"
+            f"  • Markdown: {res['final_report_md']}\n"
+            f"  • HTML:     {res['final_report_html']}\n"
+            f"  • Audit:    {res['verification_report_json']}"
+        )
     except Exception as e:
         print(f"❌ Error during final report generation: {e}", file=sys.stderr)
         sys.exit(1)

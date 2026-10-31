@@ -22,7 +22,13 @@ Most AI data analysis fails in three ways:
 **Data-Pro-Skill v2.0** solves all three by combining:
 - **Matt Pocock Agent Architecture:** *Pit of Success* ordered workflow, *Progressive Disclosure* (`SKILL.md` → `GLOSSARY.md` → `constitution.md` → `references/analysis/*.md`), *Deep Module* Python scripts, and relentless **Data Grilling** (`/dps-grill`).
 - **Deep Survey Science (`references/analysis/`):** Ipsative Centering & Regression Halo Removal, Derived Importance × Performance Priority Matrices, Expectation Residuals (*Disappointed / Aligned / Delighted*), Dual Correlation (Pearson $r$ vs. Spearman $\rho$), $\chi^2$ Standardized Residuals ($z_{ij}$), Silhouette-optimized K-Means Personas + DBSCAN Outlier isolation, Multi-Pass PCA/Factor Analysis + Cronbach's $\alpha$, TURF Reach Optimization, and Raking (IPF) sample weighting.
-- **Edward Tufte Print-Ready HTML Standard:** Every analysis compiles into a single self-contained `final_report.html` styled with `references/styles/tufte.css` (`#fffff8` ivory screen background, 58%/36% body + floating right-margin sidenotes, `booktabs` tables with `tabular-nums`, inline vector `<svg>` graphics, and `@page` + `<table class="print-frame">` running headers and footers on every printed PDF page).
+- **5 Selectable Data Design Schools (`references/design-schools.md`):** Pick your preferred school during `/dps-setup`, `/dps-grill`, or `node bin/install.js` (and switch live inside `final_report.html`):
+  1. **`tufte` — Edward Tufte *(Default)***: Ivory `#fffff8`, Palatino serif, 58%/36% floating right-margin sidenotes, `booktabs` tables, and Cleveland dot plots with 95% CI whiskers.
+  2. **`few` — Stephen Few**: Full-width perceptual BI grid (`#f8fafc`), `Inter` sans-serif, **Bullet Graphs** (qualitative performance bands + measure bar + target marker), and inline diagnostic alerts.
+  3. **`knaflic` — Cole Nussbaumer Knaflic (*Storytelling with Data*)**: Decluttered white canvas (`#ffffff`), context pushed to muted grey (`#cbd5e1`) with **one bold preattentive focal color** (`#1e40af` / `#ea580c`), Action-Title banners, and `💡 KEY TAKEAWAY` cards.
+  4. **`swiss` — Swiss Grid & Jacques Bertin**: Exposed `1.5px`/`4px` black architectural modular grid (`#f5f5f0`), Neo-Grotesque sans-serif + monospace indices, and **Bertin Retinal Lollipops & Matrices** (Vermilion `#e63946` & Cobalt `#1d3557`).
+  5. **`editorial` — The Economist / FT Editorial**: Warm newsprint (`#fcf8f2`), signature **`6px` crimson top bar (`#e3120b`)**, **Kicker + Headline + Standfirst** hierarchy, editorial lollipop range charts, and `Source:` footlines.
+- **Print-Ready HTML Standard (`Article 8`):** Every school compiles into a single self-contained `final_report.html` with inline vector `<svg>` graphics and `@page` + `<table class="print-frame">` running headers and footers on every printed PDF page.
 
 ---
 
@@ -93,11 +99,12 @@ node bin/install.js
 ### 2. Run the Full Python Pipeline Directly from CLI
 
 ```bash
-# One-shot end-to-end execution (Setup -> Cross -> Advanced -> Quali -> Print-Ready Tufte HTML):
-python3 scripts/final_report_generator.py --data your_survey.csv -o .dps/outputs/export/ --title "Customer Intelligence Study"
+# One-shot end-to-end execution (Setup -> Cross -> Advanced -> Quali -> Print-Ready HTML in chosen school):
+python3 scripts/final_report_generator.py --data your_survey.csv -o .dps/outputs/export/ --title "Customer Intelligence Study" --school knaflic
 
-# Or run individual Deep Module scripts step-by-step:
-python3 scripts/quant_analyzer.py your_survey.csv --profile -o .dps/outputs/setup/
+# Or run individual Deep Module scripts step-by-step (picking a Data Design School on setup):
+python3 scripts/quant_analyzer.py your_survey.csv --profile --school few -o .dps/outputs/setup/
+# (Or run interactively: python3 scripts/quant_analyzer.py your_survey.csv --pick-school -o .dps/outputs/setup/)
 python3 scripts/crosstabs.py your_survey.csv --execute-all -o .dps/outputs/cross/
 python3 scripts/advanced_analytics_generator.py your_survey.csv --report-dir .dps/outputs/advanced/
 python3 scripts/qualitative_categorizer.py your_survey.csv -o .dps/outputs/quali/

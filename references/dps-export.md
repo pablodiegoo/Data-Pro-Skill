@@ -1,22 +1,22 @@
-# `/dps-export` — Consolidate & Export Print-Ready Tufte HTML Report
+# `/dps-export` — Consolidate & Export Print-Ready Multi-School HTML Report
 
-Consolidates all session artifacts into the project's native language (`pt-BR`, `en`, or `es`) and compiles the primary publication deliverable: a self-contained **Tufte HTML** report (`final_report.html`) engineered to print directly to PDF with standard running headers, footers, and page-break discipline (`Constitution Article 8`), paired with its clean source Markdown (`final_report.md`).
+Consolidates all session artifacts into the project's native language (`pt-BR`, `en`, or `es`) and compiles the primary publication deliverable: a self-contained **Print-Ready HTML** report (`final_report.html`) styled in the project's chosen **Data Design School** (`tufte` [Edward Tufte — Default], `few` [Stephen Few], `knaflic` [Cole Knaflic / Storytelling with Data], `swiss` [Swiss Grid / Jacques Bertin], or `editorial` [The Economist / FT Editorial]; see [`references/design-schools.md`](design-schools.md)) and engineered to print directly to PDF with standard running headers, footers, and page-break discipline (`Constitution Article 8`), paired with its clean source Markdown (`final_report.md`).
 
 ---
 
 ## 1. Pipeline
 
 ```
-All Intermediate Outputs (.dps/outputs/setup, cross, advanced, quali, strategy)
+All Intermediate Outputs (.dps/outputs/setup, cross, advanced, quali, strategy) + [design_school.json / --school]
     → scripts/final_report_generator.py   (Consolidates final_report.md + verification_report.json)
-    → scripts/tufte_viz.py                (Generates data-driven Tufte SVGs in export/charts/)
-    → scripts/tufte_html.py               (Compiles self-contained final_report.html with Tufte CSS + Print Frame)
+    → scripts/tufte_viz.py                (Generates school-specific SVGs in export/charts/)
+    → scripts/tufte_html.py               (Compiles self-contained final_report.html with all 5 school CSS themes + Print Frame)
 ```
 
 ```bash
-python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/
-python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/
-python3 .dps/scripts/tufte_html.py .dps/references/ .dps/outputs/export/final_report.md
+python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/ [--school <tufte|few|knaflic|swiss|editorial>]
+python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/ [--school <tufte|few|knaflic|swiss|editorial>]
+python3 .dps/scripts/tufte_html.py --md .dps/outputs/export/final_report.md [--school <tufte|few|knaflic|swiss|editorial>]
 ```
 
 ---
@@ -49,22 +49,24 @@ Intermediate analytical schemas (`setup_manifest.json`, `00_profile.json`, `cros
 
 ---
 
-## 4. Tufte HTML & Print-to-PDF Engineering Standards (`Article 8`)
+## 4. Multi-School HTML & Print-to-PDF Engineering Standards (`Article 8`)
 
-`final_report.html` replaces legacy PDF/LaTeX/Quarto toolchains with a single, zero-dependency, self-contained HTML file that renders as an interactive Tufte document on screen and prints directly to a publication-grade PDF (`Ctrl+P` $\rightarrow$ *Save as PDF* or headless Chromium):
+`final_report.html` replaces legacy PDF/LaTeX/Quarto toolchains with a single, zero-dependency, self-contained HTML file that renders in the project's locked **Data Design School** (`tufte` default, `few`, `knaflic`, `swiss`, or `editorial` — see [`references/design-schools.md`](design-schools.md)) on screen and prints directly to a publication-grade PDF (`Ctrl+P` $\rightarrow$ *Save as PDF* or headless Chromium):
 
-1. **Tufte Screen & Print Aesthetics (`references/styles/tufte.css`):**
-   - **Typography:** `Palatino, "Palatino Linotype", Georgia, serif` for body prose; `"Gill Sans", "Helvetica Neue", Inter, sans-serif` for tables, KPI cards, and running headers/footers; `tabular-nums` for vertical digit alignment.
-   - **Wide Right Margin & Sidenotes:** 58% main column + 36% right margin column. Every `> **Margin Note:**` / `> **Nota de Margem:**` renders as a numbered `<aside class="margin-note">` aligned horizontally beside the table or finding it interprets.
-   - **Booktabs Tables:** Top `2px solid #111`, header bottom `1px solid #111`, subtle row hairlines, bottom `2px solid #111`, **zero vertical borders**, **zero zebra striping**.
-2. **100% Inline Vector Charts:**
-   - All charts from `tufte_viz.py` AND all Markdown `mermaid` (`xychart-beta`, `pie`) blocks are compiled directly into crisp inline `<svg>` elements inside `final_report.html` — zero external JS or image files required.
+1. **5 Canonical Data Design Schools (`references/styles/*.css`):**
+   - **`tufte` (`tufte.css` — Default):** `Palatino/Georgia` serif prose + `Gill Sans` tables, `#fffff8` ivory background, 58%/36% asymmetric grid with floating `<aside class="margin-note">` sidenotes, `booktabs` tables, and **Cleveland dot plots** with 95% CI whiskers.
+   - **`few` (`few.css`):** `Inter / Source Sans` humanist sans-serif, `#f8fafc` full-width perceptual BI grid, **Stephen Few Bullet Graphs** (qualitative range bands + measure bar + target marker), compact tables, and inline `PERCEPTUAL DIAGNOSTIC` callout strips.
+   - **`knaflic` (`knaflic.css`):** `Montserrat / Open Sans` executive narrative on `#ffffff`, decluttered **grey context (`#cbd5e1`) + bold preattentive focal accent (`#1e40af` / `#ea580c`)**, Action-Title `h2` banners, and `💡 KEY TAKEAWAY` callout cards.
+   - **`swiss` (`swiss.css`):** `Helvetica Neue / Inter` Neo-Grotesque + monospace indices on `#f5f5f0`, exposed `1.5px`/`4px` black modular grid hairlines, inverted black table headers, and **Jacques Bertin retinal lollipop matrices** (Vermilion `#e63946` & Cobalt `#1d3557`).
+   - **`editorial` (`editorial.css`):** `IBM Plex Sans` headers + `Merriweather` editorial serif on warm `#fcf8f2` newsprint, signature **`6px` crimson top bar (`#e3120b`)**, Kicker + Headline + Standfirst hierarchy, `EDITORIAL BRIEF` sidebars, and horizontal lollipop range charts with `Source:` footlines.
+2. **100% Inline Vector Charts (`tufte_viz.py` & `tufte_html.py`):**
+   - All charts from `tufte_viz.py` AND all Markdown `mermaid` (`xychart-beta`, `pie`) blocks are compiled directly into crisp inline `<svg>` elements styled for the active school inside `final_report.html` — zero external JS or image files required.
 3. **Standard Print-to-PDF Running Headers & Footers (`Print Frame`):**
    - Combines W3C CSS Paged Media `@page` margin rules (`@top-left`, `@top-right`, `@bottom-left`, `@bottom-right`) with the universal HTML `<table class="print-frame">` (`<thead>` header-spacer + `<tfoot>` footer-spacer) and `position: fixed` `<header class="print-running-header">` / `<footer class="print-running-footer">` bars in `@media print`:
      - **Running Header on Every PDF Page:** Project Title · Framework (`Data-Pro-Skill v2.1`) | Sample $N$ · 95% CI (`±MoE%`) · Export Date.
-     - **Running Footer on Every PDF Page:** Constitution Audit Badge (`Articles 1–8 Verified · Tufte Standard`) | Confidentiality / Source Note & Page Counter.
+     - **Running Footer on Every PDF Page:** Constitution Audit Badge (`Articles 1–8 Verified · {School} Standard`) | Confidentiality / Source Note & Page Counter.
    - Enforces `break-inside: avoid; page-break-inside: avoid` on `table`, `figure`, `.chart-container`, `.margin-note`, `.kpi-grid` and `break-after: avoid` on `h1–h4`, plus `thead { display: table-header-group; }` so multi-page tables repeat their column headers cleanly across page breaks.
-   - Includes a screen-only (`class="no-print"`) floating utility bar with a **"🖨️ Print / Save as PDF"** button (`window.print()`) and a **"Print Preview"** toggle.
+   - Includes a screen-only (`class="no-print"`) floating utility bar with a live **`🎨 School:`** switcher dropdown (pre-selected to the setup school, allowing instant preview across all 5 schools), a **"📐 Toggle Callouts"** button, and a **"🖨️ Print / Save as PDF"** button (`window.print()`).
 
 ---
 

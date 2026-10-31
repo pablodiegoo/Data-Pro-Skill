@@ -1,0 +1,449 @@
+/* ==========================================================================
+   Data-Pro-Skill v2.1 — Swiss International Grid & Jacques Bertin Stylesheet
+   ==========================================================================
+   School: Josef Müller-Brockmann ("Grid Systems") & Jacques Bertin ("Sémiologie Graphique")
+   Standard:
+   1. Mathematical Modular Grid: Exposed structural hairlines (1.5px solid #0a0a0a)
+      and bold architectural rules (4px solid #0a0a0a) dividing sections and cells.
+   2. Neo-Grotesque Typography: Helvetica Neue / Inter flush-left ragged-right,
+      tight negative tracking on bold headers, monospace index counters.
+   3. Bertin High-Contrast Retinal Palette: Stark monochrome (#0a0a0a on #f5f5f0)
+      accented with International Vermilion (#e63946) and Bauhaus Cobalt (#1d3557).
+   4. Print-to-PDF Ready: Dual W3C @page rules + repeating <table class="print-frame">
+      thead/tfoot spacers and fixed running Header & Footer on every printed page.
+   ========================================================================== */
+
+:root {
+  --tufte-paper: #f5f5f0;
+  --tufte-ink: #0a0a0a;
+  --tufte-muted: #40403c;
+  --tufte-accent: #e63946;
+  --tufte-crimson: #e63946;
+  --tufte-forest: #1d3557;
+  --tufte-amber: #e63946;
+  --tufte-border: #0a0a0a;
+  --tufte-hairline: #0a0a0a;
+  --tufte-note-bg: #ffffff;
+  --tufte-card-bg: #ffffff;
+  --font-serif: "Helvetica Neue", Helvetica, "Inter", "Liberation Sans", Arial, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, "Inter", "Liberation Sans", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--tufte-paper);
+  color: var(--tufte-ink);
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem 5rem;
+  line-height: 1.52;
+  counter-reset: sidenote-counter;
+}
+
+/* ── Screen Utility Toolbar (.no-print) ──────────────────────────────────── */
+.tufte-toolbar {
+  position: fixed;
+  top: 0.9rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border: 2px solid #0a0a0a;
+  box-shadow: 4px 4px 0 #0a0a0a;
+  padding: 0.35rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.tufte-toolbar button,
+.tufte-toolbar select {
+  background: #ffffff;
+  border: 1.5px solid #0a0a0a;
+  color: #0a0a0a;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 0.22rem 0.55rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.tufte-toolbar button:hover {
+  background: #e63946;
+  color: #ffffff;
+  border-color: #0a0a0a;
+}
+
+/* ── Print Frame Wrapper ─────────────────────────────────────────────────── */
+table.print-frame {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+table.print-frame > thead,
+table.print-frame > tfoot {
+  display: none;
+  border: none !important;
+}
+
+table.print-frame > thead > tr > td,
+table.print-frame > tbody > tr > td,
+table.print-frame > tfoot > tr > td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.print-running-header,
+.print-running-footer {
+  display: none;
+}
+
+/* ── Swiss Modular Grid Header Block ─────────────────────────────────────── */
+.report-header-block {
+  background: #ffffff;
+  border: 2px solid #0a0a0a;
+  border-top: 8px solid #0a0a0a;
+  padding: 1.5rem 1.5rem 1.2rem;
+  margin-bottom: 2.2rem;
+}
+
+.report-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #e63946;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.report-header-block h1 {
+  font-family: var(--font-sans);
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1.08;
+  margin: 0 0 0.55rem 0;
+  border-bottom: none;
+  string-set: doc-title content();
+}
+
+.report-subtitle,
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--tufte-muted);
+  margin: 0 0 1rem 0;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.75rem;
+  padding-top: 0.85rem;
+  border-top: 1.5px solid #0a0a0a;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #0a0a0a;
+  string-set: doc-meta content();
+}
+
+.meta-item strong {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #0a0a0a;
+  color: #ffffff;
+  padding: 0.15rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Modular Grid Two-Column Layout (60% Main + 35% Right Module) ────────── */
+.report-container {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 920px) {
+  .tufte-prose > p,
+  .tufte-prose > ul,
+  .tufte-prose > ol,
+  .tufte-prose > pre {
+    width: 60%;
+  }
+
+  .tufte-prose > h1,
+  .tufte-prose > h2,
+  .tufte-prose > h3,
+  .tufte-prose > h4 {
+    width: 62%;
+  }
+
+  .tufte-prose > .table-wrapper,
+  .tufte-prose > .chart-figure {
+    width: 62%;
+  }
+}
+
+h1 {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  border-top: 4px solid #0a0a0a;
+  padding-top: 0.5rem;
+  margin-top: 2.4rem;
+  margin-bottom: 0.9rem;
+}
+
+h2 {
+  font-size: 1.32rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  border-top: 3px solid #0a0a0a;
+  border-bottom: 1px solid #0a0a0a;
+  padding: 0.45rem 0;
+  margin-top: 2.2rem;
+  margin-bottom: 0.85rem;
+}
+
+h3 {
+  font-size: 1.04rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1d3557;
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 0.98rem;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #0a0a0a;
+  margin: 2rem 0;
+  width: 62%;
+}
+
+/* ── Architectural Grid Callout Modules ──────────────────────────────────── */
+aside.margin-note,
+blockquote.margin-note {
+  counter-increment: sidenote-counter;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #0a0a0a;
+  background-color: #ffffff;
+  border: 1.5px solid #0a0a0a;
+  box-shadow: 3px 3px 0 #e63946;
+  padding: 0.65rem 0.85rem;
+  margin: 0.8rem 0 1.25rem 0;
+}
+
+aside.margin-note .margin-note-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #e63946;
+  border-bottom: 1px solid #0a0a0a;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+@media (min-width: 920px) {
+  body:not(.hide-margin-notes) aside.margin-note,
+  body:not(.hide-margin-notes) blockquote.margin-note {
+    float: right;
+    clear: right;
+    width: 34%;
+    margin-top: 0.1rem;
+    margin-bottom: 1.2rem;
+  }
+}
+
+blockquote.verbatim-quote {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: #0a0a0a;
+  border-left: 4px solid #e63946;
+  background: #ffffff;
+  padding: 0.45rem 0.9rem;
+  margin: 0.5rem 0 0.85rem 0;
+  width: 60%;
+}
+
+/* ── Swiss Exposed Grid Tables ───────────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1rem 0 1.4rem 0;
+  background: #ffffff;
+}
+
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  border: 2px solid #0a0a0a;
+}
+
+table.data-table thead th {
+  border: 1px solid #0a0a0a;
+  border-bottom: 2px solid #0a0a0a;
+  padding: 0.48rem 0.6rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #0a0a0a;
+}
+
+table.data-table tbody td {
+  border: 1px solid #0a0a0a;
+  padding: 0.42rem 0.6rem;
+  color: #0a0a0a;
+  font-variant-numeric: tabular-nums;
+}
+
+table.data-table tbody tr.total-row td,
+table.data-table tbody tr.base-row td {
+  border-top: 2px solid #0a0a0a;
+  font-weight: 800;
+  background-color: #f5f5f0;
+}
+
+table.data-table .num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Charts ──────────────────────────────────────────────────────────────── */
+.chart-figure {
+  margin: 1.1rem 0 1.5rem 0;
+}
+
+.chart-container {
+  padding: 0.75rem;
+  background: #ffffff;
+  border: 2px solid #0a0a0a;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-caption {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: #40403c;
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: #ffffff;
+  border: 1px solid #0a0a0a;
+  padding: 0.05rem 0.3rem;
+}
+
+/* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
+@page {
+  size: A4 portrait;
+  margin: 16mm 14mm 16mm 14mm;
+  @top-left { content: string(doc-title); font-family: Helvetica, Arial, sans-serif; font-size: 7.5pt; font-weight: bold; }
+  @top-right { content: string(doc-meta); font-family: monospace; font-size: 7pt; }
+  @bottom-left { content: "SWISS INTERNATIONAL GRID // BERTIN SEMIOLOGY STANDARD"; font-family: monospace; font-size: 7pt; }
+  @bottom-right { content: "PAGE " counter(page) " / " counter(pages); font-family: monospace; font-size: 7pt; }
+}
+
+@media print {
+  html { font-size: 9.5pt; }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print, .tufte-toolbar { display: none !important; }
+  table.print-frame { width: 100% !important; border: none !important; }
+  table.print-frame > thead { display: table-header-group !important; }
+  table.print-frame > tfoot { display: table-footer-group !important; }
+  .print-header-space { height: 11mm; }
+  .print-footer-space { height: 11mm; }
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 9mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1.5pt solid #000000;
+    font-family: var(--font-mono);
+    font-size: 7pt;
+    z-index: 9999;
+  }
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 9mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 1.5pt solid #000000;
+    font-family: var(--font-mono);
+    font-size: 7pt;
+    z-index: 9999;
+  }
+  table.data-table, figure, .chart-container, aside.margin-note, .report-header-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  h1, h2, h3, h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}

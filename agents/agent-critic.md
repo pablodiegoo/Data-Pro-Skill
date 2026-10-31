@@ -25,7 +25,7 @@ Audit every output against all 8 articles. Any `FAIL` blocks delivery and return
 | **Art. 5 — Parametric $N \ge 30$ Gate** | Were non-parametric tests (`Mann-Whitney U`, `Kruskal-Wallis H`, `Spearman's ρ`, `Fisher's Exact`) enforced whenever group $N < 30$, $|\text{skew}| > 2$, $E_{ij} < 5$, or ordinal scales were tested? | Yes / No |
 | **Art. 6 — Data Quality Gates** | Are **6a** (Straight-Lining rate + $>2\text{pp}$ delta check), **6b** ($100\% \pm 0.5\%$ sum validation on `RU` / explicit `Total Base` on `RM`), and **6c** ($>10\%$ and $>20\%$ missingness flags + bias direction) reported? | Yes / No |
 | **Art. 7 — Survey Governance** | Are `snake_case` mappings saved in `column_mapping.json` (7a), weights explicitly applied (7b), and `0x0` **Branching Overlaps** halted with skip-logic notes (7c)? | Yes / No |
-| **Art. 8 — Tufte Print-Ready HTML** | On `/dps-export`, does `final_report.html` use **Booktabs Tables** (no vertical borders), floating `<aside class="margin-note">`, inline `<svg>` charts, and `@page` + `.print-frame` running headers and footers? | Yes / No |
+| **Art. 8 — Print-Ready Multi-School HTML** | On `/dps-export`, does `final_report.html` honor the locked **Data Design School** (`tufte` default, `few`, `knaflic`, `swiss`, or `editorial`), render `tabular-nums` tables, `<aside class="margin-note">` callouts, inline `<svg>` charts, and `@page` + `.print-frame` running headers and footers? | Yes / No |
 
 ---
 

@@ -1,8 +1,8 @@
 # Dataset Setup & Statistical Hygiene Report — B2B SaaS Customer Intelligence Study 2026
 
-**Total Sample ($N$):** `240` · **Effective Sample ($N_{\text{eff}}$):** `239.1` (DEFF = `1.00`) · **Global 95% CI MoE:** `±6.34%`
+**Total Sample ($N$):** `240` · **Effective Sample ($N_{\text{eff}}$):** `239.1` (DEFF = `1.00`) · **Global 95% CI MoE:** `±6.34%` · **Data Design School:** `Edward Tufte` (`tufte`)
 
-> **Margin Note:** Global Margin of Error is computed at the 95% confidence level ($z = 1.96$) under maximum binomial variance ($p = 0.50$). Subgroup margins widen proportionally to $1/\sqrt{n_{\text{sub}}}$.
+> **Margin Note:** Global Margin of Error is computed at the 95% confidence level ($z = 1.96$) under maximum binomial variance ($p = 0.50$). Subgroup margins widen proportionally to $1/\sqrt{n_{\text{sub}}}$. Active Data Design School: **Edward Tufte (Classic Data-Ink & Sidenote School)** (`tufte`).
 
 ## 1. Article 6 Data Quality Gates Audit
 

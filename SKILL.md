@@ -1,6 +1,6 @@
 ---
 name: data-pro-skill
-description: "Survey and market research data analysis system. Use when analyzing quantitative surveys, qualitative verbatims, or CSV/XLSX/ODS/Parquet datasets; running Data Grilling (/dps-grill, /dps-clarify) to uncover research objectives and hypotheses; building a Quantitative Manifesto (/dps-setup) or Analytical Plan (/dps-plan); computing weighted crosstabs and hypothesis tests (/dps-cross, /dps-execute); running deep survey science (/dps-advanced: Key Drivers, Halo Removal, Priority Matrix, Dual Clustering, Factor Analysis/PCA, TURF); injecting open-ended verbatims into quantitative segments (/dps-inject-open); synthesizing executive strategy (/dps-mode:strategy); or exporting Tufte-style print-ready HTML reports (/dps-export). Modes: /dps-mode:quant, /dps-mode:quali, /dps-mode:strategy. Requires constitution.md."
+description: "Survey and market research data analysis system. Use when analyzing quantitative surveys, qualitative verbatims, or CSV/XLSX/ODS/Parquet datasets; running Data Grilling (/dps-grill, /dps-clarify) to uncover research objectives and hypotheses; building a Quantitative Manifesto and selecting a Data Design School (/dps-setup: Edward Tufte, Stephen Few, Cole Knaflic SWD, Swiss Grid/Bertin, or Economist/FT Editorial) or Analytical Plan (/dps-plan); computing weighted crosstabs and hypothesis tests (/dps-cross, /dps-execute); running deep survey science (/dps-advanced: Key Drivers, Halo Removal, Priority Matrix, Dual Clustering, Factor Analysis/PCA, TURF); injecting open-ended verbatims into quantitative segments (/dps-inject-open); synthesizing executive strategy (/dps-mode:strategy); or exporting print-ready multi-school HTML reports (/dps-export). Modes: /dps-mode:quant, /dps-mode:quali, /dps-mode:strategy. Requires constitution.md."
 harness: universal
 version: 2.1.0
 requires:
@@ -10,9 +10,9 @@ requires:
 
 # Data-Pro-Skill v2.1
 
-Transform raw quantitative and qualitative survey data into high-density, **Tufte-style** analytical reports (`final_report.html` + `final_report.md`), engineered to render on screen and print directly to PDF with standard running headers and footers.
+Transform raw quantitative and qualitative survey data into high-density analytical reports (`final_report.html` + `final_report.md`), engineered to render on screen and print directly to PDF with standard running headers and footers across **five selectable Data Design Schools** (`tufte` [Edward Tufte — Default], `few` [Stephen Few], `knaflic` [Cole Knaflic / Storytelling with Data], `swiss` [Swiss Grid & Jacques Bertin], and `editorial` [The Economist / FT Editorial]).
 
-**Bold terms** carry exact definitions in [`GLOSSARY.md`](GLOSSARY.md). Constitutional rules live in [`constitution.md`](constitution.md).
+**Bold terms** carry exact definitions in [`GLOSSARY.md`](GLOSSARY.md). Constitutional rules live in [`constitution.md`](constitution.md). Design school specifications live in [`references/design-schools.md`](references/design-schools.md).
 
 ---
 
@@ -26,7 +26,7 @@ Interview the user relentlessly in **frontier** rounds to lock the research obje
 
 1. **Fact Reconnaissance first (never ask the user for facts in the environment).** Before asking Round 1, inspect the dataset yourself (`python3 .dps/scripts/quant_analyzer.py <data> --profile`, or inspect headers, $N$, missingness, Likert scales, multi-response `RM` groups, weight columns, and open-ended columns).
 2. **Map the 5-branch Design Tree:**
-   - **Branch 1 — Decision Destination:** What Monday-morning decision, budget allocation, or policy action hinges on this report, and who is the audience?
+   - **Branch 1 — Decision Destination & Data Design School:** What Monday-morning decision, budget allocation, or policy action hinges on this report, who is the audience, and which **Data Design School** (`tufte` [default], `few`, `knaflic`, `swiss`, or `editorial`) fits that audience?
    - **Branch 2 — Hypotheses & Priors:** What do stakeholders believe is happening, and what quantitative finding would falsify that prior?
    - **Branch 3 — Analytical Spine:** Which column is the primary dependent outcome (e.g., NPS, CSAT, Churn, Spend, Approval), and which columns define the canonical **segments** (banners)?
    - **Branch 4 — Weights & Governance:** Does the sample require **Raking (IPF)** against universe targets or uniform weights (`weight = 1.0`), and what survey skip/branching rules apply?
@@ -49,20 +49,27 @@ Interview the user relentlessly in **frontier** rounds to lock the research obje
 
 ---
 
-### Step 1 — Quantitative Manifesto (`/dps-setup`)
+### Step 1 — Quantitative Manifesto & Data Design School Selection (`/dps-setup`)
 
-Build the **Analytical Spine** that anchors every downstream command. Read [`references/dps-setup.md`](references/dps-setup.md).
+Build the **Analytical Spine** that anchors every downstream command and let the user pick their preferred **Data Design School**. Read [`references/dps-setup.md`](references/dps-setup.md) and [`references/design-schools.md`](references/design-schools.md).
 
+0. **Select Data Design School on Setup:** If not yet locked in `clarify_notes.md`, `.dps/config.json`, or via `--school`, let the user pick one of the 5 **Data Design Schools**:
+   - `tufte` — **Edward Tufte *(Default)***: Ivory `#fffff8`, Palatino serif, 58%/36% floating right **Margin Notes**, **Booktabs Tables**, and Cleveland dot plots with 95% CI whiskers.
+   - `few` — **Stephen Few**: Full-width perceptual BI grid (`#f8fafc`), Inter sans, **Bullet Graphs** (qualitative bands + target line), and inline `PERCEPTUAL DIAGNOSTIC` strips.
+   - `knaflic` — **Cole Nussbaumer Knaflic (*Storytelling with Data*)**: Decluttered white canvas, muted grey context (`#cbd5e1`) + single bold focal accent (`#1e40af` / `#ea580c`), Action-Title banners, and `💡 KEY TAKEAWAY` cards.
+   - `swiss` — **Swiss Grid & Jacques Bertin**: Exposed `1.5px`/`4px` black modular grid, Neo-Grotesque sans + monospace indices, and Bertin retinal lollipops/matrices (`#e63946` & `#1d3557`).
+   - `editorial` — **The Economist / FT Editorial**: Warm newsprint (`#fcf8f2`), signature `6px` crimson top bar (`#e3120b`), Kicker + Headline + Standfirst hierarchy, and lollipop range charts.
 1. **Enforce Schema Governance (`Article 7a`):** Map raw survey headers to clean `snake_case` keys in `.dps/outputs/setup/column_mapping.json`.
 2. **Enforce Explicit Weighting (`Article 7b`):** Initialize `weight = 1.0` if unweighted, or run `scripts/weighting.py` (**Raking / IPF**) if universe targets were established during **Data Grilling**.
 3. **Execute Deterministic Profiler & Setup Engine:**
    ```bash
-   python3 .dps/scripts/quant_analyzer.py <data_file> [config.json] -o .dps/outputs/setup/
+   python3 .dps/scripts/quant_analyzer.py <data_file> [config.json] --school <tufte|few|knaflic|swiss|editorial> -o .dps/outputs/setup/
    ```
-4. **Run Invisible Agent Loop (Statistician $\rightarrow$ Critic $\rightarrow$ Tufte Designer):** Verify **Article 1** (95% CI MoE on every `%`), **Article 6a** (**Straight-Lining** detection on Likert blocks $\ge 5$ items), **Article 6b** ($100\% \pm 0.5\%$ sum validation on `RU` questions; explicit `Total Base` disclosure on `RM` questions), and **Article 6c** (missingness flags at $>10\%$ and $>20\%$).
-5. **Render Manifesto (`00_project_manifest.md` / `setup_report.md`):** Output YAML frontmatter (`project`, `framework`, `sample_size`, `metrics_tracked`, `segments`), the canonical **Segment Matrix** (`Segment | N | % (±MoE%, 95% CI) | Core Metric`), per-variable distribution blocks, and the Data Quality Gate **Margin Note**.
+   *(Pass `--pick-school` for an interactive CLI school selector on setup.)*
+4. **Run Invisible Agent Loop (Statistician $\rightarrow$ Critic $\rightarrow$ Designer):** Verify **Article 1** (95% CI MoE on every `%`), **Article 6a** (**Straight-Lining** detection on Likert blocks $\ge 5$ items), **Article 6b** ($100\% \pm 0.5\%$ sum validation on `RU` questions; explicit `Total Base` disclosure on `RM` questions), and **Article 6c** (missingness flags at $>10\%$ and $>20\%$).
+5. **Render Manifesto (`00_project_manifest.md` / `setup_report.md`):** Output YAML frontmatter (`project`, `framework`, `design_school`, `sample_size`, `metrics_tracked`, `segments`), the canonical **Segment Matrix** (`Segment | N | % (±MoE%, 95% CI) | Core Metric`), per-variable distribution blocks, and the Data Quality Gate **Margin Note**.
 
-- **Completion Criterion:** `setup_manifest.json`, `00_profile.json`, `setup_segments.csv`, and `setup_report.md` exist; every dataset variable is accounted for; all 8 **Data Constitution** articles pass with zero contradictions.
+- **Completion Criterion:** `setup_manifest.json`, `00_profile.json`, `design_school.json`, `setup_segments.csv`, and `setup_report.md` exist; the user's chosen **Data Design School** is locked; every dataset variable is accounted for; all 8 **Data Constitution** articles pass with zero contradictions.
 
 ---
 
@@ -150,19 +157,19 @@ Appends five mandatory decision blocks before final export:
 
 ---
 
-### Step 7 — Tufte Print-Ready HTML & Markdown Export (`/dps-export`)
+### Step 7 — Print-Ready Multi-School HTML & Markdown Export (`/dps-export`)
 
-Consolidate all outputs in the dataset's native language (`pt-BR`, `en`, or `es`) and compile the self-contained **Tufte HTML** report (`final_report.html`) and source Markdown (`final_report.md`). Read [`references/dps-export.md`](references/dps-export.md) and [`references/tufte-rules.md`](references/tufte-rules.md).
+Consolidate all outputs in the dataset's native language (`pt-BR`, `en`, or `es`) and compile the self-contained **Print-Ready HTML** report (`final_report.html`) in the project's locked **Data Design School** (`tufte` default, `few`, `knaflic`, `swiss`, or `editorial`) alongside its source Markdown (`final_report.md`). Read [`references/dps-export.md`](references/dps-export.md), [`references/design-schools.md`](references/design-schools.md), and [`references/tufte-rules.md`](references/tufte-rules.md).
 
 ```bash
-python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/
-python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/
-python3 .dps/scripts/tufte_html.py .dps/references/ .dps/outputs/export/final_report.md
+python3 .dps/scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/ [--school <tufte|few|knaflic|swiss|editorial>]
+python3 .dps/scripts/tufte_viz.py --input .dps/outputs/ --charts-dir .dps/outputs/export/charts/ [--school <tufte|few|knaflic|swiss|editorial>]
+python3 .dps/scripts/tufte_html.py --md .dps/outputs/export/final_report.md [--school <tufte|few|knaflic|swiss|editorial>]
 ```
 
-- **HTML is the Primary Publication Output (`Article 8`):** `final_report.html` embeds `references/styles/tufte.css`, all inline SVG visualizations (`tufte_viz.py` + compiled Mermaid `xychart-beta` / `pie` charts), floating right-column `<aside class="margin-note">` sidenotes, **Booktabs Tables** with `tabular-nums`, and the **Print Frame** (`@page` + repeating `<thead>/<tfoot>` spacers + fixed running Header and Footer) so printing to PDF from any browser produces a publication-ready document with headers, footers, and clean page breaks.
+- **HTML is the Primary Publication Output (`Article 8`):** `final_report.html` embeds the selected school's stylesheet (`tufte.css`, `few.css`, `knaflic.css`, `swiss.css`, or `editorial.css` — plus an interactive `.no-print` toolbar switcher to preview all 5 schools live), school-specific inline SVG visualizations (`tufte_viz.py` + compiled Mermaid `xychart-beta` / `pie` charts), `<aside class="margin-note">` sidenotes/callouts, `tabular-nums` data tables, and the **Print Frame** (`@page` + repeating `<thead>/<tfoot>` spacers + fixed running Header and Footer) so printing to PDF from any browser produces a publication-ready document with headers, footers, and clean page breaks.
 
-- **Completion Criterion:** Both `.dps/outputs/export/final_report.md` and `.dps/outputs/export/final_report.html` exist, render in the dataset's native language, pass all 8 **Data Constitution** checks in `verification_report.json`, and include print-to-PDF running headers and footers.
+- **Completion Criterion:** Both `.dps/outputs/export/final_report.md` and `.dps/outputs/export/final_report.html` exist, render in the dataset's native language and locked **Data Design School**, pass all 8 **Data Constitution** checks in `verification_report.json`, and include print-to-PDF running headers and footers.
 
 ---
 
@@ -204,12 +211,12 @@ Load these disclosed files on demand when their **branch** condition fires:
 | Branch / Trigger Condition | Context Pointer |
 | :--- | :--- |
 | Running `/dps-grill` or `/dps-clarify` to interview the user on objectives, hypotheses, and the 5-branch **Design Tree** | [`references/dps-clarify.md`](references/dps-clarify.md) & [`agents/agent-griller.md`](agents/agent-griller.md) |
-| Running `/dps-setup` to profile data, map `snake_case` schema, apply weights, and build the **Analytical Spine** | [`references/dps-setup.md`](references/dps-setup.md), [`references/analysis/survey_governance.md`](references/analysis/survey_governance.md), [`references/analysis/explicit_weight_handling.md`](references/analysis/explicit_weight_handling.md) |
+| Running `/dps-setup` to profile data, pick a **Data Design School**, map `snake_case` schema, apply weights, and build the **Analytical Spine** | [`references/dps-setup.md`](references/dps-setup.md), [`references/design-schools.md`](references/design-schools.md), [`references/analysis/survey_governance.md`](references/analysis/survey_governance.md), [`references/analysis/explicit_weight_handling.md`](references/analysis/explicit_weight_handling.md) |
 | Running `/dps-plan` or choosing between parametric and non-parametric statistical tests and 88 reasoning rules | [`references/dps-plan.md`](references/dps-plan.md), [`references/analysis/statistical_test_selector.md`](references/analysis/statistical_test_selector.md), [`references/analysis/reasoning_rules.csv`](references/analysis/reasoning_rules.csv) |
 | Running `/dps-cross` or `/dps-execute` for bivariate contingency tables, group comparisons, correlations, and branching checks | [`references/dps-cross.md`](references/dps-cross.md), [`references/dps-execute.md`](references/dps-execute.md), [`references/analysis/survey_branching_validation.md`](references/analysis/survey_branching_validation.md) |
 | Running `/dps-advanced` for Key Drivers, **Pure Sentiment Stack** (**Ipsative** + **Halo Removal**), **Priority Matrix**, **Pain Curves**, **Dual Clustering**, Factor Analysis/PCA, or **TURF** | [`references/dps-advanced.md`](references/dps-advanced.md), [`references/analysis/new_methodologies.md`](references/analysis/new_methodologies.md), [`references/analysis/halo_removal.md`](references/analysis/halo_removal.md), [`references/analysis/priority_matrix.md`](references/analysis/priority_matrix.md), [`references/analysis/causal.md`](references/analysis/causal.md), [`references/analysis/multivariate.md`](references/analysis/multivariate.md), [`references/analysis/analytical_methodology_patterns.md`](references/analysis/analytical_methodology_patterns.md), [`references/analysis/science.md`](references/analysis/science.md), [`references/analysis/evaluation_and_diagnostics.md`](references/analysis/evaluation_and_diagnostics.md) |
 | Running `/dps-inject-open` or `/dps-mode:quali` to categorize open-ended verbatims within quantitative segments | [`references/dps-inject-open.md`](references/dps-inject-open.md) & [`agents/agent-anthropologist.md`](agents/agent-anthropologist.md) |
 | Switching personas (`/dps-mode:quant`, `/dps-mode:quali`, `/dps-mode:strategy`) | [`references/modes.md`](references/modes.md) & [`agents/agent-strategist.md`](agents/agent-strategist.md) |
-| Running `/dps-export` or formatting **Tufte HTML** with inline SVGs and `@page` / **Print Frame** running headers and footers | [`references/dps-export.md`](references/dps-export.md), [`references/tufte-rules.md`](references/tufte-rules.md), [`references/styles/tufte.css`](references/styles/tufte.css), [`references/styles/visualization_rules.csv`](references/styles/visualization_rules.csv), [`references/styles/palettes.csv`](references/styles/palettes.csv) |
+| Running `/dps-export` or formatting **Print-Ready Multi-School HTML** (`tufte`, `few`, `knaflic`, `swiss`, `editorial`) with inline SVGs and `@page` / **Print Frame** running headers and footers | [`references/dps-export.md`](references/dps-export.md), [`references/design-schools.md`](references/design-schools.md), [`references/tufte-rules.md`](references/tufte-rules.md), [`references/styles/tufte.css`](references/styles/tufte.css), [`references/styles/few.css`](references/styles/few.css), [`references/styles/knaflic.css`](references/styles/knaflic.css), [`references/styles/swiss.css`](references/styles/swiss.css), [`references/styles/editorial.css`](references/styles/editorial.css), [`references/styles/visualization_rules.csv`](references/styles/visualization_rules.csv), [`references/styles/palettes.csv`](references/styles/palettes.csv) |
 | Generating reproducible Jupyter notebooks or programmatic Markdown | [`references/analysis/notebook_generation_pattern.md`](references/analysis/notebook_generation_pattern.md), [`references/analysis/numbered_report_generation.md`](references/analysis/numbered_report_generation.md), [`references/analysis/markdown_generation_escapes.md`](references/analysis/markdown_generation_escapes.md) |
 | Auditing against the 8 constitutional articles or resolving domain vocabulary | [`constitution.md`](constitution.md) & [`GLOSSARY.md`](GLOSSARY.md) |

@@ -1,0 +1,481 @@
+/* ==========================================================================
+   Data-Pro-Skill v2.1 — Stephen Few Perceptual BI & Print-to-PDF Stylesheet
+   ==========================================================================
+   School: Stephen Few ("Show Me the Numbers" & "Information Dashboard Design")
+   Standard:
+   1. Perceptual Precision: Humanist sans-serif (Inter / Source Sans Pro),
+      cool alabaster surface (#f8fafc), deep slate ink (#0f172a).
+   2. Full-Width Analytical Grid: Eliminates empty wide side margins; tables,
+      Bullet Graphs, and inline Perceptual Diagnostic Callout bars span the
+      structured container for rapid vertical and horizontal scanning.
+   3. Preattentive Threshold Highlighting: Muted structural borders (#cbd5e1)
+      paired with high-contrast semantic teal (#0d9488) and crimson (#dc2626).
+   4. Print-to-PDF Ready: Dual W3C @page rules + repeating <table class="print-frame">
+      thead/tfoot spacers and fixed running Header & Footer on every printed page.
+   ========================================================================== */
+
+:root {
+  --tufte-paper: #f8fafc;
+  --tufte-ink: #0f172a;
+  --tufte-muted: #475569;
+  --tufte-accent: #0d9488;
+  --tufte-crimson: #dc2626;
+  --tufte-forest: #0d9488;
+  --tufte-amber: #d97706;
+  --tufte-border: #0f172a;
+  --tufte-hairline: #cbd5e1;
+  --tufte-note-bg: #f1f5f9;
+  --tufte-card-bg: #ffffff;
+  --font-serif: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--tufte-paper);
+  color: var(--tufte-ink);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 3.2rem 2.25rem 4.5rem;
+  line-height: 1.55;
+  counter-reset: sidenote-counter;
+}
+
+/* ── Screen Utility Toolbar (.no-print) ──────────────────────────────────── */
+.tufte-toolbar {
+  position: fixed;
+  top: 0.85rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #cbd5e1;
+  border-top: 3px solid var(--tufte-accent);
+  padding: 0.4rem 0.75rem;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.tufte-toolbar button,
+.tufte-toolbar select {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: var(--tufte-ink);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.tufte-toolbar button:hover {
+  background: var(--tufte-ink);
+  color: #ffffff;
+  border-color: var(--tufte-ink);
+}
+
+/* ── Print Frame Wrapper ─────────────────────────────────────────────────── */
+table.print-frame {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+table.print-frame > thead,
+table.print-frame > tfoot {
+  display: none;
+  border: none !important;
+}
+
+table.print-frame > thead > tr > td,
+table.print-frame > tbody > tr > td,
+table.print-frame > tfoot > tr > td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.print-running-header,
+.print-running-footer {
+  display: none;
+}
+
+/* ── Report Header & Perceptual Metadata Panel ───────────────────────────── */
+.report-header-block {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: 4px solid var(--tufte-ink);
+  padding: 1.35rem 1.5rem 1.15rem;
+  margin-bottom: 1.85rem;
+}
+
+.report-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--tufte-accent);
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.report-header-block h1 {
+  font-family: var(--font-sans);
+  font-size: 1.95rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin: 0 0 0.45rem 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  string-set: doc-title content();
+}
+
+.report-subtitle,
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--tufte-muted);
+  margin: 0 0 0.9rem 0;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e2e8f0;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--tufte-muted);
+  string-set: doc-meta content();
+}
+
+.meta-item strong {
+  color: var(--tufte-ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f0fdfa;
+  border: 1px solid var(--tufte-accent);
+  color: #0f766e;
+  padding: 0.12rem 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+/* ── Full-Width Perceptual Container (Stephen Few Standard) ──────────────── */
+.report-container,
+.main-column,
+.tufte-prose {
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--tufte-ink);
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2.2rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 2px solid var(--tufte-ink);
+  padding-bottom: 0.35rem;
+}
+
+h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  background: #f1f5f9;
+  border-left: 4px solid var(--tufte-ink);
+}
+
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+h4 {
+  font-size: 0.94rem;
+  font-weight: 600;
+  margin-top: 1.1rem;
+  margin-bottom: 0.4rem;
+  color: var(--tufte-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+p {
+  font-size: 0.98rem;
+  margin-top: 0;
+  margin-bottom: 0.95rem;
+  max-width: 92ch;
+}
+
+ul, ol {
+  font-size: 0.96rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-left: 1.35rem;
+  max-width: 92ch;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #cbd5e1;
+  margin: 1.75rem 0;
+}
+
+/* ── Inline Perceptual Diagnostic Callouts (No Floating Margin Drift) ────── */
+aside.margin-note,
+blockquote.margin-note {
+  counter-increment: sidenote-counter;
+  float: none !important;
+  width: 100% !important;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.48;
+  color: #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid var(--tufte-accent);
+  padding: 0.65rem 1rem;
+  margin: 0.65rem 0 1.35rem 0;
+}
+
+aside.margin-note .margin-note-num {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #0f766e;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  padding: 0.05rem 0.4rem;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+}
+
+blockquote.verbatim-quote {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: #334155;
+  border-left: 3px solid #64748b;
+  background: #ffffff;
+  padding: 0.45rem 0.85rem;
+  margin: 0.5rem 0 0.8rem 0;
+}
+
+/* ── High-Density Perceptual Tables ──────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 0.85rem 0 1rem 0;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+}
+
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.35;
+  border-top: 2px solid var(--tufte-ink);
+  border-bottom: 2px solid var(--tufte-ink);
+}
+
+table.data-table thead th {
+  border-bottom: 1.5px solid var(--tufte-ink);
+  padding: 0.45rem 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
+  color: var(--tufte-ink);
+  background-color: #f1f5f9;
+}
+
+table.data-table tbody td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.38rem 0.65rem;
+  color: #1e293b;
+  font-variant-numeric: tabular-nums;
+}
+
+table.data-table tbody tr:hover td {
+  background-color: #f8fafc;
+}
+
+table.data-table tbody tr.total-row td,
+table.data-table tbody tr.base-row td {
+  border-top: 1.5px solid var(--tufte-ink);
+  font-weight: 700;
+  background-color: #f1f5f9;
+}
+
+table.data-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── KPI Strip Cards ─────────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  gap: 0.85rem;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: 3px solid var(--tufte-accent);
+  padding: 0.7rem 0.9rem;
+}
+
+.kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--tufte-muted);
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--tufte-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Charts ──────────────────────────────────────────────────────────────── */
+.chart-figure {
+  margin: 1rem 0 1.4rem 0;
+}
+
+.chart-container {
+  padding: 0.85rem 1rem;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-top: 2px solid var(--tufte-ink);
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-caption {
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  margin-top: 0.35rem;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.83em;
+  background-color: #e2e8f0;
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
+@page {
+  size: A4 portrait;
+  margin: 16mm 14mm 16mm 14mm;
+  @top-left { content: string(doc-title); font-family: Arial, sans-serif; font-size: 7.5pt; color: #334155; }
+  @top-right { content: string(doc-meta); font-family: Arial, sans-serif; font-size: 7.5pt; color: #334155; }
+  @bottom-left { content: "Stephen Few Perceptual BI Standard"; font-family: Arial, sans-serif; font-size: 7.5pt; color: #334155; }
+  @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: Arial, sans-serif; font-size: 7.5pt; color: #334155; }
+}
+
+@media print {
+  html { font-size: 9.5pt; }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print, .tufte-toolbar { display: none !important; }
+  table.print-frame { width: 100% !important; border: none !important; }
+  table.print-frame > thead { display: table-header-group !important; }
+  table.print-frame > tfoot { display: table-footer-group !important; }
+  .print-header-space { height: 11mm; }
+  .print-footer-space { height: 11mm; }
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 9mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 0.8pt solid #0f172a;
+    font-size: 7.5pt;
+    z-index: 9999;
+  }
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 9mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 0.8pt solid #0f172a;
+    font-size: 7.5pt;
+    z-index: 9999;
+  }
+  table.data-table, figure, .chart-container, aside.margin-note, .report-header-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  h1, h2, h3, h4 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+}

@@ -19,3 +19,8 @@ presentation,Slide Deck,presentation,Montserrat,Open Sans,20,14,hidden,none,righ
 report_dense,Dense Report,analytics,Roboto Condensed,Roboto Condensed,12,9,visible,minimal,right,8x10,150,Multi-chart reports dense data,seaborn-whitegrid,paper
 web_embed,Web Embed,web,System UI,System UI,12,10,hidden,none,right,8x5,72,Website embeds responsive,seaborn-white,notebook
 mobile,Mobile Optimized,mobile,SF Pro,SF Pro,18,14,hidden,none,bottom,4x6,144,Mobile apps portrait displays,seaborn-white,poster
+tufte,Edward Tufte School,design_school,Palatino,Gill Sans,15,11,hidden,minimal,none,10x6,300,Academic research long-form analytical reports sidenotes,classic,paper
+few,Stephen Few Perceptual School,design_school,Inter,Inter,14,10,light,minimal,right,12x7,150,Operational BI dashboards bullet graphs KPI reviews,seaborn-whitegrid,notebook
+knaflic,Cole Knaflic SWD School,design_school,Montserrat,Open Sans,16,11,hidden,none,none,10x6,150,C-level executive action titles grey context focal highlight,seaborn-white,talk
+swiss,Swiss Grid Bertin School,design_school,Helvetica Neue,Helvetica Neue,14,10,visible,full,right,10x7,300,Modular architectural grid reorderable Bertin matrices,classic,paper
+editorial,Economist FT Editorial School,design_school,IBM Plex Sans,Merriweather,15,11,light,minimal,top,10x6,300,Data journalism market research crimson rule lollipop charts,seaborn-whitegrid,paper

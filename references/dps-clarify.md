@@ -30,14 +30,19 @@ Every survey or data analysis effort hangs on five branches. Prerequisites settl
 
 ```mermaid
 flowchart TD
-    B1["1. Decision Destination<br/>(Action, Audience, Stakes)"] --> B2["2. Hypotheses & Priors<br/>(Expected Patterns, Falsifiers)"]
+    B1["1. Decision Destination & Design School<br/>(Action, Audience, Tufte/Few/Knaflic/Swiss/Editorial)"] --> B2["2. Hypotheses & Priors<br/>(Expected Patterns, Falsifiers)"]
     B1 --> B3["3. Analytical Spine<br/>(Primary Outcome, Canonical Segments)"]
     B3 --> B4["4. Weights & Governance<br/>(Raking Targets, Skip Logic, Exclusions)"]
     B2 --> B5["5. Deep Methodologies<br/>(Drivers, Halo Removal, Priority Matrix, Clustering, TURF, Quali)"]
     B3 --> B5
 ```
 
-1. **Branch 1 — Decision Destination:** What concrete Monday-morning action, budget allocation, product change, or campaign pivot rides on this report? Who reads `final_report.html` (C-level executive, technical team, public authority)?
+1. **Branch 1 — Decision Destination & Data Design School:** What concrete Monday-morning action, budget allocation, product change, or campaign pivot rides on this report? Who reads `final_report.html`, and which of the 5 **Data Design Schools** ([`references/design-schools.md`](design-schools.md)) fits that audience best:
+   - **`tufte`** (*Edward Tufte* — Default): Academic, scientific, public-policy, or deep research reports (ivory `#fffff8`, Palatino serif, 58%/36% floating Margin Notes, Booktabs, Cleveland dot plots).
+   - **`few`** (*Stephen Few*): Operational BI and KPI performance monitoring (100% full-width perceptual grid, **Bullet Graphs** with target bands, inline diagnostic strips).
+   - **`knaflic`** (*Cole Nussbaumer Knaflic / Storytelling with Data*): C-level executive action decks (decluttered white canvas, greyed-out context + single bold focal color `#1e40af`/`#ea580c`, Action-Title banners).
+   - **`swiss`** (*Swiss Grid / Jacques Bertin*): Design-forward manifestos, urban/demographic studies, and multivariate matrices (exposed `1.5px`/`4px` black modular grid, Neo-Grotesque sans, Bertin retinal symbols).
+   - **`editorial`** (*The Economist / FT Editorial*): Market research publications, public polling, and press deliverables (warm newsprint `#fcf8f2`, signature `6px` crimson top bar `#e3120b`, Kicker + Headline + Standfirst, lollipop charts).
 2. **Branch 2 — Hypotheses & Priors:** What do stakeholders *believe* is true before seeing the data? What specific quantitative gap or anomaly would falsify their prior and shock the room?
 3. **Branch 3 — Analytical Spine:** Which variable is the primary dependent outcome (e.g., NPS, Churn Risk, Overall Satisfaction, Vote Intention, Average Spend)? Which 1–3 categorical variables form the canonical **Segments** (banners) in the `/dps-setup` manifesto?
 4. **Branch 4 — Weights & Governance:** Is this an unweighted sample (`weight = 1.0`) or does it require **Raking (IPF)** (`scripts/weighting.py`) against census/universe targets? Are high-missingness columns intentional survey skip branches or fieldwork dropouts?
@@ -69,9 +74,9 @@ Ask the whole frontier in one round (typically 3–5 concrete questions in Round
 
 ---
 
-❓ **Q1** - **Decision Destination & Primary Outcome**: Your dataset tracks both `{col_a}` (0–10 recommendation, preliminary NPS = {nps}) and `{col_b}` (return intention, {pct}% "Yes"). If this report drives resource allocation for the next edition, should we lock `{col_a}` (NPS) as the primary dependent outcome and treat `{col_b}` as a secondary retention validator?
+❓ **Q1** - **Decision Destination, Primary Outcome & Data Design School**: Your dataset tracks both `{col_a}` (0–10 recommendation, preliminary NPS = {nps}) and `{col_b}` (return intention, {pct}% "Yes"). If this report drives resource allocation for the next edition, should we lock `{col_a}` (NPS) as the primary dependent outcome and render the report in the **Edward Tufte (`tufte`)** school (or would you prefer `knaflic` Storytelling with Data, `few` Perceptual Bullet-Graph BI, `swiss` Modular Grid, or `editorial` Economist/FT style)?
 
-➡️ **Yes** — lock `{col_a}` (NPS segments: Promoters / Passives / Detractors) as the primary outcome for Key Drivers and Priority Matrix analysis.
+➡️ **Yes** — lock `{col_a}` (NPS segments: Promoters / Passives / Detractors) as the primary outcome and use the **Edward Tufte (`tufte`)** Data Design School (`design_school: tufte`).
 
 ---
 

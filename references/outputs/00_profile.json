@@ -1,6 +1,8 @@
 {
   "project": "B2B SaaS Customer Intelligence Study 2026",
   "generated_at": "2026-10-31T12:41:45.612191",
+  "design_school": "tufte",
+  "design_school_name": "Edward Tufte (Classic Data-Ink & Sidenote School)",
   "sample_size": 240,
   "effective_sample_size": 239.1,
   "design_effect_deff": 1.004,

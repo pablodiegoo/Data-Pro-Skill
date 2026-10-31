@@ -2,6 +2,8 @@
   "project": "B2B SaaS Customer Intelligence Study 2026",
   "verified_at": "2026-10-31T12:43:54.077363",
   "overall_status": "PASSED",
+  "design_school": "tufte",
+  "design_school_name": "Edward Tufte (Classic Data-Ink & Sidenote School)",
   "constitutional_audit": {
     "article_1_precision_and_moe": {
       "passed": true,
@@ -72,6 +74,9 @@
     },
     "article_8_tufte_print_ready_html": {
       "passed": true,
+      "design_school": "tufte",
+      "design_school_name": "Edward Tufte (Classic Data-Ink & Sidenote School)",
+      "stylesheet": "tufte.css",
       "running_headers_and_footers": true,
       "booktabs_tables": true,
       "inline_svg_graphics": true
