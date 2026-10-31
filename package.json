@@ -1,18 +1,18 @@
 {
   "name": "data-pro-skill",
   "version": "2.0.0",
-  "description": "Multi-harness meta-prompt for market research data analysis. Transforms raw quantitative and qualitative data into dense, Tufte-style analytical documents.",
+  "description": "Autonomous survey science, data grilling, and Edward Tufte print-ready HTML reporting skill for AI coding agents.",
   "bin": {
     "data-pro-skill": "bin/install.js"
   },
   "files": [
     "bin/",
     "agents/",
-    "commands/",
+    "scripts/",
+    "references/",
     "SKILL.md",
     "constitution.md",
-    "references/",
-    "dps-engine/"
+    "GLOSSARY.md"
   ],
   "engines": {
     "node": ">=18.0.0"

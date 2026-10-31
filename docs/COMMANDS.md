@@ -1,104 +1,55 @@
-# Comandos — Data-Pro-Skill v2
+# Referência de Comandos — Data-Pro-Skill v2.0
 
-## Pipeline Principal
+## Pipeline Analítico Principal (Passos 0 a 7)
 
-### `/setup`
-Gera o manifesto quantitativo — a âncora de contexto para toda análise subsequente.
+### Passo 0: `/dps-grill` *(alias `/dps-clarify`)*
+Executa o protocolo **Data Grilling**: realiza reconhecimento silencioso do dataset (*Fact Reconnaissance*) e conduz **Rodadas de Fronteira** (`❓ Q#` + `➡️ Recomendação Padrão`) nos 5 ramos da Árvore de Decisão (*Destino de Decisão*, *Hipóteses*, *Espinha Dorsal Analítica*, *Pesos & Governança*, *Metodologias Avançadas*).
+- **Saídas:** `.dps/outputs/setup/clarify_notes.md`, `.dps/outputs/setup/00_data_glossary.md`, `.dps/outputs/setup/column_mapping.json`.
 
-**Input esperado:**
-- Dados brutos (CSV, sumário de frequências, tabelas)
-- Ou referência a um arquivo de dados
+### Passo 1: `/dps-setup`
+Gera o perfil estatístico completo da base, mapeamento `snake_case` e executa os **Portões de Qualidade do Artigo 6** (*Straight-Lining*, soma de porcentagens e taxa de dados faltantes).
+- **CLI Python:** `python3 scripts/quant_analyzer.py <dataset> --profile -o .dps/outputs/setup/`
+- **Saídas:** `00_profile.json`, `setup_manifest.json`, `setup_segments.csv`, `setup_report.md`, `00_project_manifest.md`.
 
-**Output:**
-```yaml
----
-project: "Nome do Projeto"
-sample_size: N
-metrics: [metric1, metric2, ...]
-segments: [seg1, seg2, ...]
----
-# Manifesto Quantitativo
+### Passo 2: `/dps-plan`
+Constrói o Plano Analítico (`plan.md`) aplicando a árvore de decisão de testes estatísticos (`references/analysis/statistical_test_selector.md`) e as 88 regras de `reasoning_rules.csv`.
+- **Saída:** `.dps/outputs/setup/plan.md`.
 
-## Matriz de Segmentos
-| Segmento | N | % | Métrica Core |
-| ... |
-```
+### Passo 3: `/dps-cross [VarX] x [VarY]`
+Cruza duas variáveis com validação de **Branching Overlap** (`Artigo 7c`), teste de hipótese automático ($\chi^2$, Exato de Fisher, $t$ de Welch, Mann-Whitney $U$, ANOVA $F$, Kruskal-Wallis $H$, Correlação Dupla), tamanho de efeito (`Cramér's V`, `Cohen's d`, $\eta^2$) e matriz de **Resíduos Padronizados ($z_{ij}$)**.
+- **CLI Python:** `python3 scripts/crosstabs.py <dataset> --index <VarX> --columns <VarY> -o .dps/outputs/cross/`
+- **Saídas:** `cross_{X}_{Y}.csv`, `cross_{X}_{Y}_residuals.csv`, `cross_{X}_{Y}_stats.json`, `cross_{X}_{Y}_report.md`.
 
-**Regras:**
-- Toda tabela inclui N e volumetria
-- Segmentos são definidos e nomeados
-- Nenhuma análise posterior pode contradizer este manifesto
+### Passo 4: `/dps-execute`
+Executa autonomamente os cruzamentos planejados e gera o **Effect-Size Leaderboard** ranqueado por significância ($p < 0.05$) e magnitude de efeito.
+- **CLI Python:** `python3 scripts/crosstabs.py <dataset> --execute-all -o .dps/outputs/cross/`
+- **Saídas:** `execute_summary.md`, `execute_leaderboard.json`.
 
-### `/cross [VarX] x [VarY]`
-Cruza variáveis com tabelas densas estilo Tufte.
+### Passo 5: `/dps-advanced`
+Executa os 6 módulos profundos de ciência de pesquisa (`references/analysis/`):
+1. **Pure Sentiment Stack:** Centralização Ipsativa ($X_{ij} - \bar{X}_i$) + Remoção de Efeito Halo por regressão.
+2. **Priority Action Matrix:** Importância Derivada $\times$ Performance + $\text{Priority Score} = \text{Imp} \times (\text{Scale}_{\max} - \text{Perf})$.
+3. **Key Drivers & Expectation Residuals:** OLS Padronizado + Random Forest + segmentação *Disappointed / Aligned / Delighted*.
+4. **Dual Correlation Matrix:** Pearson $r$ (linear) vs. Spearman $\rho$ (monotônico).
+5. **Dual Clustering & Psychometrics:** Personas K-Means otimizadas por Silhouette + detecção de *outliers* DBSCAN (`-1`) + PCA/Fatorial + **Alfa de Cronbach ($\alpha$)**.
+6. **TURF Reach Optimization:** Alcance incremental não-duplicado.
+- **CLI Python:** `python3 scripts/advanced_analytics_generator.py <dataset> --target <OutcomeCol> --report-dir .dps/outputs/advanced/`
+- **Saídas:** `advanced_report.md`, `advanced_metrics.json`.
 
-**Uso:** `/cross Faixa_Etaria x NPS`
+### Passo 6: `/dps-inject-open`
+Categoriza respostas abertas com remoção de stopwords (PT + EN), vincula temas aos segmentos quantitativos e aplica o **Artigo 4** ($N < 30$ exige contagens brutas `"4 of 19"` sem `%`; $\ge 2$ verbatims literais por tema; **Silence Notes** para segmentos com 0 respostas).
+- **CLI Python:** `python3 scripts/qualitative_categorizer.py <dataset> -o .dps/outputs/quali/`
+- **Saídas:** `quali_themes.csv`, `quali_verbatims.json`, `quali_report.md`.
 
-**Output:**
-- Tabela de contingência com N, %, e insights
-- Nota de margem interpretativa
-- Teste estatístico apropriado (χ², t-test, ANOVA, etc.)
-- Margem de erro quando aplicável
-
-### `/inject-open [texto ou arquivo]`
-Categoriza respostas abertas dentro dos segmentos quantitativos existentes.
-
-**Uso:** `/inject-open respostas_abertas.csv`
-
-**Regras críticas:**
-- Nunca criar seções standalone de qualitativo
-- Sempre anexar a um segmento definido no `/setup`
-- N < 30: citar verbatims, NUNCA reportar porcentagens
-- Notar ausência de temas esperados
-
-### `/export`
-Consolida toda análise em um arquivo Markdown limpo.
-
-**Output:** `outputs/final_report.md`
-- Pronto para Quarto/LaTeX/PDF
-- Inclui YAML frontmatter com metadados do projeto
-- Todas as tabelas, notas de margem e análises consolidadas
+### Passo 7: `/dps-export`
+Consolida todas as análises em `final_report.md`, audita os Artigos 1–8 (`verification_report.json`), gera gráficos `<svg>` estilo Tufte e compila o relatório **HTML Estilo Edward Tufte Pronto para Impressão em PDF** (`final_report.html`).
+- **CLI Python:** `python3 scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/`
+- **Saídas:** `final_report.html`, `final_report.md`, `verification_report.json`, `charts/*.svg`.
 
 ---
 
-## Comandos Auxiliares
+## Modos Especializados (`/dps-mode:*`)
 
-### `/clarify`
-Faz 3-5 perguntas provocativas sobre objetivos de negócio antes de tocar nos dados.
-
-**Propósito:** Evitar que a IA rode análises sem entender o contexto de negócio.
-
-### `/plan`
-Desenha o plano analítico antes da execução.
-
-**Output:** Quais testes serão usados, quais variáveis serão cruzadas, e por quê.
-
----
-
-## Modos Especializados
-
-### `/mode:quant`
-Ativa persona **Estatístico Sênior** — correlações, crosstabs, NPS, Churn, CSAT.
-
-### `/mode:quali`
-Ativa persona **Antropólogo** — dores latentes, sentimento, arquétipos, jornadas.
-
-### `/mode:strategy`
-Ativa persona **Diretor de BI** — recomendações de negócio acionáveis.
-
----
-
-## Comandos GSD (Gestão do Projeto)
-
-| Comando | Descrição |
-|---------|-----------|
-| `/gsd-new-project` | Inicializar projeto |
-| `/gsd-plan-phase N` | Planejar fase N |
-| `/gsd-execute-phase N` | Executar fase N |
-| `/gsd-verify-work N` | Verificar trabalho da fase |
-| `/gsd-ship N` | Criar PR da fase |
-| `/gsd-quick` | Tarefas rápidas |
-| `/gsd-progress` | Ver progresso |
-| `/gsd-settings` | Configurações |
-
-Ver [COMMANDS.md do GSD](COMMANDS-GSD.md) para referência completa.
+- `/dps-mode:quant` — Ativa a lente **Estatístico Sênior**.
+- `/dps-mode:quali` — Ativa a lente **Antropólogo Corporativo**.
+- `/dps-mode:strategy` — Ativa a lente **Diretor de Estratégia / BI**.

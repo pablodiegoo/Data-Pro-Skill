@@ -1,100 +1,34 @@
-# Data-Pro-Skill v2 — Contexto do Projeto
+# Data-Pro-Skill v2.0 — Contexto Arquitetural e Modelo de Domínio
 
-## Origem
+## 1. Visão Geral e Evolução
 
-O **Data-Pro-Skill v1** foi criado como um meta-prompt para análise de dados de pesquisa de mercado (quantitativa e qualitativa). O código Python organizava skills, scripts de análise estatística (crosstabs, PCA, clustering, causal inference), templates Quarto e um engine de geração de relatórios.
+O **Data-Pro-Skill v2.0** é um sistema de inteligência analítica e pesquisa de mercado (quantitativa, psicométrica e qualitativa) projetado para agentes de IA. Ele transforma bases de dados brutas (`.csv`, `.xlsx`, `.ods`, `.parquet`) em relatórios analíticos **Edward Tufte em HTML prontos para impressão em PDF** (`final_report.html`), governados por uma Constituição Estatística de 8 Artigos (`constitution.md`).
 
-**Problema detectado:** O v1 era confuso e mal estruturado. A IA gerava análises genéricas e incompletas — mesmo em datasets simples. O excesso de arquivos Python, skills fragmentadas e falta de uma arquitetura rígida causavam "context rot": a IA se perdia, esquecia as regras e entregava resultados superficiais.
+### Problemas Resolvidos na Versão 2.0
 
-O código v1 completo está preservado em `.deprecated/v1/`.
-
-## Decisão de Refatoração (Maio 2026)
-
-Discussão com Gemini (documentada em `.deprecated/v1/coonversa.md`) convergiu em três decisões fundamentais:
-
-### 1. Arquitetura Document-Driven
-
-Em vez de scripts Python soltos, o meta-prompt agora é um **sistema document-driven**: cada comando ancora contexto para o próximo. O output do `/setup` é a "verdade única" — nenhuma análise posterior pode contradizer métricas já estabelecidas.
-
-Isso resolve o problema de "context rot": a IA sempre tem um documento de referência para se ancorar.
-
-### 2. Quantitativo Primeiro, Qualitativo Como Extensão
-
-O pipeline quantitativo é a espinha dorsal. As perguntas abertas (quali) são injetadas **dentro** dos segmentos quantitativos existentes — nunca como análise standalone. Isso elimina os "loops de comandos semelhantes" entre quanti e quali.
-
-### 3. Agentes Invisíveis (Estilo GSD)
-
-O usuário interage apenas com o output final. Três agentes internos rodam em silêncio: Estatístico (valida números), Crítico (detecta vieses), Designer Tufte (formata o output). A saída do Designer é o que o usuário vê.
-
-## Inspiração Híbrida
-
-| Fonte | O que trouxe |
-|-------|-------------|
-| **Edward Tufte** | Alta densidade de dados, notas de margem, zero prosa fluff, tabelas autoexplicativas |
-| **GSD (Get Shit Done)** | Agentes invisíveis, loop Discutir→Planejar→Executar→Verificar, contextos isolados |
-| **Spec-Kit (GitHub)** | Comando `/clarify` — entrevista o usuário sobre hipóteses antes de tocar nos dados |
-| **BMAD Method** | Separação de personas (`/mode:quant` vs `/mode:quali` vs `/mode:strategy`) |
-
-## Blueprint Arquitetural (definida pelo Gemini)
-
-```
-1. Comando /setup → Gera o manifesto quantitativo (YAML + matriz de segmentos)
-2. /cross [VarX] x [VarY] → Tabelas densas estilo Tufte com notas de margem
-3. /inject-open [texto] → Categoriza respostas abertas dentro dos segmentos do /setup
-4. /export → Consolida em Markdown limpo, pronto para Quarto/LaTeX/PDF
-```
-
-### Loop de Agentes
-
-```
-Usuário → [Orquestrador] → [Estatístico] → [Crítico] → [Designer Tufte] → Output
-```
-
-### Modos de Operação
-
-- `/mode:quant` — Persona Estatístico Sênior
-- `/mode:quali` — Persona Antropólogo
-- `/mode:strategy` — Persona Diretor de BI
-
-## Regras de Output (Estilo Tufte)
-
-1. **Proibição de prosa fluff:** Nunca começar com "É importante notar que..." ou "Com base nos dados fornecidos..."
-2. **Notas de margem:** Blockquotes (`>`) após tabelas e dados para insights interpretativos
-3. **Tabelas autoexplicativas:** Toda tabela inclui N (amostra) e conclusão no cabeçalho
-4. **Zero emoji em output analítico** (notas de margem podem usar indicadores sutis)
-
-## Multi-Harness
-
-Projetado para funcionar em qualquer harness de IA — sem depender de features exclusivas:
-- OpenCode (público-alvo principal por ser gratuito)
-- Gemini CLI
-- Codex CLI
-- Claude Code
-- Hermes (modelos open-source)
-- OpenClaw
-
-**Regra:** Nada de tags XML. Apenas YAML frontmatter e Markdown puro.
-
-## Estrutura do Projeto (Base: get-shit-done-redux)
-
-O projeto usa o template `open-gsd/get-shit-done-redux` como base estrutural:
-- `dps-engine/` — Engine GSD (workflows, templates, referências)
-- `agents/` — Definições dos agentes (adaptados para análise de dados)
-- `commands/` — Comandos GSD + comandos específicos de análise
-- `docs/` — Documentação do projeto
-- `.planning/` — Planejamento GSD (ROADMAP, STATE, REQUIREMENTS, PROJECT)
-
-Partes removidas do template original: `tests/`, `scripts/` (JS/TS), `package.json`, CI/CD, changelogs técnicos.
-
-## Próximos Passos (Roadmap)
-
-Ver `.planning/ROADMAP.md` para o plano completo. Resumo:
-
-1. **Fase 1:** Constitution & Setup — `constitution.md`, `/setup`, manifesto Tufte
-2. **Fase 2:** Análise Quantitativa — `/clarify`, `/plan`, `/cross`, `/execute`
-3. **Fase 3:** Injeção Qualitativa — `/inject-open`, `/mode:quali`
-4. **Fase 4:** Estratégia & Export — `/mode:strategy`, `/export`, multi-harness
+1. **Alinhamento de Objetivo antes da Execução (`Data Grilling`):** Inspirado nas skills `grilling`, `domain-modeling` e `writing-for-agents` de Matt Pocock, o comando `/dps-grill` (`/dps-clarify`) realiza uma **Reconhecimento Silencioso de Fatos** nos dados antes de conduzir **Rodadas de Fronteira** (`❓ Q#` + `➡️ Recomendação Padrão`) com o usuário.
+2. **Ciência de Pesquisa Profunda (`references/analysis/`):** Integração completa entre prompts e scripts Python (`scripts/*.py`) para remoção de **Efeito Halo** e **Centralização Ipsativa** (`Pure Sentiment Stack`), **Matriz de Prioridade** (Importância Derivada $\times$ Performance), **Resíduos de Expectativa** (*Disappointed / Aligned / Delighted*), **Correlação Dupla** (Pearson $r$ + Spearman $\rho$), **Resíduos Padronizados de Qui-Quadrado ($z_{ij}$)**, **Clusterização Dupla** (K-Means via Silhouette + DBSCAN para *outliers* `-1`), **Análise Fatorial / PCA + Alfa de Cronbach ($\alpha$)**, **TURF** e **Raking (IPF)**.
+3. **HTML Estilo Edward Tufte Pronto para Impressão em PDF:** Substituição de pipelines frágeis de LaTeX/Quarto por um compilador HTML autônomo (`scripts/tufte_html.py` + `scripts/tufte_viz.py` + `references/styles/tufte.css`) que gera `final_report.html` com estética Tufte autêntica na tela (`#fffff8`, coluna principal de 58% + notas de margem flutuantes de 36%, tabelas `booktabs` com `tabular-nums` e gráficos `<svg>` vetoriais inline) e cabeçalhos/rodapés correntes padronizados (`@page` + `<table class="print-frame">`) em todas as páginas ao imprimir como PDF (`Ctrl+P`).
 
 ---
-*Contexto definido: 2026-05-25*
-*Baseado na conversa com Gemini em coonversa.md e nas decisões do GSD new-project*
+
+## 2. Vocabulário Canônico (`GLOSSARY.md`)
+
+Consulte [GLOSSARY.md](GLOSSARY.md) para as definições completas das **Leading Words** (*Leitworte*) do repositório:
+- **Entregáveis de Dados:** `Setup Manifest`, `Column Mapping`, `Analysis Plan`, `Effect-Size Leaderboard`, `Verification Report`, `Tufte HTML Report`.
+- **Protocolo de Entrevista:** `Data Grilling`, `Fact Reconnaissance`, `Design Tree`, `Frontier Round`, `Silence Note`.
+- **Rigor Estatístico:** `Margin of Error (MoE)`, `Effective Sample Size (N_eff)`, `Pure Sentiment Stack`, `Ipsative Centering`, `Halo Residual`, `Priority Matrix`, `Expectation Residuals`, `Standardized Residuals (z_ij)`, `Dual Correlation`, `Dual Clustering`, `Cronbach's Alpha`, `TURF Analysis`, `Branching Overlap`.
+- **Arquitetura Visual e Impressão:** `Answer-First Prose`, `Margin Note`, `Booktabs Table`, `Print Frame`.
+
+---
+
+## 3. Loop Invisível de 4 Agentes
+
+```
+Usuário → [Griller] → [Statistician] → [Methodological Critic] → [Tufte Designer] → Output Final
+```
+
+1. **Griller (`agents/agent-griller.md`):** Inspeciona o dataset silenciosamente, mapeia variáveis (`column_mapping.json` e `00_data_glossary.md`) e resolve a Árvore de Decisão de 5 ramos.
+2. **Statistician (`agents/agent-statistician.md`):** Executa os scripts Python (`quant_analyzer.py`, `crosstabs.py`, `advanced_analytics_generator.py`), pareando estimadores paramétricos (`Média/DP`) e não-paramétricos (`Mediana/IIQ`), $p$-valores e tamanhos de efeito.
+3. **Methodological Critic (`agents/agent-critic.md`):** Audita os Artigos 1–8 da Constituição (`constitution.md`), bloqueando porcentagens em amostras $N < 30$, exigindo nota de margem sobre *Straight-Lining* e garantindo divulgação de *Null Findings* ($p \ge 0.05$).
+4. **Tufte Designer (`agents/agent-tufte-designer.md`):** Compila prosa *Answer-First*, tabelas *booktabs*, notas de margem `<aside class="margin-note">`, gráficos `<svg>` e o pacote HTML pronto para impressão em PDF (`final_report.html`).

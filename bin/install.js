@@ -10,9 +10,10 @@ const ask = (q) => new Promise((r) => rl.question(q, r));
 const expand = (p) => p.startsWith('~') ? path.join(os.homedir(), p.slice(1)) : p;
 
 const RAW = 'https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main';
-const CMD_LIST  = ['setup', 'cross', 'inject-open', 'export', 'clarify', 'plan'];
+const CMD_LIST  = ['grill', 'clarify', 'setup', 'plan', 'cross', 'execute', 'advanced', 'inject-open', 'export'];
 const MODE_LIST = ['mode:quant', 'mode:quali', 'mode:strategy'];
 const ALL_CMDS  = [...CMD_LIST, ...MODE_LIST];
+const ROOT_FILES = ['SKILL.md', 'constitution.md', 'GLOSSARY.md'];
 const SCRIPT_FILES = [
   'crosstabs.py', 'quant_analyzer.py', 'qual_analyzer.py',
   'qualitative_categorizer.py', 'final_report_generator.py',
@@ -21,12 +22,21 @@ const SCRIPT_FILES = [
   'tufte_viz.py', 'tufte_html.py',
 ];
 const AGENT_FILES = [
-  'agent-statistician.md', 'agent-critic.md', 'agent-tufte-designer.md',
-  'agent-anthropologist.md', 'agent-strategist.md',
+  'agent-griller.md', 'agent-statistician.md', 'agent-critic.md',
+  'agent-tufte-designer.md', 'agent-anthropologist.md', 'agent-strategist.md',
 ];
 const REF_FILES = [
-  'agent-loop.md', 'dps-setup.md', 'dps-cross.md', 'dps-inject-open.md',
-  'dps-export.md', 'dps-clarify.md', 'dps-plan.md', 'modes.md', 'tufte-rules.md',
+  'agent-loop.md', 'dps-clarify.md', 'dps-setup.md', 'dps-plan.md',
+  'dps-cross.md', 'dps-execute.md', 'dps-advanced.md',
+  'dps-inject-open.md', 'dps-export.md', 'modes.md', 'tufte-rules.md',
+];
+const ANALYSIS_FILES = [
+  'analytical_methodology_patterns.md', 'causal.md', 'evaluation_and_diagnostics.md',
+  'explicit_weight_handling.md', 'exploratory.md', 'halo_removal.md',
+  'multivariate.md', 'new_methodologies.md', 'priority_matrix.md',
+  'qualitative_quantification.md', 'reasoning_rules.csv', 'science.md',
+  'statistical_test_selector.md', 'stopwords_pt.txt',
+  'survey_branching_validation.md', 'survey_governance.md',
 ];
 const STYLE_FILES = ['tufte.css', 'palettes.csv', 'visualization_rules.csv', 'visualization_styles.csv'];
 
@@ -61,7 +71,7 @@ async function installHarness(h, localDps) {
 
   const srcDir = localDps || skillDir;
 
-  for (const f of ['SKILL.md', 'constitution.md']) {
+  for (const f of ROOT_FILES) {
     const c = fs.existsSync(path.join(srcDir, f)) ? fs.readFileSync(path.join(srcDir, f), 'utf-8') : await dl(`${RAW}/${f}`);
     writeFile(skillDir, f, c);
   }
@@ -145,10 +155,11 @@ async function main() {
     if (fs.existsSync(dps)) fs.rmSync(dps, { recursive: true, force: true });
     fs.mkdirSync(dps, { recursive: true });
 
-    // SKILL.md + constitution.md
-    writeFile(dps, 'SKILL.md',       await dl(`${RAW}/SKILL.md`));
-    writeFile(dps, 'constitution.md', await dl(`${RAW}/constitution.md`));
-    console.log('  ✓ SKILL.md + constitution.md');
+    // SKILL.md + constitution.md + GLOSSARY.md
+    for (const rf of ROOT_FILES) {
+      writeFile(dps, rf, await dl(`${RAW}/${rf}`));
+    }
+    console.log('  ✓ SKILL.md + constitution.md + GLOSSARY.md');
 
     // Scripts
     const scriptsDir = path.join(dps, 'scripts');
@@ -168,16 +179,22 @@ async function main() {
     for (const r of REF_FILES) {
       writeFile(path.join(dps, 'references'), r, await dl(`${RAW}/references/${r}`));
     }
-    console.log(`  ✓ ${REF_FILES.length} reference files`);
+    for (const an of ANALYSIS_FILES) {
+      writeFile(path.join(dps, 'references', 'analysis'), an, await dl(`${RAW}/references/analysis/${an}`));
+    }
+    console.log(`  ✓ ${REF_FILES.length + ANALYSIS_FILES.length} reference & survey science files`);
 
     // Styles (tufte.css)
     for (const s of STYLE_FILES) {
-      writeFile(path.join(dps, 'references'), s, await dl(`${RAW}/references/styles/${s}`));
+      writeFile(path.join(dps, 'references', 'styles'), s, await dl(`${RAW}/references/styles/${s}`));
+      if (s === 'tufte.css') {
+        writeFile(path.join(dps, 'references'), s, await dl(`${RAW}/references/styles/${s}`));
+      }
     }
     console.log(`  ✓ ${STYLE_FILES.length} style files`);
 
     // Output dirs
-    for (const d of ['setup', 'cross', 'quali', 'export']) {
+    for (const d of ['setup', 'cross', 'advanced', 'quali', 'export']) {
       fs.mkdirSync(path.join(dps, 'outputs', d), { recursive: true });
     }
 
@@ -186,7 +203,7 @@ async function main() {
 
     // AGENTS.md
     const agentsMd = path.join(cwd, 'AGENTS.md');
-    const ref = '\n<!-- DPS:project -->\n- @.dps/SKILL.md\n- @.dps/constitution.md\n<!-- /DPS -->\n';
+    const ref = '\n<!-- DPS:project -->\n- @.dps/SKILL.md\n- @.dps/constitution.md\n- @.dps/GLOSSARY.md\n<!-- /DPS -->\n';
     if (fs.existsSync(agentsMd)) {
       if (!fs.readFileSync(agentsMd, 'utf-8').includes('DPS:project'))
         fs.appendFileSync(agentsMd, ref);

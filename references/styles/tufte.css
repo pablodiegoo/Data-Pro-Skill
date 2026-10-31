@@ -1,132 +1,729 @@
-/* Tufte CSS - Custom design for Data Pro Max reports */
+/* ==========================================================================
+   Data-Pro-Skill v2.1 — Masterpiece Edward Tufte & Print-to-PDF Stylesheet
+   ==========================================================================
+   Standard:
+   1. High Data-Ink Ratio: Palatino/ET-Book serif body, Gill/Helvetica sans tables.
+   2. Wide Right Margin (36%): Floating numbered <aside class="margin-note"> sidenotes.
+   3. Booktabs Tables: Top 2px, header 1px, bottom 2px rules. ZERO vertical gridlines.
+   4. Print-to-PDF Ready: Dual W3C @page rules + repeating <table class="print-frame">
+      thead/tfoot spacers and fixed running Header & Footer on every printed page.
+   ========================================================================== */
 
-body {
-  font-family: Georgia, Palatino, "Palatino Linotype", "Times New Roman", serif;
-  background-color: #fffff8;
-  color: #111111;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  line-height: 1.6;
+:root {
+  --tufte-paper: #fffff8;
+  --tufte-ink: #111111;
+  --tufte-muted: #52524e;
+  --tufte-accent: #1c3d5a;
+  --tufte-crimson: #8b1e1e;
+  --tufte-forest: #1b5e20;
+  --tufte-amber: #9a5b13;
+  --tufte-border: #111111;
+  --tufte-hairline: #e2e2d8;
+  --tufte-note-bg: #f7f7ee;
+  --tufte-card-bg: #fafaf2;
+  --font-serif: "et-book", Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  --font-sans: "Gill Sans", "Gill Sans MT", "Helvetica Neue", Helvetica, Inter, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-mono: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #111111;
-  font-weight: 400;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-serif);
+  background-color: var(--tufte-paper);
+  color: var(--tufte-ink);
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem 5rem;
+  line-height: 1.65;
+  counter-reset: sidenote-counter;
+}
+
+/* ── Screen Utility Toolbar (.no-print) ──────────────────────────────────── */
+.tufte-toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 248, 0.94);
+  border: 1px solid var(--tufte-hairline);
+  border-top: 2px solid var(--tufte-ink);
+  padding: 0.35rem 0.6rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.tufte-toolbar button {
+  background: transparent;
+  border: 1px solid #d0d0c4;
+  color: var(--tufte-ink);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tufte-toolbar button:hover {
+  background: var(--tufte-ink);
+  color: var(--tufte-paper);
+  border-color: var(--tufte-ink);
+}
+
+/* ── Print Frame Wrapper (Transparent on Screen, Active in Print) ───────── */
+table.print-frame {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+table.print-frame > thead,
+table.print-frame > tfoot {
+  display: none;
+  border: none !important;
+}
+
+table.print-frame > thead > tr > td,
+table.print-frame > tbody > tr > td,
+table.print-frame > tfoot > tr > td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.print-running-header,
+.print-running-footer {
+  display: none;
+}
+
+/* When Print Preview Mode is toggled on screen */
+body.print-preview {
+  background-color: #e8e8e2;
+  padding-top: 4.5rem;
+}
+
+body.print-preview .report-page-surface {
+  background: #ffffff;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 18mm 15mm;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+body.print-preview .print-running-header,
+body.print-preview .print-running-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  padding: 0.4rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--tufte-ink);
+}
+
+body.print-preview .print-running-footer {
+  border-bottom: none;
+  border-top: 1px solid var(--tufte-ink);
   margin-top: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+/* ── Report Header & Executive Metadata Banner ───────────────────────────── */
+.report-header-block {
+  border-top: 3px solid var(--tufte-ink);
+  border-bottom: 1px solid var(--tufte-ink);
+  padding: 1.5rem 0 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.report-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tufte-accent);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.report-header-block h1 {
+  font-family: var(--font-serif);
+  font-size: 2.35rem;
+  font-weight: 400;
+  line-height: 1.18;
+  margin: 0 0 0.6rem 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  string-set: doc-title content();
+}
+
+.report-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--tufte-muted);
+  margin: 0 0 1.1rem 0;
+  max-width: 85%;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--tufte-hairline);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--tufte-muted);
+  string-set: doc-meta content();
+}
+
+.meta-item strong {
+  color: var(--tufte-ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--tufte-note-bg);
+  border: 1px solid var(--tufte-accent);
+  color: var(--tufte-accent);
+  padding: 0.1rem 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ── Tufte Two-Column Asymmetrical Grid (58% Main + 36% Right Margin) ───── */
+.report-container {
+  position: relative;
+  width: 100%;
+}
+
+.main-column {
+  width: 100%;
+}
+
+@media (min-width: 920px) {
+  .main-column > p,
+  .main-column > ul,
+  .main-column > ol,
+  .main-column > pre,
+  .main-column > .narrow-block {
+    width: 58%;
+  }
+
+  .main-column > h1,
+  .main-column > h2,
+  .main-column > h3,
+  .main-column > h4 {
+    width: 62%;
+  }
+
+  .main-column > table.data-table,
+  .main-column > .table-wrapper,
+  .main-column > .chart-container {
+    width: 60%;
+  }
+
+  .main-column > table.wide-table,
+  .main-column > .table-wrapper.wide,
+  .main-column > .kpi-grid {
+    width: 96%;
+  }
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--tufte-ink);
+  font-weight: 400;
+  line-height: 1.28;
 }
 
 h1 {
-  font-size: 2.5rem;
-  border-bottom: 1px solid #e1e1e1;
-  padding-bottom: 0.5rem;
-  margin-top: 0;
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding-bottom: 0.4rem;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 1.55rem;
+  margin-top: 2.4rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding-bottom: 0.25rem;
 }
 
 h3 {
-  font-size: 1.4rem;
+  font-family: var(--font-sans);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+  color: var(--tufte-accent);
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-top: 1.3rem;
+  margin-bottom: 0.45rem;
 }
 
 p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  max-width: 55%;
+  font-size: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 1.15rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
-/* Wide margin layout for grid rendering */
-@media (min-width: 900px) {
-  .report-container {
-    display: grid;
-    grid-template-columns: 55% 5% 40%;
-    column-gap: 20px;
-  }
-  
-  .main-column {
-    grid-column: 1;
-  }
-  
-  .margin-column {
-    grid-column: 3;
-  }
+ul, ol {
+  font-size: 1.02rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-left: 1.4rem;
 }
 
-/* Table styling: Tufte style (no vertical grid lines, clean boundaries) */
-table {
-  border-collapse: collapse;
-  margin: 2rem 0;
-  max-width: 100%;
-  font-size: 0.95rem;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+li {
+  margin-bottom: 0.35rem;
 }
 
-th, td {
-  padding: 0.6rem 1rem;
+hr {
+  border: none;
+  border-top: 1px solid var(--tufte-hairline);
+  margin: 2.25rem 0;
+  width: 58%;
+}
+
+/* ── Sidenotes & Margin Notes (<aside class="margin-note"> & blockquote) ── */
+aside.margin-note,
+blockquote.margin-note {
+  counter-increment: sidenote-counter;
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  line-height: 1.48;
+  color: #2b2b28;
+  background-color: var(--tufte-note-bg);
+  border-left: 2.5px solid var(--tufte-accent);
+  padding: 0.65rem 0.9rem;
+  margin: 1rem 0 1.35rem 0;
   text-align: left;
 }
 
-th {
-  border-bottom: 1px solid #111111;
-  font-weight: bold;
+aside.margin-note::before,
+blockquote.margin-note::before {
+  content: "§" counter(sidenote-counter) " ";
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--tufte-accent);
+  margin-right: 0.25rem;
 }
 
-td {
-  border-bottom: 1px solid #e1e1e1;
-}
-
-table tr:last-child td {
-  border-bottom: 2px solid #111111;
-}
-
-/* Sidenotes and Margin notes using blockquote */
-blockquote {
-  border-left: 2px solid #1c3d5a;
-  margin: 1.5rem 0;
-  padding: 0.5rem 1rem;
-  background-color: #f7f7f0;
-  font-size: 0.95rem;
-  color: #333333;
-}
-
-@media (min-width: 900px) {
-  blockquote {
+@media (min-width: 920px) {
+  body:not(.hide-margin-notes) aside.margin-note,
+  body:not(.hide-margin-notes) blockquote.margin-note {
     float: right;
     clear: right;
-    margin-right: -45%;
-    width: 38%;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 1rem;
-    border-left: 2px solid #1c3d5a;
-    background-color: #fcfcf4;
+    width: 35%;
+    margin-right: 0;
+    margin-top: 0.15rem;
+    margin-bottom: 1.25rem;
   }
 }
 
+body.hide-margin-notes aside.margin-note,
+body.hide-margin-notes blockquote.margin-note {
+  float: none !important;
+  width: 58% !important;
+}
+
+/* Verbatim Quote Blocks (Participant Quotes) */
+blockquote.verbatim-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #222220;
+  border-left: 2px solid #8c8c80;
+  background: transparent;
+  padding: 0.25rem 0 0.25rem 1rem;
+  margin: 0.55rem 0 0.85rem 0.5rem;
+  width: 56%;
+}
+
+/* ── Booktabs Tables (Zero Vertical Gridlines, Tabular Numerals) ─────────── */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.25rem 0 1.5rem 0;
+}
+
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.15rem 0 1.4rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  border-top: 2px solid var(--tufte-border);
+  border-bottom: 2px solid var(--tufte-border);
+  background: transparent;
+}
+
+table.data-table thead th {
+  border-bottom: 1.2px solid var(--tufte-border);
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.5rem 0.65rem;
+  font-weight: 600;
+  color: var(--tufte-ink);
+  background-color: rgba(17, 17, 17, 0.025);
+  vertical-align: bottom;
+}
+
+table.data-table tbody td {
+  border-bottom: 1px solid var(--tufte-hairline);
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.45rem 0.65rem;
+  color: #1f1f1c;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+table.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table.data-table tbody tr.total-row td,
+table.data-table tbody tr.base-row td {
+  border-top: 1px solid var(--tufte-border);
+  font-weight: 600;
+  background-color: rgba(28, 61, 90, 0.035);
+}
+
+table.data-table .num,
+table.data-table td[align="center"],
+table.data-table td[align="right"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── KPI Strip Cards ─────────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 1.85rem 0;
+}
+
+.kpi-card {
+  background: var(--tufte-card-bg);
+  border-top: 2px solid var(--tufte-ink);
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding: 0.75rem 0.9rem;
+  font-family: var(--font-sans);
+}
+
+.kpi-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tufte-muted);
+  margin-bottom: 0.2rem;
+}
+
+.kpi-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--tufte-ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.kpi-sub {
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Inline Charts & SVG Containers ──────────────────────────────────────── */
+.chart-container {
+  margin: 1.25rem 0 1.65rem 0;
+  padding: 0.75rem 0.5rem;
+  border-top: 1px solid var(--tufte-hairline);
+  border-bottom: 1px solid var(--tufte-hairline);
+  background: transparent;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-caption {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: var(--tufte-muted);
+  margin-top: 0.35rem;
+}
+
+/* ── Code & Inline Tokens ────────────────────────────────────────────────── */
 code {
-  font-family: Consolas, "Liberation Mono", Courier, monospace;
-  font-size: 0.9rem;
-  background-color: #f4f4f4;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background-color: rgba(17, 17, 17, 0.055);
+  padding: 0.1rem 0.32rem;
+  border-radius: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 pre {
-  background-color: #f4f4f4;
-  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  background-color: #f4f4ec;
+  padding: 0.85rem 1rem;
   overflow-x: auto;
-  border-radius: 4px;
-  border: 1px solid #e1e1e1;
-  max-width: 55%;
+  border-left: 2px solid var(--tufte-ink);
+  margin: 1rem 0 1.4rem 0;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  margin: 1.5rem 0;
+pre code {
+  background: none;
+  padding: 0;
+}
+
+.report-footer {
+  margin-top: 3.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--tufte-ink);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--tufte-muted);
+  string-set: doc-audit content();
+}
+
+/* ==========================================================================
+   PRINT-TO-PDF STANDARD (@page & @media print)
+   ==========================================================================
+   Guarantees:
+   1. Running Header and Running Footer on every printed PDF page.
+   2. Repeating <thead> / <tfoot> height spacers so content never overlaps
+      the fixed running header or footer across page breaks.
+   3. Clean Tufte two-column proportions on A4/Letter portrait paper.
+   4. Zero orphan headings and zero split tables/charts where avoidable.
+   ========================================================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 18mm 14mm 18mm 14mm;
+
+  @top-left {
+    content: string(doc-title);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @top-right {
+    content: string(doc-meta);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @bottom-left {
+    content: string(doc-audit);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+}
+
+@media print {
+  html {
+    font-size: 10pt;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.48;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  .tufte-toolbar {
+    display: none !important;
+  }
+
+  /* Activate Repeating Print Frame Spacers */
+  table.print-frame {
+    width: 100% !important;
+    border: none !important;
+  }
+
+  table.print-frame > thead {
+    display: table-header-group !important;
+  }
+
+  table.print-frame > tfoot {
+    display: table-footer-group !important;
+  }
+
+  .print-header-space {
+    height: 12mm;
+  }
+
+  .print-footer-space {
+    height: 12mm;
+  }
+
+  /* Fixed Running Header & Footer Bars on Every Printed Page */
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 0.6pt solid #111111;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    color: #222222;
+    padding-bottom: 1.5mm;
+    z-index: 9999;
+  }
+
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 0.6pt solid #111111;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    color: #222222;
+    padding-top: 1.5mm;
+    z-index: 9999;
+  }
+
+  /* Preserve Tufte 2-Column Layout in Print */
+  .main-column > p,
+  .main-column > ul,
+  .main-column > ol,
+  .main-column > pre {
+    width: 60% !important;
+  }
+
+  .main-column > h1,
+  .main-column > h2,
+  .main-column > h3,
+  .main-column > h4 {
+    width: 62% !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .main-column > table.data-table,
+  .main-column > .table-wrapper,
+  .main-column > .chart-container {
+    width: 61% !important;
+  }
+
+  .main-column > table.wide-table,
+  .main-column > .table-wrapper.wide,
+  .main-column > .kpi-grid {
+    width: 100% !important;
+  }
+
+  aside.margin-note,
+  blockquote.margin-note {
+    float: right !important;
+    clear: right !important;
+    width: 35% !important;
+    margin-right: 0 !important;
+    margin-top: 0.1rem !important;
+    margin-bottom: 0.85rem !important;
+    font-size: 8pt !important;
+    line-height: 1.38 !important;
+    background-color: #f9f9f4 !important;
+    border-left: 2pt solid #1c3d5a !important;
+    padding: 0.35rem 0.55rem !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Strict Page-Break Discipline */
+  table.data-table,
+  figure,
+  .chart-container,
+  .kpi-grid,
+  .kpi-card,
+  blockquote.verbatim-quote,
+  .report-header-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  table.data-table thead {
+    display: table-header-group !important;
+  }
+
+  table.data-table tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
 }

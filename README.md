@@ -1,177 +1,136 @@
 <div align="center">
 
-# Data-Pro-Skill v2
+# Data-Pro-Skill v2.0
 
-**A multi-harness meta-prompt for market research data analysis. Transforms raw quantitative and qualitative data into dense, Tufte-style analytical documents — zero prose fluff, maximum data density.**
+**An autonomous Survey Science, Data Grilling & Edward Tufte Print-Ready HTML Reporting Skill for AI Agents.**
 
-**Works on any AI harness: OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude.**
+Transforms raw survey and behavioral datasets (`.csv`, `.xlsx`, `.ods`, `.parquet`) into statistically verified, Answer-First **Edward Tufte HTML reports** (`final_report.html`) engineered to print directly to PDF with standard running headers and footers — zero prose fluff, maximum data-ink ratio.
 
-<br>
-
-*"Analysis that used to take hours of manual tweaking now comes out publication-ready."*
+**Multi-Harness Compatible:** OpenCode · Gemini CLI · Antigravity CLI · Claude Code · Codex CLI · GitHub Copilot
 
 </div>
 
 ---
 
+## Why Data-Pro-Skill?
+
+Most AI data analysis fails in three ways:
+1. **Blind execution without business context:** Running generic descriptive charts without knowing what decision the stakeholder needs to make.
+2. **Statistical theater:** Reporting raw averages masked by respondent **Halo Effect** (`yea-saying`), ignoring sample sizes ($N$), omitting 95% confidence Margins of Error (`±MoE%`), or hallucinating percentages on tiny open-ended samples ($N < 30$).
+3. **Chartjunk & broken PDF exports:** Bloated dashboards or fragile LaTeX/Quarto toolchains instead of clean, self-contained HTML that prints cleanly to PDF from any browser.
+
+**Data-Pro-Skill v2.0** solves all three by combining:
+- **Matt Pocock Agent Architecture:** *Pit of Success* ordered workflow, *Progressive Disclosure* (`SKILL.md` → `GLOSSARY.md` → `constitution.md` → `references/analysis/*.md`), *Deep Module* Python scripts, and relentless **Data Grilling** (`/dps-grill`).
+- **Deep Survey Science (`references/analysis/`):** Ipsative Centering & Regression Halo Removal, Derived Importance × Performance Priority Matrices, Expectation Residuals (*Disappointed / Aligned / Delighted*), Dual Correlation (Pearson $r$ vs. Spearman $\rho$), $\chi^2$ Standardized Residuals ($z_{ij}$), Silhouette-optimized K-Means Personas + DBSCAN Outlier isolation, Multi-Pass PCA/Factor Analysis + Cronbach's $\alpha$, TURF Reach Optimization, and Raking (IPF) sample weighting.
+- **Edward Tufte Print-Ready HTML Standard:** Every analysis compiles into a single self-contained `final_report.html` styled with `references/styles/tufte.css` (`#fffff8` ivory screen background, 58%/36% body + floating right-margin sidenotes, `booktabs` tables with `tabular-nums`, inline vector `<svg>` graphics, and `@page` + `<table class="print-frame">` running headers and footers on every printed PDF page).
+
+---
+
 ## Command Pipeline
 
-Four commands. Each anchors the next. No analysis can contradict previously established metrics.
+Each command writes durable artifacts to `.dps/outputs/` that anchor the next stage, eliminating context rot:
 
-| Command | What it does |
-|---------|-----------|
-| `/dps-setup` | Generates the quantitative manifesto (YAML frontmatter + segment matrix) |
-| `/dps-cross [VarX] x [VarY]` | Slices variables with dense Tufte-style crosstab tables |
-| `/dps-inject-open [text]` | Categorizes open-ended responses within existing quant segments |
-| `/dps-export` | Consolidates everything into clean Markdown, ready for Quarto/LaTeX/PDF |
+| Step | Command | Purpose & Primary Output |
+| :--- | :--- | :--- |
+| **Step 0** | `/dps-grill` *(alias `/dps-clarify`)* | **Silent Fact Reconnaissance** on the dataset followed by **Frontier Rounds** (`❓ Q#` + `➡️ Recommended Default`) across a 5-branch Design Tree + live domain glossary (`00_data_glossary.md`). |
+| **Step 1** | `/dps-setup` | Generates `column_mapping.json` (`snake_case` schema), `00_profile.json`, `setup_manifest.json`, and runs **Article 6 Quality Gates** (Straight-Lining detection, `%` sum check, missingness audit). |
+| **Step 2** | `/dps-plan` | Applies Dr. Samira Hosseini's **Statistical Test Selector** and the 88 `reasoning_rules.csv` triggers to lock the `Analysis Plan` (`plan.md`). |
+| **Step 3** | `/dps-cross [VarX] x [VarY]` | Runs targeted cross-tabulations with **Branching Overlap** validation (`0x0` skip-logic guard), $\chi^2$ / Fisher's Exact / Welch's $t$ / ANOVA / Kruskal-Wallis, **Standardized Residuals ($z_{ij}$)**, and 95% CI `±MoE%`. |
+| **Step 4** | `/dps-execute` | Autonomously executes all planned cross-tabulations and synthesizes an **Effect-Size Leaderboard** (`Cramér's V`, `Cohen's d`, $\eta^2$, $|r|$). |
+| **Step 5** | `/dps-advanced` | Executes the 6 deep survey science modules: **Pure Sentiment Stack** (Ipsative + Halo Removal), **Priority Matrix**, **Expectation Residuals**, **Dual Correlation**, **K-Means + DBSCAN Clustering**, **PCA/FA + Cronbach's $\alpha$**, and **TURF**. |
+| **Step 6** | `/dps-inject-open` | Categorizes open-ended verbatims into emergent themes mapped to quantitative segments under **Article 4** ($N < 30$ raw counts `"4 of 19"` only, $\ge 2$ literal quotes per theme, and **Silence Notes**). |
+| **Step 7** | `/dps-export` | Consolidates all findings into `final_report.md`, runs the 8-Article Constitutional Audit (`verification_report.json`), generates Tufte `<svg>` charts, and compiles the self-contained **Print-Ready Tufte HTML** (`final_report.html`). |
 
-### Specialized Modes
+### Specialized Analytical Lenses
 
-| Command | Persona activated |
-|---------|----------------|
-| `/dps-mode:quant` | Senior Statistician — correlations, crosstabs, NPS, Churn, CSAT |
-| `/dps-mode:quali` | Anthropologist — latent needs, sentiment, archetypes, journeys |
-| `/dps-mode:strategy` | BI Director — actionable business recommendations |
-
----
-
-## Example Output (Tufte Style)
-
-```markdown
----
-project: "Churn Survey — Q2 2026"
-sample_size: 1450
-metrics: [NPS, Frequency, Age, Reason]
----
-
-## Churn Distribution by Age Group
-
-The cancellation peak is in 18-24 years (45% of total Churn, only 20% of the base).
-
-| Age Group | N  | Churn (%) | Qualitative Target |
-| :---      |:--:| :--:      | :---               |
-| 18-24     | 290 | 45%       | Price Barrier / Perceived Value |
-| 25-34     | 580 | 12%       | Lack of Time / Routine Change   |
-| 35+       | 580 | 5%        | Technical Usability Issues      |
-
-> **Margin Note:** Qualitative analysis of Segment A reveals a direct correlation between
-> rejection and post-trial pricing. Recurring terms: "expensive", "student", "readjustment".
-```
+| Mode Command | Active Persona | Primary Focus |
+| :--- | :--- | :--- |
+| `/dps-mode:quant` | **Senior Statistician** | Hypothesis testing, effect sizes, psychometrics, Halo removal, and residual diagnostics |
+| `/dps-mode:quali` | **Corporate Anthropologist** | Cultural tensions, cognitive friction, literal verbatims, and segment Silence Notes |
+| `/dps-mode:strategy` | **BI Strategy Director** | Priority Matrix quadrants, TURF bundles, and quantified `Target + Action + Impact Range` decisions |
 
 ---
 
-## Architecture
+## Invisible 4-Agent Verification Loop
 
-### Invisible Agent Loop
-
-The user interacts only with the final output. Three agents run silently per command:
+Every command runs silently through an internal verification pipeline before emitting output to the user:
 
 ```
-User → [Orchestrator] → [Statistician] → [Critic] → [Tufte Designer]
-                                                          ↓
-                                                   Output to user ONLY
+User Request → [Griller] → [Statistician] → [Methodological Critic] → [Tufte Designer] → Output
 ```
 
-| Agent | Responsibility |
-|--------|---------------|
-| **Statistician** | Validates numerical consistency, calculates distributions, selects tests |
-| **Critic** | Detects biases, spurious correlations, overgeneralizations, missing data |
-| **Tufte Designer** | Synthesizes output — zero fluff, maximum data density, margin notes |
-
-### Document-Driven Context
-
-Each command writes to a shared document. The `/dps-setup` manifesto is the single source of truth — no subsequent analysis can contradict established metrics. This eliminates "context rot" (quality degradation as AI fills its context window).
+| Agent | Definition File | Core Responsibility |
+| :--- | :--- | :--- |
+| **Griller** | `agents/agent-griller.md` | Silent data reconnaissance, 5-branch Design Tree interrogation, inline domain modeling (`GLOSSARY.md`) |
+| **Statistician** | `agents/agent-statistician.md` | Executes Python scripts, pairs parametric (`Mean/SD`) + non-parametric (`Median/IQR`) metrics, computes 95% CI `±MoE%`, $p$-values, and effect sizes |
+| **Critic** | `agents/agent-critic.md` | Enforces Articles 1–8 of `constitution.md` (Straight-Lining, $N < 30$ raw counts, Simpson's paradox, Branching Overlap, Null Findings disclosure) |
+| **Tufte Designer** | `agents/agent-tufte-designer.md` | Formats Answer-First prose, Booktabs tables, numbered `<aside class="margin-note">` sidenotes, inline `<svg>` charts, and print-ready HTML |
 
 ---
 
-## Data Constitution
+## The 8-Article Data Constitution (`constitution.md`)
 
-Non-negotiable rules defined in `constitution.md`:
-
-- **Statistical Rigor:** Margin of error, minimum sample size, confidence level (p < 0.05)
-- **Qualitative Rigor:** Prohibition of generalizations from small samples (e.g., "70% of respondents" when N=10)
-- **Bias Treatment:** Confirmation bias detection, spurious correlation flagging
-- **Prose Fluff:** Prohibition of phrases like "It's important to note..." or "Based on the data..."
-
----
-
-## Multi-Harness Compatibility
-
-Designed to work on any AI runtime — no platform-specific features:
-
-| Harness | Status |
-|---------|:------:|
-| **OpenCode** | ✓ |
-| **Gemini CLI** | ✓ |
-| **Codex CLI** | ✓ |
-| **Claude Code** | ✓ |
-| **Hermes** | ✓ |
-| **OpenClaw** | ✓ |
-
-No XML. No proprietary syntax. YAML frontmatter + pure Markdown only.
+1. **Article 1 — Precision & Uncertainty:** Mandatory sample size ($N$), effective sample size ($N_{\text{eff}}$), and 95% CI Margin of Error (`±MoE%`) on every metric and subgroup.
+2. **Article 2 — Effect Size Mandate:** A $p$-value ($p < 0.05$) never stands alone; every test requires its paired effect size (`Cramér's V`, `Cohen's d`, $\eta^2$, $\epsilon^2$, Pearson $r$ / Spearman $\rho$).
+3. **Article 3 — Parametric & Non-Parametric Pairing:** Ordinal Likert scales and skewed variables ($|\text{skewness}| > 1.0$) pair `Mean ± SD` with `Median (IQR)` and non-parametric tests.
+4. **Article 4 — Small Sample & Verbatim Discipline:** Whenever $N < 30$, percentages are strictly forbidden (`"4 of 19"` raw counts only). Every qualitative theme requires $\ge 2$ literal quotes and explicit **Silence Notes** for zero-response segments.
+5. **Article 5 — Answer-First Honesty & Null Findings:** Headlines lead with the quantified conclusion (`n=..., p=..., Effect Size=...`). Non-significant tests ($p \ge 0.05$) are reported transparently in a **Null Findings** table. Every recommendation specifies `Target + Concrete Action + Quantified Expected Impact Range`.
+6. **Article 6 — Automated Data Quality Gates:** Pre-analysis audit for **Straight-Lining** (row $\text{SD} = 0$ across $\ge 5$ Likert items + sensitivity $\Delta$), percentage sum verification ($100\% \pm 0.5\%$), and missingness thresholds ($>10\%$ and $>20\%$).
+7. **Article 7 — Survey Governance, Weighting & Branching Overlap:** Programmatic `snake_case` schema mapping (`column_mapping.json`), explicit Raking/IPF weight handling with Kish's $N_{\text{eff}}$, and `0x0` skip-logic **Branching Overlap** validation.
+8. **Article 8 — Tufte Print-Ready HTML Deliverable Standard:** `final_report.html` is the primary deliverable, using Edward Tufte CSS (`references/styles/tufte.css`) and dual `@page` + `<table class="print-frame">` running headers and footers for one-click browser Print-to-PDF (`Ctrl+P` / `Cmd+P`).
 
 ---
 
-## Getting Started
+## Quick Start & CLI Usage
+
+### 1. Install into Your AI Harness or Project
 
 ```bash
-# Download + run (no npm account needed, Node.js required):
-curl -fsSL -o /tmp/dps-install.js https://raw.githubusercontent.com/pablodiegoo/Data-Pro-Skill/main/bin/install.js && node /tmp/dps-install.js
-
-# Or manually copy the files:
-# git clone https://github.com/pablodiegoo/Data-Pro-Skill.git
-# cp Data-Pro-Skill/SKILL.md Data-Pro-Skill/constitution.md ~/.config/opencode/skills/data-pro-skill/
+# Interactive installer (supports Local .dps/, Global harness skills, or Both):
+node bin/install.js
 ```
 
-Restart your harness, then start any session with `/dps-setup`.
+### 2. Run the Full Python Pipeline Directly from CLI
 
----
+```bash
+# One-shot end-to-end execution (Setup -> Cross -> Advanced -> Quali -> Print-Ready Tufte HTML):
+python3 scripts/final_report_generator.py --data your_survey.csv -o .dps/outputs/export/ --title "Customer Intelligence Study"
 
-## Project Structure
-
-```
-├── SKILL.md              # Main meta-prompt (639 lines, 10 commands)
-├── constitution.md        # Statistical rigor rules (6 articles, 8 rules)
-├── agents/                # Agent definitions (Statistician, Critic, Tufte, etc.)
-├── commands/              # Workflow commands
-├── docs/                  # Extended documentation
-├── dps-engine/              # GSD engine (workflows, templates, references)
-└── .planning/             # Project planning (ROADMAP, STATE, etc.)
+# Or run individual Deep Module scripts step-by-step:
+python3 scripts/quant_analyzer.py your_survey.csv --profile -o .dps/outputs/setup/
+python3 scripts/crosstabs.py your_survey.csv --execute-all -o .dps/outputs/cross/
+python3 scripts/advanced_analytics_generator.py your_survey.csv --report-dir .dps/outputs/advanced/
+python3 scripts/qualitative_categorizer.py your_survey.csv -o .dps/outputs/quali/
+python3 scripts/final_report_generator.py --input .dps/outputs/ -o .dps/outputs/export/
 ```
 
 ---
 
-## Getting Started
+## Repository Structure
 
-1. Copy `SKILL.md` and `constitution.md` to your harness's skills directory
-2. Start any session with `/dps-setup` and provide your data
-3. Run `/dps-cross` to slice variables
-4. Use `/dps-inject-open` for qualitative data
-5. Run `/dps-export` to get a publication-ready Markdown file
-
----
-
-## Inspiration
-
-Built by combining the best of four approaches:
-
-| Source | Contribution |
-|--------|-------------|
-| **Edward Tufte** | High data density, margin notes, zero fluff output |
-| **GSD (Get Shit Done)** | Invisible agents, discuss→plan→execute→verify loop |
-| **Spec-Kit (GitHub)** | `/dps-clarify` — hypothesis exploration before touching data |
-| **BMAD Method** | Persona separation (`/dps-mode:quant`, `/dps-mode:quali`) |
+```
+Data-Pro-Skill/
+├── SKILL.md                      # Master skill definition (Tier 1 Workflow, Tier 2 Loop, Tier 3 Context Pointers)
+├── GLOSSARY.md                   # Canonical Leading Words (Leitworte) domain & statistical glossary
+├── constitution.md               # Non-negotiable 8-Article statistical & visual constitution
+├── agents/                       # Specialized agent definitions (Griller, Statistician, Critic, Anthropologist, Strategist, Tufte Designer)
+├── references/
+│   ├── dps-clarify.md            # Step 0: Data Grilling & Frontier Rounds protocol
+│   ├── dps-setup.md              # Step 1: Schema mapping, weighting & Article 6 Quality Gates
+│   ├── dps-plan.md               # Step 2: Test selection & 88 reasoning rules
+│   ├── dps-cross.md              # Step 3: Crosstabs, Standardized Residuals (z_ij) & Branching Overlap
+│   ├── dps-execute.md            # Step 4: Autonomous batch execution & Effect-Size Leaderboard
+│   ├── dps-advanced.md           # Step 5: Master router for the 6 deep survey science modules
+│   ├── dps-inject-open.md        # Step 6: Qualitative synthesis, verbatims & Silence Notes
+│   ├── dps-export.md             # Step 7: Tufte HTML compilation & Print-to-PDF running header/footer standard
+│   ├── analysis/                 # 16 deep survey science methodology specs, stopwords_pt.txt & reasoning_rules.csv
+│   ├── styles/                   # tufte.css (screen + @media print PDF engine) & visualization rules
+│   └── outputs/                  # Reference golden outputs (final_report.html, 00_profile.json, verification_report.json)
+└── scripts/                      # Self-contained Python analytical & Tufte SVG/HTML compilation scripts
+```
 
 ---
 
 ## License
 
 MIT License. See [LICENSE](LICENSE).
-
----
-
-<div align="center">
-
-**Raw data in. Publication-ready analytical documents out. No fluff.**
-
-</div>

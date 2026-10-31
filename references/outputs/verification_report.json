@@ -1,21 +1,80 @@
 {
-  "status": "WARNING",
-  "checks": [
-    {
-      "name": "Project Manifest",
-      "status": "OK"
+  "project": "B2B SaaS Customer Intelligence Study 2026",
+  "verified_at": "2026-10-31T12:43:54.077363",
+  "overall_status": "PASSED",
+  "constitutional_audit": {
+    "article_1_precision_and_moe": {
+      "passed": true,
+      "sample_size": 240,
+      "effective_sample_size": 239.1,
+      "global_moe_95ci": "±6.34%"
     },
-    {
-      "name": "Data Profile JSON",
-      "status": "OK"
+    "article_2_effect_size_mandate": {
+      "passed": true,
+      "crosstabs_evaluated": 12,
+      "significant_findings_count": 5
     },
-    {
-      "name": "Analysis Spec",
-      "status": "PENDING"
+    "article_3_test_selection": {
+      "passed": true,
+      "parametric_and_non_parametric_paired": true
     },
-    {
-      "name": "Crosstabulations Run",
-      "status": "OK (1 found)"
+    "article_4_small_sample_and_verbatims": {
+      "passed": true,
+      "quali_valid_n": 22,
+      "small_sample_raw_counts_enforced": true,
+      "silence_segments_logged": [
+        "Startup"
+      ]
+    },
+    "article_5_honest_reporting_and_nulls": {
+      "passed": true,
+      "null_findings_disclosed": 7,
+      "quantified_recommendations_count": 4
+    },
+    "article_6_data_quality_gates": {
+      "article_6a_straight_lining": {
+        "evaluated": true,
+        "n_likert_items": 7,
+        "straight_liners_count": 0,
+        "straight_lining_pct": 0.0,
+        "sensitivity_max_delta_pct": 0.0,
+        "flagged_row_indices": []
+      },
+      "article_6b_percentage_sum_check": {
+        "passed": true,
+        "violations": []
+      },
+      "article_6c_missingness": {
+        "moderate_10_to_20_pct": [],
+        "high_over_20_pct": [
+          {
+            "column": "Enterprise SLA Status",
+            "snake": "enterprise_sla_status",
+            "missing_pct": 73.75
+          },
+          {
+            "column": "SMB Self-Serve Funnel",
+            "snake": "smb_self_serve_funnel",
+            "missing_pct": 72.5
+          },
+          {
+            "column": "Open Feedback",
+            "snake": "open_feedback",
+            "missing_pct": 90.83
+          }
+        ]
+      }
+    },
+    "article_7_survey_governance_and_overlap": {
+      "passed": true,
+      "column_mapping_generated": true,
+      "branching_overlap_checked": true
+    },
+    "article_8_tufte_print_ready_html": {
+      "passed": true,
+      "running_headers_and_footers": true,
+      "booktabs_tables": true,
+      "inline_svg_graphics": true
     }
-  ]
+  }
 }

@@ -50,3 +50,40 @@ def run_turf_analysis(df, items, n_max_size=4):
         })
         
     return pd.DataFrame(results)
+
+
+if __name__ == "__main__":
+    import argparse
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="TURF (Total Unduplicated Reach and Frequency) CLI")
+    parser.add_argument("input", help="Input CSV/XLSX dataset")
+    parser.add_argument("--items", "-i", default=None, help="Comma-separated item columns (default: auto numeric/binary)")
+    parser.add_argument("--max-k", "-k", type=int, default=4, help="Maximum bundle size K")
+    parser.add_argument("--threshold", type=float, default=None, help="Optional rating threshold for top-box binary conversion (e.g. 4 on 1-5 scale)")
+    parser.add_argument("-o", "--output", default=".dps/outputs/advanced", help="Output directory")
+    args = parser.parse_args()
+
+    df_in = pd.read_excel(args.input) if args.input.endswith((".xlsx", ".xls")) else pd.read_csv(args.input)
+    if args.items:
+        item_cols = [c.strip() for c in args.items.split(",") if c.strip() in df_in.columns]
+    else:
+        item_cols = [
+            c for c in df_in.select_dtypes(include=[np.number]).columns
+            if c.lower() not in ("id", "respondent_id", "weight", "peso")
+        ][:10]
+
+    work = df_in[item_cols].apply(pd.to_numeric, errors="coerce").fillna(0)
+    if args.threshold is not None:
+        work = (work >= args.threshold).astype(int)
+    elif work.max().max() > 1:
+        mx = work.max().max()
+        thr = 4.0 if mx <= 5.0 else (6.0 if mx <= 7.0 else 8.0)
+        work = (work >= thr).astype(int)
+
+    res_df = run_turf_analysis(work, item_cols, n_max_size=min(args.max_k, len(item_cols)))
+    out_dir = Path(args.output)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    res_df.to_csv(out_dir / "turf_results.csv", index=False)
+    print(f"✅ TURF analysis complete in {out_dir / 'turf_results.csv'}:")
+    print(res_df.to_string(index=False))

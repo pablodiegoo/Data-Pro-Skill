@@ -40,9 +40,13 @@ def main():
     
     try:
         # Load stopwords
+        default_pt_path = Path(__file__).resolve().parent.parent / "references" / "analysis" / "stopwords_pt.txt"
         if args.stopwords:
-            stop_words = load_stopwords(args.stopwords)
+            stop_words = load_stopwords(args.stopwords) | DEFAULT_STOP_WORDS
             print(f"ℹ️ Loaded {len(stop_words)} stop words from {args.stopwords}")
+        elif default_pt_path.exists():
+            stop_words = load_stopwords(default_pt_path) | DEFAULT_STOP_WORDS
+            print(f"ℹ️ Loaded {len(stop_words)} bilingual (PT+EN) stop words")
         else:
             stop_words = DEFAULT_STOP_WORDS
             print("ℹ️ Using default English stop words")

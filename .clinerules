@@ -1,43 +1,11 @@
-# Data-Pro-Skill v2
+# Data-Pro-Skill v2.0 — Workspace Rules (.clinerules)
 
-Projeto: Meta-prompt para análise de dados de pesquisa de mercado.
-Base estrutural: get-shit-done-redux (engine GSD).
+## Core Architecture
+- **Skill Entrypoint:** `SKILL.md` (Progressive Disclosure: Tier 1 Ordered Steps 0–7, Tier 2 Invisible Agent Loop & Positive Steering, Tier 3 Context Pointers).
+- **Domain Vocabulary:** Always use the canonical **Leading Words** defined in `GLOSSARY.md`.
+- **Constitutional Governance:** Every statistical claim, qualitative synthesis, and HTML output must comply with Articles 1–8 of `constitution.md`.
+- **Multi-Harness Purity:** Never use XML tags in prompts (`SKILL.md`, `agents/*.md`, `references/*.md`). Use pure Markdown and YAML frontmatter only.
 
-## Regra Principal
-
-Este é um meta-prompt — o conteúdo principal são arquivos Markdown que definem agentes, comandos e workflows. Não há código Python/JS para alterar.
-
-## Estrutura
-
-- `SKILL.md` — Meta-prompt principal (a ser criado na Fase 1)
-- `constitution.md` — Regras inegociáveis de rigor estatístico/qualitativo
-- `agents/` — Definições dos agentes GSD (.md)
-- `commands/` — Comandos de workflow (.md)
-- `dps-engine/` — Engine GSD (workflows, templates, referências)
-- `docs/` — Documentação do projeto
-- `hooks/` — Hooks de validação git
-- `.planning/` — Artefatos de planejamento (ROADMAP, STATE, REQUIREMENTS)
-- `.deprecated/v1/` — Código antigo preservado
-
-## Arquitetura do Meta-Prompt
-
-- **Document-driven:** Cada comando ancora contexto para o próximo
-- **Multi-harness:** Funciona em OpenCode, Gemini, Codex, Hermes, OpenClaw, Claude
-- **Zero dependências:** Apenas YAML frontmatter + Markdown puro
-- **Agentes invisíveis:** Estatístico → Crítico → Designer Tufte (usuário vê só o output final)
-
-## Estilo de Output (Tufte)
-
-- Zero prosa fluff ("É importante notar que...", "Com base nos dados...")
-- Tabelas com N, volumetria e conclusão no cabeçalho
-- Notas de margem com `>` blockquotes
-- Alta densidade de informação, mínimo de tinta
-
-## Workflow GSD
-
-Antes de usar Edit/Write, iniciar via comando GSD:
-- `/gsd-quick` — tarefas rápidas
-- `/gsd-execute-phase` — trabalho planejado de fase
-- `/gsd-debug` — investigação de bugs
-
-Não fazer edições diretas fora de um workflow GSD a menos que o usuário peça explicitamente.
+## Primary Deliverable Standard (Article 8)
+- The primary report output is **self-contained Edward Tufte HTML** (`.dps/outputs/export/final_report.html`), compiled via `scripts/tufte_viz.py` and `scripts/tufte_html.py` with `references/styles/tufte.css`.
+- Every generated HTML report must print cleanly to PDF (`Ctrl+P` / `Save as PDF`) with **running headers and footers on every page** via `@page` rules and `<table class="print-frame">` (`<thead>` header-space + `<tfoot>` footer-space) paired with `.print-running-header` and `.print-running-footer`.

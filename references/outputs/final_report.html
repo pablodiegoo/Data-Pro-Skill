@@ -1,196 +1,2851 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Pro Max Analysis Report</title>
+  <meta name="generator" content="Data-Pro-Skill v2.0 (Edward Tufte Print-Ready HTML Engine)">
+  <title>B2B SaaS Customer Intelligence Study 2026</title>
   <style>
-/* Tufte CSS - Custom design for Data Pro Max reports */
+/* ==========================================================================
+   Data-Pro-Skill v2.1 — Masterpiece Edward Tufte & Print-to-PDF Stylesheet
+   ==========================================================================
+   Standard:
+   1. High Data-Ink Ratio: Palatino/ET-Book serif body, Gill/Helvetica sans tables.
+   2. Wide Right Margin (36%): Floating numbered <aside class="margin-note"> sidenotes.
+   3. Booktabs Tables: Top 2px, header 1px, bottom 2px rules. ZERO vertical gridlines.
+   4. Print-to-PDF Ready: Dual W3C @page rules + repeating <table class="print-frame">
+      thead/tfoot spacers and fixed running Header & Footer on every printed page.
+   ========================================================================== */
 
-body {
-  font-family: Georgia, Palatino, "Palatino Linotype", "Times New Roman", serif;
-  background-color: #fffff8;
-  color: #111111;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  line-height: 1.6;
+:root {
+  --tufte-paper: #fffff8;
+  --tufte-ink: #111111;
+  --tufte-muted: #52524e;
+  --tufte-accent: #1c3d5a;
+  --tufte-crimson: #8b1e1e;
+  --tufte-forest: #1b5e20;
+  --tufte-amber: #9a5b13;
+  --tufte-border: #111111;
+  --tufte-hairline: #e2e2d8;
+  --tufte-note-bg: #f7f7ee;
+  --tufte-card-bg: #fafaf2;
+  --font-serif: "et-book", Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  --font-sans: "Gill Sans", "Gill Sans MT", "Helvetica Neue", Helvetica, Inter, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-mono: Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #111111;
-  font-weight: 400;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-serif);
+  background-color: var(--tufte-paper);
+  color: var(--tufte-ink);
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem 5rem;
+  line-height: 1.65;
+  counter-reset: sidenote-counter;
+}
+
+/* ── Screen Utility Toolbar (.no-print) ──────────────────────────────────── */
+.tufte-toolbar {
+  position: fixed;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255, 255, 248, 0.94);
+  border: 1px solid var(--tufte-hairline);
+  border-top: 2px solid var(--tufte-ink);
+  padding: 0.35rem 0.6rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.tufte-toolbar button {
+  background: transparent;
+  border: 1px solid #d0d0c4;
+  color: var(--tufte-ink);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tufte-toolbar button:hover {
+  background: var(--tufte-ink);
+  color: var(--tufte-paper);
+  border-color: var(--tufte-ink);
+}
+
+/* ── Print Frame Wrapper (Transparent on Screen, Active in Print) ───────── */
+table.print-frame {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+table.print-frame > thead,
+table.print-frame > tfoot {
+  display: none;
+  border: none !important;
+}
+
+table.print-frame > thead > tr > td,
+table.print-frame > tbody > tr > td,
+table.print-frame > tfoot > tr > td {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.print-running-header,
+.print-running-footer {
+  display: none;
+}
+
+/* When Print Preview Mode is toggled on screen */
+body.print-preview {
+  background-color: #e8e8e2;
+  padding-top: 4.5rem;
+}
+
+body.print-preview .report-page-surface {
+  background: #ffffff;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 18mm 15mm;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+}
+
+body.print-preview .print-running-header,
+body.print-preview .print-running-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  padding: 0.4rem 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--tufte-ink);
+}
+
+body.print-preview .print-running-footer {
+  border-bottom: none;
+  border-top: 1px solid var(--tufte-ink);
   margin-top: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+/* ── Report Header & Executive Metadata Banner ───────────────────────────── */
+.report-header-block {
+  border-top: 3px solid var(--tufte-ink);
+  border-bottom: 1px solid var(--tufte-ink);
+  padding: 1.5rem 0 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.report-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tufte-accent);
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.report-header-block h1 {
+  font-family: var(--font-serif);
+  font-size: 2.35rem;
+  font-weight: 400;
+  line-height: 1.18;
+  margin: 0 0 0.6rem 0;
+  border-bottom: none;
+  padding-bottom: 0;
+  string-set: doc-title content();
+}
+
+.report-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--tufte-muted);
+  margin: 0 0 1.1rem 0;
+  max-width: 85%;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--tufte-hairline);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--tufte-muted);
+  string-set: doc-meta content();
+}
+
+.meta-item strong {
+  color: var(--tufte-ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--tufte-note-bg);
+  border: 1px solid var(--tufte-accent);
+  color: var(--tufte-accent);
+  padding: 0.1rem 0.55rem;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ── Tufte Two-Column Asymmetrical Grid (58% Main + 36% Right Margin) ───── */
+.report-container {
+  position: relative;
+  width: 100%;
+}
+
+.main-column {
+  width: 100%;
+}
+
+@media (min-width: 920px) {
+  .main-column > p,
+  .main-column > ul,
+  .main-column > ol,
+  .main-column > pre,
+  .main-column > .narrow-block {
+    width: 58%;
+  }
+
+  .main-column > h1,
+  .main-column > h2,
+  .main-column > h3,
+  .main-column > h4 {
+    width: 62%;
+  }
+
+  .main-column > table.data-table,
+  .main-column > .table-wrapper,
+  .main-column > .chart-container {
+    width: 60%;
+  }
+
+  .main-column > table.wide-table,
+  .main-column > .table-wrapper.wide,
+  .main-column > .kpi-grid {
+    width: 96%;
+  }
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--tufte-ink);
+  font-weight: 400;
+  line-height: 1.28;
 }
 
 h1 {
-  font-size: 2.5rem;
-  border-bottom: 1px solid #e1e1e1;
-  padding-bottom: 0.5rem;
-  margin-top: 0;
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding-bottom: 0.4rem;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-family: var(--font-serif);
   font-style: italic;
+  font-size: 1.55rem;
+  margin-top: 2.4rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding-bottom: 0.25rem;
 }
 
 h3 {
-  font-size: 1.4rem;
+  font-family: var(--font-sans);
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+  color: var(--tufte-accent);
+}
+
+h4 {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-top: 1.3rem;
+  margin-bottom: 0.45rem;
 }
 
 p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-  max-width: 55%;
+  font-size: 1.05rem;
+  margin-top: 0;
+  margin-bottom: 1.15rem;
+  text-align: justify;
+  hyphens: auto;
 }
 
-/* Wide margin layout for grid rendering */
-@media (min-width: 900px) {
-  .report-container {
-    display: grid;
-    grid-template-columns: 55% 5% 40%;
-    column-gap: 20px;
-  }
-  
-  .main-column {
-    grid-column: 1;
-  }
-  
-  .margin-column {
-    grid-column: 3;
-  }
+ul, ol {
+  font-size: 1.02rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-left: 1.4rem;
 }
 
-/* Table styling: Tufte style (no vertical grid lines, clean boundaries) */
-table {
-  border-collapse: collapse;
-  margin: 2rem 0;
-  max-width: 100%;
-  font-size: 0.95rem;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+li {
+  margin-bottom: 0.35rem;
 }
 
-th, td {
-  padding: 0.6rem 1rem;
+hr {
+  border: none;
+  border-top: 1px solid var(--tufte-hairline);
+  margin: 2.25rem 0;
+  width: 58%;
+}
+
+/* ── Sidenotes & Margin Notes (<aside class="margin-note"> & blockquote) ── */
+aside.margin-note,
+blockquote.margin-note {
+  counter-increment: sidenote-counter;
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  line-height: 1.48;
+  color: #2b2b28;
+  background-color: var(--tufte-note-bg);
+  border-left: 2.5px solid var(--tufte-accent);
+  padding: 0.65rem 0.9rem;
+  margin: 1rem 0 1.35rem 0;
   text-align: left;
 }
 
-th {
-  border-bottom: 1px solid #111111;
-  font-weight: bold;
+aside.margin-note::before,
+blockquote.margin-note::before {
+  content: "§" counter(sidenote-counter) " ";
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--tufte-accent);
+  margin-right: 0.25rem;
 }
 
-td {
-  border-bottom: 1px solid #e1e1e1;
-}
-
-table tr:last-child td {
-  border-bottom: 2px solid #111111;
-}
-
-/* Sidenotes and Margin notes using blockquote */
-blockquote {
-  border-left: 2px solid #1c3d5a;
-  margin: 1.5rem 0;
-  padding: 0.5rem 1rem;
-  background-color: #f7f7f0;
-  font-size: 0.95rem;
-  color: #333333;
-}
-
-@media (min-width: 900px) {
-  blockquote {
+@media (min-width: 920px) {
+  body:not(.hide-margin-notes) aside.margin-note,
+  body:not(.hide-margin-notes) blockquote.margin-note {
     float: right;
     clear: right;
-    margin-right: -45%;
-    width: 38%;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 1rem;
-    border-left: 2px solid #1c3d5a;
-    background-color: #fcfcf4;
+    width: 35%;
+    margin-right: 0;
+    margin-top: 0.15rem;
+    margin-bottom: 1.25rem;
   }
 }
 
+body.hide-margin-notes aside.margin-note,
+body.hide-margin-notes blockquote.margin-note {
+  float: none !important;
+  width: 58% !important;
+}
+
+/* Verbatim Quote Blocks (Participant Quotes) */
+blockquote.verbatim-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: #222220;
+  border-left: 2px solid #8c8c80;
+  background: transparent;
+  padding: 0.25rem 0 0.25rem 1rem;
+  margin: 0.55rem 0 0.85rem 0.5rem;
+  width: 56%;
+}
+
+/* ── Booktabs Tables (Zero Vertical Gridlines, Tabular Numerals) ─────────── */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.25rem 0 1.5rem 0;
+}
+
+table.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.15rem 0 1.4rem 0;
+  font-family: var(--font-sans);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  border-top: 2px solid var(--tufte-border);
+  border-bottom: 2px solid var(--tufte-border);
+  background: transparent;
+}
+
+table.data-table thead th {
+  border-bottom: 1.2px solid var(--tufte-border);
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.5rem 0.65rem;
+  font-weight: 600;
+  color: var(--tufte-ink);
+  background-color: rgba(17, 17, 17, 0.025);
+  vertical-align: bottom;
+}
+
+table.data-table tbody td {
+  border-bottom: 1px solid var(--tufte-hairline);
+  border-left: none !important;
+  border-right: none !important;
+  padding: 0.45rem 0.65rem;
+  color: #1f1f1c;
+  font-variant-numeric: tabular-nums;
+  vertical-align: middle;
+}
+
+table.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table.data-table tbody tr.total-row td,
+table.data-table tbody tr.base-row td {
+  border-top: 1px solid var(--tufte-border);
+  font-weight: 600;
+  background-color: rgba(28, 61, 90, 0.035);
+}
+
+table.data-table .num,
+table.data-table td[align="center"],
+table.data-table td[align="right"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── KPI Strip Cards ─────────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 1.85rem 0;
+}
+
+.kpi-card {
+  background: var(--tufte-card-bg);
+  border-top: 2px solid var(--tufte-ink);
+  border-bottom: 1px solid var(--tufte-hairline);
+  padding: 0.75rem 0.9rem;
+  font-family: var(--font-sans);
+}
+
+.kpi-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--tufte-muted);
+  margin-bottom: 0.2rem;
+}
+
+.kpi-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--tufte-ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.kpi-sub {
+  font-size: 0.75rem;
+  color: var(--tufte-muted);
+  margin-top: 0.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Inline Charts & SVG Containers ──────────────────────────────────────── */
+.chart-container {
+  margin: 1.25rem 0 1.65rem 0;
+  padding: 0.75rem 0.5rem;
+  border-top: 1px solid var(--tufte-hairline);
+  border-bottom: 1px solid var(--tufte-hairline);
+  background: transparent;
+}
+
+.chart-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-caption {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: var(--tufte-muted);
+  margin-top: 0.35rem;
+}
+
+/* ── Code & Inline Tokens ────────────────────────────────────────────────── */
 code {
-  font-family: Consolas, "Liberation Mono", Courier, monospace;
-  font-size: 0.9rem;
-  background-color: #f4f4f4;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background-color: rgba(17, 17, 17, 0.055);
+  padding: 0.1rem 0.32rem;
+  border-radius: 2px;
+  font-variant-numeric: tabular-nums;
 }
 
 pre {
-  background-color: #f4f4f4;
-  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  background-color: #f4f4ec;
+  padding: 0.85rem 1rem;
   overflow-x: auto;
-  border-radius: 4px;
-  border: 1px solid #e1e1e1;
-  max-width: 55%;
+  border-left: 2px solid var(--tufte-ink);
+  margin: 1rem 0 1.4rem 0;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  margin: 1.5rem 0;
+pre code {
+  background: none;
+  padding: 0;
+}
+
+.report-footer {
+  margin-top: 3.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--tufte-ink);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--tufte-muted);
+  string-set: doc-audit content();
+}
+
+/* ==========================================================================
+   PRINT-TO-PDF STANDARD (@page & @media print)
+   ==========================================================================
+   Guarantees:
+   1. Running Header and Running Footer on every printed PDF page.
+   2. Repeating <thead> / <tfoot> height spacers so content never overlaps
+      the fixed running header or footer across page breaks.
+   3. Clean Tufte two-column proportions on A4/Letter portrait paper.
+   4. Zero orphan headings and zero split tables/charts where avoidable.
+   ========================================================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 18mm 14mm 18mm 14mm;
+
+  @top-left {
+    content: string(doc-title);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @top-right {
+    content: string(doc-meta);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @bottom-left {
+    content: string(doc-audit);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.5pt;
+    color: #444444;
+  }
+}
+
+@media print {
+  html {
+    font-size: 10pt;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.48;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print,
+  .tufte-toolbar {
+    display: none !important;
+  }
+
+  /* Activate Repeating Print Frame Spacers */
+  table.print-frame {
+    width: 100% !important;
+    border: none !important;
+  }
+
+  table.print-frame > thead {
+    display: table-header-group !important;
+  }
+
+  table.print-frame > tfoot {
+    display: table-footer-group !important;
+  }
+
+  .print-header-space {
+    height: 12mm;
+  }
+
+  .print-footer-space {
+    height: 12mm;
+  }
+
+  /* Fixed Running Header & Footer Bars on Every Printed Page */
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 0.6pt solid #111111;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    color: #222222;
+    padding-bottom: 1.5mm;
+    z-index: 9999;
+  }
+
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 9.5mm;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-top: 0.6pt solid #111111;
+    font-family: var(--font-sans);
+    font-size: 7.5pt;
+    color: #222222;
+    padding-top: 1.5mm;
+    z-index: 9999;
+  }
+
+  /* Preserve Tufte 2-Column Layout in Print */
+  .main-column > p,
+  .main-column > ul,
+  .main-column > ol,
+  .main-column > pre {
+    width: 60% !important;
+  }
+
+  .main-column > h1,
+  .main-column > h2,
+  .main-column > h3,
+  .main-column > h4 {
+    width: 62% !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .main-column > table.data-table,
+  .main-column > .table-wrapper,
+  .main-column > .chart-container {
+    width: 61% !important;
+  }
+
+  .main-column > table.wide-table,
+  .main-column > .table-wrapper.wide,
+  .main-column > .kpi-grid {
+    width: 100% !important;
+  }
+
+  aside.margin-note,
+  blockquote.margin-note {
+    float: right !important;
+    clear: right !important;
+    width: 35% !important;
+    margin-right: 0 !important;
+    margin-top: 0.1rem !important;
+    margin-bottom: 0.85rem !important;
+    font-size: 8pt !important;
+    line-height: 1.38 !important;
+    background-color: #f9f9f4 !important;
+    border-left: 2pt solid #1c3d5a !important;
+    padding: 0.35rem 0.55rem !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Strict Page-Break Discipline */
+  table.data-table,
+  figure,
+  .chart-container,
+  .kpi-grid,
+  .kpi-card,
+  blockquote.verbatim-quote,
+  .report-header-block {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  table.data-table thead {
+    display: table-header-group !important;
+  }
+
+  table.data-table tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  a {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
 }
 
   </style>
 </head>
 <body>
-  <div class="report-container">
-    <div class="main-column">
-<h1>Project Manifest: Sample Survey</h1>
-
-<blockquote>💡 <strong>Nota de Margem:</strong> This manifest anchors the quantitative analysis context. All subsequent crossed tables must reference segments defined here.</blockquote>
-
-<h2>📊 Dataset Profile Summary</h2>
-<ul>
-<li><strong>Total Records (N)</strong>: 10</li>
-<li><strong>Variables</strong>: 3</li>
-<li><strong>Numeric Columns</strong>: 0 (...)</li>
-<li><strong>Categorical Columns</strong>: 0 (...)</li>
-<li><strong>Text/Open-Ended Columns</strong>: 0 (...)</li>
-</ul>
-
-<h2>📊 Cruzamento: Satisfaction x Recommendation</h2>
-
-<blockquote>💡 <strong>Nota de Margem:</strong> Cruzamento analítico de Satisfaction por Recommendation. [Inserir observações qualitativas dos segmentos aqui]</blockquote>
-
-<h3>Tabela de Frequência Absoluta (N)</h3>
-<table>
-<thead>
-<tr><th>Satisfaction</th><th>No</th><th>Yes</th><th>Total</th></tr>
-</thead>
-<tbody>
-<tr><td>Dissatisfied</td><td>2</td><td>0</td><td>2</td></tr>
-<tr><td>Neutral</td><td>2</td><td>1</td><td>3</td></tr>
-<tr><td>Satisfied</td><td>0</td><td>2</td><td>2</td></tr>
-<tr><td>Very Satisfied</td><td>0</td><td>3</td><td>3</td></tr>
-<tr><td>Total</td><td>4</td><td>6</td><td>10</td></tr>
-</tbody>
-</table>
-
-<h3>Tabela de Distribuição Percentual (%)</h3>
-<table>
-<thead>
-<tr><th>Satisfaction</th><th>No</th><th>Yes</th></tr>
-</thead>
-<tbody>
-<tr><td>Dissatisfied</td><td>50</td><td>0</td></tr>
-<tr><td>Neutral</td><td>50</td><td>16.7</td></tr>
-<tr><td>Satisfied</td><td>0</td><td>33.3</td></tr>
-<tr><td>Very Satisfied</td><td>0</td><td>50</td></tr>
-<tr><td>Total</td><td>100</td><td>100</td></tr>
-</tbody>
-</table>
-
-
-
+  <!-- Screen-only interactive utility bar -->
+  <nav class="tufte-toolbar no-print" aria-label="Report Controls">
+    <div class="toolbar-brand">
+      <span>B2B SaaS Customer Intelligence Study 2026</span>
+      <span class="toolbar-meta">N = 240 · MoE ±6.34%</span>
     </div>
+    <div class="toolbar-actions">
+      <button type="button" class="toolbar-btn" onclick="document.body.classList.toggle('hide-margin-notes')">
+        📐 Toggle Margin Notes
+      </button>
+      <button type="button" class="toolbar-btn primary" onclick="window.print()">
+        🖨️ Print / Save as PDF
+      </button>
+    </div>
+  </nav>
+
+  <!-- Fixed Running Header & Footer for Print-to-PDF (Ctrl+P / Save as PDF) -->
+  <div class="print-running-header" aria-hidden="true">
+    <span>B2B SaaS Customer Intelligence Study 2026</span>
+    <span>Confidential · Decision Intelligence</span>
   </div>
+  <div class="print-running-footer" aria-hidden="true">
+    <span>Data-Pro-Skill v2.0 (Edward Tufte Print-Ready HTML Edition) · Edward Tufte Standard</span>
+    <span>N = 240 · MoE = ±6.34% (95% CI) · 2026-10-31</span>
+  </div>
+
+  <!-- Repeating Print Frame Table reserves top/bottom margin space on every printed page -->
+  <table class="print-frame" role="presentation">
+    <thead>
+      <tr><td><div class="print-header-space"></div></td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="print-body-cell">
+          <main class="report-container">
+            
+        <header class="report-header-block">
+          <h1>B2B SaaS Customer Intelligence Study 2026</h1>
+          <p class="subtitle">Answer-First Statistical &amp; Qualitative Decision Intelligence Report</p>
+          <div class="meta-strip">
+            <span class="meta-item"><strong>Sample (N):</strong> 240</span><span class="meta-item"><strong>Global MoE (95% CI):</strong> ±6.34%</span><span class="meta-item"><strong>Metrics:</strong> 7</span><span class="meta-item"><strong>Segments:</strong> 4</span><span class="meta-item"><strong>Export Date:</strong> 2026-10-31</span><span class="audit-badge">✓ VERIFIED · CONSTITUTION ARTICLES 1–8 COMPLIANT</span>
+          </div>
+        </header>
+        
+            <article class="tufte-prose">
+              <h2 id="1-executive-synthesis-headline-findings-answer-first">1. Executive Synthesis & Headline Findings (Answer-First)</h2>
+<p>This study analyzes <strong>$N = 240$</strong> respondents (effective sample $N_{\text{eff}} = 239.1$, global 95% confidence margin of error <strong>±6.34%</strong>). All findings below are ordered by statistical effect magnitude and verified against Articles 1–8 of the Data-Pro-Skill Constitution.</p>
+<aside class="margin-note"><span class="margin-note-num">§1</span><strong>Methodological Standard:</strong> Every claim pairs a parametric estimator (<code>Mean ± SD</code>) with its non-parametric counterpart (<code>Median / IQR</code>), exact test statistic ($p$-value), and effect size (<code>Cramér&#x27;s V</code>, <code>Cohen&#x27;s d</code>, <code>$\eta^2$</code>, or <code>$|r|$</code>). Subgroups with $N < 30$ report raw counts only.</aside>
+<ol>
+  <li><strong>Significant Differentiation in <code>Product Quality</code> by <code>Enterprise SLA Status</code>:</strong> Verified at $p = 0.0077$ ($\chi^2 = 7.49, N = 63$), with <strong>Cramér's $V = 0.345$</strong> (moderate-to-strong association, Cohen's d = 0.885 (large)).</li>
+  <li><strong>Significant Differentiation in <code>Support Speed</code> by <code>Customer Segment</code>:</strong> Verified at $p = 0.0000$ ($\chi^2 = 49.80, N = 240$), with <strong>Cramér's $V = 0.263$</strong> (small-to-moderate association, Eta-Squared (η²) = 0.1607 (large)).</li>
+  <li><strong>Significant Differentiation in <code>Product Quality</code> by <code>Customer Segment</code>:</strong> Verified at $p = 0.0006$ ($\chi^2 = 27.10, N = 240$), with <strong>Cramér's $V = 0.194$</strong> (small-to-moderate association, Eta-Squared (η²) = 0.0704 (medium)).</li>
+  <li><strong>Significant Differentiation in <code>Pricing Value</code> by <code>Customer Segment</code>:</strong> Verified at $p = 0.0001$ ($\chi^2 = 23.02, N = 240$), with <strong>Cramér's $V = 0.179$</strong> (small-to-moderate association, Eta-Squared (η²) = 0.0903 (medium)).</li>
+  <li><strong>Primary Action Lever (<code>Overall Satisfaction</code>):</strong> Exhibits the highest Priority Score (<strong>1.628</strong>), combining Derived Importance $|r| = 0.898$ (RF importance = <code>0.837</code>) with a performance gap of <code>1.81</code> points (<code>Critical Fix (Immediate Action)</code>).</li>
+  <li><strong>Psychometric Reliability & Persona Structure:</strong> Scale internal consistency is <strong>Cronbach's $\alpha = 0.814$</strong> (Good (0.80–0.89)), with $K = 2$ behavioral personas (Silhouette $= 0.304$) and <code>18</code> DBSCAN anomaly respondents isolated.</li>
+</ol>
+<hr>
+<h2 id="2-dataset-architecture-variable-profile-article-6-quality-gates">2. Dataset Architecture, Variable Profile & Article 6 Quality Gates</h2>
+<p><strong>Total Sample ($N$):</strong> <code>240</code> · <strong>Effective Sample ($N_{\text{eff}}$):</strong> <code>239.1</code> (DEFF = <code>1.00</code>) · <strong>Global 95% CI MoE:</strong> <code>±6.34%</code></p>
+<aside class="margin-note"><span class="margin-note-num">§2</span>Global Margin of Error is computed at the 95% confidence level ($z = 1.96$) under maximum binomial variance ($p = 0.50$). Subgroup margins widen proportionally to $1/\sqrt{n_{\text{sub}}}$.</aside>
+<h3 id="1-article-6-data-quality-gates-audit">1. Article 6 Data Quality Gates Audit</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Quality Gate</th>
+      <th>Constitutional Rule</th>
+      <th>Result</th>
+      <th>Audit Diagnostic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Gate 6a: Straight-Lining</strong></td>
+      <td>Row SD $= 0$ across $\ge 5$ Likert items</td>
+      <td><code>EVALUATED</code></td>
+      <td><code>0</code> respondents (<code>0.0%</code>) · Sensitivity $\Delta = 0.0%`</td>
+    </tr>
+    <tr>
+      <td><strong>Gate 6b: Percentage Sums</strong></td>
+      <td>Category distributions sum to $100\% \pm 0.5\%$</td>
+      <td><code>PASS</code></td>
+      <td><code>0</code> violations across <code>4</code> categorical variables</td>
+    </tr>
+    <tr>
+      <td><strong>Gate 6c: Missingness Rate</strong></td>
+      <td>Flag variables $>10\%$ and $>20\%$ missing</td>
+      <td><code>CAVEAT</code></td>
+      <td><code>0</code> moderate ($>10\%$), <code>3</code> high ($>20\%$) missingness columns</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-quantitative-likert-scale-variable-profile">2. Quantitative & Likert Scale Variable Profile</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Role</th>
+      <th class="num">Valid $N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th class="num">Skewness</th>
+      <th class="num">Top-2-Box %</th>
+      <th>Estimator</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Product Quality</strong> (<code>product_quality</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">3.71 (±0.12)</td>
+      <td class="num">0.94</td>
+      <td class="num">4.00 (1.00)</td>
+      <td class="num">-0.26</td>
+      <td class="num">58.8%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr>
+      <td><strong>Support Speed</strong> (<code>support_speed</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">2.89 (±0.13)</td>
+      <td class="num">1.03</td>
+      <td class="num">3.00 (2.00)</td>
+      <td class="num">+0.13</td>
+      <td class="num">25.4%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr>
+      <td><strong>Pricing Value</strong> (<code>pricing_value</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">2.73 (±0.13)</td>
+      <td class="num">1.03</td>
+      <td class="num">3.00 (1.00)</td>
+      <td class="num">+0.20</td>
+      <td class="num">20.4%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr>
+      <td><strong>Onboarding UX</strong> (<code>onboarding_ux</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">3.50 (±0.12)</td>
+      <td class="num">0.96</td>
+      <td class="num">3.00 (1.00)</td>
+      <td class="num">-0.03</td>
+      <td class="num">48.3%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr>
+      <td><strong>API Stability</strong> (<code>api_stability</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">3.93 (±0.10)</td>
+      <td class="num">0.82</td>
+      <td class="num">4.00 (2.00)</td>
+      <td class="num">-0.19</td>
+      <td class="num">68.8%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Overall Satisfaction</strong> (<code>overall_satisfaction</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">3.19 (±0.11)</td>
+      <td class="num">0.87</td>
+      <td class="num">3.00 (1.00)</td>
+      <td class="num">-0.03</td>
+      <td class="num">35.0%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+    <tr>
+      <td><strong>Recommendation Score</strong> (<code>recommendation_score</code>)</td>
+      <td>likert</td>
+      <td class="num">240</td>
+      <td class="num">6.65 (±0.26)</td>
+      <td class="num">2.03</td>
+      <td class="num">7.00 (3.00)</td>
+      <td class="num">-0.41</td>
+      <td class="num">18.8%</td>
+      <td>Parametric (Mean/SD)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="3-categorical-segment-distributions">3. Categorical & Segment Distributions</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th class="num">Valid $N$</th>
+      <th class="num">Missing %</th>
+      <th class="num">Unique Categories</th>
+      <th class="num">Top Modal Category (Count, % ± 95% MoE)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Customer Segment</strong> (<code>customer_segment</code>)</td>
+      <td class="num">240</td>
+      <td class="num">0.0%</td>
+      <td class="num">4</td>
+      <td>Mid-Market (<code>n=84</code>, <code>35.0% ±6.0%</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Region</strong> (<code>region</code>)</td>
+      <td class="num">240</td>
+      <td class="num">0.0%</td>
+      <td class="num">4</td>
+      <td>Southeast (<code>n=105</code>, <code>43.8% ±6.3%</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise SLA Status</strong> (<code>enterprise_sla_status</code>)</td>
+      <td class="num">63</td>
+      <td class="num">73.8%</td>
+      <td class="num">2</td>
+      <td>Met SLA (<code>n=52</code>, <code>82.5% ±9.4%</code>)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB Self-Serve Funnel</strong> (<code>smb_self_serve_funnel</code>)</td>
+      <td class="num">66</td>
+      <td class="num">72.5%</td>
+      <td class="num">2</td>
+      <td>Completed (<code>n=41</code>, <code>62.1% ±11.7%</code>)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="4-open-ended-qualitative-verbatim-channels">4. Open-Ended Qualitative Verbatim Channels</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Open-Text Column</th>
+      <th class="num">Valid Verbatims ($N$)</th>
+      <th class="num">Missing %</th>
+      <th class="num">Mean Length (chars)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Open Feedback</strong> (<code>open_feedback</code>)</td>
+      <td class="num">22</td>
+      <td class="num">90.8%</td>
+      <td class="num">63.3</td>
+    </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="3-cross-tabulation-analysis-standardized-residuals-hypothesis-tests">3. Cross-Tabulation Analysis, Standardized Residuals & Hypothesis Tests</h2>
+<p><strong>Executed Cross-Tabulations:</strong> <code>12</code> · <strong>Statistically Significant ($p < 0.05$):</strong> <code>5</code></p>
+<aside class="margin-note"><span class="margin-note-num">§3</span>Findings are ranked by statistical significance ($p < 0.05$) and effect magnitude (Cramér's $V$ and group effect size) in accordance with Articles 2, 3, and 5 of the Data-Pro-Skill Constitution.</aside>
+<h3 id="effect-size-leaderboard">Effect-Size Leaderboard</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th class="num">Rank</th>
+      <th>Segment ($X$)</th>
+      <th>Outcome Metric ($Y$)</th>
+      <th class="num">Valid $N$</th>
+      <th class="num">$\chi^2$ $p$-value</th>
+      <th class="num">Cramér's $V$</th>
+      <th>Parametric Effect Size</th>
+      <th>Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="num">1</td>
+      <td><strong>Enterprise SLA Status</strong></td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">63</td>
+      <td class="num"><code>0.0077</code></td>
+      <td class="num"><code>0.345</code> (moderate-to-strong)</td>
+      <td>Cohen's d: 0.885</td>
+      <td><strong>Significant</strong></td>
+    </tr>
+    <tr>
+      <td class="num">2</td>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.263</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.1607</td>
+      <td><strong>Significant</strong></td>
+    </tr>
+    <tr>
+      <td class="num">3</td>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0006</code></td>
+      <td class="num"><code>0.194</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0704</td>
+      <td><strong>Significant</strong></td>
+    </tr>
+    <tr>
+      <td class="num">4</td>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0001</code></td>
+      <td class="num"><code>0.179</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0903</td>
+      <td><strong>Significant</strong></td>
+    </tr>
+    <tr>
+      <td class="num">5</td>
+      <td><strong>Region</strong></td>
+      <td><strong>API Stability</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0456</code></td>
+      <td class="num"><code>0.141</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0333</td>
+      <td><strong>Significant</strong></td>
+    </tr>
+    <tr>
+      <td class="num">6</td>
+      <td><strong>Enterprise SLA Status</strong></td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">63</td>
+      <td class="num"><code>0.0824</code></td>
+      <td class="num"><code>0.290</code> (small-to-moderate)</td>
+      <td>Cohen's d: 0.44</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">7</td>
+      <td><strong>Region</strong></td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.1371</code></td>
+      <td class="num"><code>0.149</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0231</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">8</td>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0641</code></td>
+      <td class="num"><code>0.124</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0302</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">9</td>
+      <td><strong>Region</strong></td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.3277</code></td>
+      <td class="num"><code>0.121</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0145</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">10</td>
+      <td><strong>Region</strong></td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.1327</code></td>
+      <td class="num"><code>0.112</code> (small-to-moderate)</td>
+      <td>Eta-Squared (η²): 0.0234</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">11</td>
+      <td><strong>Region</strong></td>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.7430</code></td>
+      <td class="num"><code>0.089</code> (negligible)</td>
+      <td>Eta-Squared (η²): 0.0052</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+    <tr>
+      <td class="num">12</td>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>API Stability</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.8654</code></td>
+      <td class="num"><code>0.080</code> (negligible)</td>
+      <td>Eta-Squared (η²): 0.0029</td>
+      <td>Null ($p \ge 0.05$)</td>
+    </tr>
+  </tbody>
+</table></div>
+<p><strong>Verdict:</strong> <strong>NO SIGNIFICANT DIFFERENCE ($p \ge 0.05$ — Null Finding)</strong> — $\chi^2(9, N=240) = 4.63, p = 0.8654$, <strong>Cramér's $V = 0.080$</strong> (negligible effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>0.231</code>, $p = 0.8749$, <strong>Eta-Squared (η²) = <code>0.0029</code></strong> (negligible) · Kruskal-Wallis (H) $p = 0.8760$.</p>
+<aside class="margin-note"><span class="margin-note-num">§4</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 4.63, p = 0.8654$, Cramér's $V = 0.080$. Warning: 4 cells (25.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">0.0% (0)</td>
+      <td class="num">31.7% (20)</td>
+      <td class="num">42.9% (27)</td>
+      <td class="num">25.4% (16)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">3.6% (3)</td>
+      <td class="num">27.4% (23)</td>
+      <td class="num">39.3% (33)</td>
+      <td class="num">29.8% (25)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num">4.5% (3)</td>
+      <td class="num">27.3% (18)</td>
+      <td class="num">45.5% (30)</td>
+      <td class="num">22.7% (15)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">1 of 27</td>
+      <td class="num">7 of 27</td>
+      <td class="num">10 of 27</td>
+      <td class="num">9 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">2.9% (7)</td>
+      <td class="num">28.3% (68)</td>
+      <td class="num">41.7% (100)</td>
+      <td class="num">27.1% (65)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-api-stability-parametric-non-parametric">2. Segment Performance on <code>API Stability</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">3.94 (±0.19)</td>
+      <td class="num">0.76</td>
+      <td class="num">4.00 (1.50)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">3.95 (±0.18)</td>
+      <td class="num">0.85</td>
+      <td class="num">4.00 (2.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">3.86 (±0.20)</td>
+      <td class="num">0.82</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">4.00 (±0.33)</td>
+      <td class="num">0.88</td>
+      <td class="num">4.00 (2.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean API Stability by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean API Stability by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean API Stability</text>
+<line x1="323.4" y1="42" x2="323.4" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="323.4" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.9</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="329.1" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.9</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="351.6" cy="74" r="3.6" fill="#1b4f72"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">4.0</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="148.9" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.9</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="464.2" cy="126" r="3.6" fill="#1b4f72"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">4</text>
+</svg></div></figure>
+<p><strong>Verdict:</strong> <strong>NO SIGNIFICANT DIFFERENCE ($p \ge 0.05$ — Null Finding)</strong> — $\chi^2(12, N=240) = 11.09, p = 0.5210$, <strong>Cramér's $V = 0.124$</strong> (small-to-moderate effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>2.452</code>, $p = 0.0641$, <strong>Eta-Squared (η²) = <code>0.0302</code></strong> (small) · Kruskal-Wallis (H) $p = 0.0622$.</p>
+<aside class="margin-note"><span class="margin-note-num">§5</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 11.09, p = 0.5210$, Cramér's $V = 0.124$. Warning: 6 cells (30.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">1</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">1.6% (1)</td>
+      <td class="num">7.9% (5)</td>
+      <td class="num">34.9% (22)</td>
+      <td class="num">38.1% (24)</td>
+      <td class="num">17.5% (11)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">1.2% (1)</td>
+      <td class="num">20.2% (17)</td>
+      <td class="num">40.5% (34)</td>
+      <td class="num">26.2% (22)</td>
+      <td class="num">11.9% (10)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num">0.0% (0)</td>
+      <td class="num">10.6% (7)</td>
+      <td class="num">34.8% (23)</td>
+      <td class="num">33.3% (22)</td>
+      <td class="num">21.2% (14)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">0 of 27</td>
+      <td class="num">5 of 27</td>
+      <td class="num">9 of 27</td>
+      <td class="num">7 of 27</td>
+      <td class="num">6 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">0.8% (2)</td>
+      <td class="num">14.2% (34)</td>
+      <td class="num">36.7% (88)</td>
+      <td class="num">31.2% (75)</td>
+      <td class="num">17.1% (41)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-onboarding-ux-parametric-non-parametric">2. Segment Performance on <code>Onboarding UX</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">3.62 (±0.23)</td>
+      <td class="num">0.92</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">3.27 (±0.21)</td>
+      <td class="num">0.96</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">3.65 (±0.23)</td>
+      <td class="num">0.94</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">3.52 (±0.40)</td>
+      <td class="num">1.05</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean Onboarding UX by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean Onboarding UX by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean Onboarding UX</text>
+<line x1="352.2" y1="42" x2="352.2" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="352.2" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.5</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="439.3" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="148.9" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.3</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="464.2" cy="100" r="3.6" fill="#1b4f72"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="356.3" cy="126" r="3.6" fill="#1b4f72"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.5</text>
+</svg></div></figure>
+<p><strong>Verdict:</strong> <strong>STATISTICALLY SIGNIFICANT ($p < 0.05$)</strong> — $\chi^2(12, N=240) = 22.84, p = 0.0291$, <strong>Cramér's $V = 0.178$</strong> (small-to-moderate effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>6.292</code>, $p = 0.0004$, <strong>Eta-Squared (η²) = <code>0.0741</code></strong> (medium) · Kruskal-Wallis (H) $p = 0.0006$.</p>
+<aside class="margin-note"><span class="margin-note-num">§6</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 22.84, p = 0.0291$, Cramér's $V = 0.178$. Warning: 9 cells (45.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">1</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">0.0% (0)</td>
+      <td class="num"><strong>4.8% (3)</strong></td>
+      <td class="num">42.9% (27)</td>
+      <td class="num"><strong>42.9% (27)</strong></td>
+      <td class="num">9.5% (6)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">2.4% (2)</td>
+      <td class="num">21.4% (18)</td>
+      <td class="num">47.6% (40)</td>
+      <td class="num">25.0% (21)</td>
+      <td class="num">3.6% (3)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num">4.5% (3)</td>
+      <td class="num">24.2% (16)</td>
+      <td class="num">42.4% (28)</td>
+      <td class="num">25.8% (17)</td>
+      <td class="num">3.0% (2)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">0 of 27</td>
+      <td class="num">6 of 27</td>
+      <td class="num">13 of 27</td>
+      <td class="num">5 of 27</td>
+      <td class="num">3 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">2.1% (5)</td>
+      <td class="num">17.9% (43)</td>
+      <td class="num">45.0% (108)</td>
+      <td class="num">29.2% (70)</td>
+      <td class="num">5.8% (14)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-overall-satisfaction-parametric-non-parametric">2. Segment Performance on <code>Overall Satisfaction</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">3.57 (±0.18)</td>
+      <td class="num">0.73</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">3.06 (±0.18)</td>
+      <td class="num">0.84</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">2.98 (±0.22)</td>
+      <td class="num">0.90</td>
+      <td class="num">3.00 (2.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">3.19 (±0.35)</td>
+      <td class="num">0.92</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean Overall Satisfaction by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean Overall Satisfaction by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean Overall Satisfaction</text>
+<line x1="266.5" y1="42" x2="266.5" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="266.5" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.2</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="464.2" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="191.7" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.1</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="148.9" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.0</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="261.1" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.2</text>
+</svg></div></figure>
+<h3 id="3-significant-cell-deviations-standardized-residuals-z-ij-ge-1-96">3. Significant Cell Deviations — Standardized Residuals ($|z_{ij}| \ge 1.96$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Segment Row</th>
+      <th>Outcome Column</th>
+      <th class="num">Observed ($O_{ij}$)</th>
+      <th class="num">Expected ($E_{ij}$)</th>
+      <th class="num">Row %</th>
+      <th class="num">Residual ($z_{ij}$)</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">2</td>
+      <td class="num">3</td>
+      <td class="num">11.3</td>
+      <td class="num">4.8%</td>
+      <td class="num"><strong>-2.47</strong></td>
+      <td>under-indexed</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">4</td>
+      <td class="num">27</td>
+      <td class="num">18.4</td>
+      <td class="num">42.9%</td>
+      <td class="num"><strong>+2.01</strong></td>
+      <td>over-indexed</td>
+    </tr>
+  </tbody>
+</table></div>
+<p><strong>Verdict:</strong> <strong>STATISTICALLY SIGNIFICANT ($p < 0.05$)</strong> — $\chi^2(12, N=240) = 23.02, p = 0.0275$, <strong>Cramér's $V = 0.179$</strong> (small-to-moderate effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>7.811</code>, $p = 0.0001$, <strong>Eta-Squared (η²) = <code>0.0903</code></strong> (medium) · Kruskal-Wallis (H) $p = 0.0001$.</p>
+<aside class="margin-note"><span class="margin-note-num">§7</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 23.02, p = 0.0275$, Cramér's $V = 0.179$. Warning: 6 cells (30.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">1</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">19.0% (12)</td>
+      <td class="num">39.7% (25)</td>
+      <td class="num">30.2% (19)</td>
+      <td class="num">9.5% (6)</td>
+      <td class="num">1.6% (1)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">13.1% (11)</td>
+      <td class="num">28.6% (24)</td>
+      <td class="num">39.3% (33)</td>
+      <td class="num">14.3% (12)</td>
+      <td class="num">4.8% (4)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num"><strong>3.0% (2)</strong></td>
+      <td class="num">19.7% (13)</td>
+      <td class="num">43.9% (29)</td>
+      <td class="num">22.7% (15)</td>
+      <td class="num">10.6% (7)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">3 of 27</td>
+      <td class="num">8 of 27</td>
+      <td class="num">12 of 27</td>
+      <td class="num">3 of 27</td>
+      <td class="num">1 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">11.7% (28)</td>
+      <td class="num">29.2% (70)</td>
+      <td class="num">38.8% (93)</td>
+      <td class="num">15.0% (36)</td>
+      <td class="num">5.4% (13)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-pricing-value-parametric-non-parametric">2. Segment Performance on <code>Pricing Value</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">2.35 (±0.24)</td>
+      <td class="num">0.95</td>
+      <td class="num">2.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">2.69 (±0.22)</td>
+      <td class="num">1.03</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">3.18 (±0.24)</td>
+      <td class="num">0.98</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">2.67 (±0.36)</td>
+      <td class="num">0.96</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean Pricing Value by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean Pricing Value by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean Pricing Value</text>
+<line x1="290.4" y1="42" x2="290.4" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="290.4" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 2.7</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="148.9" cy="48" r="3.6" fill="#a61c1c"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.4</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="278.1" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="464.2" cy="100" r="3.6" fill="#1b4f72"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.2</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="270.5" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7</text>
+</svg></div></figure>
+<h3 id="3-significant-cell-deviations-standardized-residuals-z-ij-ge-1-96">3. Significant Cell Deviations — Standardized Residuals ($|z_{ij}| \ge 1.96$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Segment Row</th>
+      <th>Outcome Column</th>
+      <th class="num">Observed ($O_{ij}$)</th>
+      <th class="num">Expected ($E_{ij}$)</th>
+      <th class="num">Row %</th>
+      <th class="num">Residual ($z_{ij}$)</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">1</td>
+      <td class="num">2</td>
+      <td class="num">7.7</td>
+      <td class="num">3.0%</td>
+      <td class="num"><strong>-2.05</strong></td>
+      <td>under-indexed</td>
+    </tr>
+  </tbody>
+</table></div>
+<p><strong>Verdict:</strong> <strong>STATISTICALLY SIGNIFICANT ($p < 0.05$)</strong> — $\chi^2(12, N=240) = 27.10, p = 0.0075$, <strong>Cramér's $V = 0.194$</strong> (small-to-moderate effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>5.959</code>, $p = 0.0006$, <strong>Eta-Squared (η²) = <code>0.0704</code></strong> (medium) · Kruskal-Wallis (H) $p = 0.0014$.</p>
+<aside class="margin-note"><span class="margin-note-num">§8</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 27.10, p = 0.0075$, Cramér's $V = 0.194$. Warning: 5 cells (25.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">1</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">0.0% (0)</td>
+      <td class="num">4.8% (3)</td>
+      <td class="num">19.0% (12)</td>
+      <td class="num">42.9% (27)</td>
+      <td class="num">33.3% (21)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">0.0% (0)</td>
+      <td class="num">6.0% (5)</td>
+      <td class="num">36.9% (31)</td>
+      <td class="num">33.3% (28)</td>
+      <td class="num">23.8% (20)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num">3.0% (2)</td>
+      <td class="num"><strong>16.7% (11)</strong></td>
+      <td class="num">31.8% (21)</td>
+      <td class="num">36.4% (24)</td>
+      <td class="num">12.1% (8)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">0 of 27</td>
+      <td class="num">1 of 27</td>
+      <td class="num">13 of 27</td>
+      <td class="num">8 of 27</td>
+      <td class="num">5 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">0.8% (2)</td>
+      <td class="num">8.3% (20)</td>
+      <td class="num">32.1% (77)</td>
+      <td class="num">36.2% (87)</td>
+      <td class="num">22.5% (54)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-product-quality-parametric-non-parametric">2. Segment Performance on <code>Product Quality</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">4.05 (±0.21)</td>
+      <td class="num">0.85</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">3.75 (±0.19)</td>
+      <td class="num">0.89</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">3.38 (±0.24)</td>
+      <td class="num">1.00</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">3.63 (±0.32)</td>
+      <td class="num">0.84</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean Product Quality by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean Product Quality by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean Product Quality</text>
+<line x1="300.7" y1="42" x2="300.7" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="300.7" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.7</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="464.2" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">4.0</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="323.0" cy="74" r="3.6" fill="#1b4f72"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.8</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="148.9" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.4</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="266.5" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6</text>
+</svg></div></figure>
+<h3 id="3-significant-cell-deviations-standardized-residuals-z-ij-ge-1-96">3. Significant Cell Deviations — Standardized Residuals ($|z_{ij}| \ge 1.96$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Segment Row</th>
+      <th>Outcome Column</th>
+      <th class="num">Observed ($O_{ij}$)</th>
+      <th class="num">Expected ($E_{ij}$)</th>
+      <th class="num">Row %</th>
+      <th class="num">Residual ($z_{ij}$)</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">2</td>
+      <td class="num">11</td>
+      <td class="num">5.5</td>
+      <td class="num">16.7%</td>
+      <td class="num"><strong>+2.35</strong></td>
+      <td>over-indexed</td>
+    </tr>
+  </tbody>
+</table></div>
+<p><strong>Verdict:</strong> <strong>STATISTICALLY SIGNIFICANT ($p < 0.05$)</strong> — $\chi^2(12, N=240) = 49.81, p = 0.0000$, <strong>Cramér's $V = 0.263$</strong> (small-to-moderate effect).</p>
+<p><strong>Parametric / Non-Parametric Metric Test:</strong> One-Way ANOVA (F) = <code>15.059</code>, $p = 0.0000$, <strong>Eta-Squared (η²) = <code>0.1607</code></strong> (large) · Kruskal-Wallis (H) $p = 0.0000$.</p>
+<aside class="margin-note"><span class="margin-note-num">§9</span>Joint valid sample $N = 240$ (out of $N_{\text{total}} = 240$). $\chi^2 = 49.81, p = 0.0000$, Cramér's $V = 0.263$. Warning: 5 cells (25.0%) have expected count E_ij < 5.</aside>
+<h3 id="1-contingency-table-row-95-ci-moe-subgroup-n">1. Contingency Table (Row % ± 95% CI MoE & Subgroup $N$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment</th>
+      <th class="num">Subgroup $N$</th>
+      <th class="num">±MoE (95% CI)</th>
+      <th class="num">1</th>
+      <th class="num">2</th>
+      <th class="num">3</th>
+      <th class="num">4</th>
+      <th class="num">5</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">±12.3%</td>
+      <td class="num">1.6% (1)</td>
+      <td class="num"><strong>11.1% (7)</strong></td>
+      <td class="num">36.5% (23)</td>
+      <td class="num"><strong>34.9% (22)</strong></td>
+      <td class="num"><strong>15.9% (10)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">±10.7%</td>
+      <td class="num">6.0% (5)</td>
+      <td class="num">34.5% (29)</td>
+      <td class="num">44.0% (37)</td>
+      <td class="num">13.1% (11)</td>
+      <td class="num">2.4% (2)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">±12.1%</td>
+      <td class="num"><strong>16.7% (11)</strong></td>
+      <td class="num">33.3% (22)</td>
+      <td class="num">39.4% (26)</td>
+      <td class="num">9.1% (6)</td>
+      <td class="num">1.5% (1)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27 <em>(SMALL SAMPLE)</em></td>
+      <td class="num">—</td>
+      <td class="num">4 of 27</td>
+      <td class="num">4 of 27</td>
+      <td class="num">10 of 27</td>
+      <td class="num">5 of 27</td>
+      <td class="num">4 of 27</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total / Base</strong></td>
+      <td class="num">240</td>
+      <td class="num">±6.3%</td>
+      <td class="num">8.8% (21)</td>
+      <td class="num">25.8% (62)</td>
+      <td class="num">40.0% (96)</td>
+      <td class="num">18.3% (44)</td>
+      <td class="num">7.1% (17)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-segment-performance-on-support-speed-parametric-non-parametric">2. Segment Performance on <code>Support Speed</code> (Parametric & Non-Parametric)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Customer Segment Segment</th>
+      <th class="num">$N$</th>
+      <th class="num">Mean ± 95% MoE</th>
+      <th class="num">SD</th>
+      <th class="num">Median (IQR)</th>
+      <th>Sample Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">63</td>
+      <td class="num">3.52 (±0.23)</td>
+      <td class="num">0.95</td>
+      <td class="num">4.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Mid-Market</strong></td>
+      <td class="num">84</td>
+      <td class="num">2.71 (±0.18)</td>
+      <td class="num">0.86</td>
+      <td class="num">3.00 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">66</td>
+      <td class="num">2.45 (±0.22)</td>
+      <td class="num">0.93</td>
+      <td class="num">2.50 (1.00)</td>
+      <td>Adequate (≥30)</td>
+    </tr>
+    <tr>
+      <td><strong>Startup</strong></td>
+      <td class="num">27</td>
+      <td class="num">3.04 (±0.47)</td>
+      <td class="num">1.26</td>
+      <td class="num">3.00 (2.00)</td>
+      <td>SMALL SAMPLE (<30)</td>
+    </tr>
+  </tbody>
+</table></div>
+<figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mean Support Speed by Customer Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Mean Support Speed by Customer Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Mean Support Speed</text>
+<line x1="290.3" y1="42" x2="290.3" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="290.3" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 2.9</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<circle cx="464.2" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.5</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<circle cx="225.5" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<circle cx="148.9" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.5</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<circle cx="322.7" cy="126" r="3.6" fill="#1b4f72"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.0</text>
+</svg></div></figure>
+<h3 id="3-significant-cell-deviations-standardized-residuals-z-ij-ge-1-96">3. Significant Cell Deviations — Standardized Residuals ($|z_{ij}| \ge 1.96$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Segment Row</th>
+      <th>Outcome Column</th>
+      <th class="num">Observed ($O_{ij}$)</th>
+      <th class="num">Expected ($E_{ij}$)</th>
+      <th class="num">Row %</th>
+      <th class="num">Residual ($z_{ij}$)</th>
+      <th>Direction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">4</td>
+      <td class="num">22</td>
+      <td class="num">11.6</td>
+      <td class="num">34.9%</td>
+      <td class="num"><strong>+3.07</strong></td>
+      <td>over-indexed</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">5</td>
+      <td class="num">10</td>
+      <td class="num">4.5</td>
+      <td class="num">15.9%</td>
+      <td class="num"><strong>+2.62</strong></td>
+      <td>over-indexed</td>
+    </tr>
+    <tr>
+      <td><strong>Enterprise</strong></td>
+      <td class="num">2</td>
+      <td class="num">7</td>
+      <td class="num">16.3</td>
+      <td class="num">11.1%</td>
+      <td class="num"><strong>-2.30</strong></td>
+      <td>under-indexed</td>
+    </tr>
+    <tr>
+      <td><strong>SMB</strong></td>
+      <td class="num">1</td>
+      <td class="num">11</td>
+      <td class="num">5.8</td>
+      <td class="num">16.7%</td>
+      <td class="num"><strong>+2.17</strong></td>
+      <td>over-indexed</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="verified-null-findings-p-ge-0-05-article-5-transparency">Verified Null Findings ($p \ge 0.05$ — Article 5 Transparency)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Segment ($X$)</th>
+      <th>Outcome ($Y$)</th>
+      <th class="num">Valid $N$</th>
+      <th class="num">$\chi^2$ $p$-value</th>
+      <th class="num">Cramér's $V$</th>
+      <th>Diagnostic Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enterprise SLA Status</strong></td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">63</td>
+      <td class="num"><code>0.0824</code></td>
+      <td class="num"><code>0.290</code></td>
+      <td>No statistically significant difference; observed variation is within random sampling noise</td>
+    </tr>
+    <tr>
+      <td><strong>Region</strong></td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.1371</code></td>
+      <td class="num"><code>0.149</code></td>
+      <td>No statistically significant difference; observed variation is within random sampling noise</td>
+    </tr>
+    <tr>
+      <td><strong>Customer Segment</strong></td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.0641</code></td>
+      <td class="num"><code>0.124</code></td>
+      <td>No statistically significant difference; observed variation is within random sampling noise</td>
+    </tr>
+    <tr>
+      <td><strong>Region</strong></td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.3277</code></td>
+      <td class="num"><code>0.121</code></td>
+      <td>No statistically significant difference; observed variation is within random sampling noise</td>
+    </tr>
+    <tr>
+      <td><strong>Region</strong></td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">240</td>
+      <td class="num"><code>0.1327</code></td>
+      <td class="num"><code>0.112</code></td>
+      <td>No statistically significant difference; observed variation is within random sampling noise</td>
+    </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="4-deep-survey-science-priority-matrix-pure-sentiment-personas-turf">4. Deep Survey Science: Priority Matrix, Pure Sentiment, Personas & TURF</h2>
+<p><strong>Sample Base ($N$):</strong> <code>240</code> · <strong>Scale Reliability (Cronbach's $\alpha$):</strong> <code>0.814</code> (Good (0.80–0.89)) · <strong>Driver Model $R^2$:</strong> <code>0.818</code> · <strong>Optimal K-Means Silhouette:</strong> <code>0.304</code> ($K=2$)</p>
+<aside class="margin-note"><span class="margin-note-num">§10</span>This section synthesizes six advanced methodologies from <code>references/analysis/</code>: Ipsative & Halo-Residual Pure Sentiment, Derived Importance × Performance Priority Matrix, Expectation Residual Segmentation, Dual Correlation (Pearson $r$ vs. Spearman $\rho$), Silhouette-Optimized Persona Clustering with DBSCAN Outlier isolation, and TURF Reach Optimization.</aside>
+<h3 id="1-priority-action-matrix-key-driver-analysis">1. Priority Action Matrix & Key Driver Analysis</h3>
+<p>Attributes are ranked by <strong>Priority Score</strong> $= \text{Derived Importance } (|r|) \times (\text{Scale}_{\max} - \text{Mean Performance})$, combining linear standardized $\beta$ and non-linear relative importance:</p>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th class="num">Rank</th>
+      <th>Attribute</th>
+      <th class="num">Mean Perf</th>
+      <th class="num">Gap to Max</th>
+      <th class="num">Derived Imp ($</th>
+      <th class="num">r</th>
+      <th class="num">$)</th>
+      <th class="num">Std $\beta$</th>
+      <th class="num">Relative Weight</th>
+      <th class="num">Priority Score</th>
+      <th>Strategic Quadrant</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="num">1</td>
+      <td><strong>Overall Satisfaction</strong></td>
+      <td class="num">3.19</td>
+      <td class="num">1.81</td>
+      <td class="num">0.898</td>
+      <td class="num">+0.760</td>
+      <td class="num">0.837</td>
+      <td class="num"><strong>1.628</strong></td>
+      <td>Critical Fix (Immediate Action)</td>
+    </tr>
+    <tr>
+      <td class="num">2</td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">2.89</td>
+      <td class="num">2.11</td>
+      <td class="num">0.682</td>
+      <td class="num">+0.115</td>
+      <td class="num">0.092</td>
+      <td class="num"><strong>1.438</strong></td>
+      <td>Critical Fix (Immediate Action)</td>
+    </tr>
+    <tr>
+      <td class="num">3</td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">3.71</td>
+      <td class="num">1.29</td>
+      <td class="num">0.645</td>
+      <td class="num">+0.037</td>
+      <td class="num">0.029</td>
+      <td class="num"><strong>0.831</strong></td>
+      <td>Protect Core Strength</td>
+    </tr>
+    <tr>
+      <td class="num">4</td>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num">2.73</td>
+      <td class="num">2.27</td>
+      <td class="num">0.366</td>
+      <td class="num">+0.012</td>
+      <td class="num">0.005</td>
+      <td class="num"><strong>0.829</strong></td>
+      <td>Low Priority Monitor</td>
+    </tr>
+    <tr>
+      <td class="num">5</td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">3.50</td>
+      <td class="num">1.50</td>
+      <td class="num">0.474</td>
+      <td class="num">+0.058</td>
+      <td class="num">0.036</td>
+      <td class="num"><strong>0.713</strong></td>
+      <td>Maintain / Possible Overkill</td>
+    </tr>
+    <tr>
+      <td class="num">6</td>
+      <td><strong>API Stability</strong></td>
+      <td class="num">3.93</td>
+      <td class="num">1.07</td>
+      <td class="num">0.504</td>
+      <td class="num">+0.002</td>
+      <td class="num">0.001</td>
+      <td class="num"><strong>0.540</strong></td>
+      <td>Maintain / Possible Overkill</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-pure-sentiment-stack-ipsative-centering-halo-effect-removal">2. Pure Sentiment Stack (Ipsative Centering & Halo Effect Removal)</h3>
+<p>To eliminate respondent-level <strong>Halo Bias</strong> (yea-saying / nay-saying scale inflation), each rating is centered against the respondent's own personal mean ($X_{ij} - \bar{X}_i$) and regressed against general impression:</p>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th class="num">Raw Mean ± SD</th>
+      <th class="num">Ipsative Mean ($X_{ij} - \bar{X}_i$)</th>
+      <th class="num">Halo $\beta$ Sensitivity</th>
+      <th class="num">Halo-Adjusted Mean</th>
+      <th>Pure Sentiment Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>API Stability</strong></td>
+      <td class="num">3.93 (±0.82)</td>
+      <td class="num"><strong>+0.604</strong></td>
+      <td class="num">0.90</td>
+      <td class="num">4.60</td>
+      <td>True Strength (+)</td>
+    </tr>
+    <tr>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">3.71 (±0.94)</td>
+      <td class="num"><strong>+0.388</strong></td>
+      <td class="num">1.06</td>
+      <td class="num">4.08</td>
+      <td>True Strength (+)</td>
+    </tr>
+    <tr>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">3.50 (±0.96)</td>
+      <td class="num"><strong>+0.171</strong></td>
+      <td class="num">0.98</td>
+      <td class="num">3.67</td>
+      <td>True Strength (+)</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Overall Satisfaction</strong></td>
+      <td class="num">3.19 (±0.87)</td>
+      <td class="num"><strong>-0.138</strong></td>
+      <td class="num">1.11</td>
+      <td class="num">3.06</td>
+      <td>True Pain Point (−)</td>
+    </tr>
+    <tr>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">2.89 (±1.03)</td>
+      <td class="num"><strong>-0.433</strong></td>
+      <td class="num">1.09</td>
+      <td class="num">2.49</td>
+      <td>True Pain Point (−)</td>
+    </tr>
+    <tr>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num">2.73 (±1.03)</td>
+      <td class="num"><strong>-0.592</strong></td>
+      <td class="num">0.87</td>
+      <td class="num">2.05</td>
+      <td>True Pain Point (−)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="3-expectation-residuals-disappointed-aligned-delighted-segmentation">3. Expectation Residuals (Disappointed / Aligned / Delighted Segmentation)</h3>
+<p>Comparing each respondent's observed <code>Recommendation Score</code> against their driver-predicted expectation ($\hat{Y}_i$, OLS $R^2 = 0.818$, $\text{SD}_e = 0.87$):</p>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Expectation Segment</th>
+      <th>Residual Rule ($e_i = Y_i - \hat{Y}_i$)</th>
+      <th class="num">Respondent Count ($N$)</th>
+      <th class="num">Share of Sample (%)</th>
+      <th>Strategic Diagnostic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Disappointed (Churn Risk)</strong></td>
+      <td>$e_i < -1.0\,\text{SD}_e$</td>
+      <td class="num">34</td>
+      <td class="num">14.2%</td>
+      <td>Harsh graders / uncaptured friction</td>
+    </tr>
+    <tr>
+      <td><strong>Aligned (Expected)</strong></td>
+      <td>$</td>
+      <td class="num">e_i</td>
+      <td class="num">\le 1.0\,\text{SD}_e$</td>
+      <td class="num">172</td>
+      <td class="num">71.7%</td>
+      <td>Outcome matches attribute ratings</td>
+    </tr>
+    <tr>
+      <td><strong>Delighted (Brand Advocates)</strong></td>
+      <td>$e_i > +1.0\,\text{SD}_e$</td>
+      <td class="num">34</td>
+      <td class="num">14.2%</td>
+      <td>Strong goodwill / organic promoters</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="4-dual-correlation-matrix-pearson-r-linear-vs-spearman-rho-monotonic">4. Dual Correlation Matrix (Pearson $r$ Linear vs. Spearman $\rho$ Monotonic)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th class="num">Pearson $r$</th>
+      <th class="num">Pearson $p$-value</th>
+      <th class="num">Spearman $\rho$</th>
+      <th class="num">Spearman $p$-value</th>
+      <th class="num">$</th>
+      <th class="num">r - \rho</th>
+      <th>$ Divergence</th>
+      <th>Linearity Diagnostic</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="total-row">
+      <td><strong>Overall Satisfaction</strong></td>
+      <td class="num"><code>+0.898</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.892</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.006</code></td>
+      <td>Linear alignment</td>
+    </tr>
+    <tr>
+      <td><strong>Support Speed</strong></td>
+      <td class="num"><code>+0.682</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.644</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.038</code></td>
+      <td>Linear alignment</td>
+    </tr>
+    <tr>
+      <td><strong>Product Quality</strong></td>
+      <td class="num"><code>+0.645</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.631</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.015</code></td>
+      <td>Linear alignment</td>
+    </tr>
+    <tr>
+      <td><strong>API Stability</strong></td>
+      <td class="num"><code>+0.504</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.494</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.010</code></td>
+      <td>Linear alignment</td>
+    </tr>
+    <tr>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num"><code>+0.474</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.500</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.026</code></td>
+      <td>Linear alignment</td>
+    </tr>
+    <tr>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num"><code>+0.366</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>+0.368</code></td>
+      <td class="num"><code>0.0000</code></td>
+      <td class="num"><code>0.002</code></td>
+      <td>Linear alignment</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="5-dual-audience-clustering-k-means-personas-dbscan-anomaly-detection-pca-factors">5. Dual Audience Clustering (K-Means Personas + DBSCAN Anomaly Detection) & PCA Factors</h3>
+<ul>
+  <li><strong>K-Means Optimal Personas:</strong> $K = 2$ (Silhouette Score $= 0.304$)</li>
+  <li><strong>DBSCAN Density Scan:</strong> <code>1</code> dense core groups and <strong><code>18</code> noise/outlier respondents (<code>7.5%</code>)</strong> isolated (<code>cluster = -1</code>).</li>
+  <li><strong>Latent PCA Variance Explained:</strong> <code>80.4%</code> across <code>3</code> orthogonal components.</li>
+</ul>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Persona Cluster</th>
+      <th class="num">Segment Size ($N$)</th>
+      <th class="num">Share (%)</th>
+      <th class="num">Mean Target Score</th>
+      <th>Signature Relative Strength</th>
+      <th>Signature Relative Pain Point</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Persona 1</strong></td>
+      <td class="num">118</td>
+      <td class="num">49.2%</td>
+      <td class="num">8.14</td>
+      <td>Recommendation Score (+1.49)</td>
+      <td>Pricing Value (+0.39)</td>
+    </tr>
+    <tr>
+      <td><strong>Persona 2</strong></td>
+      <td class="num">122</td>
+      <td class="num">50.8%</td>
+      <td class="num">5.21</td>
+      <td>Pricing Value (-0.37)</td>
+      <td>Recommendation Score (-1.44)</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="6-turf-reach-optimization-top-box-threshold-ge-4">6. TURF Reach Optimization (Top-Box Threshold $\ge 4$)</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th class="num">Bundle Step</th>
+      <th>Added Attribute</th>
+      <th class="num">Incremental Reach ($N$)</th>
+      <th class="num">Incremental Reach (%)</th>
+      <th class="num">Cumulative Unduplicated Reach ($N$)</th>
+      <th class="num">Cumulative Reach (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="num">Step 1</td>
+      <td><strong>API Stability</strong></td>
+      <td class="num">+165</td>
+      <td class="num">+68.8%</td>
+      <td class="num">165</td>
+      <td class="num"><strong>68.8%</strong></td>
+    </tr>
+    <tr>
+      <td class="num">Step 2</td>
+      <td><strong>Product Quality</strong></td>
+      <td class="num">+21</td>
+      <td class="num">+8.8%</td>
+      <td class="num">186</td>
+      <td class="num"><strong>77.5%</strong></td>
+    </tr>
+    <tr>
+      <td class="num">Step 3</td>
+      <td><strong>Onboarding UX</strong></td>
+      <td class="num">+9</td>
+      <td class="num">+3.8%</td>
+      <td class="num">195</td>
+      <td class="num"><strong>81.2%</strong></td>
+    </tr>
+    <tr>
+      <td class="num">Step 4</td>
+      <td><strong>Support Speed</strong></td>
+      <td class="num">+3</td>
+      <td class="num">+1.2%</td>
+      <td class="num">198</td>
+      <td class="num"><strong>82.5%</strong></td>
+    </tr>
+    <tr>
+      <td class="num">Step 5</td>
+      <td><strong>Pricing Value</strong></td>
+      <td class="num">+1</td>
+      <td class="num">+0.4%</td>
+      <td class="num">199</td>
+      <td class="num"><strong>82.9%</strong></td>
+    </tr>
+  </tbody>
+</table></div>
+<hr>
+<h2 id="5-qualitative-verbatim-synthesis-silence-audit-article-4">5. Qualitative Verbatim Synthesis & Silence Audit (Article 4)</h2>
+<p><strong>Valid Open-Ended Responses ($N_{\text{quali}}$):</strong> <code>22</code> (out of <code>240</code> total respondents) · <strong>Article 4 Reporting Mode:</strong> <code>RAW COUNTS ONLY (N &lt; 30)</code></p>
+<aside class="margin-note"><span class="margin-note-num">§11</span><strong>Constitutional Article 4 Compliance:</strong> Because valid qualitative responses $N = 22 < 30$, percentages are suppressed in favor of exact raw counts (<code>n of 22</code>) to prevent false precision.</aside>
+<h3 id="1-emergent-theme-taxonomy">1. Emergent Theme Taxonomy</h3>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th>Qualitative Theme</th>
+      <th class="num">Frequency</th>
+      <th>Dominant Segment</th>
+      <th>Representative Verbatim Anchor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Service, Support & Responsiveness</strong></td>
+      <td class="num">7 of 22</td>
+      <td>SMB (n=3)</td>
+      <td><em>“Support response time during peak hours was too slow for our team.”</em></td>
+    </tr>
+    <tr>
+      <td><strong>Price, Value & Billing</strong></td>
+      <td class="num">6 of 22</td>
+      <td>Mid-Market (n=3)</td>
+      <td><em>“Pricing feels too expensive after the annual renewal tier jump.”</em></td>
+    </tr>
+    <tr>
+      <td><strong>Product Quality, Reliability & Features</strong></td>
+      <td class="num">5 of 22</td>
+      <td>Enterprise (n=2)</td>
+      <td><em>“The API stability and product quality are outstanding for mission-critical workloads.”</em></td>
+    </tr>
+    <tr>
+      <td><strong>Usability, Access & Experience</strong></td>
+      <td class="num">4 of 22</td>
+      <td>Enterprise (n=2)</td>
+      <td><em>“Great platform reliability and clean onboarding experience.”</em></td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="2-literal-participant-verbatims-by-theme-article-4-evidence">2. Literal Participant Verbatims by Theme (Article 4 Evidence)</h3>
+<h4 id="service-support-responsiveness-7-of-22-dominant-smb-n-3">Service, Support & Responsiveness (<code>7 of 22</code> — Dominant: SMB (n=3))</h4>
+<blockquote class="verbatim-quote"><p><em>“Support response time during peak hours was too slow for our team.”</em> — <strong>[Respondent #4, Segment: Enterprise]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Dedicated support agent solved our integration issue, but initial queue was slow.”</em> — <strong>[Respondent #15, Segment: Enterprise]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Customer support team took two days to answer our ticket.”</em> — <strong>[Respondent #32, Segment: Mid-Market]</strong></p></blockquote>
+<h4 id="price-value-billing-6-of-22-dominant-mid-market-n-3">Price, Value & Billing (<code>6 of 22</code> — Dominant: Mid-Market (n=3))</h4>
+<blockquote class="verbatim-quote"><p><em>“Pricing feels too expensive after the annual renewal tier jump.”</em> — <strong>[Respondent #21, Segment: Mid-Market]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Cost per seat is high compared to alternatives, billing needs transparency.”</em> — <strong>[Respondent #26, Segment: Mid-Market]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Too expensive for a small business, price plans are rigid.”</em> — <strong>[Respondent #39, Segment: SMB]</strong></p></blockquote>
+<h4 id="product-quality-reliability-features-5-of-22-dominant-enterprise-n-2">Product Quality, Reliability & Features (<code>5 of 22</code> — Dominant: Enterprise (n=2))</h4>
+<blockquote class="verbatim-quote"><p><em>“The API stability and product quality are outstanding for mission-critical workloads.”</em> — <strong>[Respondent #8, Segment: Enterprise]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Product quality is solid and the new interface is easy to navigate.”</em> — <strong>[Respondent #33, Segment: Mid-Market]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“We love the core feature reliability, very stable system.”</em> — <strong>[Respondent #34, Segment: Mid-Market]</strong></p></blockquote>
+<h4 id="usability-access-experience-4-of-22-dominant-enterprise-n-2">Usability, Access & Experience (<code>4 of 22</code> — Dominant: Enterprise (n=2))</h4>
+<blockquote class="verbatim-quote"><p><em>“Great platform reliability and clean onboarding experience.”</em> — <strong>[Respondent #17, Segment: Enterprise]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Onboarding documentation made setup easy for our analysts.”</em> — <strong>[Respondent #37, Segment: Mid-Market]</strong></p></blockquote>
+<blockquote class="verbatim-quote"><p><em>“Interface is confusing at first, onboarding UX could be simpler.”</em> — <strong>[Respondent #44, Segment: SMB]</strong></p></blockquote>
+<h3 id="3-segment-coverage-silence-notes">3. Segment Coverage & Silence Notes</h3>
+<ul>
+  <li><strong>Silence Note (<code>Startup</code>):</strong> Segment <code>Startup</code> recorded <code>0</code> open-ended responses out of <code>27</code> respondents — qualitative silence noted.</li>
+</ul>
+<hr>
+<h2 id="6-strategic-decision-matrix-quantified-recommendations-article-5">6. Strategic Decision Matrix & Quantified Recommendations (Article 5)</h2>
+<p>Every recommendation below is anchored to a specific <strong>Target</strong> (segment or variable), a concrete operational <strong>Action</strong>, and a <strong>Quantified Expected Impact Range</strong> derived from the empirical effect sizes and regression weights:</p>
+<div class="table-wrapper"><table class="data-table">
+  <thead>
+    <tr>
+      <th class="num">Priority</th>
+      <th>Target Segment / Attribute</th>
+      <th>Concrete Operational Action</th>
+      <th>Empirical Evidence Anchor</th>
+      <th>Quantified Expected Impact Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="num"><strong>P1</strong></td>
+      <td><strong><code>Overall Satisfaction</code></strong> (Critical Fix (Immediate Action))</td>
+      <td>Execute targeted remediation sprint to close the <code>1.81</code>-point performance deficit toward benchmark</td>
+      <td>Priority Score = <code>1.628</code>, $</td>
+      <td>r</td>
+      <td>= 0.898$, Std $\beta = +0.760$</td>
+      <td><strong>+0.40 to +0.85 pts</strong> on <code>Recommendation Score</code></td>
+    </tr>
+    <tr>
+      <td class="num"><strong>P2</strong></td>
+      <td><strong><code>Support Speed</code></strong> (Critical Fix (Immediate Action))</td>
+      <td>Execute targeted remediation sprint to close the <code>2.11</code>-point performance deficit toward benchmark</td>
+      <td>Priority Score = <code>1.438</code>, $</td>
+      <td>r</td>
+      <td>= 0.682$, Std $\beta = +0.115$</td>
+      <td><strong>+0.31 to +0.65 pts</strong> on <code>Recommendation Score</code></td>
+    </tr>
+    <tr>
+      <td class="num"><strong>P3</strong></td>
+      <td><strong><code>Enterprise SLA Status</code> × <code>Product Quality</code></strong> (Under-indexing cohorts)</td>
+      <td>Deploy segment-tailored intervention on cells with standardized residual $z_{ij} \le -1.96$</td>
+      <td>$\chi^2 = 7.49, p = 0.0077$, Cramér's $V = 0.345$</td>
+      <td><strong>+6.0% to +14.0% reduction</strong> in negative tail divergence across under-indexing segments</td>
+    </tr>
+    <tr>
+      <td class="num"><strong>P4</strong></td>
+      <td><strong>Disappointed Residual Cohort</strong> ($n=34$, <code>14.2%</code>)</td>
+      <td>Prioritize proactive retention outreach for respondents scoring $>1.0\,\text{SD}$ below driver-predicted expectation</td>
+      <td>OLS $R^2 = 0.818$, Residual $\text{SD}_e = 0.87$</td>
+      <td><strong>Recover 20% to 35%</strong> of at-risk detractors within the Disappointed residual cohort</td>
+    </tr>
+  </tbody>
+</table></div>
+            </article>
+            <section class="report-section" id="visual-appendix"><h2>Visual Appendix: Tufte Vector Graphics</h2><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Onboarding Ux by Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Onboarding Ux by Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Cleveland dot plot with 95% confidence intervals &amp; mean reference</text>
+<line x1="317.8" y1="42" x2="317.8" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="317.8" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.5</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<line x1="277.0" y1="48" x2="440.1" y2="48" stroke="#555555" stroke-width="1.4"/><line x1="277.0" y1="45" x2="277.0" y2="51" stroke="#555555" stroke-width="1.1"/><line x1="440.1" y1="45" x2="440.1" y2="51" stroke="#555555" stroke-width="1.1"/>
+<circle cx="358.6" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6 (±0.2)</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<line x1="148.9" y1="74" x2="296.4" y2="74" stroke="#555555" stroke-width="1.4"/><line x1="148.9" y1="71" x2="148.9" y2="77" stroke="#555555" stroke-width="1.1"/><line x1="296.4" y1="71" x2="296.4" y2="77" stroke="#555555" stroke-width="1.1"/>
+<circle cx="222.7" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.3 (±0.2)</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<line x1="276.3" y1="100" x2="464.2" y2="100" stroke="#555555" stroke-width="1.4"/><line x1="276.3" y1="97" x2="276.3" y2="103" stroke="#555555" stroke-width="1.1"/><line x1="464.2" y1="97" x2="464.2" y2="103" stroke="#555555" stroke-width="1.1"/>
+<circle cx="370.2" cy="100" r="3.6" fill="#1b4f72"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6 (±0.2)</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<line x1="197.1" y1="126" x2="442.4" y2="126" stroke="#555555" stroke-width="1.4"/><line x1="197.1" y1="123" x2="197.1" y2="129" stroke="#555555" stroke-width="1.1"/><line x1="442.4" y1="123" x2="442.4" y2="129" stroke="#555555" stroke-width="1.1"/>
+<circle cx="319.7" cy="126" r="3.6" fill="#1b4f72"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.5 (±0.3)</text>
+</svg></div><figcaption class="chart-caption">Dotplot Onboarding Ux</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pricing Value by Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Pricing Value by Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Cleveland dot plot with 95% confidence intervals &amp; mean reference</text>
+<line x1="292.2" y1="42" x2="292.2" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="292.2" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 2.7</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<line x1="148.9" y1="48" x2="252.2" y2="48" stroke="#555555" stroke-width="1.4"/><line x1="148.9" y1="45" x2="148.9" y2="51" stroke="#555555" stroke-width="1.1"/><line x1="252.2" y1="45" x2="252.2" y2="51" stroke="#555555" stroke-width="1.1"/>
+<circle cx="200.6" cy="48" r="3.6" fill="#a61c1c"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.4 (±0.2)</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<line x1="237.4" y1="74" x2="330.9" y2="74" stroke="#555555" stroke-width="1.4"/><line x1="237.4" y1="71" x2="237.4" y2="77" stroke="#555555" stroke-width="1.1"/><line x1="330.9" y1="71" x2="330.9" y2="77" stroke="#555555" stroke-width="1.1"/>
+<circle cx="284.2" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7 (±0.2)</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<line x1="345.1" y1="100" x2="464.2" y2="100" stroke="#555555" stroke-width="1.4"/><line x1="345.1" y1="97" x2="345.1" y2="103" stroke="#555555" stroke-width="1.1"/><line x1="464.2" y1="97" x2="464.2" y2="103" stroke="#555555" stroke-width="1.1"/>
+<circle cx="404.7" cy="100" r="3.6" fill="#1b4f72"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.2 (±0.2)</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<line x1="201.5" y1="126" x2="357.0" y2="126" stroke="#555555" stroke-width="1.4"/><line x1="201.5" y1="123" x2="201.5" y2="129" stroke="#555555" stroke-width="1.1"/><line x1="357.0" y1="123" x2="357.0" y2="129" stroke="#555555" stroke-width="1.1"/>
+<circle cx="279.2" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7 (±0.3)</text>
+</svg></div><figcaption class="chart-caption">Dotplot Pricing Value</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Product Quality by Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Product Quality by Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Cleveland dot plot with 95% confidence intervals &amp; mean reference</text>
+<line x1="307.5" y1="42" x2="307.5" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="307.5" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.7</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<line x1="346.2" y1="48" x2="464.2" y2="48" stroke="#555555" stroke-width="1.4"/><line x1="346.2" y1="45" x2="346.2" y2="51" stroke="#555555" stroke-width="1.1"/><line x1="464.2" y1="45" x2="464.2" y2="51" stroke="#555555" stroke-width="1.1"/>
+<circle cx="405.2" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">4.0 (±0.2)</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<line x1="267.5" y1="74" x2="374.3" y2="74" stroke="#555555" stroke-width="1.4"/><line x1="267.5" y1="71" x2="267.5" y2="77" stroke="#555555" stroke-width="1.1"/><line x1="374.3" y1="71" x2="374.3" y2="77" stroke="#555555" stroke-width="1.1"/>
+<circle cx="320.9" cy="74" r="3.6" fill="#1b4f72"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.8 (±0.2)</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<line x1="148.9" y1="100" x2="284.9" y2="100" stroke="#555555" stroke-width="1.4"/><line x1="148.9" y1="97" x2="148.9" y2="103" stroke="#555555" stroke-width="1.1"/><line x1="284.9" y1="97" x2="284.9" y2="103" stroke="#555555" stroke-width="1.1"/>
+<circle cx="216.9" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.4 (±0.2)</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<line x1="198.4" y1="126" x2="375.9" y2="126" stroke="#555555" stroke-width="1.4"/><line x1="198.4" y1="123" x2="198.4" y2="129" stroke="#555555" stroke-width="1.1"/><line x1="375.9" y1="123" x2="375.9" y2="129" stroke="#555555" stroke-width="1.1"/>
+<circle cx="287.2" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.6 (±0.3)</text>
+</svg></div><figcaption class="chart-caption">Dotplot Product Quality</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 176" width="100%" height="176" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Support Speed by Segment">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Support Speed by Segment</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Cleveland dot plot with 95% confidence intervals &amp; mean reference</text>
+<line x1="298.5" y1="42" x2="298.5" y2="134" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="298.5" y="148" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 2.9</text>
+<line x1="130" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Enterprise</text>
+<line x1="377.2" y1="48" x2="464.2" y2="48" stroke="#555555" stroke-width="1.4"/><line x1="377.2" y1="45" x2="377.2" y2="51" stroke="#555555" stroke-width="1.1"/><line x1="464.2" y1="45" x2="464.2" y2="51" stroke="#555555" stroke-width="1.1"/>
+<circle cx="420.7" cy="48" r="3.6" fill="#1b4f72"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.5 (±0.2)</text>
+<line x1="130" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Mid-Market</text>
+<line x1="213.5" y1="74" x2="292.3" y2="74" stroke="#555555" stroke-width="1.4"/><line x1="213.5" y1="71" x2="213.5" y2="77" stroke="#555555" stroke-width="1.1"/><line x1="292.3" y1="71" x2="292.3" y2="77" stroke="#555555" stroke-width="1.1"/>
+<circle cx="252.9" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7 (±0.2)</text>
+<line x1="130" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">SMB</text>
+<line x1="148.9" y1="100" x2="249.2" y2="100" stroke="#555555" stroke-width="1.4"/><line x1="148.9" y1="97" x2="148.9" y2="103" stroke="#555555" stroke-width="1.1"/><line x1="249.2" y1="97" x2="249.2" y2="103" stroke="#555555" stroke-width="1.1"/>
+<circle cx="199.0" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.5 (±0.2)</text>
+<line x1="130" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="122" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Startup</text>
+<line x1="255.8" y1="126" x2="386.7" y2="126" stroke="#555555" stroke-width="1.4"/><line x1="255.8" y1="123" x2="255.8" y2="129" stroke="#555555" stroke-width="1.1"/><line x1="386.7" y1="123" x2="386.7" y2="129" stroke="#555555" stroke-width="1.1"/>
+<circle cx="321.2" cy="126" r="3.6" fill="#1b4f72"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.0 (±0.3)</text>
+</svg></div><figcaption class="chart-caption">Dotplot Support Speed</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 254" width="100%" height="254" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Metric Performance Overview (Mean ± 95% CI)">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Metric Performance Overview (Mean ± 95% CI)</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Total Sample N = 240</text>
+<line x1="242.3" y1="42" x2="242.3" y2="212" stroke="#888888" stroke-width="0.9" stroke-dasharray="3,3"/><text x="242.3" y="226" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" fill="#666666">Mean: 3.8</text>
+<line x1="138" y1="48" x2="502" y2="48" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="52" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Product Quality</text>
+<line x1="227.5" y1="48" x2="244.4" y2="48" stroke="#555555" stroke-width="1.4"/><line x1="227.5" y1="45" x2="227.5" y2="51" stroke="#555555" stroke-width="1.1"/><line x1="244.4" y1="45" x2="244.4" y2="51" stroke="#555555" stroke-width="1.1"/>
+<circle cx="236.0" cy="48" r="3.6" fill="#a61c1c"/><text x="510" y="52" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.7 (±0.1)</text>
+<line x1="138" y1="74" x2="502" y2="74" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="78" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Support Speed</text>
+<line x1="167.8" y1="74" x2="186.6" y2="74" stroke="#555555" stroke-width="1.4"/><line x1="167.8" y1="71" x2="167.8" y2="77" stroke="#555555" stroke-width="1.1"/><line x1="186.6" y1="71" x2="186.6" y2="77" stroke="#555555" stroke-width="1.1"/>
+<circle cx="177.2" cy="74" r="3.6" fill="#a61c1c"/><text x="510" y="78" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.9 (±0.1)</text>
+<line x1="138" y1="100" x2="502" y2="100" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="104" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Pricing Value</text>
+<line x1="156.5" y1="100" x2="175.1" y2="100" stroke="#555555" stroke-width="1.4"/><line x1="156.5" y1="97" x2="156.5" y2="103" stroke="#555555" stroke-width="1.1"/><line x1="175.1" y1="97" x2="175.1" y2="103" stroke="#555555" stroke-width="1.1"/>
+<circle cx="165.8" cy="100" r="3.6" fill="#a61c1c"/><text x="510" y="104" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">2.7 (±0.1)</text>
+<line x1="138" y1="126" x2="502" y2="126" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="130" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Onboarding UX</text>
+<line x1="211.8" y1="126" x2="229.3" y2="126" stroke="#555555" stroke-width="1.4"/><line x1="211.8" y1="123" x2="211.8" y2="129" stroke="#555555" stroke-width="1.1"/><line x1="229.3" y1="123" x2="229.3" y2="129" stroke="#555555" stroke-width="1.1"/>
+<circle cx="220.5" cy="126" r="3.6" fill="#a61c1c"/><text x="510" y="130" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.5 (±0.1)</text>
+<line x1="138" y1="152" x2="502" y2="152" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="156" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">API Stability</text>
+<line x1="244.2" y1="152" x2="258.9" y2="152" stroke="#555555" stroke-width="1.4"/><line x1="244.2" y1="149" x2="244.2" y2="155" stroke="#555555" stroke-width="1.1"/><line x1="258.9" y1="149" x2="258.9" y2="155" stroke="#555555" stroke-width="1.1"/>
+<circle cx="251.5" cy="152" r="3.6" fill="#1b4f72"/><text x="510" y="156" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.9 (±0.1)</text>
+<line x1="138" y1="178" x2="502" y2="178" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="182" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Overall Satisfaction</text>
+<line x1="190.6" y1="178" x2="206.3" y2="178" stroke="#555555" stroke-width="1.4"/><line x1="190.6" y1="175" x2="190.6" y2="181" stroke="#555555" stroke-width="1.1"/><line x1="206.3" y1="175" x2="206.3" y2="181" stroke="#555555" stroke-width="1.1"/>
+<circle cx="198.4" cy="178" r="3.6" fill="#a61c1c"/><text x="510" y="182" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">3.2 (±0.1)</text>
+<line x1="138" y1="204" x2="502" y2="204" stroke="#e6e6de" stroke-width="0.7" stroke-dasharray="1,3"/>
+<text x="130" y="208" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="11" fill="#222222">Recommendation Score</text>
+<line x1="428.1" y1="204" x2="465.0" y2="204" stroke="#555555" stroke-width="1.4"/><line x1="428.1" y1="201" x2="428.1" y2="207" stroke="#555555" stroke-width="1.1"/><line x1="465.0" y1="201" x2="465.0" y2="207" stroke="#555555" stroke-width="1.1"/>
+<circle cx="446.6" cy="204" r="3.6" fill="#1b4f72"/><text x="510" y="208" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" fill="#333333">6.7 (±0.3)</text>
+</svg></div><figcaption class="chart-caption">Dotplot Profile Means</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 340" width="100%" height="340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Priority Action Matrix (Derived Importance × Performance)">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Priority Action Matrix (Derived Importance × Performance)</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Priority Score = Importance × (Scale_max − Mean Performance)</text>
+<rect x="54" y="50" width="496" height="252" fill="none" stroke="#999999" stroke-width="0.8"/><line x1="300.2" y1="50" x2="300.2" y2="302" stroke="#888888" stroke-width="0.9" stroke-dasharray="4,4"/><line x1="54" y1="188.9" x2="550" y2="188.9" stroke="#888888" stroke-width="0.9" stroke-dasharray="4,4"/>
+<text x="62" y="65" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold" fill="#a61c1c">CRITICAL FIX (High Imp / Low Perf)</text><text x="542" y="65" text-anchor="end" font-family="-apple-system, sans-serif" font-size="9" font-weight="bold" fill="#1b4f72">PROTECT STRENGTH (High Imp / High Perf)</text><text x="62" y="294" font-family="-apple-system, sans-serif" font-size="9" fill="#777777">LOW PRIORITY (Low Imp / Low Perf)</text><text x="542" y="294" text-anchor="end" font-family="-apple-system, sans-serif" font-size="9" fill="#777777">MAINTAIN / OVERKILL (Low Imp / High Perf)</text>
+<text x="302.0" y="332" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#333333">Mean Performance Score →</text><text x="14" y="176.0" text-anchor="middle" transform="rotate(-90 14 176.0)" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#333333">Derived Importance (|r|) →</text>
+<circle cx="258.4" cy="83.4" r="4.2" fill="#a61c1c"/><text x="264.4" y="86.4" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#222222">Overall Satisfaction</text>
+<circle cx="168.1" cy="158.6" r="4.2" fill="#a61c1c"/><text x="174.1" y="161.6" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#222222">Support Speed</text>
+<circle cx="418.2" cy="171.5" r="4.2" fill="#1b4f72"/><text x="424.2" y="174.5" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="400" fill="#222222">Product Quality</text>
+<circle cx="119.6" cy="268.6" r="4.2" fill="#555555"/><text x="125.6" y="271.6" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="400" fill="#222222">Pricing Value</text>
+<circle cx="352.3" cy="231.0" r="4.2" fill="#555555"/><text x="358.3" y="234.0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="400" fill="#222222">Onboarding UX</text>
+<circle cx="484.4" cy="220.6" r="4.2" fill="#555555"/><text x="490.4" y="223.6" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="400" fill="#222222">API Stability</text>
+</svg></div><figcaption class="chart-caption">Priority Matrix</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 510 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standardized Residuals (z_ij): Customer Segment × API Stability">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Standardized Residuals (z_ij): Customer Segment × API Stability</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Chi-Square p = 0.8654 · Cramér&#x27;s V = 0.080</text>
+<text x="157.5" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">2</text>
+<text x="252.5" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">3</text>
+<text x="347.5" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">4</text>
+<text x="442.5" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">5</text>
+<text x="102" y="84" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Enterprise</text>
+<rect x="111.0" y="69" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="157.5" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.36</text>
+<rect x="206.0" y="69" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="252.5" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.51</text>
+<rect x="301.0" y="69" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="347.5" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.15</text>
+<rect x="396.0" y="69" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="442.5" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.26</text>
+<text x="102" y="110" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Mid-Market</text>
+<rect x="111.0" y="95" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="157.5" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.35</text>
+<rect x="206.0" y="95" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="252.5" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.16</text>
+<rect x="301.0" y="95" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="347.5" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.34</text>
+<rect x="396.0" y="95" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="442.5" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.47</text>
+<text x="102" y="136" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">SMB</text>
+<rect x="111.0" y="121" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="157.5" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.78</text>
+<rect x="206.0" y="121" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="252.5" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.16</text>
+<rect x="301.0" y="121" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="347.5" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.48</text>
+<rect x="396.0" y="121" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="442.5" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.68</text>
+<text x="102" y="162" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Startup</text>
+<rect x="111.0" y="147" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="157.5" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.24</text>
+<rect x="206.0" y="147" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="252.5" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.23</text>
+<rect x="301.0" y="147" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="347.5" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.37</text>
+<rect x="396.0" y="147" width="93.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="442.5" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.62</text>
+<text x="110" y="194" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" fill="#666666">Note: |z| ≥ 1.96 indicates statistically significant cell deviation (p &lt; 0.05).</text></svg></div><figcaption class="chart-caption">Residuals Cross Customer Segment Api Stability</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standardized Residuals (z_ij): Customer Segment × Onboarding UX">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Standardized Residuals (z_ij): Customer Segment × Onboarding UX</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Chi-Square p = 0.0641 · Cramér&#x27;s V = 0.124</text>
+<text x="155.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">1</text>
+<text x="245.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">2</text>
+<text x="335.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">3</text>
+<text x="425.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">4</text>
+<text x="515.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">5</text>
+<text x="102" y="84" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Enterprise</text>
+<rect x="111.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.66</text>
+<rect x="201.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.31</text>
+<rect x="291.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.23</text>
+<rect x="381.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.97</text>
+<rect x="471.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.07</text>
+<text x="102" y="110" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Mid-Market</text>
+<rect x="111.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.36</text>
+<rect x="201.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.48</text>
+<rect x="291.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.58</text>
+<rect x="381.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.83</text>
+<rect x="471.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.15</text>
+<text x="102" y="136" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">SMB</text>
+<rect x="111.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.74</text>
+<rect x="201.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.77</text>
+<rect x="291.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.24</text>
+<rect x="381.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.30</text>
+<rect x="471.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.81</text>
+<text x="102" y="162" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Startup</text>
+<rect x="111.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.47</text>
+<rect x="201.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.60</text>
+<rect x="291.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.29</text>
+<rect x="381.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.49</text>
+<rect x="471.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.65</text>
+<text x="110" y="194" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" fill="#666666">Note: |z| ≥ 1.96 indicates statistically significant cell deviation (p &lt; 0.05).</text></svg></div><figcaption class="chart-caption">Residuals Cross Customer Segment Onboarding Ux</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standardized Residuals (z_ij): Customer Segment × Overall Satisfaction">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Standardized Residuals (z_ij): Customer Segment × Overall Satisfaction</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Chi-Square p = 0.0004 · Cramér&#x27;s V = 0.178</text>
+<text x="155.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">1</text>
+<text x="245.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">2</text>
+<text x="335.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">3</text>
+<text x="425.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">4</text>
+<text x="515.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">5</text>
+<text x="102" y="84" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Enterprise</text>
+<rect x="111.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.15</text>
+<rect x="201.0" y="69" width="88.0" height="24" fill="#f5d7d7" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" fill="#781e1e">-2.47</text>
+<rect x="291.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.25</text>
+<rect x="381.0" y="69" width="88.0" height="24" fill="#d4e6f1" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" fill="#1b4f72">+2.01</text>
+<rect x="471.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.21</text>
+<text x="102" y="110" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Mid-Market</text>
+<rect x="111.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.19</text>
+<rect x="201.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.76</text>
+<rect x="291.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.36</text>
+<rect x="381.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.71</text>
+<rect x="471.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.86</text>
+<text x="102" y="136" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">SMB</text>
+<rect x="111.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.39</text>
+<rect x="201.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.21</text>
+<rect x="291.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.31</text>
+<rect x="381.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.51</text>
+<rect x="471.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.94</text>
+<text x="102" y="162" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Startup</text>
+<rect x="111.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.75</text>
+<rect x="201.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.53</text>
+<rect x="291.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.24</text>
+<rect x="381.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.02</text>
+<rect x="471.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.14</text>
+<text x="110" y="194" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" fill="#666666">Note: |z| ≥ 1.96 indicates statistically significant cell deviation (p &lt; 0.05).</text></svg></div><figcaption class="chart-caption">Residuals Cross Customer Segment Overall Satisfaction</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 580 200" width="100%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Standardized Residuals (z_ij): Customer Segment × Pricing Value">
+<text x="0" y="18" font-family="Georgia, Palatino, serif" font-size="13.5" font-weight="bold" fill="#111111">Standardized Residuals (z_ij): Customer Segment × Pricing Value</text>
+<text x="0" y="34" font-family="Georgia, Palatino, serif" font-size="10.5" font-style="italic" fill="#555555">Chi-Square p = 0.0001 · Cramér&#x27;s V = 0.179</text>
+<text x="155.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">1</text>
+<text x="245.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">2</text>
+<text x="335.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">3</text>
+<text x="425.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">4</text>
+<text x="515.0" y="58" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="600" fill="#333333">5</text>
+<text x="102" y="84" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Enterprise</text>
+<rect x="111.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.72</text>
+<rect x="201.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.55</text>
+<rect x="291.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.09</text>
+<rect x="381.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.12</text>
+<rect x="471.0" y="69" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="84" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.31</text>
+<text x="102" y="110" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Mid-Market</text>
+<rect x="111.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.38</text>
+<rect x="201.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.10</text>
+<rect x="291.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.08</text>
+<rect x="381.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.17</text>
+<rect x="471.0" y="95" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="110" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.26</text>
+<text x="102" y="136" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">SMB</text>
+<rect x="111.0" y="121" width="88.0" height="24" fill="#f5d7d7" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="bold" fill="#781e1e">-2.05</text>
+<rect x="201.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-1.43</text>
+<rect x="291.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.68</text>
+<rect x="381.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.62</text>
+<rect x="471.0" y="121" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+1.81</text>
+<text x="102" y="162" text-anchor="end" font-family="Georgia, Palatino, serif" font-size="10.5" fill="#222222">Startup</text>
+<rect x="111.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="155.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.09</text>
+<rect x="201.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="245.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.04</text>
+<rect x="291.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="335.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">+0.47</text>
+<rect x="381.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="425.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.52</text>
+<rect x="471.0" y="147" width="88.0" height="24" fill="#f9f9f3" stroke="#e0e0d8" stroke-width="0.6"/><text x="515.0" y="162" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="normal" fill="#666666">-0.38</text>
+<text x="110" y="194" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="8.5" fill="#666666">Note: |z| ≥ 1.96 indicates statistically significant cell deviation (p &lt; 0.05).</text></svg></div><figcaption class="chart-caption">Residuals Cross Customer Segment Pricing Value</figcaption></figure><figure class="chart-figure"><div class="chart-container"><svg viewBox="0 0 560 228" width="100%" height="228" xmlns="http://www.w3.org/2000/svg"><text x="0" y="16" font-family="Georgia, Palatino, serif" font-size="13" font-weight="bold" fill="#111111">Response Distribution Shapes Across Variables</text><text x="0" y="31" font-family="Georgia, Palatino, serif" font-size="10" font-style="italic" fill="#555555">Empirical frequency sparklines per variable (min–max scaled)</text><g transform="translate(0,44)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Customer Segment</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,4.0 43.3,18.5 80.7,20.9 118.0,50.0"/><circle cx="6.0" cy="4.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="50.0" r="2.0" fill="#111111"/><circle cx="118.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="6.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 27.0 – 84.0</text></g><g transform="translate(140,44)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Region</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,4.0 43.3,28.1 80.7,34.9 118.0,50.0"/><circle cx="6.0" cy="4.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="50.0" r="2.0" fill="#111111"/><circle cx="118.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="6.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 23.0 – 105.0</text></g><g transform="translate(280,44)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Product Quality</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,50.0 34.0,40.3 62.0,9.4 90.0,4.0 118.0,21.9"/><circle cx="6.0" cy="50.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="21.9" r="2.0" fill="#111111"/><circle cx="6.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="90.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 2.0 – 87.0</text></g><g transform="translate(420,44)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Support Speed</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,47.7 34.0,23.8 62.0,4.0 90.0,34.3 118.0,50.0"/><circle cx="6.0" cy="47.7" r="1.8" fill="#555555"/><circle cx="118.0" cy="50.0" r="2.0" fill="#111111"/><circle cx="118.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="62.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 17.0 – 96.0</text></g><g transform="translate(0,130)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Pricing Value</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,41.4 34.0,17.2 62.0,4.0 90.0,36.8 118.0,50.0"/><circle cx="6.0" cy="41.4" r="1.8" fill="#555555"/><circle cx="118.0" cy="50.0" r="2.0" fill="#111111"/><circle cx="118.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="62.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 13.0 – 93.0</text></g><g transform="translate(140,130)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Onboarding UX</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,50.0 34.0,32.9 62.0,4.0 90.0,11.0 118.0,29.1"/><circle cx="6.0" cy="50.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="29.1" r="2.0" fill="#111111"/><circle cx="6.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="62.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 2.0 – 88.0</text></g><g transform="translate(280,130)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">API Stability</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,50.0 43.3,19.8 80.7,4.0 118.0,21.3"/><circle cx="6.0" cy="50.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="21.3" r="2.0" fill="#111111"/><circle cx="6.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="80.7" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 7.0 – 100.0</text></g><g transform="translate(420,130)"><text x="62.0" y="12" text-anchor="middle" font-family="Georgia, Palatino, serif" font-size="10" font-weight="bold" fill="#222222">Overall Satisfaction</text><g transform="translate(4, 16)"><svg class="sparkline" width="124" height="54" viewBox="0 0 124 54" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="#111111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" points="6.0,50.0 34.0,33.0 62.0,4.0 90.0,21.0 118.0,46.0"/><circle cx="6.0" cy="50.0" r="1.8" fill="#555555"/><circle cx="118.0" cy="46.0" r="2.0" fill="#111111"/><circle cx="6.0" cy="50.0" r="1.8" fill="#a61c1c"/><circle cx="62.0" cy="4.0" r="1.8" fill="#1b4f72"/></svg></g><text x="62.0" y="82" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="8.5" fill="#666666">range: 5.0 – 108.0</text></g></svg></div><figcaption class="chart-caption">Small Multiples Distributions</figcaption></figure></section>
+          </main>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr><td><div class="print-footer-space"></div></td></tr>
+    </tfoot>
+  </table>
+
+  <style>
+    body.hide-margin-notes .margin-note { display: none !important; }
+    body.hide-margin-notes p,
+    body.hide-margin-notes ul,
+    body.hide-margin-notes ol,
+    body.hide-margin-notes blockquote { width: 92% !important; }
+  </style>
 </body>
 </html>

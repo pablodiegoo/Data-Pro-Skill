@@ -1,27 +1,15 @@
-# Issue tracker: GitHub
+# Issue Tracker: GitHub
 
-Issues for this repo live in **GitHub Issues** at `open-gsd/get-shit-done-redux`.
+Issues for this repository live in **GitHub Issues** at `pablodiegoo/Data-Pro-Skill`.
 
 ## Auth
 
-Use the configured GitHub CLI session for this checkout. Do not require a
-repo-local `.envrc` before running `gh`.
+Use the configured GitHub CLI session for this checkout.
 
 ## Conventions
 
-- **Create**: `gh issue create --repo open-gsd/get-shit-done-redux --title "..." --body "..."`
-- **Read**: `gh issue view <number> --repo open-gsd/get-shit-done-redux --comments`
-- **List**: `gh issue list --repo open-gsd/get-shit-done-redux --state open --json number,title,labels --jq '...'`
-- **Comment**: `gh issue comment <number> --repo open-gsd/get-shit-done-redux --body "..."`
-- **Label**: `gh issue edit <number> --repo open-gsd/get-shit-done-redux --add-label "..." --remove-label "..."`
-- **Close**: `gh issue close <number> --repo open-gsd/get-shit-done-redux --comment "..."`
-
-Always pass `--repo open-gsd/get-shit-done-redux` explicitly — the local clone has multiple remotes and `gh` may resolve to the wrong one.
-
-## When a skill says "publish to the issue tracker"
-
-Create a GitHub issue at `open-gsd/get-shit-done-redux`.
-
-## When a skill says "fetch the relevant ticket"
-
-Run `gh issue view <number> --repo open-gsd/get-shit-done-redux --comments`.
+- **Create**: `gh issue create --repo pablodiegoo/Data-Pro-Skill --title "..." --body "..."`
+- **Read**: `gh issue view <number> --repo pablodiegoo/Data-Pro-Skill --comments`
+- **List**: `gh issue list --repo pablodiegoo/Data-Pro-Skill --state open --json number,title,labels`
+- **Comment**: `gh issue comment <number> --repo pablodiegoo/Data-Pro-Skill --body "..."`
+- **Close**: `gh issue close <number> --repo pablodiegoo/Data-Pro-Skill --comment "..."`

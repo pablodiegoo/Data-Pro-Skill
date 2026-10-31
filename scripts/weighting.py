@@ -57,3 +57,27 @@ def rake_weights(df, target_distributions, max_iter=100, tolerance=0.001):
             break
             
     return df['weight']
+
+
+if __name__ == "__main__":
+    import argparse
+    import json
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(description="Raking (Iterative Proportional Fitting) Weighting CLI")
+    parser.add_argument("input", help="Input CSV dataset")
+    parser.add_argument("--targets", required=True, help="JSON file or inline JSON string of target distributions")
+    parser.add_argument("-o", "--output", default=".dps/outputs/setup/weighted_data.csv", help="Output weighted CSV path")
+    args = parser.parse_args()
+
+    df_in = pd.read_csv(args.input)
+    t_path = Path(args.targets)
+    targets_dict = json.loads(t_path.read_text(encoding="utf-8")) if t_path.is_file() else json.loads(args.targets)
+    w_series = rake_weights(df_in, targets_dict)
+    df_in["weight"] = w_series
+    n_eff = float((w_series.sum() ** 2) / ((w_series ** 2).sum())) if (w_series ** 2).sum() > 0 else len(df_in)
+    deff = len(df_in) / n_eff if n_eff > 0 else 1.0
+    out_p = Path(args.output)
+    out_p.parent.mkdir(parents=True, exist_ok=True)
+    df_in.to_csv(out_p, index=False)
+    print(f"✅ Raking complete -> {out_p} (N={len(df_in)}, Kish N_eff={n_eff:.1f}, DEFF={deff:.3f})")

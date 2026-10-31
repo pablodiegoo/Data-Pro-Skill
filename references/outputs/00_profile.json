@@ -1,11 +1,422 @@
 {
-  "n_rows": 10,
-  "n_cols": 3,
-  "numeric_cols": [],
-  "categorical_cols": [],
-  "datetime_cols": [],
-  "text_cols": [],
-  "has_likert": false,
-  "has_weight_col": false,
-  "missing_pct": {}
+  "project": "B2B SaaS Customer Intelligence Study 2026",
+  "generated_at": "2026-10-31T12:41:45.612191",
+  "sample_size": 240,
+  "effective_sample_size": 239.1,
+  "design_effect_deff": 1.004,
+  "weight_column": "respondent_id",
+  "n_columns": 13,
+  "global_moe_95ci": "±6.34%",
+  "global_moe_95ci_num": 6.34,
+  "primary_segment_column": "Customer Segment",
+  "likert_columns": [
+    "Product Quality",
+    "Support Speed",
+    "Pricing Value",
+    "Onboarding UX",
+    "API Stability",
+    "Overall Satisfaction",
+    "Recommendation Score"
+  ],
+  "numeric_columns": [],
+  "categorical_columns": [
+    "Customer Segment",
+    "Region",
+    "Enterprise SLA Status",
+    "SMB Self-Serve Funnel"
+  ],
+  "open_text_columns": [
+    "Open Feedback"
+  ],
+  "quality_gates": {
+    "article_6a_straight_lining": {
+      "evaluated": true,
+      "n_likert_items": 7,
+      "straight_liners_count": 0,
+      "straight_lining_pct": 0.0,
+      "sensitivity_max_delta_pct": 0.0,
+      "flagged_row_indices": []
+    },
+    "article_6b_percentage_sum_check": {
+      "passed": true,
+      "violations": []
+    },
+    "article_6c_missingness": {
+      "moderate_10_to_20_pct": [],
+      "high_over_20_pct": [
+        {
+          "column": "Enterprise SLA Status",
+          "snake": "enterprise_sla_status",
+          "missing_pct": 73.75
+        },
+        {
+          "column": "SMB Self-Serve Funnel",
+          "snake": "smb_self_serve_funnel",
+          "missing_pct": 72.5
+        },
+        {
+          "column": "Open Feedback",
+          "snake": "open_feedback",
+          "missing_pct": 90.83
+        }
+      ]
+    }
+  },
+  "variables": {
+    "respondent_id": {
+      "original_name": "respondent_id",
+      "snake_name": "respondent_id",
+      "role": "weight",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0
+    },
+    "customer_segment": {
+      "original_name": "Customer Segment",
+      "snake_name": "customer_segment",
+      "role": "categorical",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "categories": {
+        "Mid-Market": {
+          "count": 84,
+          "pct": 35.0,
+          "moe_95_pct": 6.0
+        },
+        "SMB": {
+          "count": 66,
+          "pct": 27.5,
+          "moe_95_pct": 5.6
+        },
+        "Enterprise": {
+          "count": 63,
+          "pct": 26.2,
+          "moe_95_pct": 5.6
+        },
+        "Startup": {
+          "count": 27,
+          "pct": 11.2,
+          "moe_95_pct": 4.0
+        }
+      },
+      "n_unique": 4,
+      "distribution": {
+        "Mid-Market": 84,
+        "SMB": 66,
+        "Enterprise": 63,
+        "Startup": 27
+      }
+    },
+    "region": {
+      "original_name": "Region",
+      "snake_name": "region",
+      "role": "categorical",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "categories": {
+        "Southeast": {
+          "count": 105,
+          "pct": 43.8,
+          "moe_95_pct": 6.3
+        },
+        "South": {
+          "count": 62,
+          "pct": 25.8,
+          "moe_95_pct": 5.5
+        },
+        "Northeast": {
+          "count": 50,
+          "pct": 20.8,
+          "moe_95_pct": 5.1
+        },
+        "Midwest": {
+          "count": 23,
+          "pct": 9.6,
+          "moe_95_pct": 3.7
+        }
+      },
+      "n_unique": 4,
+      "distribution": {
+        "Southeast": 105,
+        "South": 62,
+        "Northeast": 50,
+        "Midwest": 23
+      }
+    },
+    "product_quality": {
+      "original_name": "Product Quality",
+      "snake_name": "product_quality",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 3.712,
+      "sd": 0.935,
+      "se": 0.0604,
+      "moe_95": 0.118,
+      "median": 4.0,
+      "iqr": 1.0,
+      "mad": 1.0,
+      "skewness": -0.262,
+      "min": 1.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "1": 2,
+        "2": 20,
+        "3": 77,
+        "4": 87,
+        "5": 54
+      },
+      "top2box_pct": 58.8,
+      "bottom2box_pct": 9.2,
+      "net_score": 49.6
+    },
+    "support_speed": {
+      "original_name": "Support Speed",
+      "snake_name": "support_speed",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 2.892,
+      "sd": 1.033,
+      "se": 0.0667,
+      "moe_95": 0.131,
+      "median": 3.0,
+      "iqr": 2.0,
+      "mad": 1.0,
+      "skewness": 0.127,
+      "min": 1.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "1": 21,
+        "2": 62,
+        "3": 96,
+        "4": 44,
+        "5": 17
+      },
+      "top2box_pct": 25.4,
+      "bottom2box_pct": 34.6,
+      "net_score": -9.2
+    },
+    "pricing_value": {
+      "original_name": "Pricing Value",
+      "snake_name": "pricing_value",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 2.733,
+      "sd": 1.029,
+      "se": 0.0664,
+      "moe_95": 0.13,
+      "median": 3.0,
+      "iqr": 1.0,
+      "mad": 1.0,
+      "skewness": 0.205,
+      "min": 1.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "1": 28,
+        "2": 70,
+        "3": 93,
+        "4": 36,
+        "5": 13
+      },
+      "top2box_pct": 20.4,
+      "bottom2box_pct": 40.8,
+      "net_score": -20.4
+    },
+    "onboarding_ux": {
+      "original_name": "Onboarding UX",
+      "snake_name": "onboarding_ux",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 3.496,
+      "sd": 0.964,
+      "se": 0.0622,
+      "moe_95": 0.122,
+      "median": 3.0,
+      "iqr": 1.0,
+      "mad": 1.0,
+      "skewness": -0.031,
+      "min": 1.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "1": 2,
+        "2": 34,
+        "3": 88,
+        "4": 75,
+        "5": 41
+      },
+      "top2box_pct": 48.3,
+      "bottom2box_pct": 15.0,
+      "net_score": 33.3
+    },
+    "api_stability": {
+      "original_name": "API Stability",
+      "snake_name": "api_stability",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 3.929,
+      "sd": 0.818,
+      "se": 0.0528,
+      "moe_95": 0.103,
+      "median": 4.0,
+      "iqr": 2.0,
+      "mad": 1.0,
+      "skewness": -0.193,
+      "min": 2.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "2": 7,
+        "3": 68,
+        "4": 100,
+        "5": 65
+      },
+      "top2box_pct": 68.8,
+      "bottom2box_pct": 2.9,
+      "net_score": 65.8
+    },
+    "overall_satisfaction": {
+      "original_name": "Overall Satisfaction",
+      "snake_name": "overall_satisfaction",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 3.188,
+      "sd": 0.869,
+      "se": 0.0561,
+      "moe_95": 0.11,
+      "median": 3.0,
+      "iqr": 1.0,
+      "mad": 1.0,
+      "skewness": -0.027,
+      "min": 1.0,
+      "max": 5.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "1": 5,
+        "2": 43,
+        "3": 108,
+        "4": 70,
+        "5": 14
+      },
+      "top2box_pct": 35.0,
+      "bottom2box_pct": 20.0,
+      "net_score": 15.0
+    },
+    "recommendation_score": {
+      "original_name": "Recommendation Score",
+      "snake_name": "recommendation_score",
+      "role": "likert",
+      "n_valid": 240,
+      "n_missing": 0,
+      "missing_pct": 0.0,
+      "mean": 6.65,
+      "sd": 2.03,
+      "se": 0.131,
+      "moe_95": 0.257,
+      "median": 7.0,
+      "iqr": 3.0,
+      "mad": 1.0,
+      "skewness": -0.409,
+      "min": 0.0,
+      "max": 10.0,
+      "recommended_estimator": "Parametric (Mean/SD)",
+      "distribution": {
+        "0": 1,
+        "1": 2,
+        "2": 5,
+        "3": 6,
+        "4": 22,
+        "5": 26,
+        "6": 49,
+        "7": 43,
+        "8": 41,
+        "9": 25,
+        "10": 20
+      },
+      "top2box_pct": 18.8,
+      "bottom2box_pct": 46.2,
+      "net_score": -27.5
+    },
+    "enterprise_sla_status": {
+      "original_name": "Enterprise SLA Status",
+      "snake_name": "enterprise_sla_status",
+      "role": "binary",
+      "n_valid": 63,
+      "n_missing": 177,
+      "missing_pct": 73.75,
+      "categories": {
+        "Met SLA": {
+          "count": 52,
+          "pct": 82.5,
+          "moe_95_pct": 9.4
+        },
+        "Missed SLA": {
+          "count": 11,
+          "pct": 17.5,
+          "moe_95_pct": 9.4
+        }
+      },
+      "n_unique": 2,
+      "distribution": {
+        "Met SLA": 52,
+        "Missed SLA": 11
+      }
+    },
+    "smb_self_serve_funnel": {
+      "original_name": "SMB Self-Serve Funnel",
+      "snake_name": "smb_self_serve_funnel",
+      "role": "binary",
+      "n_valid": 66,
+      "n_missing": 174,
+      "missing_pct": 72.5,
+      "categories": {
+        "Completed": {
+          "count": 41,
+          "pct": 62.1,
+          "moe_95_pct": 11.7
+        },
+        "Abandoned": {
+          "count": 25,
+          "pct": 37.9,
+          "moe_95_pct": 11.7
+        }
+      },
+      "n_unique": 2,
+      "distribution": {
+        "Completed": 41,
+        "Abandoned": 25
+      }
+    },
+    "open_feedback": {
+      "original_name": "Open Feedback",
+      "snake_name": "open_feedback",
+      "role": "open_text",
+      "n_valid": 22,
+      "n_missing": 218,
+      "missing_pct": 90.83,
+      "n_verbatims": 22,
+      "avg_char_length": 63.3,
+      "sample_verbatims": [
+        "Support response time during peak hours was too slow for our team.",
+        "The API stability and product quality are outstanding for mission-critical workloads.",
+        "Dedicated support agent solved our integration issue, but initial queue was slow."
+      ]
+    }
+  }
 }

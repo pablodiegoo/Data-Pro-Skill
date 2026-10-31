@@ -17,17 +17,20 @@ FIXES (v2):
     - Pie chart used whenever distinct options ≤ PIE_CHART_MAX_OPTIONS.
 """
 
-import pandas as pd
-import re
+import argparse
 import os
+import re
+import sys
 from collections import defaultdict
+from pathlib import Path
+import pandas as pd
 
 # ──────────────────────────────────────────────────────────────
-# ⚙️  CONFIGURATION — Edit values here only
+# ⚙️  DEFAULT CONFIGURATION (Overridable via CLI arguments)
 # ──────────────────────────────────────────────────────────────
-INPUT_FILE   = '/media/pablo-diego/Storage1/AGP/Reports/Saquarema/Beerfest/202603/database/raw/1316610817-SGPSaquarema-BeerFest-Maro2026.csv'
-OUTPUT_FILE  = '/media/pablo-diego/Storage1/AGP/Reports/Saquarema/Beerfest/202603/docs/reports/frequencies_report.md'
-REPORT_TITLE = 'Relatório de Frequências: Beerfest Saquarema 2026'
+INPUT_FILE   = 'survey_data.csv'
+OUTPUT_FILE  = '.dps/outputs/export/frequencies_report.md'
+REPORT_TITLE = 'Survey Frequencies & Scale Benchmark Report'
 
 # Metadata column exclusion (case-insensitive substrings)
 METADATA_KEYWORDS = [
@@ -435,12 +438,23 @@ def render_correlation_matrix(df: pd.DataFrame, scale_cols: list) -> str:
 # ── Main ──────────────────────────────────────────────────────
 
 def main():
+    parser = argparse.ArgumentParser(description="Generic Survey Frequencies & Mermaid Report Generator")
+    parser.add_argument("input", nargs="?", default=INPUT_FILE, help="Input CSV/XLSX survey file")
+    parser.add_argument("-o", "--output", default=OUTPUT_FILE, help="Output Markdown file path")
+    parser.add_argument("--title", default=REPORT_TITLE, help="Report title")
+    parser.add_argument("--html", action="store_true", help="Also compile output to Print-Ready Tufte HTML")
+    args = parser.parse_args()
+
+    in_file = args.input
+    out_file = args.output
+    rep_title = args.title
+
     # 1. Load
-    ext = os.path.splitext(INPUT_FILE)[1].lower()
-    if ext == '.xlsx':
-        df = pd.read_excel(INPUT_FILE)
+    ext = os.path.splitext(in_file)[1].lower()
+    if ext in ('.xlsx', '.xls'):
+        df = pd.read_excel(in_file)
     elif ext == '.csv':
-        df = pd.read_csv(INPUT_FILE, encoding='utf-8-sig')
+        df = pd.read_csv(in_file, encoding='utf-8-sig')
     else:
         raise ValueError(f"Unsupported format: {ext}. Use .csv or .xlsx")
 
@@ -467,9 +481,9 @@ def main():
 
     # 4. Build report
     report = [
-        f"# {REPORT_TITLE}",
+        f"# {rep_title}",
         f"\n> **Base Total da Amostra:** {total_n} respondentes  ",
-        f"> **Arquivo:** `{os.path.basename(INPUT_FILE)}`  ",
+        f"> **Arquivo:** `{os.path.basename(in_file)}`  ",
         f"> **Nota:** _Freq. Relativa (%) calculada sobre respondentes válidos de cada pergunta (excluindo NaN)._\n",
         "---\n"
     ]
@@ -505,11 +519,20 @@ def main():
         report.append(corr_block)
 
     # 6. Save
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+    out_dir = os.path.dirname(out_file)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with open(out_file, 'w', encoding='utf-8') as f:
         f.write("\n".join(report))
 
-    print(f"\n✅ Report saved → {OUTPUT_FILE}")
+    print(f"\n✅ Report saved → {out_file}")
+
+    if args.html:
+        script_dir = Path(__file__).resolve().parent
+        if str(script_dir) not in sys.path:
+            sys.path.insert(0, str(script_dir))
+        import tufte_html
+        tufte_html.generate_html(Path(out_file))
 
 
 if __name__ == "__main__":

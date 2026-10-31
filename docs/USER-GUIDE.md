@@ -1,108 +1,47 @@
-# Guia do Usuário — Data-Pro-Skill v2
+# Guia do Usuário — Data-Pro-Skill v2.0
 
-## Instalação
+## 1. Instalação
 
-Data-Pro-Skill v2 é um meta-prompt — não requer instalação de software.
-
-1. Copie `SKILL.md` para o diretório de skills do seu harness:
-   - **OpenCode:** `~/.config/opencode/skills/data-pro-skill/SKILL.md`
-   - **Gemini CLI:** `~/.gemini/skills/data-pro-skill/SKILL.md`
-   - **Codex CLI:** `~/.codex/skills/data-pro-skill/SKILL.md`
-   - **Claude Code:** `~/.claude/skills/data-pro-skill/SKILL.md`
-
-2. Copie `constitution.md` para o mesmo diretório.
-
-3. Reinicie o harness.
-
-## Uso Básico
-
-### 1. Iniciar um Projeto de Análise
-
-```
-/setup
-
-Aqui estão meus dados de pesquisa:
-[cole sumário de frequências, CSV, ou descreva a estrutura]
+```bash
+# Instalador interativo (instala localmente em .dps/ e/ou globalmente no seu harness):
+node bin/install.js
 ```
 
-O sistema gera um manifesto quantitativo que serve como âncora para toda análise posterior.
+## 2. Fluxo de Trabalho Recomendado
 
-### 2. Cruzar Variáveis
-
+### Passo 0: Alinhar Objetivos com Data Grilling (`/dps-grill`)
+Antes de rodar cruzamentos às cegas, inicie com:
+```text
+/dps-grill dados_pesquisa.csv
 ```
-/cross Faixa_Etaria x Satisfacao
+O agente inspecionará silenciosamente o arquivo (amostra $N$, escalas Likert, colunas de texto aberto, taxas de *missing*) e fará perguntas cirúrgicas em **Rodadas de Fronteira** (`❓ Q1` + `➡️ Recomendação Padrão`) para alinhar a decisão de negócio, hipóteses e segmentos prioritários.
+
+### Passo 1: Setup e Higiene Estatística (`/dps-setup`)
+```text
+/dps-setup dados_pesquisa.csv
 ```
+Gera o mapeamento `column_mapping.json`, o perfil `00_profile.json` e audita os **Portões de Qualidade do Artigo 6** (*Straight-Lining* em baterias Likert, soma de porcentagens e dados faltantes).
 
-Gera tabelas densas com N, %, insights e notas de margem.
+### Passo 2 a 5: Plano, Cruzamentos e Ciência de Pesquisa (`/dps-plan`, `/dps-execute`, `/dps-advanced`)
+- `/dps-plan` monta o plano de testes estatísticos.
+- `/dps-cross Segmento x Satisfacao` ou `/dps-execute` roda os testes de hipóteses ($\chi^2$, $t$ de Welch, ANOVA, Kruskal-Wallis), calcula **Resíduos Padronizados ($z_{ij}$)** e monta o **Effect-Size Leaderboard**.
+- `/dps-advanced` remove o **Efeito Halo** (via Centralização Ipsativa e Resíduos de Regressão), constrói a **Matriz de Prioridade**, segmenta **Resíduos de Expectativa** (*Disappointed / Aligned / Delighted*), extrai **Personas K-Means + Outliers DBSCAN**, calcula o **Alfa de Cronbach ($\alpha$)** e roda **TURF**.
 
-### 3. Adicionar Dados Qualitativos
-
+### Passo 6: Injeção de Perguntas Abertas (`/dps-inject-open`)
+```text
+/dps-inject-open
 ```
-/inject-open respostas_abertas.csv
+Categoriza respostas abertas dentro dos segmentos quantitativos, citando $\ge 2$ verbatims literais por tema, registrando **Silence Notes** para segmentos silenciosos e aplicando a regra de contagens brutas (`"4 of 19"`) sempre que $N < 30$.
+
+### Passo 7: Exportação em HTML Tufte Pronto para Impressão em PDF (`/dps-export`)
+```text
+/dps-export
 ```
+Gera `.dps/outputs/export/final_report.html` (e `final_report.md` + `verification_report.json`).
 
-As respostas são automaticamente categorizadas dentro dos segmentos do manifesto.
+## 3. Como Imprimir ou Salvar `final_report.html` como PDF
 
-### 4. Exportar
-
-```
-/export
-```
-
-Consolida tudo em `outputs/final_report.md`, pronto para converter em PDF.
-
-## Exemplo Completo
-
-```
-> /setup
-> Tenho uma pesquisa de satisfação com 500 respondentes.
-> Variáveis: idade, região, satisfação (1-5), NPS, e 3 perguntas abertas.
-
-[Manifesto gerado com segmentos]
-
-> /cross Idade x Satisfacao
-
-[Tabela Tufte com distribuição por faixa etária]
-
-> /cross Regiao x NPS
-
-[Tabela Tufte com NPS por região]
-
-> /inject-open perguntas_abertas.csv
-
-[Verbatims categorizados por segmento]
-
-> /export
-
-[Relatório final consolidado]
-```
-
-## Modos
-
-- `/mode:quant` — Para análise puramente quantitativa
-- `/mode:quali` — Para análise qualitativa aprofundada
-- `/mode:strategy` — Para recomendações de negócio
-
-## Recomendações
-
-1. **Sempre comece com `/setup`** — sem o manifesto, a IA não tem âncora de contexto
-2. **Não cole todos os dados de uma vez** — divida em etapas lógicas
-3. **Use `/clarify` antes de análises complexas** — ajuda a IA a entender seus objetivos
-4. **Verifique as notas de margem** — elas contêm os insights interpretativos
-
-## Troubleshooting
-
-**A IA está gerando análises genéricas?**
-- Verifique se o `/setup` foi executado primeiro
-- Os dados foram fornecidos em formato estruturado?
-
-**As tabelas não incluem N?**
-- O `constitution.md` exige N em todas as tabelas
-- Verifique se o arquivo está presente no diretório de skills
-
-**A análise qualitativa está separada da quantitativa?**
-- Isso viola as regras do sistema
-- Execute `/inject-open` novamente especificando o segmento alvo
-
----
-*Para referência completa de comandos, veja [COMMANDS.md](COMMANDS.md).*
+1. Abra `.dps/outputs/export/final_report.html` em qualquer navegador moderno (Chrome, Edge, Brave, Firefox ou Safari).
+2. Clique no botão **`🖨️ Print / Save as PDF`** na barra superior (ou pressione `Ctrl+P` / `Cmd+P`).
+3. Selecione **Salvar como PDF** (*Save as PDF*).
+4. O arquivo HTML já contém regras `@page` e uma estrutura `<table class="print-frame">` que reserva margens superiores e inferiores em **todas as páginas impressas**, renderizando automaticamente o **cabeçalho corrente** (título do projeto + classificação) e o **rodapé corrente** (framework, amostra $N$, margem de erro IC 95% e data) sem cortar tabelas ou gráficos `<svg>`.
