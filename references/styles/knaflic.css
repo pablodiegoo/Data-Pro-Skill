@@ -201,13 +201,27 @@ h1 {
 
 h2 {
   font-family: var(--font-sans);
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   color: #0f172a;
+  background: #f8fafc;
   margin-top: 2.2rem;
-  margin-bottom: 0.8rem;
-  padding-left: 0.85rem;
-  border-left: 4px solid var(--tufte-accent);
+  margin-bottom: 0.85rem;
+  padding: 0.55rem 0.95rem;
+  border-left: 5px solid var(--tufte-accent);
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0 4px 4px 0;
+}
+
+h2::before {
+  content: "EXECUTIVE ACTION TITLE";
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  color: var(--tufte-accent);
+  margin-bottom: 0.15rem;
 }
 
 h3 {
@@ -372,10 +386,10 @@ code {
 /* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
 @page {
   size: A4 portrait;
-  margin: 18mm 15mm 18mm 15mm;
-  @top-left { content: string(doc-title); font-family: Arial, sans-serif; font-size: 7.5pt; color: #64748b; }
-  @top-right { content: string(doc-meta); font-family: Arial, sans-serif; font-size: 7.5pt; color: #64748b; }
-  @bottom-left { content: "Cole Knaflic Storytelling with Data Standard"; font-family: Arial, sans-serif; font-size: 7.5pt; color: #64748b; }
+  margin: 15mm 14mm 16mm 14mm;
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
   @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: Arial, sans-serif; font-size: 7.5pt; color: #64748b; }
 }
 

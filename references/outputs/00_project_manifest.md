@@ -8,7 +8,7 @@
 
 | Quality Gate | Constitutional Rule | Result | Audit Diagnostic |
 | :--- | :--- | :--- | :--- |
-| **Gate 6a: Straight-Lining** | Row SD $= 0$ across $\ge 5$ Likert items | `EVALUATED` | `0` respondents (`0.0%`) · Sensitivity $\Delta = 0.0%` |
+| **Gate 6a: Straight-Lining** | Row SD $= 0$ across $\ge 5$ Likert items | `EVALUATED` | `0` respondents (`0.0%`) · Sensitivity $\Delta = 0.0\%$ |
 | **Gate 6b: Percentage Sums** | Category distributions sum to $100\% \pm 0.5\%$ | `PASS` | `0` violations across `4` categorical variables |
 | **Gate 6c: Missingness Rate** | Flag variables $>10\%$ and $>20\%$ missing | `CAVEAT` | `0` moderate ($>10\%$), `3` high ($>20\%$) missingness columns |
 

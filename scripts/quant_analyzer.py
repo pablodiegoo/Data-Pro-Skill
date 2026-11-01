@@ -533,7 +533,7 @@ def profile_dataset(df, output_dir, weight_col=None, config=None, dataset_name="
         "",
         "| Quality Gate | Constitutional Rule | Result | Audit Diagnostic |",
         "| :--- | :--- | :--- | :--- |",
-        f"| **Gate 6a: Straight-Lining** | Row SD $= 0$ across $\\ge 5$ Likert items | `{'EVALUATED' if straight_lining_info['evaluated'] else 'N/A (<5 items)'}` | `{straight_lining_info['straight_liners_count']}` respondents (`{straight_lining_info['straight_lining_pct']}%`) · Sensitivity $\\Delta = {straight_lining_info['sensitivity_max_delta_pct']}%` |",
+        f"| **Gate 6a: Straight-Lining** | Row SD $= 0$ across $\\ge 5$ Likert items | `{'EVALUATED' if straight_lining_info['evaluated'] else 'N/A (<5 items)'}` | `{straight_lining_info['straight_liners_count']}` respondents (`{straight_lining_info['straight_lining_pct']}%`) · Sensitivity $\\Delta = {straight_lining_info['sensitivity_max_delta_pct']}\\%$ |",
         f"| **Gate 6b: Percentage Sums** | Category distributions sum to $100\\% \\pm 0.5\\%$ | `{'PASS' if not pct_sum_violations else 'FLAG'}` | `{len(pct_sum_violations)}` violations across `{len(categorical_cols)}` categorical variables |",
         f"| **Gate 6c: Missingness Rate** | Flag variables $>10\\%$ and $>20\\%$ missing | `{'PASS' if not high_missing_cols else 'CAVEAT'}` | `{len(moderate_missing_cols)}` moderate ($>10\\%$), `{len(high_missing_cols)}` high ($>20\\%$) missingness columns |",
         "",

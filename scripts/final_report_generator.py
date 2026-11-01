@@ -44,8 +44,10 @@ def _read_json(path):
 
 
 def _strip_first_h1(md_text):
-    """Demote H1/H2/H3 in embedded sub-reports so the master report hierarchy stays clean."""
-    lines = md_text.splitlines()
+    """Strip YAML frontmatter and demote H1/H2/H3 in embedded sub-reports so hierarchy stays clean."""
+    import re
+    cleaned = re.sub(r"^\s*---\r?\n.*?\r?\n---\r?\n+", "", md_text, count=1, flags=re.DOTALL)
+    lines = cleaned.splitlines()
     out = []
     skipped_first_h1 = False
     for line in lines:

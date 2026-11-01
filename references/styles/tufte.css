@@ -336,14 +336,13 @@ blockquote.margin-note {
   text-align: left;
 }
 
-aside.margin-note::before,
-blockquote.margin-note::before {
-  content: "§" counter(sidenote-counter) " ";
+aside.margin-note .margin-note-num,
+blockquote.margin-note .margin-note-num {
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   font-weight: 700;
   color: var(--tufte-accent);
-  margin-right: 0.25rem;
+  margin-right: 0.3rem;
 }
 
 @media (min-width: 920px) {
@@ -547,26 +546,11 @@ pre code {
 
 @page {
   size: A4 portrait;
-  margin: 18mm 14mm 18mm 14mm;
+  margin: 15mm 14mm 16mm 14mm;
 
-  @top-left {
-    content: string(doc-title);
-    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 7.5pt;
-    color: #444444;
-  }
-  @top-right {
-    content: string(doc-meta);
-    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 7.5pt;
-    color: #444444;
-  }
-  @bottom-left {
-    content: string(doc-audit);
-    font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 7.5pt;
-    color: #444444;
-  }
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
   @bottom-right {
     content: "Page " counter(page) " of " counter(pages);
     font-family: "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;

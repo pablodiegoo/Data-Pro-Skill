@@ -389,10 +389,10 @@ code {
 /* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
 @page {
   size: A4 portrait;
-  margin: 18mm 14mm 18mm 14mm;
-  @top-left { content: string(doc-title); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
-  @top-right { content: string(doc-meta); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
-  @bottom-left { content: "The Economist / FT Editorial Data Journalism Standard"; font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
+  margin: 15mm 14mm 16mm 14mm;
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
   @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: Arial, sans-serif; font-size: 7.5pt; color: #59544f; }
 }
 

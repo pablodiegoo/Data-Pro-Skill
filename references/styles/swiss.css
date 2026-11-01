@@ -208,6 +208,10 @@ table.print-frame > tfoot > tr > td {
   .tufte-prose > .chart-figure {
     width: 62%;
   }
+
+  .tufte-prose > .table-wrapper.wide {
+    width: 100% !important;
+  }
 }
 
 h1 {
@@ -222,14 +226,26 @@ h1 {
 }
 
 h2 {
-  font-size: 1.32rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: 1.28rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
   border-top: 3px solid #0a0a0a;
-  border-bottom: 1px solid #0a0a0a;
+  border-bottom: 1.5px solid #0a0a0a;
   padding: 0.45rem 0;
   margin-top: 2.2rem;
   margin-bottom: 0.85rem;
+}
+
+h2::before {
+  content: "GRID MODULE // SECTION";
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #e63946;
+  margin-bottom: 0.15rem;
 }
 
 h3 {
@@ -388,11 +404,11 @@ code {
 /* ── Print-to-PDF (@page & @media print) ─────────────────────────────────── */
 @page {
   size: A4 portrait;
-  margin: 16mm 14mm 16mm 14mm;
-  @top-left { content: string(doc-title); font-family: Helvetica, Arial, sans-serif; font-size: 7.5pt; font-weight: bold; }
-  @top-right { content: string(doc-meta); font-family: monospace; font-size: 7pt; }
-  @bottom-left { content: "SWISS INTERNATIONAL GRID // BERTIN SEMIOLOGY STANDARD"; font-family: monospace; font-size: 7pt; }
-  @bottom-right { content: "PAGE " counter(page) " / " counter(pages); font-family: monospace; font-size: 7pt; }
+  margin: 15mm 14mm 16mm 14mm;
+  @top-left { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
+  @bottom-right { content: "PAGE " counter(page) " / " counter(pages); font-family: monospace; font-size: 7pt; color: #0a0a0a; }
 }
 
 @media print {
