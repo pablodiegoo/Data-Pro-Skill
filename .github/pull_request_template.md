@@ -1,41 +1,25 @@
-## ⚠️ Wrong template — please use the correct one for your PR type
+## Summary
 
-Every PR must use a typed template. Using this default template is a reason for rejection.
+<!-- Briefly describe what this Pull Request changes and why. -->
 
-Select the template that matches your PR:
+### Related Issue
 
-| PR Type | When to use | Template link |
-|---------|-------------|---------------|
-| **Fix** | Correcting a bug, crash, or behavior that doesn't match documentation | [Use fix template](?template=PULL_REQUEST_TEMPLATE/fix.md) |
-| **Enhancement** | Improving an existing feature — better output, expanded edge cases, performance | [Use enhancement template](?template=PULL_REQUEST_TEMPLATE/enhancement.md) |
-| **Feature** | Adding something new — new command, workflow, concept, or integration | [Use feature template](?template=PULL_REQUEST_TEMPLATE/feature.md) |
+<!-- Link the issue this PR resolves, e.g., Closes #12 -->
 
 ---
 
-### Not sure which type applies?
+## Type of Change
 
-- If it **corrects broken behavior** → Fix
-- If it **improves existing behavior** without adding new commands or concepts → Enhancement
-- If it **adds something that doesn't exist today** → Feature
-- If you are not sure → open a [Discussion](https://github.com/open-gsd/get-shit-done-redux/discussions) first
-
----
-
-### Reminder: Issues must be approved before PRs
-
-For **enhancements**: the linked issue must have the `approved-enhancement` label before you open this PR.
-
-For **features**: the linked issue must have the `approved-feature` label before you open this PR.
-
-PRs that arrive without a labeled, approved issue are closed without review.
-
-> **No draft PRs.** Draft PRs are automatically closed. Only open a PR when your code is complete, tests pass, and the correct template is used. See [CONTRIBUTING.md](../CONTRIBUTING.md).
-
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for the full process.
+- [ ] **Bug Fix** (`fix:`) — Corrects statistical calculation, HTML/SVG rendering, LaTeX math parsing, or CLI behavior
+- [ ] **New Feature / Methodology** (`feat:`) — Adds a survey science capability, Data Design School enhancement, or command workflow
+- [ ] **Documentation & Domain Model** (`docs:`) — Updates `README.md`, `GLOSSARY.md`, `constitution.md`, or `references/`
+- [ ] **Refactoring / Performance** (`refactor:`) — Improves code structure without altering statistical or visual contracts
 
 ---
 
-<!-- CI/tooling, dependency, and doc-only PRs are auto-detected from the changed file paths — no template
-     needed. For other cross-cutting exempt PRs, paste the line below into your PR body with a non-empty reason:
-     <!-- pr-template-exempt: <reason> -->
+## 8-Article Data Constitution & Design School Checklist
 
+- [ ] Follows canonical domain vocabulary from [`GLOSSARY.md`](../GLOSSARY.md)
+- [ ] Complies with [`constitution.md`](../constitution.md) (95% CI `±MoE%`, paired effect sizes, $N < 30$ raw count discipline, Answer-First prose)
+- [ ] Preserves rendering across all 5 **Data Design Schools** (`tufte`, `few`, `knaflic`, `swiss`, `editorial`) and `@media print` PDF pagination
+- [ ] `python3 -m py_compile scripts/*.py` passes with zero errors

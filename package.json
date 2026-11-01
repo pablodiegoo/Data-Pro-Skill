@@ -1,7 +1,11 @@
 {
   "name": "data-pro-skill",
   "version": "2.0.0",
-  "description": "Autonomous survey science, data grilling, and Edward Tufte print-ready HTML reporting skill for AI coding agents.",
+  "description": "Autonomous survey science, data grilling, native LaTeX math typography, and multi-school (Tufte, Few, Knaflic, Swiss, Editorial) print-ready HTML reporting skill for AI agents.",
+  "homepage": "https://github.com/pablodiegoo/Data-Pro-Skill#readme",
+  "bugs": {
+    "url": "https://github.com/pablodiegoo/Data-Pro-Skill/issues"
+  },
   "bin": {
     "data-pro-skill": "bin/install.js"
   },
@@ -23,11 +27,15 @@
   },
   "keywords": [
     "market-research",
+    "survey-science",
     "data-analysis",
+    "data-grilling",
     "tufte",
-    "meta-prompt",
-    "data-pro-skill",
-    "meta-prompt"
+    "stephen-few",
+    "storytelling-with-data",
+    "data-visualization",
+    "ai-agent-skill",
+    "data-pro-skill"
   ],
   "license": "MIT"
 }

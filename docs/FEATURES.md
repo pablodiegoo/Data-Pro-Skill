@@ -6,6 +6,7 @@
 | :--- | :--- | :---: |
 | Reconhecimento Silencioso de Fatos (*Fact Reconnaissance*) | `/dps-grill`, `quant_analyzer.py` | ✅ Implementado |
 | Entrevista em Rodadas de Fronteira (`❓ Q#` + `➡️ Default`) | `/dps-grill` (`references/dps-clarify.md`) | ✅ Implementado |
+| Seleção das 5 Escolas de Design (`tufte`, `few`, `knaflic`, `swiss`, `editorial`) | `/dps-setup`, `design_schools.py`, `bin/install.js` | ✅ Implementado |
 | Mapeamento Programático `snake_case` (`column_mapping.json`) | `/dps-setup`, `quant_analyzer.py` | ✅ Implementado |
 | Ponderação Amostral Raking / IPF + $N_{\text{eff}}$ de Kish | `/dps-setup`, `weighting.py` | ✅ Implementado |
 | Portões de Qualidade Artigo 6 (*Straight-Lining*, soma 100%, *Missingness*) | `/dps-setup`, `quant_analyzer.py` | ✅ Implementado |
@@ -26,13 +27,14 @@
 | Análise Fatorial / PCA Multi-Pass + Alfa de Cronbach ($\alpha$) | `/dps-advanced`, `survey_pca.py` | ✅ Implementado |
 | Otimização de Alcance TURF | `/dps-advanced`, `turf_analysis.py` | ✅ Implementado |
 
-## 3. Injeção Qualitativa & Exportação HTML Tufte Pronta para Impressão (Fase 6–7)
+## 3. Injeção Qualitativa, Tipografia Matemática LaTeX & Exportação HTML Multi-Escola (Fase 6–7)
 
 | Funcionalidade | Comando / Script | Status |
 | :--- | :--- | :---: |
 | Categorização Temática com Stopwords Bilíngues (PT + EN) | `/dps-inject-open`, `qualitative_categorizer.py` | ✅ Implementado |
 | Proteção Artigo 4 ($N < 30$ apenas contagens brutas `"4 of 19"`) | `/dps-inject-open`, `qualitative_categorizer.py` | ✅ Implementado |
 | Auditoria de Silêncio por Segmento (*Silence Notes*) | `/dps-inject-open`, `qualitative_categorizer.py` | ✅ Implementado |
-| Gráficos Vetoriais `<svg>` Estilo Tufte (Dot Plot, Heatmap $z_{ij}$, Priority Matrix) | `/dps-export`, `tufte_viz.py` | ✅ Implementado |
-| Relatório Primário em HTML Estilo Edward Tufte (`final_report.html`) | `/dps-export`, `tufte_html.py` | ✅ Implementado |
-| Impressão Nativa para PDF com Cabeçalho e Rodapé Correntes (`@page` + `.print-frame`) | `/dps-export`, `references/styles/tufte.css` | ✅ Implementado |
+| Gráficos Vetoriais `<svg>` *School-Aware* (Dot Plot, Bullet Graph, Knaflic Bar, Bertin Lollipop, Editorial Lollipop) | `/dps-export`, `tufte_viz.py` | ✅ Implementado |
+| Motor Nativo de Tipografia Matemática LaTeX (`$$...$$` e `$...$`, frações, símbolos gregos, zero CDN) | `/dps-export`, `tufte_html.py` | ✅ Implementado |
+| Relatório Primário em HTML Multi-Escola com Seletor Interativo (`final_report.html`) | `/dps-export`, `tufte_html.py`, `references/styles/*.css` | ✅ Implementado |
+| Impressão Nativa para PDF com Cabeçalho e Rodapé Correntes (`@page` + `.print-frame`) | `/dps-export`, `references/styles/*.css` | ✅ Implementado |

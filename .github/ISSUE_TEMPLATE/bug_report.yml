@@ -1,0 +1,68 @@
+name: 🐛 Bug Report
+description: Report a bug in statistical scripts, Data Design School rendering, native LaTeX math typography, or agent workflows.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue in **Data-Pro-Skill**! Please do not include confidential respondent PII in your dataset snippet.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of Data-Pro-Skill is affected?
+      options:
+        - "Python Scripts — Quantitative / Crosstabs (quant_analyzer.py, crosstabs.py)"
+        - "Python Scripts — Advanced Survey Science (advanced_analytics_generator.py, survey_pca.py, turf_analysis.py, weighting.py)"
+        - "Python Scripts — Qualitative Categorizer (qualitative_categorizer.py)"
+        - "HTML & Native LaTeX Math Compiler (tufte_html.py)"
+        - "School-Aware SVG Chart Compiler (tufte_viz.py, design_schools.py)"
+        - "Data Design School CSS / Print-to-PDF (references/styles/*.css)"
+        - "Agent Workflows & Skill Prompts (SKILL.md, agents/*.md, references/*.md)"
+        - "CLI Installer (bin/install.js)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: school
+    attributes:
+      label: Active Data Design School (if visual/HTML/SVG related)
+      options:
+        - "Not applicable (CLI / Statistical backend)"
+        - "tufte — Edward Tufte (Default)"
+        - "few — Stephen Few"
+        - "knaflic — Cole Nussbaumer Knaflic (SWD)"
+        - "swiss — Swiss Grid & Jacques Bertin"
+        - "editorial — The Economist / FT Editorial"
+        - "All 5 Schools"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what happened vs. what you expected.
+      placeholder: "When running `/dps-export` with inline LaTeX formulas..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact CLI command or `/dps-*` prompt and minimal synthetic data to reproduce the issue.
+      placeholder: |
+        1. Run `python3 scripts/final_report_generator.py --data sample.csv -o out/ --school swiss`
+        2. Open `out/final_report.html`
+        3. Observe...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (OS, Python, Node, AI Harness)
+      placeholder: "Linux / macOS, Python 3.11, Node 20, Claude Code / Antigravity CLI"
+    validations:
+      required: false

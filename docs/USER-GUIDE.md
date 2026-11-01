@@ -3,7 +3,7 @@
 ## 1. Instalação
 
 ```bash
-# Instalador interativo (instala localmente em .dps/ e/ou globalmente no seu harness):
+# Instalador interativo (instala localmente em .dps/ e/ou globalmente no seu harness, com escolha da Escola de Design padrão):
 node bin/install.js
 ```
 
@@ -14,13 +14,13 @@ Antes de rodar cruzamentos às cegas, inicie com:
 ```text
 /dps-grill dados_pesquisa.csv
 ```
-O agente inspecionará silenciosamente o arquivo (amostra $N$, escalas Likert, colunas de texto aberto, taxas de *missing*) e fará perguntas cirúrgicas em **Rodadas de Fronteira** (`❓ Q1` + `➡️ Recomendação Padrão`) para alinhar a decisão de negócio, hipóteses e segmentos prioritários.
+O agente inspecionará silenciosamente o arquivo (amostra $N$, escalas Likert, colunas de texto aberto, taxas de *missing*) e fará perguntas cirúrgicas em **Rodadas de Fronteira** (`❓ Q1` + `➡️ Recomendação Padrão`) para alinhar a decisão de negócio, a **Escola de Design de Dados** (`tufte`, `few`, `knaflic`, `swiss` ou `editorial`), hipóteses e segmentos prioritários.
 
-### Passo 1: Setup e Higiene Estatística (`/dps-setup`)
+### Passo 1: Setup, Escola de Design e Higiene Estatística (`/dps-setup`)
 ```text
 /dps-setup dados_pesquisa.csv
 ```
-Gera o mapeamento `column_mapping.json`, o perfil `00_profile.json` e audita os **Portões de Qualidade do Artigo 6** (*Straight-Lining* em baterias Likert, soma de porcentagens e dados faltantes).
+Trava a escola de design (`design_school.json`), gera o mapeamento `column_mapping.json`, o perfil `00_profile.json` e audita os **Portões de Qualidade do Artigo 6** (*Straight-Lining* em baterias Likert, soma de porcentagens e dados faltantes).
 
 ### Passo 2 a 5: Plano, Cruzamentos e Ciência de Pesquisa (`/dps-plan`, `/dps-execute`, `/dps-advanced`)
 - `/dps-plan` monta o plano de testes estatísticos.
@@ -33,15 +33,15 @@ Gera o mapeamento `column_mapping.json`, o perfil `00_profile.json` e audita os 
 ```
 Categoriza respostas abertas dentro dos segmentos quantitativos, citando $\ge 2$ verbatims literais por tema, registrando **Silence Notes** para segmentos silenciosos e aplicando a regra de contagens brutas (`"4 of 19"`) sempre que $N < 30$.
 
-### Passo 7: Exportação em HTML Tufte Pronto para Impressão em PDF (`/dps-export`)
+### Passo 7: Exportação em HTML Multi-Escola Pronto para Impressão em PDF (`/dps-export`)
 ```text
 /dps-export
 ```
-Gera `.dps/outputs/export/final_report.html` (e `final_report.md` + `verification_report.json`).
+Gera `.dps/outputs/export/final_report.html` (além de `final_report.md` e `verification_report.json`) com gráficos `<svg>` na gramática da Escola de Design escolhida e fórmulas matemáticas LaTeX renderizadas nativamente (zero CDN).
 
-## 3. Como Imprimir ou Salvar `final_report.html` como PDF
+## 3. Como Trocar de Escola de Design e Imprimir `final_report.html` como PDF
 
 1. Abra `.dps/outputs/export/final_report.html` em qualquer navegador moderno (Chrome, Edge, Brave, Firefox ou Safari).
-2. Clique no botão **`🖨️ Print / Save as PDF`** na barra superior (ou pressione `Ctrl+P` / `Cmd+P`).
-3. Selecione **Salvar como PDF** (*Save as PDF*).
-4. O arquivo HTML já contém regras `@page` e uma estrutura `<table class="print-frame">` que reserva margens superiores e inferiores em **todas as páginas impressas**, renderizando automaticamente o **cabeçalho corrente** (título do projeto + classificação) e o **rodapé corrente** (framework, amostra $N$, margem de erro IC 95% e data) sem cortar tabelas ou gráficos `<svg>`.
+2. Utilize o seletor **`🎨 Design School`** na barra superior para alternar ao vivo entre **Edward Tufte**, **Stephen Few**, **Cole Knaflic (SWD)**, **Swiss / Bertin** e **The Economist / FT** antes de exportar.
+3. Clique no botão **`🖨️ Print / Save as PDF`** (ou pressione `Ctrl+P` / `Cmd+P`) e selecione **Salvar como PDF** (*Save as PDF*).
+4. O arquivo HTML já contém regras `@page` e uma estrutura `<table class="print-frame">` que reserva margens superiores e inferiores em **todas as páginas impressas**, renderizando automaticamente o **cabeçalho corrente** (título do projeto + classificação) e o **rodapé corrente** (framework, amostra $N$, margem de erro IC 95% e data) sem cortar tabelas, equações matemáticas ou gráficos `<svg>`.

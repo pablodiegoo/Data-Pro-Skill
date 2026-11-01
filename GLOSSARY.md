@@ -163,7 +163,7 @@ _Avoid_: simple top-N frequency picking (which suffers from audience cannibaliza
 How Data-Pro-Skill structures its execution engine and formats its deliverables across selectable **Data Design Schools**.
 
 ### Data Design School
-The visual, typographic, and chart-grammar paradigm (`references/design-schools.md`, `scripts/design_schools.py`) locked during `/dps-setup` (or `/dps-grill` / `node bin/install.js`) and compiled into `final_report.html` by `/dps-export`:
+The unified visual, typographic, and chart-grammar paradigm chosen for a study and compiled into the final report:
 1. **`tufte` — Edward Tufte *(Default)***: Ivory `#fffff8`, Palatino serif, 58%/36% asymmetric layout with floating right **Margin Notes**, classic **Booktabs Tables**, and Cleveland dot plots with 95% CI whiskers.
 2. **`few` — Stephen Few**: Full-width perceptual BI grid (`#f8fafc`), humanist sans-serif (`Inter`), **Bullet Graphs** (qualitative range bands + measure bar + target marker), compact tables, and inline diagnostic callout strips.
 3. **`knaflic` — Cole Nussbaumer Knaflic (*Storytelling with Data*)**: Clean white canvas (`#ffffff`), context pushed to muted grey (`#cbd5e1`) with **one bold preattentive focal color** (`#1e40af` / `#ea580c`), Action-Title `h2` banners, and `💡 KEY TAKEAWAY` cards.
@@ -171,6 +171,11 @@ The visual, typographic, and chart-grammar paradigm (`references/design-schools.
 5. **`editorial` — The Economist / FT Editorial**: Warm newsprint (`#fcf8f2`), signature **`6px` crimson top bar (`#e3120b`)**, **Kicker + Headline + Standfirst** hierarchy, editorial lollipop range charts, and `EDITORIAL BRIEF` sidebars.
 
 _Avoid_: generic CSS theme, unupheld decorative template
+
+### Native Math Typography
+Self-contained mathematical formula rendering for inline (`$...$`) and display (`$$...$$`) statistical equations (such as $\chi^2$, $\eta^2$, $\epsilon^2$, Cronbach's $\alpha$, Spearman's $\rho$, $\bar{X}_i$, $\hat{Y}_i$, and stacked fractions) harmonized with the active **Data Design School** without external network or runtime scripts.
+
+_Avoid_: raw unparsed LaTeX delimiters, external CDN script dependencies
 
 ### Invisible Agent Loop
 The silent internal verification pipeline executed before any analytical command emits output (`references/agent-loop.md`):

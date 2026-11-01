@@ -1,0 +1,45 @@
+name: ✨ Feature or Methodology Request
+description: Propose a new statistical test, survey science methodology, Data Design School enhancement, or agent workflow improvement.
+title: "[Feat]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose an enhancement aligned with our [**8-Article Data Constitution**](https://github.com/pablodiegoo/Data-Pro-Skill/blob/main/constitution.md) and [**Domain Glossary**](https://github.com/pablodiegoo/Data-Pro-Skill/blob/main/GLOSSARY.md).
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - "Statistical Test / Survey Science Methodology (references/analysis/, scripts/)"
+        - "Data Design School / SVG Chart Grammar (design_schools.py, tufte_viz.py, styles/)"
+        - "Native LaTeX Mathematical Formula Engine (tufte_html.py)"
+        - "Data Grilling / Agent Persona Workflow (SKILL.md, agents/)"
+        - "Multi-Harness Installer & CLI Experience (bin/install.js)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Analytical or Decision Problem
+      description: What research, statistical, or visual reporting problem does this solve?
+      placeholder: "When analyzing MaxDiff or Conjoint choice tasks..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution & Methodology
+      description: Describe how this should work (statistical estimator, effect size, visual grammar, and CLI interface).
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Academic / Industry References (Optional)
+      description: Links to papers, books (Tufte, Few, Knaflic, Bertin), or statistical documentation.
